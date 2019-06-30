@@ -20,3 +20,4 @@ F		F			T
 - use method that returns String?
 - use public static constants?
 	
+	

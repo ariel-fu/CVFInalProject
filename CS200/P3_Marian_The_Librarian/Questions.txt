@@ -1,4 +1,4 @@
-Bad Account
+Bad Account:
 
 OverDue	PaidLateFee	Bad?
 T		T			F
@@ -6,7 +6,7 @@ T		F			T
 F		T			T
 F		F			F	
 
-Good Account
+Good Account:
 
 OverDue	PaidLateFee	Good?
 T		T			T

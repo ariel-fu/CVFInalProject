@@ -14,7 +14,9 @@ T		F			F
 F		T			T
 F		F			T
 
+
 Divided by 0 in Combination
+
 
 Can I 
 - use method that returns String?

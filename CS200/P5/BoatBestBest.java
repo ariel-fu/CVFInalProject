@@ -51,7 +51,7 @@ public class BoatBestBest {
 	}
 
 	public static int computeNumberOfChanges(int n) {
-		// make a variable to hold the new numbers
+		// make a variable to be whether "n" is even or odd
 		int x = evenOrOdd(n);
 		// make a variable to hold number of height changes
 		int numHeightChanges = 0;
@@ -63,6 +63,7 @@ public class BoatBestBest {
 			// checks again to make sure it doesn't change to 1
 			x = evenOrOdd(x);
 		}
+		//add one for 1, then return the number of height changes
 		numHeightChanges++;
 		return numHeightChanges;
 

@@ -73,5 +73,7 @@ public class BoatBestBest {
 		int profit = numHeightChanges - numberBet;
 		return profit;
 	}
+	
+	
 
 }

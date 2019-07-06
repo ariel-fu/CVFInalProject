@@ -21,11 +21,15 @@ public class FairDice {
 				numRolls++;
 			}
 		}
-		//cast numWins to a double to avoid int division ;))
-		double percent =((double)numWins/numRolls)*100;
 		//print out his percentage of winning
-		System.out.println("Sky has a " + percent + "% chance of winning.");
+		System.out.println("Sky has a " + percentageOf(numWins, numRolls) + "% chance of winning.");
 
+	}
+	
+	public static double percentageOf(int numberOfWins, int numberOfRollsTotal){
+		double percent = (double)numberOfWins/numberOfRollsTotal*100;
+		//cast the ints to doubles and multiply by 100
+		return percent;
 	}
 	
 	public static int winOrNot (int firstDice, int secondDice){

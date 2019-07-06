@@ -1,4 +1,3 @@
-
 /**
  * @author: Ariel Fu
  * @studentID:  908 168 5910
@@ -24,9 +23,15 @@ public class CheatyDice {
 				}
 			}
 		}
-		double percent =(numWins*1.0/numRolls)*100.0;
-		System.out.println("Sky has a " + percent + "% chance of winning.");
+		System.out.println("Sky has a " + percentageOf(numWins, numRolls) + "% chance of winning.");
 
+	}
+	
+	
+	public static double percentageOf(int numberOfWins, int numberOfRollsTotal){
+		double percent = (double)numberOfWins/numberOfRollsTotal*100;
+		//cast the ints to doubles and multiply by 100
+		return percent;
 	}
 	
 	public static int winOrNot (int firstDice, int secondDice, int thirdDice){

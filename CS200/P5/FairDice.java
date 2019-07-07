@@ -15,10 +15,14 @@ public class FairDice {
 		//run 20 times for both for loops bc they are 20 sided dices.
 		for(int i =1; i<=20; i++){
 			for(int j=1; j<=20; j++){
-				//if it is a winning pair, add one to numWins
-				numWins+=winOrNot(i, j);
 				//add one to number of rolls, regardless of win or not
 				numRolls++;
+				//test if it is a winning roll
+				if(winOrNot(i,j) == true){
+					//if it is a winning roll, add one to number of wins
+					numWins++;
+				}
+				//otherwise, don't do anything
 			}
 		}
 		//print out his percentage of winning
@@ -32,16 +36,17 @@ public class FairDice {
 		return percent;
 	}
 	
-	public static int winOrNot (int firstDice, int secondDice){
+	public static boolean winOrNot (int firstDice, int secondDice){
 		//a variable to return if the two dices are three or less apart
-		int numWins =0;
+		
 		//if the absolute value between the two dice is three or less
-		//add one to the number of possible wins
+		//aka a win, return true
 		if(absValue(firstDice, secondDice)<=3){
-			numWins++;
+			return true;
+		} else{
+		//if there is no win, return false
+		return false;
 		}
-		//adds one to the number of possible wins
-		return numWins;
 	}
 	
 	//make the difference between the two dices positive

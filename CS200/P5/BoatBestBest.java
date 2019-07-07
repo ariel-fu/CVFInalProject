@@ -11,7 +11,7 @@ public class BoatBestBest {
 		int numHeightChanges = 0;
 		int currentProfit = 0;
 
-		for (int bet = 2; bet <= 10; bet++) {
+		for (int bet = 2; bet <= 200; bet++) {
 			System.out.println("Initial Bet: $" + bet);
 
 			// compute the number of height changes and print
@@ -36,23 +36,21 @@ public class BoatBestBest {
 				+ ", which would earn him a profit of $" + greatestProfit);
 	}
 
-	// checks if even or odd
-	public static int evenOrOdd(int numberBet) {
+	// checks if the number is an even number or an odd number
+	public static boolean evenOrOdd(int numberBet) {
 		int newNumber = numberBet;
-		// if it is an even number, divide by 2
+		// if it is an even number, return true
 		if (newNumber % 2 == 0) {
-			newNumber = numberBet / 2;
-		} else if (newNumber % 2 != 0) {
-			// if it is an odd number, multiply by 3 and add 1
-			newNumber = (numberBet * 3) + 1;
+			return true;
+		} else {
+			//return false if it is not an odd number
+			return false;
 		}
-		// return the new number
-		return newNumber;
 	}
 
 	public static int computeNumberOfChanges(int n) {
 		// make a variable to be whether "n" is even or odd
-		int x = evenOrOdd(n);
+		int x = changeValueOfANumber(n);
 		// make a variable to hold number of height changes
 		int numHeightChanges = 0;
 		// while the the water level is not 1, add it to the print sequence and
@@ -61,7 +59,7 @@ public class BoatBestBest {
 			// add one to the number of height changes
 			numHeightChanges++;
 			// checks again to make sure it doesn't change to 1
-			x = evenOrOdd(x);
+			x = changeValueOfANumber(x);
 		}
 		//add one for 1, then return the number of height changes
 		numHeightChanges++;
@@ -69,6 +67,17 @@ public class BoatBestBest {
 
 	}
 
+	//changes the value of the number based on if it was even or odd
+		public static int changeValueOfANumber(int num){
+			if(evenOrOdd(num)==true){
+				//if even, divide by 2
+				return num/2;
+			} else{
+				//if odd, multiply by 3 and add one
+				return (num*3)+1;
+			}
+		}
+	
 	// calculates the profit made from the bet
 	public static int computeCurrentProfit(int numberBet, int numHeightChanges) {
 		int profit = numHeightChanges - numberBet;

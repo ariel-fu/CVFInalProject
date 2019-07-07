@@ -16,17 +16,15 @@ public class BoatLevels {
 	}
 
 	// checks if the number is an even number or an odd number
-	public static int evenOrOdd(int numberBet) {
+	public static boolean evenOrOdd(int numberBet) {
 		int newNumber = numberBet;
-		// if it is an even number, divide by 2
+		// if it is an even number, return true
 		if (newNumber % 2 == 0) {
-			newNumber = numberBet / 2;
-		} else if (newNumber % 2 != 0) {
-			// if it is an odd number, multiply by 3 and add 1
-			newNumber = (numberBet * 3) + 1;
+			return true;
+		} else {
+			//return false if it is not an odd number
+			return false;
 		}
-		// return the new number
-		return newNumber;
 	}
 
 	public static void printBoatLevels(int n) {
@@ -35,18 +33,28 @@ public class BoatLevels {
 		// print Level sequence and the initial bet
 		System.out.print("Level Sequence: " + n + ", ");
 		// make a variable to hold the new numbers
-		int x = evenOrOdd(n);
+		int x = changeValueOfANumber(n);
 		// while the the water level is not 1, add it to the print sequence and
 		// check again
 		while (x != 1) {
 			// adds it to the print sequence
 			System.out.print(x + ", ");
 			// checks again to make sure it doesn't change to 1
-			x = evenOrOdd(x);
+			x = changeValueOfANumber(x);
 		}
 		// after it becomes 1 and quits the while loop, add 1 to the print
 		// sequence
 		System.out.print("1");
+	}
+	//changes the value of the number based on if it was even or odd
+	public static int changeValueOfANumber(int num){
+		if(evenOrOdd(num)==true){
+			//if even, divide by 2
+			return num/2;
+		} else{
+			//if odd, multiply by 3 and add one
+			return (num*3)+1;
+		}
 	}
 
 }

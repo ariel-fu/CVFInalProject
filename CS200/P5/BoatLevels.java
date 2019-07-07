@@ -15,17 +15,17 @@ public class BoatLevels {
 
 	}
 
-	// checks if the number is an even number or an odd number
+	//checks if even or odd
 	public static boolean evenOrOdd(int numberBet) {
-		int newNumber = numberBet;
 		// if it is an even number, return true
-		if (newNumber % 2 == 0) {
+		if (numberBet % 2 == 0) {
 			return true;
 		} else {
 			//return false if it is not an odd number
 			return false;
 		}
 	}
+
 
 	public static void printBoatLevels(int n) {
 		// print the initial bet
@@ -46,9 +46,10 @@ public class BoatLevels {
 		// sequence
 		System.out.print("1");
 	}
+	
 	//changes the value of the number based on if it was even or odd
 	public static int changeValueOfANumber(int num){
-		if(evenOrOdd(num)==true){
+		if(evenOrOdd(num)){
 			//if even, divide by 2
 			return num/2;
 		} else{

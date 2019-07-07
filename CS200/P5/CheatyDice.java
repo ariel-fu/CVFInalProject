@@ -33,20 +33,20 @@ public class CheatyDice {
 		
 		//if the absolute value between the two dice is three or less
 		//aka a win, return true
-		if(absValue(firstDice, secondDice)<=3){
+		if(winOrNot2(firstDice, secondDice)){
 			return true;
 		}
 		//if the first and second dices are a winning pair,
 		//check if the first and third dices are three or apart
 		//if yes, return true
-		else if(absValue(firstDice, thirdDice)<=3){
+		else if(winOrNot2(firstDice, thirdDice)){
 			return true;
 		}
 		//if the first and second or the first and third dices 
 		//aren't a winning pair, check if the second and the third dices
 		//are a winning pair
 		//if yes, return true
-		else if(absValue(secondDice, thirdDice)<=3){
+		else if(winOrNot2(secondDice, thirdDice)){
 			return true;
 		} else{
 			//if none of the cases work out, return false
@@ -54,6 +54,19 @@ public class CheatyDice {
 		}
 	}
 	
+	//under is copied from FairDice.java
+	public static boolean winOrNot2 (int firstDice, int secondDice){
+		//a variable to return if the two dices are three or less apart
+		
+		//if the absolute value between the two dice is three or less
+		//aka a win, return true
+		if(absValue(firstDice, secondDice)<=3){
+			return true;
+		} else{
+		//if there is no win, return false
+		return false;
+		}
+	}
 	public static double percentageOf(int numberOfWins, int numberOfRollsTotal){
 		//cast the ints to doubles and multiply by 100
 		double percent = (double)numberOfWins/numberOfRollsTotal*100;

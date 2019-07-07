@@ -3,7 +3,7 @@
  * @studentID: 908 168 5910
  * @netID: afu5
  */
-public class BoatBestBest {
+public class BoatBestBet {
 
 	public static void main(String[] args) {
 		int bestBet = 0;
@@ -36,17 +36,7 @@ public class BoatBestBest {
 				+ ", which would earn him a profit of $" + greatestProfit);
 	}
 
-	// checks if the number is an even number or an odd number
-	public static boolean evenOrOdd(int numberBet) {
-		int newNumber = numberBet;
-		// if it is an even number, return true
-		if (newNumber % 2 == 0) {
-			return true;
-		} else {
-			//return false if it is not an odd number
-			return false;
-		}
-	}
+
 
 	public static int computeNumberOfChanges(int n) {
 		// make a variable to be whether "n" is even or odd
@@ -66,10 +56,17 @@ public class BoatBestBest {
 		return numHeightChanges;
 
 	}
+	
+	// calculates the profit made from the bet
+		public static int computeCurrentProfit(int numberBet, int numHeightChanges) {
+			int profit = numHeightChanges - numberBet;
+			return profit;
+		}
 
-	//changes the value of the number based on if it was even or odd
+		//under is copied from BoatLevels.java
+		//changes the value of the number based on if it was even or odd
 		public static int changeValueOfANumber(int num){
-			if(evenOrOdd(num)==true){
+			if(evenOrOdd(num)){
 				//if even, divide by 2
 				return num/2;
 			} else{
@@ -77,12 +74,20 @@ public class BoatBestBest {
 				return (num*3)+1;
 			}
 		}
+		
+		// checks if the number is an even number or an odd number
+		public static boolean evenOrOdd(int numberBet) {
+		
+			// if it is an even number, return true
+			if (numberBet % 2 == 0) {
+				return true;
+			} else {
+				//return false if it is not an odd number
+				return false;
+			}
+		}
 	
-	// calculates the profit made from the bet
-	public static int computeCurrentProfit(int numberBet, int numHeightChanges) {
-		int profit = numHeightChanges - numberBet;
-		return profit;
-	}
+	
 	
 	
 

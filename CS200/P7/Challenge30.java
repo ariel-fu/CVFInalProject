@@ -20,6 +20,10 @@ public class Challenge30 {
 			if (n % i == 0) {
 				return false;
 			}
+			
+			if (i*i>n) {
+				break;
+			}
 
 		}
 		return true;
@@ -31,7 +35,7 @@ public class Challenge30 {
 		}
 
 		else {
-			for(int i =2; i<100000; i++) {
+			for(int i =2; i<n; i++) {
 				if(isPrime(i) && (n%i==0)) {
 				return i+"*" +factor(n/i);
 				}

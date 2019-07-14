@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * @author: Ariel Fu
  * @studentID: 908 168 5910
@@ -26,6 +25,3 @@ public class Challenge1 {
 	}
 
 }
-=======
-/* */
->>>>>>> branch 'master' of https://github.com/alvickyfun/Ariel.git

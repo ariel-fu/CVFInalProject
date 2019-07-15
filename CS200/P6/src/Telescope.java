@@ -6,23 +6,29 @@
 public class Telescope {
 
 	public static void main(String[] args) {
-		System.out.println("5--> "+degrees(4));
-		System.out.println("1 --> "+degrees(1));
-		System.out.println("1--> "+degrees(2));
+		System.out.println("5--> " + degrees(4));
+		System.out.println("1 --> " + degrees(1));
+		System.out.println("1--> " + degrees(2));
+		System.out.println(degrees(6));
+		System.out.println(degrees(7));
+		System.out.println(degrees(8));
+		System.out.println(degrees(9));
+		System.out.println(degrees(10));
 
 	}
-	
+
 	public static int degrees(int day) {
-		//since using two recursive cases, use two base cases: 1,2
-		if(day ==1) {
+		// since using two recursive cases, use two base cases: 1,2
+		if (day == 1) {
 			return 1;
-		}
-		else if(day ==2) {
+		} else if (day == 2) {
 			return 1;
+		} else if (day == 3) {
+			return 3;
 		}
-		//the curr day is yesterday plus the day three days ago, plus one
+		// the curr day is yesterday plus the day three days ago, plus one
 		else {
-			return degrees(day-1)+degrees(day-2)+1;
+			return degrees(day - 1) + degrees(day - 3) + 1;
 		}
 	}
 

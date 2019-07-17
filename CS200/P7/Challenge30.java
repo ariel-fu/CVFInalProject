@@ -7,7 +7,7 @@ public class Challenge30 {
 
 	public static void main(String[] args) {
 		// print out numbers from 2-100,000
-		for (int i = 2; i < 100000; i++) {
+		for (int i = 2; i < 100001; i++) {
 			System.out.println("The factorization of " + i + " is: " + factor(i));
 		}
 	}

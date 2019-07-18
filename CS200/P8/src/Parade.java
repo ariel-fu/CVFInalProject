@@ -10,41 +10,39 @@ import org.junit.Test;
 public class Parade {
 
 	public static void main(String[] args) {
-
 		/*
-		 * int[] test1 = { 4, 5, 2, 5, 4 }; int[] test2 = { 1,5,10,1}; int[] test4 = new
-		 * int[] {1,10,22,40,100,40000,40001}; int[] test3 = new int[] {1,1,1,1};
-		 * System.out.println("5 --> " + findBestFloat(test4));
-		 * System.out.println("1 --> " + findBestFloat(test3));
-		 * System.out.println("3 --> " + findBestFloat(test1));
+		 * int[] test1 = { 4, 5, 2, 5, 4 }; int[] test2 = { 1, 5, 10, 1 }; int[] test4 =
+		 * new int[] { 1, 10, 22, 40, 100, 40000, 40001 }; int[] test3 = new int[] { 1,
+		 * 1, 1, 1 }; System.out.println("3 --> " + findBestFloat(test1));
 		 * System.out.println("2 --> " + findBestFloat(test2));
+		 * System.out.println("5 --> " + findBestFloat(test4)); System.out.println("0" +
+		 * " --> " + findBestFloat(test3));
 		 * 
 		 * 
 		 * int[] test3 = { 500, 100, 200, 300, 200, 4, 3, 2, 1, 500, 200, 300, 100, 201
 		 * }; System.out.println("11 --> " + findTallestGroup(test3));
 		 * 
-		 * int []test1 = {10,5,6,7,8,11}; findNovelFloats(test1);
-		 * System.out.println("----------------------"); int[] test2 = {1,2,3,4,5,5};
-		 * findNovelFloats(test2); System.out.println("----------------------"); int[]
-		 * test3 = {10,9,10}; findNovelFloats(test3);
-		 * System.out.println("----------------------"); int[] test4 =
-		 * {2,5,4,8,6,7,8,10,15}; findNovelFloats(test4);
+		 * int[] test1 = { 10, 5, 6, 7, 8, 11 }; findNovelFloats(test1);
+		 * System.out.println("----------------------"); int[] test2 = { 1, 2, 3, 4, 5,
+		 * 5 }; findNovelFloats(test2); System.out.println("----------------------");
+		 * int[] test3 = { 10, 9, 10 }; findNovelFloats(test3);
+		 * System.out.println("----------------------"); int[] test4 = { 2, 5, 4, 8, 6,
+		 * 7, 8, 10}; findNovelFloats(test4);
 		 */
 		int[] test1 = { 1, 2, 5, 4, 6, 4, 7, 8, 9, 10, 11, 12 };
 		int[] far = findLongestIncreasingSequence(test1);
-		System.out.print("{");
-		for (int i = 0; i < far.length; i++) {
-			System.out.print(far[i] + " ");
-
-		}
-		System.out.print("}");
+		printArray(far);
+		
+		int[] test2 = {10,9,8,7,6,5,4,3,2,1};
+		int[] far1 = findLongestIncreasingSequence(test2);
+		printArray(far1);
 
 	}
 
 	public static int findBestFloat(int[] heights) {
 		// set the current index to be one because the first float will never be the
 		// best
-		int currIndex = 1;
+		int currIndex = 0;
 		int greatestHeightChange = 0;
 		int currHeight = 0;
 		// loop through every element in the array
@@ -97,11 +95,12 @@ public class Parade {
 
 	public static void findNovelFloats(int[] heights) {
 		int tallestHeightSoFar = 0;
-		//run through every elements to find which element is taller than all
-		//the floats that came before it
+		// run through every elements to find which element is taller than all
+		// the floats that came before it
 		for (int i = 0; i < heights.length; i++) {
-			//if the tallest float so far is less than the current height set the tallest height
-			//to the current height and print out the index of the current height
+			// if the tallest float so far is less than the current height set the tallest
+			// height
+			// to the current height and print out the index of the current height
 			if (tallestHeightSoFar < heights[i]) {
 				tallestHeightSoFar = heights[i];
 				System.out.println(i);
@@ -113,32 +112,42 @@ public class Parade {
 		int biggestLength = 0;
 		int currLength = 0;
 		int currIndex = 0;
-		//we will plug in the starting index of the longest increasing sequence and the 
-		//ending index of the longest increasing sequence into this array and return it
+		// we will plug in the starting index of the longest increasing sequence and the
+		// ending index of the longest increasing sequence into this array and return it
 		int[] largestSequence = { 0, 0 };
-		//start the for loop at i=1 so then we can compare i and i-1 (the previous element)
+		// start the for loop at i=1 so then we can compare i and i-1 (the previous
+		// element)
 		for (int i = 1; i < heights.length; i++) {
 			int height1 = heights[i - 1];
 			int height2 = heights[i];
-			//if the heights are increasing, add one to the current length
+			// if the heights are increasing, add one to the current length
 			if (height1 < height2) {
 				currLength++;
 			} else {
-				//otherwise, reset the current length
+				// otherwise, reset the current length
 				currLength = 0;
 			}
-			//test to find the biggest length and set the finishing index to the current index
+			// test to find the biggest length and set the finishing index to the current
+			// index
 			if (biggestLength < currLength) {
 				biggestLength = currLength;
 				currIndex = i;
 			}
 
 		}
-		//the starting index will be the finishing index - the length of the sequence
+		// the starting index will be the finishing index - the length of the sequence
 		largestSequence[0] = currIndex - biggestLength;
 		largestSequence[1] = currIndex;
 		return largestSequence;
 
+	}
+
+	public static void printArray(int[] a) {
+		System.out.print("{");
+		for (int i = 0; i < a.length - 1; i++) {
+			System.out.print(a[i] + ", ");
+		}
+		System.out.print(a[a.length-1] + "}");
 	}
 
 }

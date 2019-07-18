@@ -11,7 +11,7 @@ public class ParadeTest {
 		int[] test2 = new int[] { 1, 5, 10, 1 };
 		assertTrue(Parade.findBestFloat(test2) == 2);
 		int[] test3 = new int[] { 1, 1, 1, 1 };
-		assertTrue(Parade.findBestFloat(test3) == 1);
+		assertTrue(Parade.findBestFloat(test3) == 0);
 		int[] test4 = new int[] { 1, 10, 22, 40, 100, 40000, 40001 };
 		assertTrue(Parade.findBestFloat(test4) == 5);
 	}

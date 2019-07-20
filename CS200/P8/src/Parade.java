@@ -1,7 +1,3 @@
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
-
 /**
  * @author: Ariel Fu
  * @studentID: 908 168 5910
@@ -39,6 +35,8 @@ public class Parade {
 
 	}
 
+	
+	//TODO - [1,1,1,1],[5,4,3]
 	public static int findBestFloat(int[] heights) {
 		// set the current index to be one because the first float will never be the
 		// best
@@ -63,6 +61,7 @@ public class Parade {
 
 	}
 
+	//TODO [0,0,0,0,0]
 	public static int findTallestGroup(int[] heights) {
 		double largestAverage = 0;
 		double currAverage = 0;
@@ -93,6 +92,7 @@ public class Parade {
 		return currIndex;
 	}
 
+	//TODO [0,0,0]
 	public static void findNovelFloats(int[] heights) {
 		int tallestHeightSoFar = 0;
 		// run through every elements to find which element is taller than all

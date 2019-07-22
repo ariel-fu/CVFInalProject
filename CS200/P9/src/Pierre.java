@@ -31,7 +31,16 @@ public class Pierre {
 	}
 	
 	public static void order(int[] pages) {
-		
+		   int temp;
+		   for (int i = 1; i < pages.length; i++) {
+		    for (int j = i; j > 0; j--) {
+		     if (pages[j] < pages[j - 1]) {
+		      temp = pages[j];
+		      pages[j] = pages[j - 1];
+		      pages[j - 1] = temp;
+		     }
+		    }
+		   }
 	}
 
 }

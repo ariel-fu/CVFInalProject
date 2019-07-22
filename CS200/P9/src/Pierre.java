@@ -30,6 +30,8 @@ public class Pierre {
 		return x;
 	}
 	
-	public 
+	public static void order(int[] pages) {
+		
+	}
 
 }

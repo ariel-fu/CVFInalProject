@@ -8,6 +8,8 @@ public class Pierre {
 	public static void main(String[] args) {
 		int[] x = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
 		System.out.println("Is it in order? " + isInOrder(x));
+	
+		
 		// out of order
 		int[] x1 = new int[] { 2, 1, 93, 153, 21, 236, 9 };
 		System.out.println("Is it in order? " + isInOrder(x1));
@@ -31,16 +33,23 @@ public class Pierre {
 	}
 	
 	public static void order(int[] pages) {
-		   int temp;
+		   int x;
 		   for (int i = 1; i < pages.length; i++) {
 		    for (int j = i; j > 0; j--) {
 		     if (pages[j] < pages[j - 1]) {
-		      temp = pages[j];
+		      x = pages[j];
 		      pages[j] = pages[j - 1];
-		      pages[j - 1] = temp;
+		      pages[j - 1] = x;
 		     }
 		    }
 		   }
 	}
-
+	
+	public static void printArray(int[] a) {
+		System.out.print("{");
+		for (int i = 0; i < a.length - 1; i++) {
+			System.out.print(a[i] + ", ");
+		}
+		System.out.print(a[a.length - 1] + "}");
+	}
 }

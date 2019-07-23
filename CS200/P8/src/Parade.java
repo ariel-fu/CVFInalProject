@@ -6,7 +6,7 @@
 public class Parade {
 
 	public static void main(String[] args) {
-/*
+
 		int[] test1 = { 4, 5, 2, 5, 4 };
 		int[] test2 = { 1, 5, 10, 1 };
 		int[] test4 = new int[] { 1, 10, 22, 40, 100, 40000, 40001 };
@@ -61,7 +61,8 @@ public class Parade {
 		
 		System.out.println("End of findNovelFloats testing -----------------------");
 		System.out.println("");
-*/
+
+		//follows same testing pattern as findNovelFloats testing
 		int[] test1C = { 1, 2, 5, 4, 6, 4, 7, 8, 9, 10, 11, 12 };
 		int[] far = findLongestIncreasingSequence(test1C);
 		printArray(far);
@@ -93,7 +94,7 @@ public class Parade {
 		
 	}
 
-	// TODO - [1,1,1,1],[5,4,3]
+	
 	public static int findBestFloat(int[] heights) {
 		// set the current index to be one because the first float will never be
 		// the
@@ -121,14 +122,14 @@ public class Parade {
 
 	}
 
-	// TODO [0,0,0,0,0]
+
 	public static int findTallestGroup(int[] heights) {
 		double largestAverage = -1;
 		double currAverage = 0;
 		int currIndex = 0;
 		// loop through every element until there are five spots at the end to
-		// compensate for the second for loop, that loops through i to i+5,
-		// which computes the total sum from i to i+5 (a group of 5)
+		// compensate for the second for loop, that loops through i to i+4,
+		// which computes the total sum from i to i+4 (a group of 5)
 		for (int i = 0; i <= heights.length - 5; i++) {
 			for (int j = i; j < i + 5; j++) {
 
@@ -155,7 +156,7 @@ public class Parade {
 		return currIndex;
 	}
 
-	// TODO [0,0,0]
+
 	public static void findNovelFloats(int[] heights) {
 		int tallestHeightSoFar = -1;
 		// run through every elements to find which element is taller than all

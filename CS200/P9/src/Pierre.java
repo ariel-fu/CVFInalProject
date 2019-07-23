@@ -19,6 +19,8 @@ public class Pierre {
 		// backward order
 		int[] x3 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 		System.out.println("Is it in order? " + isInOrder(x3));
+		int[] xe = new int[] {1,5,91,563,22569};
+		System.out.println("Is it in order? " + isInOrder(xe));
 
 	}
 
@@ -35,7 +37,7 @@ public class Pierre {
 	public static void order(int[] pages) {
 		   int x;
 		   for (int i = 1; i < pages.length; i++) {
-		    for (int j = i; j > 0; j--) {
+		    for (int j = 1; j<i; j++) {
 		     if (pages[j] < pages[j - 1]) {
 		      x = pages[j];
 		      pages[j] = pages[j - 1];

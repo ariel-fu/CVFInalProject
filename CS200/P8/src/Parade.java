@@ -72,7 +72,8 @@ public class Parade {
 		printArray(far1);
 		System.out.println();
 		int[] test1D = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		int[] fa4 = findLongestIncreasingSequence(test1D);
+		int[] far4 = findLongestIncreasingSequence(test1D);
+		printArray(far4);
 		System.out.println();
 		int[] test1E = {1,2,3,1,2,3,1,2,3};
 		int[] far2 = findLongestIncreasingSequence(test1E);
@@ -125,16 +126,14 @@ public class Parade {
 
 	public static int findTallestGroup(int[] heights) {
 		double largestAverage = -1;
-		double currAverage = 0;
 		int currIndex = 0;
 		// loop through every element until there are five spots at the end to
 		// compensate for the second for loop, that loops through i to i+4,
 		// which computes the total sum from i to i+4 (a group of 5)
 		for (int i = 0; i <= heights.length - 5; i++) {
+			double currAverage = 0;
 			for (int j = i; j < i + 5; j++) {
-
 				currAverage += heights[j];
-
 			}
 			// divide by 5 to get the average
 			currAverage /= 5.0;
@@ -149,8 +148,6 @@ public class Parade {
 				largestAverage = currAverage;
 				currIndex = i + 2;
 			}
-			// set the current average back to 0
-			currAverage = 0;
 		}
 		// return the middle index of the group of 5 with the largest index
 		return currIndex;
@@ -197,6 +194,7 @@ public class Parade {
 				// otherwise, reset the current length
 				currLength = 0;
 			}
+
 			// test to find the biggest length and set the finishing index to
 			// the current
 			// index

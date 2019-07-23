@@ -101,11 +101,11 @@ public class Parade {
 		// best
 		int currIndex = 0;
 		int greatestHeightChange = 0;
-		int currHeight = 0;
+
 		// loop through every element in the array
 		for (int i = 1; i < heights.length; i++) {
 			// the current height change is the elements at i minus (i-1)
-			currHeight = heights[i] - heights[i - 1];
+			int currHeight = heights[i] - heights[i - 1];
 			// if the current height change is greater than the greatest height
 			// change so
 			// far

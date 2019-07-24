@@ -18,13 +18,13 @@ public class Pierre {
 		// backward order
 		int[] x3 = new int[] { 100000000, 9, 5, 7, 3, 5, 3, 3, 2, 0 };
 		System.out.println("Is it in order? " + isInOrder(x3));
-		bucket(x3);
+		//bucket(x3);
 		System.out.println("Is it in order? " + isInOrder(x3));
 
 		int[] xe = new int[] { 1, 5, 91, 563, 22569 };
 		System.out.println("Is it in order? " + isInOrder(xe));
 
-		bucket(xe);
+		//bucket(xe);
 		System.out.println("Is it in order? " + isInOrder(xe));
 
 		//TODO: test cases for order
@@ -44,29 +44,6 @@ public class Pierre {
 		return x;
 	}
 	
-	public static void bucket(int[] pages) {
-		int max=0;
-		
-		for (int i=0; i<pages.length; i++) {
-			if (max<pages[i]) {
-				max=pages[i];
-			}
-		}
-		
-		int[] bucket = new int[max+1];
-		
-		for (int i=0; i<pages.length; i++) {
-			bucket[pages[i]]++;
-		}
-		
-		int index=0;
-		for (int i=0; i<bucket.length; i++) {
-			for (int j=0; j<bucket[i]; j++) {
-				pages[index]=i;
-				index++;
-			}
-		}
-	}
 
 	public static void order(int[] pages) {
 		//TODO: no need to be in this scope, x is not a good name

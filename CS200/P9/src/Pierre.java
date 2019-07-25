@@ -55,8 +55,19 @@ public class Pierre {
 	public static void order(int[] pages) {
 		pages = sort(pages);
 	}
-
-	public static int[] sort(int[] pages) {
+		public static int[] sort (int[] pages){
+		int arrLength = pages.length;
+		for(int i=0; i<arrLength; i++){
+			for(int j=0; j<arrLength-1; j++){
+				if(pages[j+1]<pages[j]){
+					int replace = pages[j+1];
+					pages[j+1] = pages[j];
+					pages[j] = replace;
+				}
+			}
+			}
+		}
+	public static int[] sort1(int[] pages) {
 		int max = 0;
 		for (int i = 0; i < pages.length; i++) {
 			if (pages[i] > max) {

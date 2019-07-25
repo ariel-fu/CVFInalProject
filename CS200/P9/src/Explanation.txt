@@ -15,3 +15,6 @@ for(int i=0..arrLength){
 return pages;
 
 }
+
+The code starts by checking if the array is already sorted. If it is, reutrn the original array. 
+The first for loop runs for however long the array is and the second for loop runs through each of the number and sorts them out. The if statement says if the number before it is bigger, then swap the two. It replaces by using a temporary variable to swap the two. Once the array is completely sorted, return pages (the original array).

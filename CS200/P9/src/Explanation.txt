@@ -1,0 +1,14 @@
+Pseudocode for Pierre - two array method
+
+1. create an integer that will be the the length of the new array 
+2. run through every number in the pages to find the largest number
+3. create a new array with the length of max (the integer we create in 1.)
+4. create a for loop that will run through the new array and count how many of each number we have
+(reasoning behing 4.) everytime the same number shows up, it will put that many of it into the corresponding index
+ex: {1,9,2,6,6,8,2,1} --> {0,2,2,0,0,0,2,0,1,1} so two 1s, 2 6s, one 8, and one 9.
+5. run a nested for loop --- first for loop: runs from 0-array.length
+							 second for loop: runs from 0-how many of each number there is
+ex: {0,2,2,0,0,0,2,0,1,1}; --> first for loop: runs through 9 times
+							   second for loop: (example at index 1) runs through twice(there are two 1s) 
+6. adds 1 to the currValue (the current value we are plugging into pages (our sorted array))
+7. returns pages (the sorted array) 							   

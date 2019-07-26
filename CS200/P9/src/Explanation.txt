@@ -2,12 +2,10 @@ Pseudocode for Pierre - two for loops method
 
 public static int[] sort(int[] pages){
 int arrLength = pages.length;
-for(int i=0..arrLength){
+for(int i=0...Length){
 	for(int j=0...length-1){
 		if(pages[j+1] < pages[j]){
-			int replace = pages[j+1];
-			pages[j+1] = pages[j];
-			pages[j] = replace;
+			swap pages[j] and pages[j+1];
 		}
 	}
 }
@@ -16,5 +14,5 @@ return pages;
 
 }
 
-The code starts by checking if the array is already sorted. If it is, reutrn the original array. 
+The code starts by checking if the array is already sorted. If it is, return the original array. 
 The first for loop runs for however long the array is and the second for loop runs through each of the number and sorts them out. The if statement says if the number before it is bigger, then swap the two. It replaces by using a temporary variable to swap the two. Once the array is completely sorted, return pages (the original array).

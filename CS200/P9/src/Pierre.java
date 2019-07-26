@@ -7,7 +7,10 @@
 public class Pierre {
 
 	public static void main(String[] args) {
-
+		int[] test = new int[100000];
+		for (int i = 0; i < test.length; i++) {
+			test[i] = (int) (Math.random() * 1000000);
+		}
 	}
 
 	public static boolean isInOrder(int[] pages) {
@@ -22,10 +25,6 @@ public class Pierre {
 	}
 
 	public static void order(int[] pages) {
-		pages = sort(pages);
-	}
-
-	public static int[] sort(int[] pages) {
 		int arrLength = pages.length;
 		for (int i = 0; i < arrLength; i++) {
 			for (int j = 0; j < arrLength - 1; j++) {
@@ -36,6 +35,5 @@ public class Pierre {
 				}
 			}
 		}
-		return pages;
 	}
 }

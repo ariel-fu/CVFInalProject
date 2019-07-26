@@ -14,20 +14,27 @@ public class Pierre {
 	}
 
 	public static boolean isInOrder(int[] pages) {
-		boolean isTheArrayInOrder = true;
-
+		//look for one mistake, because if there is one out of order the whole array is out of order
 		for (int i = 1; i < pages.length; i++) {
 			if (pages[i] < pages[i - 1]) {
-				isTheArrayInOrder = false;
+				//if one is out of order, return false and quit
+				return false;
 			}
 		}
-		return isTheArrayInOrder;
+		//if no mistakes were found, return true
+		return true;
 	}
 
 	public static void order(int[] pages) {
 		int arrLength = pages.length;
+		//if the array is already in order, return back to main!
+		if(isInOrder(pages)) {
+			return;
+		}
+		//otherwise look through every array element to see which one is out of order
 		for (int i = 0; i < arrLength; i++) {
 			for (int j = 0; j < arrLength - 1; j++) {
+				//when we find an element out of order, swap it with the one smaller than it!
 				if (pages[j + 1] < pages[j]) {
 					int replace = pages[j + 1];
 					pages[j + 1] = pages[j];

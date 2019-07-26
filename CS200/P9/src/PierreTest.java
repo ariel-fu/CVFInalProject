@@ -29,7 +29,7 @@ public class PierreTest {
 
 		test = new int[100000];
 
-		for (int j = 0; j < 1000; j++) {
+		for (int j = 0; j < 2; j++) {
 			for (int i = 0; i < test.length; i++) {
 				test[i] = (int) (Math.random() * 1000000);
 			}

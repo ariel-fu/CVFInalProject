@@ -28,7 +28,12 @@ public class DefinitelyNotACalculator {
 			}
 			
 			if(operator.equalsIgnoreCase("+")) {
-				System.out.println(add());
+				double a = Double.parseDouble(splitString[1]);
+				double b = Double.parseDouble(splitString[2]);
+				System.out.println(add(a,b));
+			}
+			else if(operator.equalsIgnoreCase("-")) {
+				double a = Double.parseDouble(s)
 			}
 
 			System.out.println("Please input an expression: ");

@@ -1,177 +1,302 @@
-
-/**
- * @author: Ariel Fu
- * @studentID:  908 168 5910
- * @netID: afu5
- */
-import java.util.Random;
 import java.util.Scanner;
 
+//TO ASK: 
+//- what to return
+//- divide by 0, is infinity or NaN okay? 
+//- sqrt of negative numbers 
+//- log of 0 or negative numbers
+//- sum of extremely large numbers i.e. 10E100 10E1000 10E1000000
+//- can array print out with brackets and commas?
 public class DefinitelyNotACalculator {
 
+	public static String PLUS = "+";
+	public static String SUBSTRACT = "-";
+	public static String MULTIPLY = "*";
+	public static String DIVIDE = "/";
+	public static String MAX = "max";
+	public static String LOG = "log";
+	public static String ABS = "abs";
+	public static String POW = "pow";
+	public static String SQRT = "sqrt";
+	public static String RAND = "rand";
+	public static String SUM = "sum";
+	public static String SORT = "sort";
+
 	public static void main(String[] args) {
-		System.out.println("Good day, Mr. Finch! Welcome to your totally-not-a-calculator.");
-		System.out.println("Please input an expression: ");
+
 		Scanner sc = new Scanner(System.in);
-		String stringInputed = sc.nextLine();
-		stringInputed.toLowerCase();
-		String[] splitString = stringInputed.split(" ");
-
+		String stringInputed = "";
 		do {
-			String operator = splitString[0];
-			if (isNotValidOperator(splitString)) {
-				System.out.println("Error! Command not found.");
-			}
-
-			if (isNotValidAmountOfArguments(splitString)) {
-				System.out.println("Error! Incorrect number of arguments");
-			}
-			
-			if(operator.equalsIgnoreCase("+")) {
-				double a = Double.parseDouble(splitString[1]);
-				double b = Double.parseDouble(splitString[2]);
-				System.out.println(add(a,b));
-			}
-			else if(operator.equalsIgnoreCase("-")) {
-				double a = Double.parseDouble(s)
-			}
 
 			System.out.println("Please input an expression: ");
 			stringInputed = sc.nextLine();
 			stringInputed.toLowerCase();
-			splitString = stringInputed.split(" ");
+			String[] splitString = stringInputed.split(" ");
 
-		} while (!splitString[0].equals("quit"));
+			String operator = splitString[0];
+
+			// TODO
+
+		} while (!stringInputed.equals("quit"));
 
 		System.out.println("Have a nice day, Mr. Finch!");
+		sc.close();
 
 	}
 
-	public static boolean isNotValidAmountOfArguments(String[] x) {
-		String operator = x[0];
-		operator.toLowerCase();
-		int numberOfInputs = x.length - 1;
-		if (operator.equals("+") || operator.equals("-") || operator.equals("*") || operator.equals("/")
-				|| operator.equals("max") || operator.equals("pow") || operator.equals("rand")) {
-			if (numberOfInputs != 2) {
-				return true;
-			}
-		} else if (operator.equals("log") || operator.equals("sqrt") || operator.equals("abs")
-				|| operator.equals("rand")) {
-			if (numberOfInputs != 1) {
-				return true;
-			}
+	public static double calculate(String[] splitString) {
+
+		String operator = splitString[0];
+		if (operator.equals(PLUS)) {
+			return addNumber(splitString);
+		} else if (operator.equals(SUBSTRACT)) {
+			return subtract(splitString);
+		} else if (operator.equals(MULTIPLY)) {
+			return multiply(splitString);
+		} else if (operator.equals(DIVIDE)) {
+			return divide(splitString);
+		} else if (operator.equals(MAX)) {
+			return max(splitString);
+		} else if (operator.equals(ABS)) {
+			return abs(splitString);
+		} else if (operator.equals(LOG)) {
+			return log(splitString);
+		} else if (operator.equals(POW)) {
+			return pow(splitString);
+		} else if (operator.equals(SQRT)) {
+			return sqrt(splitString);
+		} else if (operator.equals(RAND)) {
+			return rand(splitString);
+		} else if (operator.equals(SUM)) {
+			return sum(splitString);
+		}
+		return 0;
+//sort can't be in here since it has to print. so sort is a condition in main.
+	}
+
+	public static boolean isValidArgument(String[] splitString) {
+		String operator = splitString[0];
+
+		if (operator.equals(PLUS)) {
+			return isTwoNumbers(splitString);
+		} else if (operator.equals(SUBSTRACT)) {
+			return isTwoNumbers(splitString);
+		} else if (operator.equals(MULTIPLY)) {
+			return isTwoNumbers(splitString);
+		} else if (operator.equals(DIVIDE)) {
+			return isTwoNumbers(splitString);
+		} else if (operator.equals(MAX)) {
+			return isTwoNumbers(splitString);
+		} else if (operator.equals(ABS)) {
+			return isOneNumber(splitString);
+		} else if (operator.equals(LOG)) {
+			return isOneNumber(splitString);
+		} else if (operator.equals(POW)) {
+			return isTwoNumbers(splitString);
+		} else if (operator.equals(SQRT)) {
+			return isOneNumber(splitString);
+		} else if (operator.equals(RAND)) {
+			return isValidRandArgument(splitString);
+		} else if (operator.equals(SUM)) {
+			return isValidEndlessArgument(splitString);
+		} else if (operator.equals(SORT)) {
+			return isValidEndlessArgument(splitString);
+		}
+
+		return false;
+	}
+
+	// only used for sum and sort
+	public static boolean isValidEndlessArgument(String[] splitString) {
+		return true;
+	}
+
+	public static boolean isValidRandArgument(String[] splitString) {
+		return true;
+	}
+
+	public static boolean isInt(double val) {
+		return true;
+	}
+
+	// two numbers checks if the length is three and if both the doubles are numeric
+	// or not
+	public static boolean isTwoNumbers(String[] splitString) {
+		return true;
+	}
+
+//one number checks if the length is two, and if the double is numeric	
+	public static boolean isOneNumber(String[] splitString) {
+		return true;
+	}
+
+	public static boolean isValidOperator(String operator) {
+		// +
+		if (operator.equals(PLUS)) {
+			return true;
+		}
+
+		// -
+		if (operator.equals(SUBSTRACT)) {
+			return true;
+		}
+
+		// *
+		if (operator.equals(MULTIPLY)) {
+			return true;
+		}
+
+		// /
+		if (operator.equals(DIVIDE)) {
+			return true;
+		}
+
+		// max
+		if (operator.equals(MAX)) {
+			return true;
+		}
+
+		// log
+		if (operator.equals(LOG)) {
+			return true;
+		}
+
+		// abs
+		if (operator.equals(ABS)) {
+			return true;
+		}
+
+		// pow
+		if (operator.equals(POW)) {
+			return true;
+		}
+
+		// sqrt
+		if (operator.equals(SQRT)) {
+			return true;
+		}
+
+		// rand
+		if (operator.equals(RAND)) {
+			return true;
+		}
+
+		// sum
+		if (operator.equals(SUM)) {
+			return true;
+		}
+
+		// sort
+		if (operator.equals(SORT)) {
+			return true;
 		}
 
 		return false;
 
 	}
 
-	public static boolean isNotValidOperator(String[] splitString) {
-		String operator = splitString[0];
-		operator.toLowerCase();
-		if (!operator.equals("+")) {
-			return true;
-		} else if (!operator.equals("-")) {
-			return true;
-		} else if (!operator.equals("*")) {
-			return true;
-		} else if (!operator.equals("/")) {
-			return true;
-		} else if (!operator.equals("max")) {
-			return true;
-		} else if (!operator.equals("pow")) {
-			return true;
-		} else if (!operator.equals("abs")) {
-			return true;
-		} else if (!operator.equals("log")) {
-			return true;
-		} else if (!operator.equals("sqrt")) {
-			return true;
-		} else if (!operator.equals("rand")) {
-			return true;
-		} else if (!operator.equals("sum")) {
-			return true;
-		} else if (!operator.equals("sort")) {
-			return true;
-		} else {
-			return false;
+	// create another double array to sort and print out all the numbers
+	public static void sort(String[] splitString) {
+
+		double val1 = 0;
+		double[] doubleArray = new double[splitString.length - 1];
+		double[] result = new double[1];
+		for (int i = 1; i < splitString.length; i++) {
+			if (isNumeric(splitString[i], result)) {
+				val1 = result[0];
+			}
+			doubleArray[i - 1] = val1;
 		}
-	}
 
-	public static double add(double x, double y) {
-		return x + y;
-	}
-
-	public static double subtract(double x, double y) {
-		return x - y;
-	}
-
-	public static double multiply(double x, double y) {
-		return x * y;
-	}
-
-	public static double divide(double x, double y) {
-		return x / y;
-	}
-
-	public static double max(double x, double y) {
-		if (x > y) {
-			return x;
-		} else {
-			return y;
-		}
-	}
-
-	public static double pow(double x, double y) {
-		return Math.pow(x, y);
-	}
-
-	public static double abs(double x) {
-		return Math.abs(x);
-	}
-
-	public static double log(double x) {
-		return Math.log10(x);
-	}
-
-	public static double sqrt(double x) {
-		return Math.sqrt(x);
-	}
-
-	public static int rand(int x, int y) {
-		Random rand = new Random();
-		int randomNumber= Random.ints(x, y);
-		return randomNumber;
-	}
-
-	public static double rand(double x) {
-//fix this
-	}
-
-	public static double sum(double[] x) {
-		int y = 0;
-		for (int i = 1; i < x.length; i++) {
-			y += x[i];
-		}
-		return y;
-	}
-
-	public static double[] sort(double[] x) {
-		int arrLength = x.length;
-		// copied from P9
-		for (int i = 0; i < arrLength; i++) {
-			for (int j = 0; j < arrLength - 1; j++) {
+		// otherwise look through every array element to see which one is out of order
+		for (int i = 0; i < doubleArray.length; i++) {
+			for (int j = 0; j < doubleArray.length - 1; j++) {
 				// when we find an element out of order, swap it with the one smaller than it!
-				if (x[j + 1] < x[j]) {
-					double replace = x[j + 1];
-					x[j + 1] = x[j];
-					x[j] = replace;
+
+				if (doubleArray[j + 1] < doubleArray[j]) {
+					double replace = doubleArray[j + 1];
+					doubleArray[j + 1] = doubleArray[j];
+					doubleArray[j] = replace;
 				}
 			}
 		}
 
-		return x;
+		for (int i = 0; i < doubleArray.length; i++) {
+			System.out.print(doubleArray[i] + " ");
+		}
+	}
+
+	public static double sum(String[] splitString) {
+		double sum = 0;
+		double val1 = 0;
+
+		double[] result = new double[1];
+		for (int i = 1; i < splitString.length; i++) {
+			if (isNumeric(splitString[i], result)) {
+				val1 = result[0];
+			}
+			sum += val1;
+		}
+
+		return sum;
+
+	}
+
+	// if it is a one number input, use the randOne, and same for two number input
+	public static double rand(String[] splitString) {
+		return 0;
+	}
+
+	// shifts Math.random by val1
+
+	public static double randOne(String[] splitString) {
+		return 0;
+	}
+
+	// shift Math.Random by the difference between the max and the min then add the
+	// min
+	public static int randTwo(String[] splitString) {
+		return 0;
+	}
+
+	public static double sqrt(String[] splitString) {
+		return 0;
+	}
+
+	public static double pow(String[] splitString) {
+		return 0;
+	}
+
+	public static double abs(String[] splitString) {
+		return 0;
+	}
+
+	public static double log(String[] splitString) {
+		return 0;
+	}
+
+	public static double max(String[] splitString) {
+		return 0;
+	}
+
+	public static double divide(String[] splitString) {
+		return 0;
+	}
+
+	public static double multiply(String[] splitString) {
+		return 0;
+	}
+
+	public static double subtract(String[] splitString) {
+		return 0;
+	}
+
+	public static double addNumber(String[] splitString) {
+		return 0;
+	}
+
+	public static boolean isNumeric(String string, double[] result) {
+		return true;
 	}
 
 }

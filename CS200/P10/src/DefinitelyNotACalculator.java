@@ -1,3 +1,9 @@
+/*
+ * @author: Ariel Fu
+ * @studentID:  908 168 5910
+ * @netID: afu5
+*/
+
 import java.util.Scanner;
 
 //TO ASK: 

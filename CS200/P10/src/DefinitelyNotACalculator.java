@@ -36,7 +36,7 @@ public class DefinitelyNotACalculator {
 			String[] splitString = stringInputed.split(" ");
 			// set the operator to the first element
 			String operator = splitString[0];
-			// if the user inputted quit, break out of the do/while loop then say goodbye
+			// if the user inputed quit, break out of the do/while loop then say goodbye
 			if (operator.equalsIgnoreCase("quit")) {
 				break;
 			}
@@ -69,7 +69,7 @@ public class DefinitelyNotACalculator {
 
 	}
 
-	public static String modifyOriginalString(String string) {
+	public static String (String string) {
 		// this modifies the String inputed by the user
 		// --trimming it
 		// --changing them all to lowercase
@@ -164,36 +164,39 @@ public class DefinitelyNotACalculator {
 
 	public static boolean isValidEndlessArgument(String[] splitString) {
 		// only used for sum and sort
-		// if it is an endless amount of arguments, it will always be true
+		for (int i=0;i<splitString.length; i++) {
+			double[] result = {0};
+			if (!isNumeric(splitString[i], result)) {
+				return false;
+			}
+		}
+		
 		return true;
 	}
 
 	public static boolean isValidRandArgument(String[] splitString) {
-		// first checks if it is is has the correct amount of input(s)
-		if (isOneNumber(splitString) || isTwoNumbers(splitString)) {
-			// if there are two inputs, check to see if both are ints
-			if (isTwoNumbers(splitString)) {
-				double var1 = 0;
-				double var2 = 0;
-				double[] result = new double[1];
-				if (isNumeric(splitString[1], result)) {
-					var1 = result[0];
-				}
-				if (isNumeric(splitString[2], result)) {
-					var2 = result[0];
-				}
-				if (isInt(var1) && isInt(var2)) {
-					return true;
-				} else {
-					// if one of them is not an int, then it is not a valid random argument
-					return false;
-				}
+		// if there are two inputs, check to see if both are ints
+		if (isTwoNumbers(splitString)) {
+			double var1 = 0;
+			double var2 = 0;
+			double[] result = new double[1];
+			if (isNumeric(splitString[1], result)) {
+				var1 = result[0];
 			}
-			// but if it is a one number, they can be doubles. So it is a valid random
-			// argument
-			if (isOneNumber(splitString)) {
+			if (isNumeric(splitString[2], result)) {
+				var2 = result[0];
+			}
+			if (isInt(var1) && isInt(var2)) {
 				return true;
+			} else {
+				// if one of them is not an int, then it is not a valid random argument
+				return false;
 			}
+		}
+		// but if it is a one number, they can be doubles. So it is a valid random
+		// argument
+		if (isOneNumber(splitString)) {
+			return true;
 		}
 		// if it has more than 2 arguments, it will say it is not a valid random
 		// argument

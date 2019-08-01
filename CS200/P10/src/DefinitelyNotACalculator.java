@@ -69,7 +69,7 @@ public class DefinitelyNotACalculator {
 
 	}
 
-	public static String (String string) {
+	public static String modifyOriginalString(String string) {
 		// this modifies the String inputed by the user
 		// --trimming it
 		// --changing them all to lowercase
@@ -164,13 +164,13 @@ public class DefinitelyNotACalculator {
 
 	public static boolean isValidEndlessArgument(String[] splitString) {
 		// only used for sum and sort
-		for (int i=0;i<splitString.length; i++) {
-			double[] result = {0};
+		for (int i = 0; i < splitString.length; i++) {
+			double[] result = { 0 };
 			if (!isNumeric(splitString[i], result)) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -401,8 +401,8 @@ public class DefinitelyNotACalculator {
 			if (isNumeric(splitString[2], result)) {
 				var2 = result[0];
 			}
-			// shift the randomizer by max-min + 1 then add the min
-			return (int) ((var2 - var1 + 1) * Math.random() + var1);
+			// shift the randomizer by max-min then add the min
+			return (int) ((var2 - var1) * Math.random() + var1);
 		}
 
 		return 0;

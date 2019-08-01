@@ -33,11 +33,11 @@ public class NotACal {
 			stringInputed = sc.nextLine();
 			stringInputed.toLowerCase();
 			stringInputed.strip();
-			
+
 			do {
-				stringInputed= stringInputed.replace("  ", " ");
-			} while(stringInputed.contains("  "));
-			
+				stringInputed = stringInputed.replace("  ", " ");
+			} while (stringInputed.contains("  "));
+
 			String[] splitString = stringInputed.split(" ");
 
 			String operator = splitString[0];
@@ -291,14 +291,14 @@ public class NotACal {
 					doubleArray[j + 1] = doubleArray[j];
 					doubleArray[j] = replace;
 				}
-				
+
 			}
 		}
-		
-		for(int i=0; i< doubleArray.length; i++) {
+
+		for (int i = 0; i < doubleArray.length; i++) {
 			System.out.print(doubleArray[i] + " ");
 		}
-		
+
 	}
 
 	public static double sum(String[] splitString) {
@@ -307,7 +307,7 @@ public class NotACal {
 
 		double[] result = new double[1];
 		for (int i = 1; i < splitString.length; i++) {
-	//parses the element at i to a double and adds it on to the total sum
+			// parses the element at i to a double and adds it on to the total sum
 			if (isNumeric(splitString[i], result)) {
 				val1 = result[0];
 			}
@@ -329,8 +329,8 @@ public class NotACal {
 	}
 
 	public static double randOne(String[] splitString) {
-		//randOne is a double, and only takes in one input
-		//so check if numeric once and if it is, shift it by val1
+		// randOne is a double, and only takes in one input
+		// so check if numeric once and if it is, shift it by val1
 		double val1 = 0;
 		double[] result = new double[1];
 

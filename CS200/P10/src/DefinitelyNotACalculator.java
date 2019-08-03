@@ -48,7 +48,7 @@ public class DefinitelyNotACalculator {
 			// if it is not a valid amount of arguments/inputs, print out an error then
 			// continue
 			if (!isValidArgument(splitString)) {
-				System.out.println("Error! Incorrect amount of arguments");
+				System.out.println("Error! Incorrect number of arguments");
 				continue;
 			}
 			// since sort is printing out, we put it in main. So if the operator is equal to

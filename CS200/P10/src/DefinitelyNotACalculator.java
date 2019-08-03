@@ -164,39 +164,42 @@ public class DefinitelyNotACalculator {
 
 	public static boolean isValidEndlessArgument(String[] splitString) {
 		// only used for sum and sort
+		// if it is an endless amount of arguments, it will always be true
+		double[] result = { 0 };
 		for (int i = 0; i < splitString.length; i++) {
-			double[] result = { 0 };
 			if (!isNumeric(splitString[i], result)) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
 	public static boolean isValidRandArgument(String[] splitString) {
-		// if there are two inputs, check to see if both are ints
-		if (isTwoNumbers(splitString)) {
-			double var1 = 0;
-			double var2 = 0;
-			double[] result = new double[1];
-			if (isNumeric(splitString[1], result)) {
-				var1 = result[0];
+		// first checks if it is is has the correct amount of input(s)
+		if (isOneNumber(splitString) || isTwoNumbers(splitString)) {
+			// if there are two inputs, check to see if both are ints
+			if (isTwoNumbers(splitString)) {
+				double var1 = 0;
+				double var2 = 0;
+				double[] result = new double[1];
+				if (isNumeric(splitString[1], result)) {
+					var1 = result[0];
+				}
+				if (isNumeric(splitString[2], result)) {
+					var2 = result[0];
+				}
+				if (isInt(var1) && isInt(var2)) {
+					return true;
+				} else {
+					// if one of them is not an int, then it is not a valid random argument
+					return false;
+				}
 			}
-			if (isNumeric(splitString[2], result)) {
-				var2 = result[0];
-			}
-			if (isInt(var1) && isInt(var2)) {
+			// but if it is a one number, they can be doubles. So it is a valid random
+			// argument
+			if (isOneNumber(splitString)) {
 				return true;
-			} else {
-				// if one of them is not an int, then it is not a valid random argument
-				return false;
 			}
-		}
-		// but if it is a one number, they can be doubles. So it is a valid random
-		// argument
-		if (isOneNumber(splitString)) {
-			return true;
 		}
 		// if it has more than 2 arguments, it will say it is not a valid random
 		// argument
@@ -364,12 +367,11 @@ public class DefinitelyNotACalculator {
 
 	// check to use which randomizer
 	public static double rand(String[] splitString) {
-		// for a one number input, use the one number input method for rand
+		// for a one number input, use the one number input method for random
 		if (isOneNumber(splitString)) {
 			return randOne(splitString);
-		}
-		// if it is a two number input, use the two number input method for rand
-		if (isTwoNumbers(splitString)) {
+		} else if (isTwoNumbers(splitString)) {
+			// if it is a two number input, use the two number input method for random
 			return randTwo(splitString);
 		}
 

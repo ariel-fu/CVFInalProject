@@ -1,6 +1,8 @@
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Test;
+
+
 import java.util.Arrays;
 
 public class FinalGradesTest {
@@ -15,6 +17,9 @@ public class FinalGradesTest {
 		b.add(1.0);
 		ArrayList<Double> a = FinalGrades.computeRawFinalGrades(grades, maxPoints);
 		assertTrue(a.equals(b));
+		
+		
+		
 	}
 
 	@Test

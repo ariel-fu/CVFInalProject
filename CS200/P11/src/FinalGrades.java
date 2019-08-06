@@ -12,6 +12,9 @@ public class FinalGrades {
 		// TODO Auto-generated method stub
 		double[][] grades = { { 5, 6, 7 }, { 0, 0, 0 }, { 10, 12, 14 } };
 		int[] maxPoints = { 10, 12, 14 };
+		grades = new double[][] {{1,2,3,4},{2,4,6,8}};
+		maxPoints = new int[] {3,6,9,12};
+		
 		System.out.println(computeRawFinalGrades(grades, maxPoints) + "  --> Expected: 0.5, 0.7222222, 0.5555556");
 		ArrayList<Double> rawGrades = new ArrayList<Double>();
 		rawGrades.add(0.5);

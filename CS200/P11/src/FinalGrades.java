@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
+
 /**
  * @author: Ariel Fu
  * @studentID: 908 168 5910
@@ -12,9 +14,9 @@ public class FinalGrades {
 		// TODO Auto-generated method stub
 		double[][] grades = { { 5, 6, 7 }, { 0, 0, 0 }, { 10, 12, 14 } };
 		int[] maxPoints = { 10, 12, 14 };
-		grades = new double[][] {{1,2,3,4},{2,4,6,8}};
-		maxPoints = new int[] {3,6,9,12};
-		
+		grades = new double[][] { { 1, 2, 3, 4 }, { 2, 4, 6, 8 } };
+		maxPoints = new int[] { 3, 6, 9, 12 };
+
 		System.out.println(computeRawFinalGrades(grades, maxPoints) + "  --> Expected: 0.5, 0.7222222, 0.5555556");
 		ArrayList<Double> rawGrades = new ArrayList<Double>();
 		rawGrades.add(0.5);
@@ -23,10 +25,10 @@ public class FinalGrades {
 		String[] letters = { "A", "B", "C", "F" };
 		int[] breakdown = { 1, 1, 1 };
 		String[] return1 = { "B", "C", "A" };
-		System.out.print(computeLetterGrades(rawGrades, letters, breakdown));
+		System.out.print(Arrays.toString(computeLetterGrades(rawGrades, letters, breakdown)));
 	}
 
-	public static ArrayList<Double> computeRawFinalGrades(double[][] grades,int[] maxPoints) {
+	public static ArrayList<Double> computeRawFinalGrades(double[][] grades, int[] maxPoints) {
 		ArrayList<Double> finalGrades = new ArrayList<Double>();
 		int maxPoint = 0;
 		for (int i = 0; i < maxPoints.length; i++) {
@@ -77,16 +79,17 @@ public class FinalGrades {
 			}
 		}
 
-		while (rawGrades.get(index) >= 0) {
-			index = 0;
-			// check if rawGrades at the curr index is greater than 0, if it is, assign that
-			// index the last grade
-			if (letterGrade[index].equals("")) {
-				letterGrade[index] = letters[letters.length - 1];
+		String gradeLetter = letters[letters.length - 1];
+		for (int i = 0; i < rawGrades.size(); i++) {
+
+			if (letterGrade[i] == null) {
+				letterGrade[i] = gradeLetter;
 			}
-			index++;
+
 		}
 		// return the String array!
 		return letterGrade;
+
 	}
+
 }

@@ -31,8 +31,8 @@ public class GradeP11 {
 		grades = new double[][] { { 1, 2, 3, 4 }, { 2, 4, 6, 8 } };
 		maxPoints = new int[] { 3, 6, 9, 12 };
 		// TODO: find out how to chop decimals to 10 places!
-		expectedResult.add(0.3333333333);
-		expectedResult.add(0.6666666666);
+		expectedResult.add(1.0/3.0);
+		expectedResult.add(20/30.0);
 		result = FinalGrades.computeRawFinalGrades(grades, maxPoints);
 		if (equal(expectedResult, result)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed");
@@ -66,10 +66,10 @@ public class GradeP11 {
 		expectedResult.clear();
 		grades = new double[][] { { 5, 1 }, { 10, 20 }, { 30, 30 }, { 11, 10 } };
 		maxPoints = new int[] { 30, 30 };
-		expectedResult.add(0.1);
-		expectedResult.add(0.5);
-		expectedResult.add(1.0);
-		expectedResult.add(0.35);
+		expectedResult.add(6/60.0);
+		expectedResult.add(30.0/60.0);
+		expectedResult.add(60.0/60.0);
+		expectedResult.add(21.0/60.0);
 		result = FinalGrades.computeRawFinalGrades(grades, maxPoints);
 		// help with .equals! not working for some no reason. plz help
 		if (equal(result, expectedResult)) {
@@ -86,7 +86,7 @@ public class GradeP11 {
 		expectedResult.clear();
 		grades = new double[][] { {4,10,18,19,15,39,21 } };
 		maxPoints = new int[] { 5,10,20,20,20,40,30 };
-		expectedResult.add(0.86896551724);
+		expectedResult.add(126.0/145.0);
 		result = FinalGrades.computeRawFinalGrades(grades, maxPoints);
 		//also need to cut this one. cut it off at 11?
 		System.out.println(result + " vs " + expectedResult);

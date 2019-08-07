@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
-
 /**
  * @author: Ariel Fu
  * @studentID: 908 168 5910
@@ -25,7 +23,8 @@ public class FinalGrades {
 		String[] letters = { "A", "B", "C", "F" };
 		int[] breakdown = { 1, 1, 1 };
 		String[] return1 = { "B", "C", "A" };
-		System.out.print(Arrays.toString(computeLetterGrades(rawGrades, letters, breakdown)));
+		System.out.println(Arrays.toString(computeLetterGrades(rawGrades, letters, breakdown)));
+		System.out.println(return1.equals(computeLetterGrades(rawGrades, letters, breakdown)));
 	}
 
 	public static ArrayList<Double> computeRawFinalGrades(double[][] grades, int[] maxPoints) {
@@ -51,12 +50,13 @@ public class FinalGrades {
 	public static String[] computeLetterGrades(ArrayList<Double> rawGrades, String[] letters, int[] breakdown) {
 		String[] letterGrade = new String[rawGrades.size()];
 		int arraySize = rawGrades.size();
-		int index = 0;
+
 		// run through all the times we have to assign a grade
 		for (int i = 0; i < breakdown.length; i++) {
 			// run through each time we have to assign a specific grade
 			for (int j = 0; j < breakdown[i]; j++) {
-				double maxGrade = 0;
+				double maxGrade = -1;
+				int index = -1;
 				// TODO - junit, what are the inputs and what is the output?
 				for (int k = 0; k < rawGrades.size(); k++) {
 
@@ -71,11 +71,13 @@ public class FinalGrades {
 				// set the String array of grades at the curr index of the
 				// maxGrade to be equal to the letter at position i (the first
 				// for loop)
-				letterGrade[index] = letters[i];
-				// set the curr max to a negative number so we won't count again
-				rawGrades.set(index, -1.0);
-				// reset maxGrades
-				maxGrade = 0;
+				if (index >= 0) {
+					letterGrade[index] = letters[i];
+					// set the curr max to a negative number so we won't count again
+					rawGrades.set(index, -1.0);
+					// reset maxGrades
+					maxGrade = 0;
+				}
 			}
 		}
 

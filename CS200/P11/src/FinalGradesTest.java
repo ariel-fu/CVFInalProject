@@ -2,7 +2,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Test;
 
-
 import java.util.Arrays;
 
 public class FinalGradesTest {
@@ -17,9 +16,25 @@ public class FinalGradesTest {
 		b.add(1.0);
 		ArrayList<Double> a = FinalGrades.computeRawFinalGrades(grades, maxPoints);
 		assertTrue(a.equals(b));
-		
-		
-		
+
+		grades = new double[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+		maxPoints = new int[] { 25, 25, 25, 25 };
+		b.clear();
+		b.add((0 + 0 + 0 + 0) / (25.0 + 25 + 25 + 25));
+		b.add((0 + 0 + 0 + 0) / (25.0 + 25 + 25 + 25));
+		a.clear();
+		a = FinalGrades.computeRawFinalGrades(grades, maxPoints);
+		assertTrue(a.equals(b));
+
+		grades = new double[][] { { 10, 10, 10 }, { 10, 10, 10 }, { 10, 10, 10 } };
+		maxPoints = new int[] { 10, 10, 10 };
+		b.clear();
+		b.add((10 + 10 + 10) / (10.0 + 10.0 + 10));
+		b.add((10 + 10 + 10) / (10.0 + 10.0 + 10));
+		b.add((10 + 10 + 10) / (10.0 + 10.0 + 10));
+		a.clear();
+		a = FinalGrades.computeRawFinalGrades(grades, maxPoints);
+		assertTrue(a.equals(b));
 	}
 
 	@Test
@@ -28,11 +43,11 @@ public class FinalGradesTest {
 		rawGrades.add(0.5);
 		rawGrades.add(0.0);
 		rawGrades.add(1.0);
-		String[] letters = {"A", "B", "C", "F"};
-		int[] breakdown = {1,1,1};
-		String[] return1 = {"B", "C", "A"};
+		String[] letters = { "A", "B", "C", "F" };
+		int[] breakdown = { 1, 1, 1 };
+		String[] return1 = { "B", "C", "A" };
 		String[] result = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
-		
+//		assertTrue(return1.equals(result));
 	}
 
 }

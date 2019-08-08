@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class FinalGrades {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		double[][] grades = { { 5, 6, 7 }, { 0, 0, 0 }, { 10, 12, 14 } };
 		int[] maxPoints = { 10, 12, 14 };
 		grades = new double[][] { { 1, 2, 3, 4 }, { 2, 4, 6, 8 } };
@@ -30,11 +30,12 @@ public class FinalGrades {
 	public static ArrayList<Double> computeRawFinalGrades(double[][] grades, int[] maxPoints) {
 		ArrayList<Double> finalGrades = new ArrayList<Double>();
 		int maxPoint = 0;
+		//calculates the possible points
 		for (int i = 0; i < maxPoints.length; i++) {
 			maxPoint += maxPoints[i];
 		}
 
-		// prof said it is (a+b)/(A+B)
+		// i runs through each student, j runs through each of their grade. 
 		for (int i = 0; i < grades.length; i++) {
 			double gradePoints = 0;
 			for (int j = 0; j < grades[i].length; j++) {
@@ -57,7 +58,7 @@ public class FinalGrades {
 			for (int j = 0; j < breakdown[i]; j++) {
 				double maxGrade = -1;
 				int index = -1;
-				// TODO - junit, what are the inputs and what is the output?
+				
 				for (int k = 0; k < rawGrades.size(); k++) {
 
 					// run through the ArrayList
@@ -83,7 +84,7 @@ public class FinalGrades {
 
 		String gradeLetter = letters[letters.length - 1];
 		for (int i = 0; i < rawGrades.size(); i++) {
-
+			// if letterGrade at index i is not filled in, fill it in with the last grade
 			if (letterGrade[i] == null) {
 				letterGrade[i] = gradeLetter;
 			}

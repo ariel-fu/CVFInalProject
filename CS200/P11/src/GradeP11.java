@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class GradeP11 {
 
 	public static void main(String[] args) {
-		int numComputeRawFinalGradesPass = 1;
+		int numPassedTestsRawFinalGrades = 1;
 		int numTests = 1;
 		double[][] grades = new double[][] { { 5, 6, 7 }, { 0, 0, 0 }, { 10, 12, 14 } };
 		int[] maxPoints = new int[] { 10, 12, 14 };
@@ -20,7 +20,7 @@ public class GradeP11 {
 		ArrayList<Double> result = FinalGrades.computeRawFinalGrades(grades, maxPoints);
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -37,7 +37,7 @@ public class GradeP11 {
 		result = FinalGrades.computeRawFinalGrades(grades, maxPoints);
 		if (equal(expectedResult, result)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -55,7 +55,7 @@ public class GradeP11 {
 
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -75,7 +75,7 @@ public class GradeP11 {
 
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -92,7 +92,7 @@ public class GradeP11 {
 
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -125,7 +125,7 @@ public class GradeP11 {
 
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -156,7 +156,7 @@ public class GradeP11 {
 
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -189,7 +189,7 @@ public class GradeP11 {
 
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -222,7 +222,7 @@ public class GradeP11 {
 
 		if (equal(result, expectedResult)) {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " passed!");
-			numComputeRawFinalGradesPass++;
+			numPassedTestsRawFinalGrades++;
 			numTests++;
 		} else {
 			System.out.println("computeRawFinalGrades: Test #" + numTests + " failed!");
@@ -232,13 +232,13 @@ public class GradeP11 {
 
 		// ---------------------End of computeRawFinalGrades Testing----------------//
 
-		System.out.println("computeRawFinalGrades: Total number passed: " + (numComputeRawFinalGradesPass - 1) + "/"
+		System.out.println("computeRawFinalGrades: Total number passed: " + (numPassedTestsRawFinalGrades - 1) + "/"
 				+ (numTests - 1));
 		System.out.println();
 
 		// --------------Start of computeLetterGrades Testing----------------------//
 		numTests = 1;
-		int numComputeLetterGrades = 1;
+		int numPassedTests = 1;
 
 		ArrayList<Double> rawGrades = new ArrayList<Double>();
 		rawGrades.add(0.5);
@@ -250,7 +250,7 @@ public class GradeP11 {
 		String[] b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -270,7 +270,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -290,7 +290,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -310,7 +310,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -330,7 +330,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -349,7 +349,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -369,7 +369,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -396,7 +396,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -423,7 +423,7 @@ public class GradeP11 {
 		b = FinalGrades.computeLetterGrades(rawGrades, letters, breakdown);
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -451,7 +451,7 @@ public class GradeP11 {
 
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
@@ -479,15 +479,14 @@ public class GradeP11 {
 
 		if (stringEqual(a, b)) {
 			System.out.println("computeLetterGrades: Test #" + numTests + " passed!");
-			numComputeLetterGrades++;
+			numPassedTests++;
 			numTests++;
 		} else {
 			System.out.println("computeLetterGrades: Test #" + numTests + " failed!");
 			numTests++;
 		}
 
-		System.out.println(
-				"computeLetterGrades: Total number passed: " + (numComputeLetterGrades - 1) + "/" + (numTests - 1));
+		System.out.println("computeLetterGrades: Total number passed: " + (numPassedTests - 1) + "/" + (numTests - 1));
 		// -------------------------------------------------------------------------------------//
 	}
 

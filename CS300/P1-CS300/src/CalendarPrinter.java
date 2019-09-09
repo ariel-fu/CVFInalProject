@@ -10,7 +10,7 @@
 import java.util.Scanner;
 
 public class CalendarPrinter {
-  private final static String[] DAYS_OF_WEEK = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+  private final static String[] DAYS_OF_WEEK = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
   private final static String[] MONTHS_OF_YEAR = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL",
       "AUG", "SEP", "OCT", "NOV", "DEC" };
 
@@ -18,8 +18,27 @@ public class CalendarPrinter {
     System.out.println("Welcome to the Calendar Printer.");
     System.out.println("================================");
     Scanner sc = new Scanner(System.in);
-    String stringInputed = "";
-
+    String month = "";
+    String year = "";
+    System.out.print("Enter the month to print: ");
+    month = sc.nextLine();
+    System.out.print("Enter the year to print: ");
+    year = sc.nextLine();
+    String[][] x = generateCalendar(month, year);
+    for(int i = 0; i < x.length; i++) {
+      for(int j = 0; j < x[0].length; j++) {
+        if(j % 7 == 0) {
+          System.out.println();
+        }
+        System.out.print(x[i][j] + " ");
+      }
+    }
+    System.out.println();
+    System.out.println("================================");
+    System.out.println("Thanks, and have a nice day.");
+    
+    int v=getFirstDayOfWeekInMonth("april", "2019");
+    System.out.println(v);
   }
 
   /**
@@ -88,7 +107,7 @@ public class CalendarPrinter {
    */
   public static int getMonthIndex(String month) {
     // gets the substring of the first three characters
-    month = month.substring(0, 2);
+    month = month.substring(0, 3);
     if(month.equalsIgnoreCase(MONTHS_OF_YEAR[0])) {
       return 13;
     } else if(month.equalsIgnoreCase(MONTHS_OF_YEAR[1])) {
@@ -176,11 +195,13 @@ public class CalendarPrinter {
    */
   public static int getFirstDayOfWeekInMonth(String month, String year) {
     int yearInt = Integer.parseInt(year);
-    int J = yearInt / 100;
-    int K = yearInt % 100;
-    int m = getMonthIndex(month);
-    int h = (1 + ((13*(m+1))/5) + K + (K/4) + (J/4) + 5*J) % 7;
-    return h;
+    int zeroBasedCentury = yearInt / 100;
+    int yearOfCentury = yearInt % 100;
+    int getMonth = getMonthIndex(month);
+    System.out.println(getMonth);
+    int firstDate = (1 + ((13 * (getMonth + 1)) / 5) + yearOfCentury + (yearOfCentury / 4)
+            + (zeroBasedCentury / 4) + 5 * zeroBasedCentury) % 7;
+    return firstDate;
   }
 
   // Note implementation tips in Appendix I below.
@@ -204,7 +225,49 @@ public class CalendarPrinter {
    * @return 2d array of strings depicting the contents of a calendar
    */
   public static String[][] generateCalendar(String month, String year) {
+    String[][] calendar;
+    int date = 0;
+    int firstDay = getFirstDayOfWeekInMonth(month, year);
+    if(firstDay != 5 || firstDay != 6) {
+      calendar = new String[6][7];
+    } else {
+      calendar = new String[7][7];
+    }
+
+    for(int i = 0; i < calendar[0].length; i++) {
+      calendar[0][i] = DAYS_OF_WEEK[i];
+    }
+    System.out.println();
+    for(int i = firstDay-1; i<7; i++) {
+      date++;
+      calendar[1][i] = " "+date+" ";
+    }
     
+    for(int i = 2; i < calendar.length; i++) {
+      for(int j = 0; j < calendar[0].length; j++) {
+        date++;
+        if(date <= getNumberOfDaysInMonth(month, year) && date < 10) {
+          calendar[i][j] = " " + date + " ";
+
+        } else if(date <= getNumberOfDaysInMonth(month, year) && date >= 10) {
+          calendar[i][j] = " " + date;
+        } else {
+          calendar[i][j] = " * ";
+        }
+      }
+    }
+
+    for(int i = 1; i < calendar.length; i++) {
+      for(int j = 0; j < calendar[0].length; j++) {
+        if(calendar[i][j] == null) {
+          calendar[i][j] = " * ";
+
+        }
+      }
+    }
+
+    return calendar;
+
   }
 
 }

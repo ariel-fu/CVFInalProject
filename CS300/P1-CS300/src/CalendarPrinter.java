@@ -30,7 +30,7 @@
 //
 // Persons:         (NONE)
 // Online Sources:  1.Google calendar (https://calendar.google.com/calendar/r/month/2019/7/1)
-//                  2. https://timeanddate.com/calendar
+//               
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 

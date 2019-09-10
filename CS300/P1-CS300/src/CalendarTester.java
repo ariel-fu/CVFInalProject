@@ -2,7 +2,7 @@
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           Calendar printer taking in a month and a year as input
-// Files:           (CalendarPrinter.class)
+// Files:           (CalendarPrinter.class, CalendarPrinter.java, CalendarTester.class)
 // Course:          (CS300, Fall, 2019)
 //
 // Author:          (Ariel Fu)

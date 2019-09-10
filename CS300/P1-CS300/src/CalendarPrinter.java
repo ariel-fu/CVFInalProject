@@ -1,16 +1,43 @@
 
-// Title:           (descriptive title of the program making use of this file)
-// Files:           (a list of all source files used by that program)
+//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title:           Calendar printer taking in a month and a year as input
+// Files:           (CalendarPrinter.class)
 // Course:          (CS300, Fall, 2019)
 //
-// Author:          Ariel Fu
-// Email:           afu5@wisc.edu
-// Lecturer's Name: Mouna 
+// Author:          (Ariel Fu)
+// Email:           (afu5@wisc.edu)
+// Lecturer's Name: (Mouna AYARI BEN HADJ KACEM)
 //
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+//
+// Partner Name:    (N/A)
+// Partner Email:   (N/A)
+// Partner Lecturer's Name: (N/A)
+// 
+// VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+//   ___ Write-up states that pair programming is allowed for this assignment.
+//   ___ We have both read and understand the course Pair Programming Policy.
+//   ___ We have registered our team prior to the team registration deadline.
+//
+///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+// Students who get help from sources other than their partner must fully 
+// acknowledge and credit those sources of help here.  Instructors and TAs do 
+// not need to be credited here, but tutors, friends, relatives, room mates, 
+// strangers, and others do.  If you received no outside help from either type
+//  of source, then please explicitly indicate NONE.
+//
+// Persons:         (NONE)
+// Online Sources:  1.Google calendar (https://calendar.google.com/calendar/r/month/2019/7/1)
+//                  2. https://timeanddate.com/calendar
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 import java.util.Scanner;
 
 public class CalendarPrinter {
-  private final static String[] DAYS_OF_WEEK = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+  private final static String[] DAYS_OF_WEEK = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
   private final static String[] MONTHS_OF_YEAR = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL",
       "AUG", "SEP", "OCT", "NOV", "DEC" };
 
@@ -24,21 +51,29 @@ public class CalendarPrinter {
     month = sc.nextLine();
     System.out.print("Enter the year to print: ");
     year = sc.nextLine();
-    String[][] x = generateCalendar(month, year);
-    for(int i = 0; i < x.length; i++) {
-      for(int j = 0; j < x[0].length; j++) {
-        if(j % 7 == 0) {
-          System.out.println();
+
+    String[][] cal = generateCalendar(month, year);
+    for(int i = 0; i < cal.length; i++) {
+      for(int j = 0; j < cal[0].length; j++) {
+        //one of the weekdays will have one space
+        if(cal[i][j].length() == 3) {
+          System.out.print(" ");
+        } else {
+          //numbers or empty spaces will have two spaces
+          System.out.print("  "); 
         }
-        System.out.print(x[i][j] + " ");
+        System.out.print(" " + cal[i][j]);
+        //single numbers or empty spaces will have add. space at end
+        if(cal[i][j].length() == 1) {
+          System.out.print(" ");
+        }
+       
       }
+      System.out.println();
     }
-    System.out.println();
     System.out.println("================================");
     System.out.println("Thanks, and have a nice day.");
-    
-    int v=getFirstDayOfWeekInMonth("april", "2019");
-    System.out.println(v);
+
   }
 
   /**
@@ -68,8 +103,8 @@ public class CalendarPrinter {
    */
   public static int getYearWithinCentury(String year) {
     int x = Integer.parseInt(year);
-    while (x >= 99) {
-      x %= 1000;
+    while (x > 99) {
+      x %= 100;
     }
     return x;
   }
@@ -83,19 +118,19 @@ public class CalendarPrinter {
    * @return true when the specified year is a leap year, and false otherwise
    */
   public static boolean getIsLeapYear(String yearString) {
-    int y = Integer.parseInt(yearString);
-    if(y % 4 != 0) {
+    int year = Integer.parseInt(yearString);
+    //divide by 4 - not leap yr
+    if(year % 4 != 0) {
       return false;
-    } else if(y % 100 != 0) {
-      return true;
-    } else if(y % 400 != 0) {
-      return false;
+    } else if(year % 100 != 0) {
+      return true; //divide by 100 - leap yr
+    } else if(year % 400 != 0) {
+      return false; //divide by 400 - not leap yr
     } else {
-      return true;
+      return true; //otherwise leap yr
     }
   }
 
-  // Note implementation tips in Appendix I below.
   /**
    * Converts the name or abbreviation for any month into the index of that
    * month's abbreviation within MONTHS_OF_YEAR. Matches the specified month based
@@ -152,11 +187,13 @@ public class CalendarPrinter {
     if(monthIndex == 13) {
       return 31;
     } else if(monthIndex == 14) {
+      //exception of leap year
       if(getIsLeapYear(year)) {
         return 29;
       } else {
         return 28;
       }
+      //rest of year
     } else if(monthIndex == 3) {
       return 31;
     } else if(monthIndex == 4) {
@@ -195,16 +232,29 @@ public class CalendarPrinter {
    */
   public static int getFirstDayOfWeekInMonth(String month, String year) {
     int yearInt = Integer.parseInt(year);
+    int monthIndex = getMonthIndex(month);
+    //jan + feb are months 13 & 14 of last year
+    if(monthIndex == 13 || monthIndex == 14) {
+      yearInt -= 1;
+    }
     int zeroBasedCentury = yearInt / 100;
-    int yearOfCentury = yearInt % 100;
-    int getMonth = getMonthIndex(month);
-    System.out.println(getMonth);
-    int firstDate = (1 + ((13 * (getMonth + 1)) / 5) + yearOfCentury + (yearOfCentury / 4)
-            + (zeroBasedCentury / 4) + 5 * zeroBasedCentury) % 7;
+    int yearOfCentury = getYearWithinCentury(yearInt + "");
+
+    int firstDate = (13 * (monthIndex + 1)) / 5;
+    firstDate += 1;
+    firstDate += yearOfCentury;
+    firstDate += (yearOfCentury / 4);
+    firstDate += (zeroBasedCentury / 4);
+    firstDate += (5 * zeroBasedCentury);
+    firstDate %= 7;
+    // convert from 0=Sat to 5=Sat
+    firstDate += 5;
+    firstDate %= 7;
+
     return firstDate;
   }
 
-  // Note implementation tips in Appendix I below.
+ 
   /**
    * Creates and initializes a 2D String array to reflect the specified month. The
    * first row of this array [0] should contain labels representing the days of
@@ -226,41 +276,46 @@ public class CalendarPrinter {
    */
   public static String[][] generateCalendar(String month, String year) {
     String[][] calendar;
+    String empty = ".";
     int date = 0;
+    int numOfDays = getNumberOfDaysInMonth(month, year);
+
     int firstDay = getFirstDayOfWeekInMonth(month, year);
-    if(firstDay != 5 || firstDay != 6) {
+
+    //rows in arr. are based on what day it starts and number of days in the year
+    if((firstDay + numOfDays) < 35) {
       calendar = new String[6][7];
     } else {
       calendar = new String[7][7];
     }
 
+    //set the "header" of week days before dates
     for(int i = 0; i < calendar[0].length; i++) {
       calendar[0][i] = DAYS_OF_WEEK[i];
     }
-    System.out.println();
-    for(int i = firstDay-1; i<7; i++) {
+
+    //set the first week from starting date to last day in first week
+    for(int i = firstDay; i < 7; i++) {
       date++;
-      calendar[1][i] = " "+date+" ";
+      calendar[1][i] = "" + date;
     }
-    
+
     for(int i = 2; i < calendar.length; i++) {
       for(int j = 0; j < calendar[0].length; j++) {
         date++;
-        if(date <= getNumberOfDaysInMonth(month, year) && date < 10) {
-          calendar[i][j] = " " + date + " ";
-
-        } else if(date <= getNumberOfDaysInMonth(month, year) && date >= 10) {
-          calendar[i][j] = " " + date;
+        if(date <= numOfDays) {
+          calendar[i][j] = "" + date;
         } else {
-          calendar[i][j] = " * ";
+          calendar[i][j] = empty;
         }
       }
     }
 
+    //null spots are filled with period
     for(int i = 1; i < calendar.length; i++) {
       for(int j = 0; j < calendar[0].length; j++) {
         if(calendar[i][j] == null) {
-          calendar[i][j] = " * ";
+          calendar[i][j] = empty;
 
         }
       }

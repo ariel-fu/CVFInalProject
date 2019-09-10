@@ -55,19 +55,19 @@ public class CalendarPrinter {
     String[][] cal = generateCalendar(month, year);
     for(int i = 0; i < cal.length; i++) {
       for(int j = 0; j < cal[0].length; j++) {
-        //one of the weekdays will have one space
+        // one of the weekdays will have one space
         if(cal[i][j].length() == 3) {
           System.out.print(" ");
         } else {
-          //numbers or empty spaces will have two spaces
-          System.out.print("  "); 
+          // numbers or empty spaces will have two spaces
+          System.out.print("  ");
         }
         System.out.print(" " + cal[i][j]);
-        //single numbers or empty spaces will have add. space at end
+        // single numbers or empty spaces will have add. space at end
         if(cal[i][j].length() == 1) {
           System.out.print(" ");
         }
-       
+
       }
       System.out.println();
     }
@@ -103,9 +103,7 @@ public class CalendarPrinter {
    */
   public static int getYearWithinCentury(String year) {
     int x = Integer.parseInt(year);
-    while (x > 99) {
-      x %= 100;
-    }
+    x %= 100;
     return x;
   }
 
@@ -119,15 +117,15 @@ public class CalendarPrinter {
    */
   public static boolean getIsLeapYear(String yearString) {
     int year = Integer.parseInt(yearString);
-    //divide by 4 - not leap yr
+    // divide by 4 - not leap yr
     if(year % 4 != 0) {
       return false;
     } else if(year % 100 != 0) {
-      return true; //divide by 100 - leap yr
+      return true; // divide by 100 - leap yr
     } else if(year % 400 != 0) {
-      return false; //divide by 400 - not leap yr
+      return false; // divide by 400 - not leap yr
     } else {
-      return true; //otherwise leap yr
+      return true; // otherwise leap yr
     }
   }
 
@@ -187,13 +185,13 @@ public class CalendarPrinter {
     if(monthIndex == 13) {
       return 31;
     } else if(monthIndex == 14) {
-      //exception of leap year
+      // exception of leap year
       if(getIsLeapYear(year)) {
         return 29;
       } else {
         return 28;
       }
-      //rest of year
+      // rest of year
     } else if(monthIndex == 3) {
       return 31;
     } else if(monthIndex == 4) {
@@ -233,7 +231,7 @@ public class CalendarPrinter {
   public static int getFirstDayOfWeekInMonth(String month, String year) {
     int yearInt = Integer.parseInt(year);
     int monthIndex = getMonthIndex(month);
-    //jan + feb are months 13 & 14 of last year
+    // jan + feb are months 13 & 14 of last year
     if(monthIndex == 13 || monthIndex == 14) {
       yearInt -= 1;
     }
@@ -254,7 +252,6 @@ public class CalendarPrinter {
     return firstDate;
   }
 
- 
   /**
    * Creates and initializes a 2D String array to reflect the specified month. The
    * first row of this array [0] should contain labels representing the days of
@@ -282,19 +279,19 @@ public class CalendarPrinter {
 
     int firstDay = getFirstDayOfWeekInMonth(month, year);
 
-    //rows in arr. are based on what day it starts and number of days in the year
+    // rows in arr. are based on what day it starts and number of days in the year
     if((firstDay + numOfDays) < 35) {
       calendar = new String[6][7];
     } else {
       calendar = new String[7][7];
     }
 
-    //set the "header" of week days before dates
+    // set the "header" of week days before dates
     for(int i = 0; i < calendar[0].length; i++) {
       calendar[0][i] = DAYS_OF_WEEK[i];
     }
 
-    //set the first week from starting date to last day in first week
+    // set the first week from starting date to last day in first week
     for(int i = firstDay; i < 7; i++) {
       date++;
       calendar[1][i] = "" + date;
@@ -311,12 +308,11 @@ public class CalendarPrinter {
       }
     }
 
-    //null spots are filled with period
+    // null spots are filled with .
     for(int i = 1; i < calendar.length; i++) {
       for(int j = 0; j < calendar[0].length; j++) {
         if(calendar[i][j] == null) {
           calendar[i][j] = empty;
-
         }
       }
     }

@@ -1,6 +1,53 @@
 
+//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title:           Calendar printer taking in a month and a year as input
+// Files:           (CalendarPrinter.class)
+// Course:          (CS300, Fall, 2019)
+//
+// Author:          (Ariel Fu)
+// Email:           (afu5@wisc.edu)
+// Lecturer's Name: (Mouna AYARI BEN HADJ KACEM)
+//
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+//
+// Partner Name:    (N/A)
+// Partner Email:   (N/A)
+// Partner Lecturer's Name: (N/A)
+// 
+// VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+//   ___ Write-up states that pair programming is allowed for this assignment.
+//   ___ We have both read and understand the course Pair Programming Policy.
+//   ___ We have registered our team prior to the team registration deadline.
+//
+///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+// Students who get help from sources other than their partner must fully 
+// acknowledge and credit those sources of help here.  Instructors and TAs do 
+// not need to be credited here, but tutors, friends, relatives, room mates, 
+// strangers, and others do.  If you received no outside help from either type
+//  of source, then please explicitly indicate NONE.
+//
+// Persons:         (NONE)
+// Online Sources:  1.Google calendar (https://calendar.google.com/calendar/r/month/2019/7/1)
+//               
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
+/**
+ * @author Ariel
+ *
+ */
 public class CalendarTester {
 
+  /**
+   * Tests all methods made in CalendarPrinter.java
+   * If one of the method's output is incorrect, it will print out false
+   * Prints out true if the method passes the test
+   * NO parameters
+   * NO return statements
+   *
+   */
   public static void main(String[] args) {
     boolean result;
     result = testGenerateCalendar();
@@ -25,6 +72,14 @@ public class CalendarTester {
     System.out.println(result);
   }
 
+
+  /**
+   * Tests getCentury() from CalendarPrinter.java
+   * test 4 different scenarios: 0, middle year, year close to 0, a year far from 0
+   * @param none
+   * @return true if passes the test, false if it fails
+   *
+   */
   public static boolean testGetCentury() {
     //0
     if(CalendarPrinter.getCentury("2") != 0) {
@@ -46,6 +101,13 @@ public class CalendarTester {
     return true;
   }
 
+  /**
+   * Tests getYearWithinCentury from CalendarPrinter.java
+   * test 4 different scenarios: a middle year, 0, large year, small year
+   * @param none
+   * @return true if passes the test, false if it fails
+   *
+   */
   public static boolean testGetYearWithinCentury() {
     //normal date
     if(CalendarPrinter.getYearWithinCentury("2001") != 1) {
@@ -67,6 +129,14 @@ public class CalendarTester {
     return true;
   }
 
+
+  /**
+   * Tests getIsLeapYear() from CalendarPrinter.java
+   * tests 4 different scenarios: not leap year, leap year that is divisible, and common year that is divisible
+   * @param none
+   * @return true if passes the test, false if it fails
+   *
+   */
   public static boolean testGetIsLeapYear() {
     // not leap year
     if(CalendarPrinter.getIsLeapYear("1995")) {
@@ -87,6 +157,18 @@ public class CalendarTester {
     return true;
   }
 
+
+  /**
+   * Tests getMonthIndex() from CalendarPrinter.java
+   * has 4 different scenarios:
+   * beginning of the year (last month of last year)
+   * actual beginning of the year (march bc FEB + JAN are the last months of last year)
+   * a month in the middle of the year
+   * and an invalid input
+   * @param none
+   * @return true if passes the test, false if it fails
+   *
+   */
   public static boolean testGetMonthIndex() {
     //beginning
     if(CalendarPrinter.getMonthIndex("january") != 13) {
@@ -110,7 +192,16 @@ public class CalendarTester {
     }
     return true;
   }
-  
+
+  /**
+   * Tests getNumberOfDaysInMonth() from CalendarPrinter.java
+   * has 4 different scenarios:
+   * a month containing 31 days, a month containing 30 days, a leap year,
+   * and a non leap year
+   * @param none
+   * @return true if passes the test, false if it fails
+   *
+   */
   public static boolean testGetNumberOfDaysInMonth() {
     //31 days
     if(CalendarPrinter.getNumberOfDaysInMonth("Jan", "2020") != 31) {
@@ -136,6 +227,13 @@ public class CalendarTester {
   }
  
 
+  /**
+   * Tests getCentury() from CalendarPrinter.java
+   * tests 6 different scenarios
+   * @param none
+   * @return true if passes the test, false if it fails
+   *
+   */
   public static boolean testGetFirstDayOfWeekInMonth() {
     //past, middle day
     if(CalendarPrinter.getFirstDayOfWeekInMonth("may", "1975") != 3) {
@@ -157,11 +255,24 @@ public class CalendarTester {
     if(CalendarPrinter.getFirstDayOfWeekInMonth("aug", "2905") != 5) {
       return false;
     }
+    //less than 4 digits
+    if(CalendarPrinter.getFirstDayOfWeekInMonth("aug", "521") != 4) {
+      return false;
+    }
 
     return true;
   }
   
-  
+
+  /**
+   * Tests getCentury() from CalendarPrinter.java
+   * tests a variety of different scenarios:
+   * the length, the last significant element of the array, the first significant element of the array,
+   * and the a significant element in the middle of the array.
+   * @param none
+   * @return true if passes the test, false if it fails
+   *
+   */
   public static boolean testGenerateCalendar() {
     String[][] test = CalendarPrinter.generateCalendar("Feb", "2020");
     //length

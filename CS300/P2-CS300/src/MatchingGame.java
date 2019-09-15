@@ -105,9 +105,6 @@ public class MatchingGame {
       cards[i] = new Card(images[i % 6], CARDS_COORDINATES[x][y], CARDS_COORDINATES[x][y + 1]);
       cards[i].setVisible(true);
       cards[i].draw();
-
-      System.out.println(i + " " + x);
-
     }
 
     /*

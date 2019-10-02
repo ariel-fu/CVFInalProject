@@ -73,7 +73,7 @@ public class BankAccount {
    * updates this bank account's balance.
    * 
    * @param depositAmount
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException - if the depositAmount is negative
    */
   public void deposit(int depositAmount) {
     if(depositAmount < 0) {
@@ -138,10 +138,12 @@ public class BankAccount {
    */
   public String[] getMostRecentTransactions() {
     String[] recentTransactions = new String[5];
-    
-    int max=transactions.size();
-    if (max>5) {max=5;}
-    
+
+    int max = transactions.size();
+    if(max > 5) {
+      max = 5;
+    }
+
     for(int i = 0; i < max; i++) {
 
       recentTransactions[i] = transactions.get(i);

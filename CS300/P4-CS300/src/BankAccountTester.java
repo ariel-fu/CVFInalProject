@@ -167,6 +167,68 @@ public class BankAccountTester {
   }
 
   /**
+   * Tests a valid constructor
+   * 
+   * @return true if all the values are initialized correctly
+   */
+  public static boolean testBankAccountConstructor() {
+    BankAccount test = new BankAccount("sdfewfds", 250);
+    if(test.getBalance() == 250) {
+      if(test.getTransactionsCount() == 1) {
+        if(test.getID().equals("sdfewfds")) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Tests depositing a valid amount
+   * 
+   * @return true if the total balance is equal to the initial balance + deposit
+   *         amount
+   */
+  public static boolean testBankAccountDeposit() {
+    BankAccount test = new BankAccount("sdewf542ds", 250);
+    try {
+      test.deposit(100);
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
+
+    if(test.getBalance() == 350) {
+      return true;
+    }
+    return false;
+
+  }
+
+  /**
+   * Tests a valid withdraw amount
+   * 
+   * @return true if the total balance after the withdraw is the initial balance -
+   *         withdraw amount
+   */
+  public static boolean testBankAccountWithdraw() {
+    BankAccount test = new BankAccount("sdewf542ds", 250);
+    try {
+      test.withdraw(100);
+    } catch (IllegalStateException e) {
+      return false;
+    } catch (DataFormatException e) {
+      return false;
+    }
+
+    if(test.getBalance() == 150) {
+      return true;
+    }
+    return false;
+
+  }
+
+  
+  /**
    * Calls the different test methods
    * 
    * @param args - input arguments
@@ -194,6 +256,15 @@ public class BankAccountTester {
     System.out.println(
             "-------------------------------------------------------------------------------");
     System.out.println("~Deposit negative amount: " + testBankAccountDepositNegativeAmount());
+    System.out.println(
+            "-------------------------------------------------------------------------------");
+    System.out.println("~Valid constructor: " + testBankAccountConstructor());
+    System.out.println(
+            "-------------------------------------------------------------------------------");
+    System.out.println("~Deposit valid amount: " + testBankAccountDeposit());
+    System.out.println(
+            "-------------------------------------------------------------------------------");
+    System.out.println("~Withdraw valid amount: " + testBankAccountWithdraw());
 
   }
 }

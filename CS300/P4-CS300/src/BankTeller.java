@@ -78,12 +78,10 @@ public class BankTeller {
       }
     }
     // if there are no errors, add the new account
-    accounts.add(newAccount);
+    accounts.add(0, newAccount);
 
   }
 
-  
-  //TODO - add doc for the exceptions
   /**
    * Adds a new transaction to the account's list of transactions. When added, a
    * withdrawal or deposit transaction should change the account's balance
@@ -94,12 +92,12 @@ public class BankTeller {
    *                                           is not correct: withdrawing,
    *                                           depositing, and if the transaction
    *                                           doesn't have a value or a correct
-   *                                           keyword
-   * @throws java.lang.NullPointerException    - if the account is null
+   *                                           keyword.
+   * @throws java.lang.NullPointerException    - if the account is null.
+   *
    * 
    */
-  public void addTransaction(String transaction, BankAccount account) throws 
-    DataFormatException, NullPointerException, IllegalStateException , IllegalArgumentException {
+  public void addTransaction(String transaction, BankAccount account) throws DataFormatException {
     // check if the account is null
     if(account == null) {
       throw new NullPointerException("Account cannot be null.");
@@ -122,22 +120,26 @@ public class BankTeller {
       transactionAmount = Integer.valueOf(splitString[1]);
     } catch (NumberFormatException e) {
       // if the transaction amount includes non-numeric keys
-      throw new DataFormatException("The transaction amount is incorrect/ invalid."); 
+      throw new DataFormatException("The transaction amount is incorrect/ invalid.");
     }
 
-    if(splitString[0].equals("0")) {
-      account.withdraw(transactionAmount); // withdraw the money
-    } 
-    else if(splitString[0].equals("1")) {
-      account.deposit(transactionAmount); // deposit the money
-    }
-    else {
-      // if the transaction key is neither 0 or 1
-      throw new DataFormatException("The transaction key must be either 0 or 1."); 
+    try {
+      if(splitString[0].equals("0")) {
+        account.withdraw(transactionAmount); // withdraw the money
+      } else if(splitString[0].equals("1")) {
+        account.deposit(transactionAmount); // deposit the money
+      } else {
+        // if the transaction key is neither 0 or 1
+        throw new DataFormatException("The transaction key must be either 0 or 1.");
+      }
+    } catch (IllegalArgumentException e) {
+      throw new DataFormatException(e.getMessage());
+    } catch (IllegalStateException e) {
+      throw new DataFormatException(e.getMessage());
     }
 
     // add account to the ArrayList of accounts.
-    accounts.add(account);
+    accounts.add(0, account);
 
   }
 
@@ -172,8 +174,7 @@ public class BankTeller {
     return accounts.size();
   }
 
-  
-  //TODO - comment out print e.getMessage
+  // TODO - comment out print e.getMessage
   /**
    * Loads a set of transactions from a provided file object. Each transaction is
    * in a separate line. Each transaction line should contain two items: the
@@ -194,7 +195,7 @@ public class BankTeller {
    * 
    */
   public void loadTransactions(File file, BankAccount account)
-          throws java.io.FileNotFoundException, NullPointerException {
+          throws java.io.FileNotFoundException {
 
     Scanner scnr = null;
     if(!file.exists()) {
@@ -229,18 +230,13 @@ public class BankTeller {
 
           System.out.println();
         } catch (IllegalArgumentException e) {
-          System.out.println(e.getMessage());
-          System.out.println();
+          // skip line
           continue;
         } catch (IllegalStateException e) {
-          System.out.println(e.getMessage());
-          System.out.println();
+          // skip line
           continue;
         } catch (DataFormatException e) {
-          // if the transaction is invalid, print out the error and continue to the next
-          // line
-          System.out.println(e.getMessage());
-          System.out.println();
+          // skip line
           continue;
 
         }

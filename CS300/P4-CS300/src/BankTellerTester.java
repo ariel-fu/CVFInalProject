@@ -5,7 +5,7 @@ import java.util.zip.DataFormatException;
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
-// Title:           BankTeller.java
+// Title:           BankTellerTester.java
 // Files:           BankAccount.java, BankAccountTester.java, BankTeller.java, BankTellerTester.java
 // Course:          (CS300, Fall, 2019)
 //
@@ -131,18 +131,18 @@ public class BankTellerTester {
     }
     return false;
   }
-  
+
   public static boolean testBankTellerLoadTransactions() {
     File file = new File("C:\\temp\\account.txt");
     BankTeller test = new BankTeller();
-    BankAccount account = new BankAccount("TEST",100);
-    
+    BankAccount account = new BankAccount("TEST", 100);
+
     try {
-    test.loadTransactions(file, account);
+      test.loadTransactions(file, account);
     } catch (Exception e) {
       return false;
     }
-    
+
     System.out.print(test.getAccountsCount());
     return true;
   }
@@ -234,11 +234,11 @@ public class BankTellerTester {
   public static boolean testBankTellerFindAccount() {
     BankTeller test = new BankTeller();
 
-    BankAccount newAccount = new BankAccount("ABC",100);
+    BankAccount newAccount = new BankAccount("ABC", 100);
     test.addBankAccount(newAccount);
     BankAccount account = test.findAccount("ABC");
-    
-    if (!newAccount.equals(account)) {
+
+    if(!newAccount.equals(account)) {
       System.out.print("Failed to find ABC");
       return false;
     }
@@ -250,7 +250,7 @@ public class BankTellerTester {
       return true;
     }
     return false;
-      
+
   }
 
   /**
@@ -310,8 +310,80 @@ public class BankTellerTester {
     }
     return false;
   }
-  
 
+  /**
+   * Tests if the accounts list will increase the more accounts you put in.
+   * 
+   * @return true if no exception is thrown and the accounts list is at a size of
+   *         2.
+   */
+  public static boolean testBankTellerAddAccount() {
+    BankTeller test = new BankTeller();
+    BankAccount account1 = new BankAccount("ew34", 250);
+    BankAccount account2 = new BankAccount("ew34ss", 256);
+    try {
+      test.addBankAccount(account1);
+      test.addBankAccount(account2);
+    } catch (IllegalStateException e) {
+      return false;
+    }
+
+    if(test.getAccountsCount() == 2) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Tests if a valid transaction will result in a change in the bank account
+   * balance
+   * 
+   * @return true if the balance is equal to the initial balance + deposit amount
+   *         and if the transactions list increased.
+   */
+  public static boolean testAddTransaction() {
+    BankTeller test = new BankTeller();
+    BankAccount account = new BankAccount("we", 250);
+    try {
+      test.addTransaction("1 50", account);
+    } catch (DataFormatException e) {
+      return false;
+    }
+
+    if(account.getBalance() == 300) {
+      if(account.getTransactionsCount() == 2) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Tests foundAccount to find an account that already exists
+   * 
+   * @return true if the account is found and throws no errors
+   */
+  public static boolean testFindAccoun() {
+    BankTeller test = new BankTeller();
+    BankAccount account1 = new BankAccount("wejkd", 250);
+    BankAccount account2 = new BankAccount("wejkd1", 250);
+    BankAccount account3 = new BankAccount("wejkwed", 250);
+    BankAccount account4 = new BankAccount("wesdjkd", 250);
+    try {
+      test.addBankAccount(account1);
+      test.addBankAccount(account2);
+      test.addBankAccount(account3);
+      test.addBankAccount(account4);
+      
+      test.findAccount("wejkd");
+    } catch(NoSuchElementException e) {
+      return false;
+    }
+    return true;
+  }
+  
+  
+  
   /**
    * Main is for testing and printing out results of the test methods
    * 
@@ -347,10 +419,13 @@ public class BankTellerTester {
             "~Test Non-numeric transaction amount: " + testBankTellerAddTransactionInvalidAmount());
     System.out.println("_----------------------------------------------------------------------");
     System.out.println("~Test Invalid Key: " + testBankTellerAddTransactionInvalidKey());
+    System.out.println("~Test Valid transaction: " + testAddTransaction());
     System.out.println(
             "_----------------------------End of AddTransaction------------------------------------------");
+
     System.out.println();
     System.out.println("~Test Account that does not exist: " + testBankTellerFindAccount());
+    System.out.println("~Test Account that does exist: " + testFindAccoun());
     System.out.println(
             "_----------------------------End of FindAccount-------------------------------------");
     System.out.println();
@@ -362,8 +437,10 @@ public class BankTellerTester {
     System.out.println(
             "~Test adding an account ID that exists already: " + testBankTellerAddAccountEqual());
 
+    System.out.println("~Test add 2 accounts: " + testBankTellerAddAccount());
+
     System.out.println(
-            "_----------------------------End of FindAccount-------------------------------------");
+            "_----------------------------End of AddAccount-------------------------------------");
   }
 
 }

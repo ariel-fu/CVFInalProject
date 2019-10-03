@@ -14,10 +14,6 @@ import java.util.zip.DataFormatException;
 // Lecturer's Name: (Mouna AYARI BEN HADJ KACEM)
 //
 //////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
-//
-// Partner Name:    (N/A)
-// Partner Email:   (N/A)
-// Partner Lecturer's Name: (N/A)
 // 
 // VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
 //   ___ Write-up states that pair programming is allowed for this assignment.
@@ -132,6 +128,13 @@ public class BankTellerTester {
     return false;
   }
 
+  
+  //End of required testing methods. 
+  /**
+   * Tests a valid file for loadTransactions
+   * 
+   * @return true if the file exists and no exceptions are thrown.
+   */
   public static boolean testBankTellerLoadTransactions() {
     File file = new File("C:\\temp\\account.txt");
     BankTeller test = new BankTeller();
@@ -374,16 +377,14 @@ public class BankTellerTester {
       test.addBankAccount(account2);
       test.addBankAccount(account3);
       test.addBankAccount(account4);
-      
+
       test.findAccount("wejkd");
-    } catch(NoSuchElementException e) {
+    } catch (NoSuchElementException e) {
       return false;
     }
     return true;
   }
-  
-  
-  
+
   /**
    * Main is for testing and printing out results of the test methods
    * 

@@ -11,9 +11,6 @@
 //
 //////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
 //
-// Partner Name:    (N/A)
-// Partner Email:   (N/A)
-// Partner Lecturer's Name: (N/A)
 // 
 // VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
 //   ___ Write-up states that pair programming is allowed for this assignment.
@@ -133,9 +130,12 @@ public class BankTeller {
         throw new DataFormatException("The transaction key must be either 0 or 1.");
       }
     } catch (IllegalArgumentException e) {
+      System.out.println(e.getMessage());
       throw new DataFormatException(e.getMessage());
     } catch (IllegalStateException e) {
+      System.out.println(e.getMessage());
       throw new DataFormatException(e.getMessage());
+
     }
 
     // add account to the ArrayList of accounts.
@@ -174,7 +174,6 @@ public class BankTeller {
     return accounts.size();
   }
 
-  // TODO - comment out print e.getMessage
   /**
    * Loads a set of transactions from a provided file object. Each transaction is
    * in a separate line. Each transaction line should contain two items: the
@@ -207,49 +206,23 @@ public class BankTeller {
 
     try {
       scnr = new Scanner(file);
-
-      System.out.println("Account initial balance: " + account.getBalance());
-      System.out.println();
-
-      while (scnr.hasNextLine()) {
-
-        String nextLine = scnr.nextLine().trim();
-        // use try and catch for addTransaction in case of invalid transactions
-        try {
-          addTransaction(nextLine, account);
-          // if the transaction was good, print out withdraw or deposit and the account
-          // balance
-          String[] splitString = nextLine.split("\\s+");
-          if(splitString[0].equals("0")) {
-            System.out.println("Withdraw of " + splitString[1] + " --> account balance: "
-                    + account.getBalance());
-          } else if(splitString[0].equals("1")) {
-            System.out.println("Deposit of " + splitString[1] + " --> account balance: "
-                    + account.getBalance());
-          }
-
-          System.out.println();
-        } catch (IllegalArgumentException e) {
-          // skip line
-          continue;
-        } catch (IllegalStateException e) {
-          // skip line
-          continue;
-        } catch (DataFormatException e) {
-          // skip line
-          continue;
-
-        }
-
-      }
     } catch (FileNotFoundException e) {
-      System.out.println(e.getMessage());
-      System.out.println();
-    } finally {
+      throw new FileNotFoundException("File does not exist within the file system.");
+    }
 
-      if(scnr != null) {
-        scnr.close();
+    while (scnr.hasNextLine()) {
+
+      String nextLine = scnr.nextLine().trim();
+      // use try and catch for addTransaction in case of invalid transactions
+      try {
+        // add the transaction to the list of transactions and continue
+        addTransaction(nextLine, account);
+      } catch (DataFormatException e) {
       }
+    }
+
+    if(scnr != null) {
+      scnr.close();
     }
   }
 

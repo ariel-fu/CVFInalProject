@@ -10,10 +10,7 @@
 // Lecturer's Name: (Mouna AYARI BEN HADJ KACEM)
 //
 //////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
-//
-// Partner Name:    (N/A)
-// Partner Email:   (N/A)
-// Partner Lecturer's Name: (N/A)
+
 // 
 // VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
 //   ___ Write-up states that pair programming is allowed for this assignment.
@@ -73,11 +70,11 @@ public class BankAccount {
    * updates this bank account's balance.
    * 
    * @param depositAmount
-   * @throws IllegalArgumentException - if the depositAmount is negative
+   * @throws IllegalArgumentException - if the depositAmount is negative or 0
    */
   public void deposit(int depositAmount) {
-    if(depositAmount < 0) {
-      throw new IllegalArgumentException("Deposit amount can't be negative.");
+    if(depositAmount <= 0) {
+      throw new IllegalArgumentException("Deposit amount must be greater than 0.");
     }
     // add the transaction to the ArrayList of transactions and add the amount to
     // the total balance
@@ -172,8 +169,8 @@ public class BankAccount {
    */
   public void withdraw(int withdrawAmount) throws DataFormatException {
 
-    if(withdrawAmount < 0) {
-      throw new java.util.zip.DataFormatException("Error: withdrawalAmount cannot be negative.");
+    if(withdrawAmount <= 0) {
+      throw new java.util.zip.DataFormatException("Error: withdrawalAmount must be greater than 0.");
     }
 
     if(withdrawAmount > balance) {

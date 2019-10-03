@@ -10,11 +10,7 @@
 // Lecturer's Name: (Mouna AYARI BEN HADJ KACEM)
 //
 //////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
-//
-// Partner Name:    (N/A)
-// Partner Email:   (N/A)
-// Partner Lecturer's Name: (N/A)
-// 
+
 // VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
 //   ___ Write-up states that pair programming is allowed for this assignment.
 //   ___ We have both read and understand the course Pair Programming Policy.

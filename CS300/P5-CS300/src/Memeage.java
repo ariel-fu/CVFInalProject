@@ -122,6 +122,7 @@ public class Memeage extends Image {
     Color currentPixelInPicture;
     ColorPlusChar currCharInMessage;
     boolean imdone = false;
+    boolean hasNullChar = false;
     for(int y = 0; y < super.getHeight(); y++) {
       for(int x = 0; x < super.getWidth(); x++) {
 
@@ -133,11 +134,13 @@ public class Memeage extends Image {
           throw new IllegalStateException("Not an ACSII Character.");
         }
 
-        hiddenMessage += revealedChar;
         if(revealedChar == '\0') {
           imdone = true;
+          hasNullChar = true;
           break;
         }
+
+        hiddenMessage += revealedChar;
       }
       if(imdone) {
         break;
@@ -145,7 +148,7 @@ public class Memeage extends Image {
     }
 
     // If the last char isn't the null character, throw an IllegalStateException
-    if(hiddenMessage.charAt(hiddenMessage.length() - 1) != '\0') {
+    if(!hasNullChar) {
       throw new IllegalStateException("The last character must be '\0' ");
     }
 
@@ -153,7 +156,7 @@ public class Memeage extends Image {
   }
 
   public static void main(String[] args) {
-    File file = new File("image03.png");
+    File file = new File("image01.png");
     try {
       Memeage test = new Memeage(file);
       System.out.println(test.getMeme());

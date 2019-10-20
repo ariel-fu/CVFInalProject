@@ -109,13 +109,12 @@ public class LinkedListMegaBlock {
     }
 
     LinkedMegaBlock linkedBlueBlock = new LinkedMegaBlock(blueBlock);
-    if(head == null) {
+    if(head == null || tail == null) {
       head = linkedBlueBlock;
-      tail = linkedBlueBlock;
     } else {
       tail.setNext(linkedBlueBlock);
-      tail = linkedBlueBlock;
     }
+    tail = linkedBlueBlock;
     // increment size of the list and the number of blue blocks
     blueCount++;
     size++;
@@ -145,13 +144,9 @@ public class LinkedListMegaBlock {
     } else {
 
       newNode.setNext(head);
-      head = newNode;
-      if(tail == null) {
-        tail = newNode;
-      }
-      
+      head = newNode;      
     }
-    System.out.println(tail.toString()); // DEBUG
+    
     // increment the size of the list and the number of red blocks
     redCount++;
     size++;
@@ -188,10 +183,6 @@ public class LinkedListMegaBlock {
       yellowLnkBlk.setNext(head);
       head = yellowLnkBlk;
 
-      // nothing in the list
-      if(tail == null) {
-        tail = yellowLnkBlk;
-      }
     } else {
 
       // get the LinkedMegaBlock before the index
@@ -199,11 +190,13 @@ public class LinkedListMegaBlock {
       // append yellow block after runner
       yellowLnkBlk.setNext(runner.getNext());
       runner.setNext(yellowLnkBlk);
-      // set the current yellow block to the tail only if it is at the end of the
-      // list.
-      if(yellowLnkBlk.getNext() == null) {
-        tail = yellowLnkBlk;
-      }
+      
+    }
+
+    // set the current yellow block to the tail only if it is at the end of the
+    // list.
+    if(yellowLnkBlk.getNext() == null) {
+      tail = yellowLnkBlk;
     }
     // increment the size of the list and the number of yellow blocks.
     yellowCount++;
@@ -284,6 +277,9 @@ public class LinkedListMegaBlock {
    */
   public MegaBlock removeRed() {
 
+    if(head == null) {
+      throw new NoSuchElementException("This list does not contain a red block.");
+    }
     if(head.getBlock() == null) {
       throw new NoSuchElementException("This list does not contain a red block.");
     }
@@ -306,7 +302,7 @@ public class LinkedListMegaBlock {
    * @throws NoSuchElementException - if this list does not contain any blue block
    */
   public MegaBlock removeBlue() {
-
+    
     if(tail.getBlock() == null) {
       throw new NoSuchElementException("This list does not contain any blue blocks.");
     }
@@ -326,7 +322,7 @@ public class LinkedListMegaBlock {
    * @param index - index of block to be removed
    * @return block that was removed
    */
-  protected LinkedMegaBlock removeAt(int index) {
+  private LinkedMegaBlock removeAt(int index) {
     LinkedMegaBlock removedLMB;
     LinkedMegaBlock runner = getLinkedMegaBlock(index);
 

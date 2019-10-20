@@ -66,7 +66,14 @@ public class MegaBlockBuilderTester {
       return false;
     }
 
-    // TODO: test non-megablock
+    if(testBlock.equals("we")) {
+      return false;
+    }
+    // if the testBlock is equal to an instance of a color, return false. Should
+    // only compare MegaBlock objects.
+    if(testBlock.equals(Color.RED)) {
+      return false;
+    }
 
     // if the testBlock is equal to null, return false
     if(testBlock.equals(null)) {
@@ -154,11 +161,6 @@ public class MegaBlockBuilderTester {
       return false;
     }
 
-    // TODO: test set next to a different block when next points to a block
-    // TODO: test set next to null when next points to a block
-    // TODO: test set block to null
-    // TODO: test different constructor
-
     // otherwise return true
     return true;
 
@@ -234,12 +236,16 @@ public class MegaBlockBuilderTester {
    */
   public static boolean testLinkedListMegaBlockAddRemoveYellow() {
 
-    MegaBlock block1 = new MegaBlock(Color.YELLOW, 'e');
-    MegaBlock block2 = new MegaBlock(Color.YELLOW, 'e');
-    MegaBlock block3 = new MegaBlock(Color.YELLOW, 'e');
+    MegaBlock yellow1 = new MegaBlock(Color.YELLOW, '1');
+    MegaBlock yellow2 = new MegaBlock(Color.YELLOW, '2');
+    MegaBlock yellow3 = new MegaBlock(Color.YELLOW, '3');
+    MegaBlock redBlock = new MegaBlock(Color.RED, 'r');
+    MegaBlock redBlock2 = new MegaBlock(Color.RED, 'R');
+    MegaBlock blueBlock = new MegaBlock(Color.BLUE, 'b');
+    MegaBlock blueBlock2 = new MegaBlock(Color.BLUE, 'B');
     LinkedListMegaBlock test = new LinkedListMegaBlock();
-    test.addYellow(0, block1);
-    test.addYellow(1, block2); // expect an IndexOutOfBounds
+    test.addYellow(0, yellow1);
+    test.addYellow(1, yellow2);
 
     if(test.size() != 2) {
       return false;
@@ -282,13 +288,144 @@ public class MegaBlockBuilderTester {
       return false;
     }
 
+    test = new LinkedListMegaBlock();
     try {
-      test.removeYellow(1);
+
+      test.addYellow(0, yellow1);
     } catch (IndexOutOfBoundsException e) {
-      return true;
+      return false;
     }
 
-    return false;
+    test = new LinkedListMegaBlock();
+    try {
+      test.addYellow(test.size(), yellow2);
+    } catch (IndexOutOfBoundsException e) {
+      return false;
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+
+      test.addYellow(test.size() + 1, yellow2);
+      return false;
+    } catch (IndexOutOfBoundsException e) {
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addYellow(-1, yellow2);
+      return false;
+    } catch (IndexOutOfBoundsException e) {
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addYellow(test.size(), yellow2);
+      return false;
+    } catch (IndexOutOfBoundsException e) {
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addBlue(blueBlock2);
+      test.addRed(redBlock2);
+      test.addRed(redBlock);
+      test.addYellow(2, yellow1);
+      test.addYellow(3, yellow2);
+      test.addYellow(0, yellow3);
+      System.out.println("add inside red 1");
+      return false;
+    } catch (IndexOutOfBoundsException e) {
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addBlue(blueBlock2);
+      test.addRed(redBlock2);
+      test.addRed(redBlock);
+      test.addYellow(2, yellow1);
+      test.addYellow(3, yellow2);
+      test.addYellow(1, yellow3);
+      System.out.println("add inside red 2");
+      return false;
+    } catch (IndexOutOfBoundsException e) {
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addBlue(blueBlock2);
+      test.addRed(redBlock2);
+      test.addRed(redBlock);
+      test.addYellow(2, yellow1);
+      test.addYellow(3, yellow2);
+      test.addYellow(2, yellow3);
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("add yellow inbounds");
+      return false;
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addBlue(blueBlock2);
+      test.addRed(redBlock2);
+      test.addRed(redBlock);
+      test.addYellow(2, yellow1);
+      test.addYellow(3, yellow2);
+      test.addYellow(3, yellow3);
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("add yellow inbounds");
+      return false;
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addBlue(blueBlock2);
+      test.addRed(redBlock2);
+      test.addRed(redBlock);
+      test.addYellow(2, yellow1);
+      test.addYellow(3, yellow2);
+      test.addYellow(4, yellow3);
+
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("add inside blue 1");
+      return false;
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addBlue(blueBlock2);
+      test.addRed(redBlock2);
+      test.addRed(redBlock);
+      test.addYellow(2, yellow1);
+      test.addYellow(3, yellow2);
+      test.addYellow(5, yellow3);
+      System.out.println("add inside blue 2");
+      return false;
+    } catch (IndexOutOfBoundsException e) {
+    }
+
+    test = new LinkedListMegaBlock();
+    try {
+      test.addBlue(blueBlock);
+      test.addBlue(blueBlock2);
+      test.addRed(redBlock2);
+      test.addRed(redBlock);
+      test.addYellow(2, yellow1);
+      test.addYellow(3, yellow2);
+      test.addYellow(test.size(), yellow3);
+      System.out.println("add at size");
+      return false;
+    } catch (IndexOutOfBoundsException e) {
+    }
+
+    return true;
   }
 
   /**
@@ -612,88 +749,88 @@ public class MegaBlockBuilderTester {
     return true;
   }
 
-  /**
-   * Tests removeAt method that is now private. SO remove this tester?
-   * 
-   * @return true if removeAt removes the block at the correct index.
-   */
-  public static boolean testRemoveAt() {
-    LinkedListMegaBlock test;
-    MegaBlock blue0 = new MegaBlock(Color.BLUE, '0');
-    MegaBlock blue1 = new MegaBlock(Color.BLUE, '1');
-    MegaBlock blue2 = new MegaBlock(Color.BLUE, '2');
-    LinkedMegaBlock removed;
-    test = new LinkedListMegaBlock();
-    test.addBlue(blue0);
-    removed = test.removeAt(0);
-    if(removed.getBlock().getLabel() != blue0.getLabel()) {
-      System.out.println("Failed 0,0");
-      return false;
-    }
-    if(!test.toString().equals("")) {
-      System.out.println("Failed 0,0");
-      return false;
-    }
-    System.out.println(test.toString());
-
-    test = new LinkedListMegaBlock();
-    test.addBlue(blue0);
-    test.addBlue(blue1);
-    removed = test.removeAt(0);
-    if(removed.getBlock().getLabel() != blue0.getLabel()) {
-      System.out.println("Failed 1,0");
-      return false;
-    }
-    System.out.println(test.toString());
-
-    test = new LinkedListMegaBlock();
-    test.addBlue(blue0);
-    test.addBlue(blue1);
-    removed = test.removeAt(1);
-    if(removed.getBlock().getLabel() != blue1.getLabel()) {
-      System.out.println("Failed 1,1");
-      return false;
-    }
-    System.out.println(test.toString());
-
-    test = new LinkedListMegaBlock();
-    test.addBlue(blue0);
-    test.addBlue(blue1);
-    test.addBlue(blue2);
-
-    removed = test.removeAt(0);
-    if(removed.getBlock().getLabel() != blue0.getLabel()) {
-      System.out.println("Failed 3,0");
-      return false;
-    }
-
-    System.out.println(test.toString());
-    test = new LinkedListMegaBlock();
-    test.addBlue(blue0);
-    test.addBlue(blue1);
-    test.addBlue(blue2);
-    removed = test.removeAt(1);
-    if(removed.getBlock().getLabel() != blue1.getLabel()) {
-      System.out.println("Failed 3,1");
-      return false;
-    }
-    System.out.println(test.toString());
-
-    test = new LinkedListMegaBlock();
-    test.addBlue(blue0);
-    test.addBlue(blue1);
-    test.addBlue(blue2);
-    removed = test.removeAt(2);
-    if(removed.getBlock().getLabel() != blue2.getLabel()) {
-      System.out.println("Failed 3,2");
-      return false;
-    }
-    System.out.println(test.toString());
-
-    // TODO - test 0,1,2
-
-    return true;
-  }
+//  /**
+//   * Tests removeAt method that is now private. SO remove this tester?
+//   * 
+//   * @return true if removeAt removes the block at the correct index.
+//   */
+//  public static boolean testRemoveAt() {
+//    LinkedListMegaBlock test;
+//    MegaBlock blue0 = new MegaBlock(Color.BLUE, '0');
+//    MegaBlock blue1 = new MegaBlock(Color.BLUE, '1');
+//    MegaBlock blue2 = new MegaBlock(Color.BLUE, '2');
+//    LinkedMegaBlock removed;
+//    test = new LinkedListMegaBlock();
+//    test.addBlue(blue0);
+//    removed = test.removeAt(0);
+//    if(removed.getBlock().getLabel() != blue0.getLabel()) {
+//      System.out.println("Failed 0,0");
+//      return false;
+//    }
+//    if(!test.toString().equals("")) {
+//      System.out.println("Failed 0,0");
+//      return false;
+//    }
+//    System.out.println(test.toString());
+//
+//    test = new LinkedListMegaBlock();
+//    test.addBlue(blue0);
+//    test.addBlue(blue1);
+//    removed = test.removeAt(0);
+//    if(removed.getBlock().getLabel() != blue0.getLabel()) {
+//      System.out.println("Failed 1,0");
+//      return false;
+//    }
+//    System.out.println(test.toString());
+//
+//    test = new LinkedListMegaBlock();
+//    test.addBlue(blue0);
+//    test.addBlue(blue1);
+//    removed = test.removeAt(1);
+//    if(removed.getBlock().getLabel() != blue1.getLabel()) {
+//      System.out.println("Failed 1,1");
+//      return false;
+//    }
+//    System.out.println(test.toString());
+//
+//    test = new LinkedListMegaBlock();
+//    test.addBlue(blue0);
+//    test.addBlue(blue1);
+//    test.addBlue(blue2);
+//
+//    removed = test.removeAt(0);
+//    if(removed.getBlock().getLabel() != blue0.getLabel()) {
+//      System.out.println("Failed 3,0");
+//      return false;
+//    }
+//
+//    System.out.println(test.toString());
+//    test = new LinkedListMegaBlock();
+//    test.addBlue(blue0);
+//    test.addBlue(blue1);
+//    test.addBlue(blue2);
+//    removed = test.removeAt(1);
+//    if(removed.getBlock().getLabel() != blue1.getLabel()) {
+//      System.out.println("Failed 3,1");
+//      return false;
+//    }
+//    System.out.println(test.toString());
+//
+//    test = new LinkedListMegaBlock();
+//    test.addBlue(blue0);
+//    test.addBlue(blue1);
+//    test.addBlue(blue2);
+//    removed = test.removeAt(2);
+//    if(removed.getBlock().getLabel() != blue2.getLabel()) {
+//      System.out.println("Failed 3,2");
+//      return false;
+//    }
+//    System.out.println(test.toString());
+//
+//    
+//
+//    return true;
+//  }
 
   /**
    * Prints out all the results from the test methods.
@@ -701,7 +838,7 @@ public class MegaBlockBuilderTester {
    * @param args - ?
    */
   public static void main(String[] args) {
-    testRemoveAt();
+    // testRemoveAt();
 
     System.out.println("testMegaBlockEquals: " + testMegaBlockEquals());
     System.out.println("testMegaBlockToString: " + testMegaBlockToString());
@@ -717,7 +854,7 @@ public class MegaBlockBuilderTester {
     System.out.println("testGetBlock " + testGetBlock());
     System.out.println("testSetBlock: " + testSetBlock());
     System.out.println("testConstructorLinkedList: " + testConstructorLinkedList());
-    System.out.println("testGetRed: " + testAddRed() );
+    System.out.println("testGetRed: " + testAddRed());
 
   }
 }

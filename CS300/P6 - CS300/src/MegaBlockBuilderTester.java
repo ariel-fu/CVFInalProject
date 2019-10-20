@@ -368,6 +368,19 @@ public class MegaBlockBuilderTester {
 
   }
 
+  public static boolean testAddRed() {
+    MegaBlock redBlock = new MegaBlock(Color.RED, 't');
+    LinkedListMegaBlock test = new LinkedListMegaBlock();
+    test.addRed(redBlock);
+    if(test.size() != 1) {
+      return false;
+    }
+    if(test.getRedCount() != 1) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Tests Gradescope's .addXXX() methods
    * 
@@ -601,6 +614,7 @@ public class MegaBlockBuilderTester {
 
   /**
    * Tests removeAt method that is now private. SO remove this tester?
+   * 
    * @return true if removeAt removes the block at the correct index.
    */
   public static boolean testRemoveAt() {
@@ -609,7 +623,7 @@ public class MegaBlockBuilderTester {
     MegaBlock blue1 = new MegaBlock(Color.BLUE, '1');
     MegaBlock blue2 = new MegaBlock(Color.BLUE, '2');
     LinkedMegaBlock removed;
-    test=new LinkedListMegaBlock();
+    test = new LinkedListMegaBlock();
     test.addBlue(blue0);
     removed = test.removeAt(0);
     if(removed.getBlock().getLabel() != blue0.getLabel()) {
@@ -622,8 +636,7 @@ public class MegaBlockBuilderTester {
     }
     System.out.println(test.toString());
 
-    
-    test=new LinkedListMegaBlock();
+    test = new LinkedListMegaBlock();
     test.addBlue(blue0);
     test.addBlue(blue1);
     removed = test.removeAt(0);
@@ -632,9 +645,8 @@ public class MegaBlockBuilderTester {
       return false;
     }
     System.out.println(test.toString());
-    
-    
-    test=new LinkedListMegaBlock();
+
+    test = new LinkedListMegaBlock();
     test.addBlue(blue0);
     test.addBlue(blue1);
     removed = test.removeAt(1);
@@ -643,19 +655,18 @@ public class MegaBlockBuilderTester {
       return false;
     }
     System.out.println(test.toString());
-    
-    
+
     test = new LinkedListMegaBlock();
     test.addBlue(blue0);
     test.addBlue(blue1);
     test.addBlue(blue2);
-    
+
     removed = test.removeAt(0);
     if(removed.getBlock().getLabel() != blue0.getLabel()) {
       System.out.println("Failed 3,0");
       return false;
     }
-    
+
     System.out.println(test.toString());
     test = new LinkedListMegaBlock();
     test.addBlue(blue0);
@@ -667,7 +678,7 @@ public class MegaBlockBuilderTester {
       return false;
     }
     System.out.println(test.toString());
-    
+
     test = new LinkedListMegaBlock();
     test.addBlue(blue0);
     test.addBlue(blue1);
@@ -678,8 +689,8 @@ public class MegaBlockBuilderTester {
       return false;
     }
     System.out.println(test.toString());
-    
-    //TODO - test 0,1,2
+
+    // TODO - test 0,1,2
 
     return true;
   }
@@ -691,7 +702,7 @@ public class MegaBlockBuilderTester {
    */
   public static void main(String[] args) {
     testRemoveAt();
-    
+
     System.out.println("testMegaBlockEquals: " + testMegaBlockEquals());
     System.out.println("testMegaBlockToString: " + testMegaBlockToString());
     System.out.println("testLinkedMegaBlock: " + testLinkedMegaBlock());
@@ -706,6 +717,7 @@ public class MegaBlockBuilderTester {
     System.out.println("testGetBlock " + testGetBlock());
     System.out.println("testSetBlock: " + testSetBlock());
     System.out.println("testConstructorLinkedList: " + testConstructorLinkedList());
+    System.out.println("testGetRed: " + testAddRed() );
 
   }
 }

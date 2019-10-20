@@ -141,7 +141,7 @@ public class LinkedListMegaBlock {
     LinkedMegaBlock newNode = new LinkedMegaBlock(redBlock);
     if(head == null) {
       head = newNode;
-
+      tail = newNode;
     } else {
 
       newNode.setNext(head);
@@ -149,6 +149,7 @@ public class LinkedListMegaBlock {
       if(tail == null) {
         tail = newNode;
       }
+      System.out.println(tail.toString()); // DEBUG
     }
     // increment the size of the list and the number of red blocks
     redCount++;

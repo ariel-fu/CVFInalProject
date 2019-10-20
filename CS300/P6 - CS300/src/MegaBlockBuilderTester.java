@@ -65,6 +65,8 @@ public class MegaBlockBuilderTester {
     if(testBlock.equals(falseBlock)) {
       return false;
     }
+    
+    //TODO: test non-megablock
 
     // if the testBlock is equal to null, return false
     if(testBlock.equals(null)) {
@@ -151,6 +153,12 @@ public class MegaBlockBuilderTester {
       System.out.println(test.toString());
       return false;
     }
+    
+    //TODO: test set next to a different block when next points to a block
+    //TODO: test set next to null when next points to a block
+    //TODO: test set block to null
+    //TODO: test different constructor
+    
 
     // otherwise return true
     return true;

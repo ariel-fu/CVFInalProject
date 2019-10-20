@@ -115,9 +115,9 @@ public class LinkedMegaBlock {
   public String toString() {
     String result = "";
     if(next != null) {
-      result += block.toString() + "->"; // if next field is not null
+      result += block.toString() + " -> "; // if next field is not null
     } else if(next == null) {
-      result += block.toString() + "->END"; // if next field is null
+      result += block.toString() + " -> END"; // if next field is null
     }
 
     return result;

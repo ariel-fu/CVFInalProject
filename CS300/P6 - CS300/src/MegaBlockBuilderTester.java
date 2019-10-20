@@ -574,6 +574,11 @@ public class MegaBlockBuilderTester {
     return true;
   }
   
+  /**
+   * Tests the constructor of LinkedListMegaBlock
+   * 
+   * @return true if all values are set to 0 and the list is empty (size = 0)
+   */
   public static boolean testConstructorLinkedList() {
     LinkedListMegaBlock test = new LinkedListMegaBlock();
     if(test.getBlueCount() != 0) {
@@ -596,6 +601,7 @@ public class MegaBlockBuilderTester {
 
   /**
    * Prints out all the results from the test methods.
+   * 
    * @param args - ?
    */
   public static void main(String[] args) {

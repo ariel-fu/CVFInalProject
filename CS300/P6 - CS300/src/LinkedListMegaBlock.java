@@ -79,6 +79,9 @@ public class LinkedListMegaBlock {
     return size;
   }
 
+  /**
+   * Removes all of the elements from this list.
+   */
   public void clear() {
     head = null;
     tail = null;

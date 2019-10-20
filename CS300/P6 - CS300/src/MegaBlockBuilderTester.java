@@ -65,8 +65,8 @@ public class MegaBlockBuilderTester {
     if(testBlock.equals(falseBlock)) {
       return false;
     }
-    
-    //TODO: test non-megablock
+
+    // TODO: test non-megablock
 
     // if the testBlock is equal to null, return false
     if(testBlock.equals(null)) {
@@ -153,12 +153,11 @@ public class MegaBlockBuilderTester {
       System.out.println(test.toString());
       return false;
     }
-    
-    //TODO: test set next to a different block when next points to a block
-    //TODO: test set next to null when next points to a block
-    //TODO: test set block to null
-    //TODO: test different constructor
-    
+
+    // TODO: test set next to a different block when next points to a block
+    // TODO: test set next to null when next points to a block
+    // TODO: test set block to null
+    // TODO: test different constructor
 
     // otherwise return true
     return true;
@@ -312,9 +311,10 @@ public class MegaBlockBuilderTester {
     list.clear();
     return list.isEmpty();
   }
-  
+
   /**
    * Tests add and remove red blocks
+   * 
    * @return true if the size, color, and color counts match up
    */
   public static boolean testAddAndRemoveRed() {
@@ -573,7 +573,7 @@ public class MegaBlockBuilderTester {
 
     return true;
   }
-  
+
   /**
    * Tests the constructor of LinkedListMegaBlock
    * 
@@ -600,11 +600,98 @@ public class MegaBlockBuilderTester {
   }
 
   /**
+   * Tests removeAt method that is now private. SO remove this tester?
+   * @return true if removeAt removes the block at the correct index.
+   */
+  public static boolean testRemoveAt() {
+    LinkedListMegaBlock test;
+    MegaBlock blue0 = new MegaBlock(Color.BLUE, '0');
+    MegaBlock blue1 = new MegaBlock(Color.BLUE, '1');
+    MegaBlock blue2 = new MegaBlock(Color.BLUE, '2');
+    LinkedMegaBlock removed;
+    test=new LinkedListMegaBlock();
+    test.addBlue(blue0);
+    removed = test.removeAt(0);
+    if(removed.getBlock().getLabel() != blue0.getLabel()) {
+      System.out.println("Failed 0,0");
+      return false;
+    }
+    if(!test.toString().equals("")) {
+      System.out.println("Failed 0,0");
+      return false;
+    }
+    System.out.println(test.toString());
+
+    
+    test=new LinkedListMegaBlock();
+    test.addBlue(blue0);
+    test.addBlue(blue1);
+    removed = test.removeAt(0);
+    if(removed.getBlock().getLabel() != blue0.getLabel()) {
+      System.out.println("Failed 1,0");
+      return false;
+    }
+    System.out.println(test.toString());
+    
+    
+    test=new LinkedListMegaBlock();
+    test.addBlue(blue0);
+    test.addBlue(blue1);
+    removed = test.removeAt(1);
+    if(removed.getBlock().getLabel() != blue1.getLabel()) {
+      System.out.println("Failed 1,1");
+      return false;
+    }
+    System.out.println(test.toString());
+    
+    
+    test = new LinkedListMegaBlock();
+    test.addBlue(blue0);
+    test.addBlue(blue1);
+    test.addBlue(blue2);
+    
+    removed = test.removeAt(0);
+    if(removed.getBlock().getLabel() != blue0.getLabel()) {
+      System.out.println("Failed 3,0");
+      return false;
+    }
+    
+    System.out.println(test.toString());
+    test = new LinkedListMegaBlock();
+    test.addBlue(blue0);
+    test.addBlue(blue1);
+    test.addBlue(blue2);
+    removed = test.removeAt(1);
+    if(removed.getBlock().getLabel() != blue1.getLabel()) {
+      System.out.println("Failed 3,1");
+      return false;
+    }
+    System.out.println(test.toString());
+    
+    test = new LinkedListMegaBlock();
+    test.addBlue(blue0);
+    test.addBlue(blue1);
+    test.addBlue(blue2);
+    removed = test.removeAt(2);
+    if(removed.getBlock().getLabel() != blue2.getLabel()) {
+      System.out.println("Failed 3,2");
+      return false;
+    }
+    System.out.println(test.toString());
+    
+    //TODO - test 0,1,2
+
+    return true;
+  }
+
+  /**
    * Prints out all the results from the test methods.
    * 
    * @param args - ?
    */
   public static void main(String[] args) {
+    testRemoveAt();
+    
     System.out.println("testMegaBlockEquals: " + testMegaBlockEquals());
     System.out.println("testMegaBlockToString: " + testMegaBlockToString());
     System.out.println("testLinkedMegaBlock: " + testLinkedMegaBlock());

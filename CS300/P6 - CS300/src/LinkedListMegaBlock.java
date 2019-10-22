@@ -40,6 +40,7 @@ import java.util.NoSuchElementException;
  *
  */
 public class LinkedListMegaBlock {
+  //
   private LinkedMegaBlock head; // head of this list
   private LinkedMegaBlock tail; // tail of this list
   private int size; // size of this list (total number of megablocks stored in this list)
@@ -92,7 +93,9 @@ public class LinkedListMegaBlock {
   }
 
   /**
-   * Adds a new blueBlock at the end of this list.
+   * Adds a new blueBlock at the end of this list. If the list is empty, insert
+   * the blueBlock at the head of the list. Otherwise, insert the newNode at the
+   * end of the list
    * 
    * @param blueBlock - new element to be added to this list.
    * @throws IllegalArgumentException - if the blueBlock is null or if the color
@@ -121,7 +124,8 @@ public class LinkedListMegaBlock {
   }
 
   /**
-   * Adds a new object at the head of this list
+   * Adds a new object at the head of this list. If the list is empty, insert the
+   * redBlock at the head of the list.
    * 
    * @param redBlock - new element to be added to this list.
    * @throws IllegalArgumentException - if the redBlock is null or if its color
@@ -136,7 +140,7 @@ public class LinkedListMegaBlock {
     if(!redBlock.getColor().equals(Color.RED)) {
       throw new IllegalArgumentException("This block must be a red block.");
     }
-    
+
     LinkedMegaBlock newNode = new LinkedMegaBlock(redBlock);
     if(head == null) {
       head = newNode;
@@ -144,16 +148,17 @@ public class LinkedListMegaBlock {
     } else {
 
       newNode.setNext(head);
-      head = newNode;      
+      head = newNode;
     }
-    
+
     // increment the size of the list and the number of red blocks
     redCount++;
     size++;
   }
 
   /**
-   * Adds the provided yellowBLock at the position index in this list.
+   * Adds the provided yellowBLock at the position index in this list. Traverse
+   * the list until the currIndex = index-1.
    * 
    * @param index       - index at which the specified yellow block is to be
    *                    inserted
@@ -176,7 +181,7 @@ public class LinkedListMegaBlock {
     if((index < redCount || index > size - blueCount)) {
       throw new IndexOutOfBoundsException("Index is out of bounds!");
     }
-    
+
     LinkedMegaBlock runner = head;
     LinkedMegaBlock yellowLnkBlk = new LinkedMegaBlock(yellowBlock);
     if(index == 0) {
@@ -190,7 +195,7 @@ public class LinkedListMegaBlock {
       // append yellow block after runner
       yellowLnkBlk.setNext(runner.getNext());
       runner.setNext(yellowLnkBlk);
-      
+
     }
 
     // set the current yellow block to the tail only if it is at the end of the
@@ -212,7 +217,9 @@ public class LinkedListMegaBlock {
    *                                             (index < 0 || index >= size())
    */
   public MegaBlock get(int index) {
-    
+    if(index < 0 || index > size) {
+      throw new IndexOutOfBoundsException("Index is out of bounds!");
+    }
     LinkedMegaBlock runner = this.getLinkedMegaBlock(index);
     return runner.getBlock();
   }
@@ -302,7 +309,9 @@ public class LinkedListMegaBlock {
    * @throws NoSuchElementException - if this list does not contain any blue block
    */
   public MegaBlock removeBlue() {
-    
+    if(tail == null) {
+      throw new NoSuchElementException("This list doesn't contain any blocks");
+    }
     if(tail.getBlock() == null) {
       throw new NoSuchElementException("This list does not contain any blue blocks.");
     }
@@ -311,6 +320,7 @@ public class LinkedListMegaBlock {
     }
 
     LinkedMegaBlock previousTail = removeAt(size - 1);
+    // decrement blueCount and size
     blueCount--;
     size--;
     return previousTail.getBlock();
@@ -409,4 +419,174 @@ public class LinkedListMegaBlock {
     value += tail.toString();
     return value;
   }
+
+//  public static void main(String[] args) {
+//    MegaBlock blueBlock1 = new MegaBlock(Color.BLUE, '1');
+//    MegaBlock blueBlock2 = new MegaBlock(Color.BLUE, '2');
+//    LinkedListMegaBlock test = new LinkedListMegaBlock();
+//
+//    test.addBlue(blueBlock1);
+//    if(tail.getBlock().equals(blueBlock1)) {
+//      System.out.println("tail is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY.");
+//    }
+//
+//    if(head.getBlock().equals(blueBlock1)) {
+//      System.out.println("head is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY");
+//    }
+//
+//    test.removeBlue();
+//    if(tail == null) {
+//      System.out.println("Remove is working correctly.");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    if(head == null) {
+//      System.out.println("head is also null");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    
+//    System.out.println("add yellow ! -----------");
+//    
+//    MegaBlock yellow1 = new MegaBlock(Color.YELLOW, 'y');
+//    
+//    test.addYellow(0, yellow1);
+//    if(tail.getBlock().equals(yellow1)) {
+//      System.out.println("tail is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY.");
+//    }
+//
+//    if(head.getBlock().equals(yellow1)) {
+//      System.out.println("head is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY");
+//    }    
+//    
+//    test.removeYellow(0);
+//    if(tail == null) {
+//      System.out.println("Remove is working correctly.");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    if(head == null) {
+//      System.out.println("head is also null");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    
+//    System.out.println("add red ! ==================");
+//    
+//    MegaBlock redBlock = new MegaBlock(Color.RED, 'r');
+//    
+//    test.addRed(redBlock);
+//    if(tail.getBlock().equals(redBlock)) {
+//      System.out.println("tail is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY.");
+//    }
+//
+//    if(head.getBlock().equals(redBlock)) {
+//      System.out.println("head is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY");
+//    }    
+//    
+//    test.removeRed();
+//    if(tail == null) {
+//      System.out.println("Remove is working correctly.");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    if(head == null) {
+//      System.out.println("head is also null");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    
+//    System.out.println("---------Finished testing individual.---------");
+//    
+//    test = new LinkedListMegaBlock();
+//    test.addYellow(0, yellow1);
+//    test.addBlue(blueBlock1);
+//    
+//    if(tail.getBlock().equals(blueBlock1)) {
+//      System.out.println("tail is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY.");
+//    }
+//
+//    if(head.getBlock().equals(yellow1)) {
+//      System.out.println("head is set correctly");
+//    } else {
+//      System.out.println("NOT SET CORRECTLY");
+//    }    
+//    
+//    test.removeYellow(0);
+//    if(tail.getBlock().equals(blueBlock1)) {
+//      System.out.println("Remove is working correctly.");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    if(head.getBlock().equals(blueBlock1)) {
+//      System.out.println("head becomes tail when removing the head.");
+//    } else {
+//      System.out.println("NOT REMOVING CORRECTLY");
+//    }
+//    
+//    System.out.println("--------Finished testing blue+yellow ---------");
+//    MegaBlock yellowBlock = new MegaBlock(Color.YELLOW, 'e');
+//    MegaBlock yellowBlock1 = new MegaBlock(Color.YELLOW, 'e');
+//    test = new LinkedListMegaBlock();
+//    test.addRed(redBlock);
+//    test.addBlue(blueBlock2);
+//    try {
+//    test.addYellow(0, yellow1);
+//    } catch(IndexOutOfBoundsException e) { System.out.println("Index out of bounds works...still");}
+//    
+//    try {
+//    test.addYellow(test.size(), yellowBlock);
+//    } catch(IndexOutOfBoundsException e) {
+//      System.out.println("IOBE works at the tail end too...");
+//    }
+//    try {
+//      test.addYellow(1, yellowBlock1);
+//    } catch(IndexOutOfBoundsException e) {
+//      System.out.println("this was not supposed to happen.");
+//    }
+//    try {
+//      test.addYellow(1, null);
+//    } catch (IllegalArgumentException e) {
+//      System.out.println("caught the null pointer");
+//    }
+//    
+//    try {
+//      test.addYellow(1, redBlock);
+//    } catch(IllegalArgumentException e) {
+//      System.out.println("caught a red block trying to be added to a yellow block spot...");
+//    }
+//    
+//    System.out.println("--------Test add yellow at different places ---------");
+//    test.clear(); 
+//    test = new LinkedListMegaBlock();
+//    test.addRed(redBlock);
+//    if(head.getBlock().equals(redBlock)) {
+//      System.out.println("head is set correctly");
+//    } else {
+//      System.out.println("head is not set");
+//    }
+//    
+//    if(tail.getBlock().equals(redBlock)) {
+//      System.out.println("tail is set correctly");
+//    } else {
+//      System.out.println("tail is not set");
+//      System.out.println(tail);
+//      System.out.println(tail.getBlock());
+//      
+//    }
+//  }
 }

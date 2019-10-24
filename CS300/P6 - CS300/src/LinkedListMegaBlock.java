@@ -52,7 +52,8 @@ public class LinkedListMegaBlock {
    * Creates an empty linked list of mega blocks
    */
   public LinkedListMegaBlock() {
-
+    head = null;
+    tail = null;
     size = 0;
     redCount = 0;
     yellowCount = 0;
@@ -84,6 +85,7 @@ public class LinkedListMegaBlock {
    * Removes all of the elements from this list.
    */
   public void clear() {
+    // set everything back to null/0.
     head = null;
     tail = null;
     size = 0;
@@ -103,6 +105,7 @@ public class LinkedListMegaBlock {
    *                                  Color.BLUE
    */
   public void addBlue(MegaBlock blueBlock) {
+    // if the block is invalid, throw the corresponding exception.
     if(blueBlock == null) {
       throw new IllegalArgumentException("The block cannot be null!");
     }
@@ -112,11 +115,14 @@ public class LinkedListMegaBlock {
     }
 
     LinkedMegaBlock linkedBlueBlock = new LinkedMegaBlock(blueBlock);
+    // if the list is empty, set the head to the new blue block.
     if(head == null || tail == null) {
       head = linkedBlueBlock;
     } else {
+      // otherwise, set the current tail's next to the new blue block
       tail.setNext(linkedBlueBlock);
     }
+    // then set the tail to the blue block.
     tail = linkedBlueBlock;
     // increment size of the list and the number of blue blocks
     blueCount++;
@@ -132,7 +138,7 @@ public class LinkedListMegaBlock {
    *                                  does to equal to Color.RED
    */
   public void addRed(MegaBlock redBlock) {
-
+    // if the block is invalid, throw the correct exception
     if(redBlock == null) {
       throw new IllegalArgumentException("Block cannot be null.");
     }
@@ -142,11 +148,12 @@ public class LinkedListMegaBlock {
     }
 
     LinkedMegaBlock newNode = new LinkedMegaBlock(redBlock);
+    // if the list is empty, set both head and tail to the new red block.
     if(head == null) {
       head = newNode;
       tail = newNode;
     } else {
-
+      // else, set the head to the new red block.
       newNode.setNext(head);
       head = newNode;
     }
@@ -170,6 +177,7 @@ public class LinkedListMegaBlock {
    *                                   index > size - blueCount)
    */
   public void addYellow(int index, MegaBlock yellowBlock) {
+    // if the block or the index is invalid, throw the corresponding exception.
     if(yellowBlock == null) {
       throw new IllegalArgumentException("Block cannot be null");
     }
@@ -184,6 +192,8 @@ public class LinkedListMegaBlock {
 
     LinkedMegaBlock runner = head;
     LinkedMegaBlock yellowLnkBlk = new LinkedMegaBlock(yellowBlock);
+    // if the index is valid at 0, set the new yellow block to head and set head to
+    // the new yellow block.
     if(index == 0) {
       yellowLnkBlk.setNext(head);
       head = yellowLnkBlk;
@@ -217,6 +227,7 @@ public class LinkedListMegaBlock {
    *                                             (index < 0 || index >= size())
    */
   public MegaBlock get(int index) {
+    // if the index is out of bounds, throw IndexOutOfBounds.
     if(index < 0 || index > size) {
       throw new IndexOutOfBoundsException("Index is out of bounds!");
     }
@@ -233,12 +244,12 @@ public class LinkedListMegaBlock {
   private LinkedMegaBlock getLinkedMegaBlock(int index) {
     int currIndex = 0;
     LinkedMegaBlock runner = head;
-
+    // run through to find the block at index.
     while (currIndex != index) {
       runner = runner.getNext();
       currIndex++;
     }
-
+    // then return the block at index.
     return runner;
   }
 
@@ -255,6 +266,7 @@ public class LinkedListMegaBlock {
    *                                   || index >= size())
    */
   public MegaBlock set(int index, MegaBlock block) {
+    // if the index or the block is invalid, throw the correct exception
     if(block == null) {
       throw new IllegalArgumentException("Block cannot be null.");
     }
@@ -264,11 +276,13 @@ public class LinkedListMegaBlock {
 
     LinkedMegaBlock runner = this.getLinkedMegaBlock(index);
     MegaBlock currBlock = runner.getBlock();
+    // if the block to be set and the current block at index are not the same color,
+    // do not set the block and throw an exception.
     if(!block.equals(currBlock)) {
       throw new IllegalArgumentException(
               "Blocks are not the same color. Can only replace with the same color.");
     }
-
+    // otherwise set the block and return the block that used to be at index.
     runner.setBlock(block);
 
     return currBlock;
@@ -283,7 +297,7 @@ public class LinkedListMegaBlock {
    *                                block
    */
   public MegaBlock removeRed() {
-
+    // if the head block is invalid, throw the corresponding error.
     if(head == null) {
       throw new NoSuchElementException("This list does not contain a red block.");
     }
@@ -309,6 +323,7 @@ public class LinkedListMegaBlock {
    * @throws NoSuchElementException - if this list does not contain any blue block
    */
   public MegaBlock removeBlue() {
+    // if the tail block is invalid, throw the corresponding error.
     if(tail == null) {
       throw new NoSuchElementException("This list doesn't contain any blocks");
     }
@@ -333,25 +348,33 @@ public class LinkedListMegaBlock {
    * @return block that was removed
    */
   private LinkedMegaBlock removeAt(int index) {
-    LinkedMegaBlock removedLMB;
+    LinkedMegaBlock removedLinkedMegaBlock;
     LinkedMegaBlock runner = getLinkedMegaBlock(index);
-
+    // if the size is 1, set the removed LinkedMegaBlock to the head and the head
+    // and tail to null.
     if(size == 1) {
-      removedLMB = head;
+      removedLinkedMegaBlock = head;
       head = null;
       tail = null;
     } else if(index == 0) {
-      removedLMB = head;
+      // if removing the head, set the removed LinkedMegaBlock to the head and the
+      // head to head.getNext
+      removedLinkedMegaBlock = head;
       head = head.getNext();
     } else {
+      // otherwise, get the linkedMegaBlock at index-1
       runner = this.getLinkedMegaBlock(index - 1);
-      removedLMB = runner.getNext();
-      runner.setNext(removedLMB.getNext());
+      // set the removed LinkedMegaBlock to the block at index (note runner.getNext)
+      removedLinkedMegaBlock = runner.getNext();
+      // set runner to the removed LinkedMegaBlock's next block. (aka
+      // runner.getNext().getNext())
+      runner.setNext(removedLinkedMegaBlock.getNext());
+      // if removed the tail, set runner/current block to the tail.
       if(runner.getNext() == null) {
         tail = runner;
       }
     }
-    return removedLMB;
+    return removedLinkedMegaBlock;
   }
 
   /**
@@ -363,10 +386,13 @@ public class LinkedListMegaBlock {
    *                                   redCount or index >= size - blueCount)
    */
   public MegaBlock removeYellow(int index) {
+    // throw an IndexOutOfBounds exception if it is not a valid index
     if(index < redCount || index >= size - blueCount) {
       throw new IndexOutOfBoundsException("Cannot remove anything out of bounds! Index: " + index);
     }
+    // remove the block at the index
     LinkedMegaBlock runner = removeAt(index);
+    // update size and yellow block counts
     yellowCount--;
     size--;
 

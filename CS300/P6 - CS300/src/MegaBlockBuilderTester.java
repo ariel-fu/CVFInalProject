@@ -171,7 +171,7 @@ public class MegaBlockBuilderTester {
    * 
    * @return true if added a red block to the head of the list
    */
-  public static boolean testlinkedMegaBlockListAddRed() {
+  public static boolean testLinkedMegaBlockListAddRed() {
     MegaBlock block = new MegaBlock(Color.RED, 'e');
     LinkedListMegaBlock test = new LinkedListMegaBlock();
     test.addRed(block);
@@ -843,8 +843,9 @@ public class MegaBlockBuilderTester {
     System.out.println("testMegaBlockEquals: " + testMegaBlockEquals());
     System.out.println("testMegaBlockToString: " + testMegaBlockToString());
     System.out.println("testLinkedMegaBlock: " + testLinkedMegaBlock());
-    System.out.println("testLinkedMegaBlockListAddRed : " + testlinkedMegaBlockListAddRed());
+    System.out.println("testLinkedMegaBlockListAddRed : " + testLinkedMegaBlockListAddRed());
     System.out.println("testLinkedListMegaBlockRemoveBlue: " + testLinkedListMegaBlockRemoveBlue());
+    
     System.out.println(
             "testLinkedListMegaBlockAddRemoveYellow: " + testLinkedListMegaBlockAddRemoveYellow());
     System.out.println("testLinkedListMegaBlockClear: " + testLinkedListMegaBlockClear());

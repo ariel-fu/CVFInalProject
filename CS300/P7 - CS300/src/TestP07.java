@@ -42,5 +42,12 @@ public class TestP07 {
     y.setPrevious(previous1);
     assertTrue(y.getPrevious().equals(previous1));
   }
+  
+  @Test
+  public void testSongCollection() {
+    
+    
+    
+  }
 
 }

@@ -1,8 +1,9 @@
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
-// Title:           DoublyLinkedNode
+// Title:           SongCollection
 // Files:           Song, DoubleLinkedNode, SongCollection, Playlist, ReversePlaylist
 // Course:          300, Fall, and 2019
 //
@@ -39,57 +40,86 @@ import java.util.NoSuchElementException;
  * @author Ariel
  *
  */
-public class SongCollection {
-  private DoublyLinkedNode<Song> head;
-  private DoublyLinkedNode<Song> tail;
-  private boolean playDirectionForward;
+public class SongCollection implements Iterable<Song> {
+	private DoublyLinkedNode<Song> head;
+	private DoublyLinkedNode<Song> tail;
+	private boolean playDirectionForward;
 
-  /**
-   * No-argument constructor, which initializes head and tail to null and
-   * forwardPlaylist to true.
-   */
-  public SongCollection() {
-    head = null;
-    tail = null;
-    playDirectionForward = true;
-  }
+	/**
+	 * No-argument constructor, which initializes head and tail to null and
+	 * forwardPlaylist to true.
+	 */
+	public SongCollection() {
+		head = null;
+		tail = null;
+		playDirectionForward = true;
+	}
 
-  /**
-   * Adds song to the end / tail of this doubly linked list. If the song is null,
-   * it throws a NullPointerException
-   * 
-   * @param song - new song to add to the end fo the doubly linked list.
-   * @throws NullPointerException - if the song inputed is null.
-   */
-  public void add(Song song) {
-    if(song == null) {
-      throw new NullPointerException("song cannot be null.");
-    }
-    DoublyLinkedNode<Song> currSong = new DoublyLinkedNode<Song>(song);
-    if(head == null && tail == null) {
-      head = currSong;
-    } else {
-      currSong.setPrevious(tail);
-      tail.setNext(currSong);
-    }
-    tail = currSong;
-  }
+	/**
+	 * Adds song to the end / tail of this doubly linked list. If the song is null,
+	 * it throws a NullPointerException
+	 * 
+	 * @param song - new song to add to the end fo the doubly linked list.
+	 * @throws NullPointerException - if the song inputed is null.
+	 */
+	public void add(Song song) {
+		if (song == null) {
+			throw new NullPointerException("song cannot be null.");
+		}
+		DoublyLinkedNode<Song> currSong = new DoublyLinkedNode<Song>(song);
+		if (head == null && tail == null) {
+			head = currSong;
+		} else {
+			currSong.setPrevious(tail);
+			tail.setNext(currSong);
+		}
+		tail = currSong;
+	}
 
-  /**
-   * Removes and returns song from the front/head of this list. When the list is
-   * empty, throws a NoSuchElementException.
-   * 
-   * @throws NoSuchElementException if the head of the list is null and the list
-   *                                is empty.
-   * @return song from the front / head of this list
-   */
-  public Song remove() {
-    if(head == null) {
-      throw new NoSuchElementException("there are no more songs to remove!");
-    }
-    Song previousHead = head.getData();
-    head = head.getNext();
+	/**
+	 * Removes and returns song from the front/head of this list. When the list is
+	 * empty, throws a NoSuchElementException.
+	 * 
+	 * @throws NoSuchElementException if the head of the list is null and the list
+	 *                                is empty.
+	 * @return song from the front / head of this list
+	 */
+	public Song remove() {
+		if (head == null) {
+			throw new NoSuchElementException("there are no more songs to remove!");
+		}
+		Song previousHead = head.getData();
+		head = head.getNext();
 
-    return previousHead;
-  }
+		return previousHead;
+	}
+
+	/**
+	 * When playDirctionForward is true, a SongCollection's iterator() method should
+	 * return a Playlist object, otherwise it should return a ReversePlaylist
+	 * object.
+	 * 
+	 * @return a Playlist object or a ReversePlaylist object, depending if
+	 *         playDirectionForward is true or false.
+	 */
+	@Override
+	public Iterator<Song> iterator() {
+		// if playDirectionForward is true, return a Playlist object.
+		if (playDirectionForward) {
+			return new Playlist(head);
+		}
+		// if playDirectionForward is false, return a ReversePlaylist object.
+		return new ReversePlaylist(tail);
+	}
+
+	/**
+	 * Mutator method for isForward, changes the direction the playlist plays.
+	 * 
+	 * @param isForward - if true, a Playlist object will be returned in iterator()
+	 *                  if false, a ReversePlaylist object will be returned in
+	 *                  iterator().
+	 */
+	public void setPlayDirection(boolean isForward) {
+		playDirectionForward = isForward;
+	}
 }

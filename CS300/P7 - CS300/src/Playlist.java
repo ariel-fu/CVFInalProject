@@ -45,47 +45,43 @@ import java.util.NoSuchElementException;
 
 public class Playlist implements Iterator<Song> {
 
-	private DoublyLinkedNode<Song> current;
-	private Iterator<DoublyLinkedNode<Song>> iterator;
+  private DoublyLinkedNode<Song> current;
 
-	/**
-	 * Constructor that takes in a DoublyLinkedNode<Song> that is expected to be the
-	 * first song in the playlist.
-	 * 
-	 * @param head
-	 */
-	public Playlist(DoublyLinkedNode<Song> head) {
+  /**
+   * Constructor that takes in a DoublyLinkedNode<Song> that is expected to be the
+   * first song in the playlist.
+   * 
+   * @param head
+   */
+  public Playlist(DoublyLinkedNode<Song> head) {
 
-		current = head;
-	}
+    current = head;
+  }
 
-	/**
-	 * Checks if there are more songs left in the playlist.
-	 * 
-	 * @return true if there are still songs left.
-	 */
-	@Override
-	public boolean hasNext() {
-		if (current.getNext() == null) {
-			return false;
-		}
-		return true;
-	}
+  /**
+   * Checks if there are more songs left in the playlist.
+   * 
+   * @return true if there are still songs left.
+   */
 
-	/**
-	 * Returns a different song each time. Returns from head to tail in order
-	 * 
-	 * @return next song in playlist.
-	 * @throws NoSuchElementException - if no songs are left to be returned by the
-	 *                                iterator.
-	 */
-	@Override
-	public Song next() {
-		if (!hasNext()) {
-			throw new NoSuchElementException("There aren't any more songs to play.");
-		}
-		current = iterator.next();
-		return current.getData();
-	}
+  public boolean hasNext() {
+    return current != null;
+  }
+
+  /**
+   * Returns a different song each time. Returns from head to tail in order
+   * 
+   * @return next song in playlist.
+   * @throws NoSuchElementException - if no songs are left to be returned by the
+   *                                iterator.
+   */
+  public Song next() {
+    if(!hasNext()) {
+      throw new NoSuchElementException("There aren't any more songs to play.");
+    }
+    DoublyLinkedNode<Song> currSong = current;
+    current = current.getNext();
+    return currSong.getData();
+  }
 
 }

@@ -92,7 +92,7 @@ public class DoublyLinkedNode<T> {
   }
 
   /**
-   * Mutator method for this node;s next node reference
+   * Mutator method for this node's next node reference
    * 
    * @param next - node, which comes after this node in a doubly linked list.
    */

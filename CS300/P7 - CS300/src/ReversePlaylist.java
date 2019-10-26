@@ -43,46 +43,48 @@ import java.util.NoSuchElementException;
  */
 
 public class ReversePlaylist implements Iterator<Song> {
-	private DoublyLinkedNode<Song> current; // keeps track of current song/DoublyLinkedNode
-	private Iterator<DoublyLinkedNode<Song>> iterator; // iterator that will get the next song
+  private DoublyLinkedNode<Song> current; // keeps track of current song/DoublyLinkedNode
 
-	/**
-	 * Constructor for ReversePlaylist that takes in a DoublyLinkedNode<Song> that
-	 * is assumed to be the last song/ tail of the playlist.
-	 * 
-	 * @param tail - last song/ tail of the playlist.
-	 */
-	public ReversePlaylist(DoublyLinkedNode<Song> tail) {
-		current = tail;
-	}
+  /**
+   * Constructor for ReversePlaylist that takes in a DoublyLinkedNode<Song> that
+   * is assumed to be the last song/ tail of the playlist.
+   * 
+   * @param tail - last song/ tail of the playlist.
+   */
+  public ReversePlaylist(DoublyLinkedNode<Song> tail) {
+    current = tail;
+  }
 
-	/**
-	 * Overrides hasNext() in the Iterator interface
-	 * 
-	 * @return true if the next pointer doesn't point to null.
-	 */
-	@Override
-	public boolean hasNext() {
-		if (current.getPrevious() != null) {
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Overrides hasNext() in the Iterator interface (weirdly Eclipse won't let me
+   * put @Override ...)
+   * 
+   * @return true if the current pointer doesn't point to null.
+   * @Override hasNext() in Iterator<T> interface.
+   */
 
-	/**
-	 * Overrides next() in the Iterator interface
-	 * 
-	 * @return song from the previous pointer/ song that came before the current
-	 *         song.
-	 * @throws NoSuchElementException - if there are no more songs to iterate.
-	 */
-	@Override
-	public Song next() {
-		if (!hasNext()) {
-			throw new NoSuchElementException("There are no more songs to play.");
-		}
-		current = current.getPrevious(); // TODO: fix, 99% sure I am wrong...
-		return current.getData();
-	}
+  public boolean hasNext() {
+    return current != null;
+  }
+
+  /**
+   * Overrides next() in the Iterator interface (weirdly Eclipse won't let me
+   * put @Override ...)
+   * 
+   * @return song from the previous pointer/ song that came before the current
+   *         song.
+   * @throws NoSuchElementException - if there are no more songs to iterate.
+   * @Override next() in Iterator<T> interface.
+   */
+
+  public Song next() {
+    if(!hasNext()) {
+      throw new NoSuchElementException("There are no more songs to play.");
+    }
+    DoublyLinkedNode<Song> currSong = current;
+    current = current.getPrevious();
+    return currSong.getData();
+  }
+
 
 }

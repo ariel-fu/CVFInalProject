@@ -14,30 +14,33 @@ public class TestP07 {
   @Test
   public void testSong() {
     Song test = new Song("elmo", "ariel");
-    Song other = new Song("elmo", "ariel");
-    Song test1 = new Song("2elmo", "ariel");
     assertTrue(test.toString().equals("elmo by ariel"));
+
     assertTrue(test.equals(test));
     assertTrue(!test.equals(null));
+    Song other = new Song("elmo", "ariel");
     assertTrue(test.equals(other));
+    Song test1 = new Song("2elmo", "ariel");
     assertTrue(!test.equals(test1));
+    assertTrue(!test.equals(test.toString()));
   }
 
   @Test
   public void testDoublyLinkedNode() {
     DoublyLinkedNode<Integer> x = new DoublyLinkedNode<Integer>(19);
     DoublyLinkedNode<String> previous = new DoublyLinkedNode<String>("19");
-    DoublyLinkedNode<String> previous1 = new DoublyLinkedNode<String>("1");
     DoublyLinkedNode<String> next = new DoublyLinkedNode<String>("20");
-    DoublyLinkedNode<String> next1 = new DoublyLinkedNode<String>("21");
-    DoublyLinkedNode<String> y = new DoublyLinkedNode<String>(previous, "connect", next);
     assertTrue(x.getData() == 19);
-    assertTrue(y.getNext().equals(next));
-    assertTrue(y.getData().equals("connect"));
-    assertTrue(y.equals(y));
     assertTrue(previous.getPrevious() == null);
     assertTrue(next.getNext() == null);
     assertTrue(next.getPrevious() == null);
+
+    DoublyLinkedNode<String> y = new DoublyLinkedNode<String>(previous, "connect", next);
+    DoublyLinkedNode<String> next1 = new DoublyLinkedNode<String>("21");
+    DoublyLinkedNode<String> previous1 = new DoublyLinkedNode<String>("1");
+    assertTrue(y.getNext().equals(next));
+    assertTrue(y.getData().equals("connect"));
+    assertTrue(y.equals(y));
     y.setNext(next1);
     assertTrue(y.getNext().equals(next1));
     y.setPrevious(previous1);
@@ -49,48 +52,58 @@ public class TestP07 {
     // test constructor - head is null, tail is null, play direction is true
     // (Playlist.)
     SongCollection test = new SongCollection();
-//    assertTrue(test.getHead() == null);
-//    assertTrue(test.getTail() == null);
-//    assertTrue(test.getPlayDirection());
-//    // test setPlayDirection - true -> true, false -> false
-//    test.setPlayDirection(false);
-//    assertTrue(test.getPlayDirection() == false);
-//    test.setPlayDirection(true);
-//    assertTrue(test.getPlayDirection());
+    assertTrue(getHead(test) == null);
+    assertTrue(getTail(test) == null);
 
     // test add - adds to end of collection, if list is empty -> both head and tail
     // become the song added.
+    test = new SongCollection();
     Song song1 = new Song("ew", "poep");
     test.add(song1);
-//    assertTrue(test.getHead().getData().equals(song1));
-//    assertTrue(test.getTail().getData().equals(song1));
-//    assertTrue(test.getSize() == 1);
-//    Song song2 = new Song("talking to the moon", "trying to get to you");
-//    test.add(song2);
-//    assertTrue(test.getSize() == 2);
-//    assertTrue(test.getHead().getData().equals(song1));
-//    assertTrue(test.getTail().getData().equals(song2));
+    assertTrue(getHead(test).equals(song1));
+    assertTrue(getTail(test).equals(song1));
+
+    Song song2 = new Song("talking to the moon", "trying to get to you");
+    assertTrue(getHead(test).equals(song1));
+    assertTrue(getTail(test).equals(song2));
 
     // test remove - removes from head of the collection, if list size = 1 head &
     // tail should be equal to null.
+    test = new SongCollection();
+    test.add(song2);
+    assertTrue(getHead(test).equals(song2));
+    assertTrue(getTail(test).equals(song2));
 
+    // test remove when size == 1.
     test.remove();
-//    assertTrue(test.getHead().getData().equals(song2));
-//    assertTrue(test.getTail().getData().equals(song2));
-//    assertTrue(test.getSize() == 1);
-//    test.remove();
-//
-//    assertTrue(test.getHead() == null);
-//    assertTrue(test.getTail() == null);
-//    assertTrue(test.getSize() == 0);
+    assertTrue(getHead(test) == null);
+    assertTrue(getTail(test) == null);
 
     // test iterator, return Playlist if play direction is true, return
     // ReversePlaylist if play direction is false.
-
+    test = new SongCollection();
     assertTrue(test.iterator() instanceof Playlist);
     test.setPlayDirection(false);
     assertTrue(test.iterator() instanceof ReversePlaylist);
 
+  }
+
+  private static Song getHead(SongCollection list) {
+    list.setPlayDirection(true);
+    if(list.iterator().hasNext()) {
+      return list.iterator().next();
+    } else {
+      return null;
+    }
+  }
+
+  private static Song getTail(SongCollection list) {
+    list.setPlayDirection(false);
+    if(list.iterator().hasNext()) {
+      return list.iterator().next();
+    } else {
+      return null;
+    }
   }
 
   @Test

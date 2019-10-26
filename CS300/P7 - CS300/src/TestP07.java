@@ -35,16 +35,24 @@ public class TestP07 {
     assertTrue(next.getNext() == null);
     assertTrue(next.getPrevious() == null);
 
+    //prev > y > next
     DoublyLinkedNode<String> y = new DoublyLinkedNode<String>(previous, "connect", next);
-    DoublyLinkedNode<String> next1 = new DoublyLinkedNode<String>("21");
-    DoublyLinkedNode<String> previous1 = new DoublyLinkedNode<String>("1");
-    assertTrue(y.getNext().equals(next));
     assertTrue(y.getData().equals("connect"));
     assertTrue(y.equals(y));
+
+    assertTrue(y.getNext().equals(next));
+    //TODO - test get prev
+
+    
+    
+    //set next,prev (override existing value)
+    DoublyLinkedNode<String> next1 = new DoublyLinkedNode<String>("21");
+    DoublyLinkedNode<String> previous1 = new DoublyLinkedNode<String>("1");
     y.setNext(next1);
     assertTrue(y.getNext().equals(next1));
     y.setPrevious(previous1);
     assertTrue(y.getPrevious().equals(previous1));
+    //TODO - override with null
   }
 
   @Test
@@ -63,7 +71,9 @@ public class TestP07 {
     assertTrue(getHead(test).equals(song1));
     assertTrue(getTail(test).equals(song1));
 
+    //TODO - not add song, how did this pass
     Song song2 = new Song("talking to the moon", "trying to get to you");
+    test.add(song2);
     assertTrue(getHead(test).equals(song1));
     assertTrue(getTail(test).equals(song2));
 
@@ -71,8 +81,6 @@ public class TestP07 {
     // tail should be equal to null.
     test = new SongCollection();
     test.add(song2);
-    assertTrue(getHead(test).equals(song2));
-    assertTrue(getTail(test).equals(song2));
 
     // test remove when size == 1.
     test.remove();
@@ -83,8 +91,11 @@ public class TestP07 {
     // ReversePlaylist if play direction is false.
     test = new SongCollection();
     assertTrue(test.iterator() instanceof Playlist);
+   
     test.setPlayDirection(false);
     assertTrue(test.iterator() instanceof ReversePlaylist);
+    
+    //TODO - make sure the list is built correctly when there are multiple songs
 
   }
 
@@ -110,22 +121,37 @@ public class TestP07 {
   public void testPlaylist() {
     Song other = new Song("tay", "afterglow");
     DoublyLinkedNode<Song> head = new DoublyLinkedNode<Song>(other);
+    
     Playlist test = new Playlist(head);
-    // test Constructor sets current to head.
-//    assertTrue(test.getCurrent().equals(head));
     assertTrue(test.hasNext());
     assertTrue(test.next().equals(other));
-    // test song out of collection bounds!
+
     try {
       test.next();
-      System.out.println("didn't work.");
+      assertTrue(false);
     } catch (NoSuchElementException e) {
-      System.out.println("exception was thrown!");
+    	assertTrue(true);
     }
+    
+    //TODO - test playlist with multiple songs
+    Song[] songs=new Song[3];
+    for (int i=0; i<songs.length; i++) {
+    	songs[i]=new Song("Song"+i,"author"+i);
+    }
+    head = new DoublyLinkedNode<Song>(songs[0]);
+    DoublyLinkedNode<Song> one = new DoublyLinkedNode<Song>(songs[1]);
+    head.setNext(one);
+    DoublyLinkedNode<Song> two = new DoublyLinkedNode<Song>(songs[2]);
+    one.setNext(two);
+    //add test cases
+
+    //TODO - test empty playlist
+    test=new Playlist(null);
   }
 
   @Test
   public void testReversePlaylist() {
+	  //TODO - add same test cases as the testPlaylist
     Song other = new Song("twenty years", "go where you go");
     DoublyLinkedNode<Song> tail = new DoublyLinkedNode<Song>(other);
     ReversePlaylist test = new ReversePlaylist(null);

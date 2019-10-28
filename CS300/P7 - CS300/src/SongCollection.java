@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.lang.Iterable;
 import java.util.NoSuchElementException;
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
@@ -41,10 +42,9 @@ import java.util.NoSuchElementException;
  *
  */
 public class SongCollection implements Iterable<Song> {
-  private DoublyLinkedNode<Song> head;
-  private DoublyLinkedNode<Song> tail;
-  
-  private boolean playDirectionForward;
+  private DoublyLinkedNode<Song> head; // head of the collection
+  private DoublyLinkedNode<Song> tail; // tail of the collection
+  private boolean playDirectionForward; // determines which way the song collection plays.
 
   /**
    * No-argument constructor, which initializes head and tail to null and
@@ -54,7 +54,7 @@ public class SongCollection implements Iterable<Song> {
     head = null;
     tail = null;
     playDirectionForward = true;
-    
+
   }
 
   /**
@@ -69,14 +69,17 @@ public class SongCollection implements Iterable<Song> {
       throw new NullPointerException("song cannot be null.");
     }
     DoublyLinkedNode<Song> currSong = new DoublyLinkedNode<Song>(song);
+    // if the list is empty, set the head to the current song.
     if(head == null && tail == null) {
       head = currSong;
     } else {
+      // otherwise, reset the tail pointers.
       currSong.setPrevious(tail);
       tail.setNext(currSong);
     }
+    // set the tail to the current song.
     tail = currSong;
-    
+
   }
 
   /**
@@ -97,7 +100,7 @@ public class SongCollection implements Iterable<Song> {
     if(head == null) {
       tail = null;
     }
-    
+
     return previousHead;
   }
 
@@ -110,6 +113,7 @@ public class SongCollection implements Iterable<Song> {
    *         playDirectionForward is true or false.
    */
 
+  
   public Iterator<Song> iterator() {
     // if playDirectionForward is true, return a Playlist object.
     if(playDirectionForward) {

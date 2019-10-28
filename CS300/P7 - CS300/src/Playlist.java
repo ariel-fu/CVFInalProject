@@ -51,7 +51,7 @@ public class Playlist implements Iterator<Song> {
    * Constructor that takes in a DoublyLinkedNode<Song> that is expected to be the
    * first song in the playlist.
    * 
-   * @param head
+   * @param head - DoublyLinkedNode<Song> that is where the Playlist starts.
    */
   public Playlist(DoublyLinkedNode<Song> head) {
 
@@ -62,6 +62,7 @@ public class Playlist implements Iterator<Song> {
    * Checks if there are more songs left in the playlist.
    * 
    * @return true if there are still songs left.
+   * @override hasNext() - overrides hasNext from Iterator<T>
    */
 
   public boolean hasNext() {
@@ -74,8 +75,11 @@ public class Playlist implements Iterator<Song> {
    * @return next song in playlist.
    * @throws NoSuchElementException - if no songs are left to be returned by the
    *                                iterator.
+   * @override next() - overrides next from Iterator<T>
    */
+  
   public Song next() {
+    // if there are no more songs to play, throw a NoSuchElementException
     if(!hasNext()) {
       throw new NoSuchElementException("There aren't any more songs to play.");
     }

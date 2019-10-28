@@ -141,7 +141,7 @@ public class SongCollection implements Iterable<Song> {
 //
 //For analysisMethodA, the big-O time complexity is ___O(1)_________.
 //
-//For analysisMethodB, the big-O time complexity is ___O(2*n)_________.
+//For analysisMethodB, the big-O time complexity is ___O(2*n)____or O(n)_____.
 //
 //For analysisMethodC, the big-O time complexity is ___O(n)_________.
 //

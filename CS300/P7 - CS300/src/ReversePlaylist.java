@@ -62,7 +62,7 @@ public class ReversePlaylist implements Iterator<Song> {
    * @return true if the current pointer doesn't point to null.
    * @Override hasNext() in Iterator<T> interface.
    */
-
+  @Override 
   public boolean hasNext() {
     return current != null;
   }
@@ -76,7 +76,7 @@ public class ReversePlaylist implements Iterator<Song> {
    * @throws NoSuchElementException - if there are no more songs to iterate.
    * @Override next() in Iterator<T> interface.
    */
-
+  @Override
   public Song next() {
     if(!hasNext()) {
       throw new NoSuchElementException("There are no more songs to play.");

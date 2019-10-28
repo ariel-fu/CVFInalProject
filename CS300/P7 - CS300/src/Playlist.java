@@ -65,6 +65,7 @@ public class Playlist implements Iterator<Song> {
    * @override hasNext() - overrides hasNext from Iterator<T>
    */
 
+  @Override
   public boolean hasNext() {
     return current != null;
   }
@@ -77,7 +78,7 @@ public class Playlist implements Iterator<Song> {
    *                                iterator.
    * @override next() - overrides next from Iterator<T>
    */
-  
+  @Override
   public Song next() {
     // if there are no more songs to play, throw a NoSuchElementException
     if(!hasNext()) {

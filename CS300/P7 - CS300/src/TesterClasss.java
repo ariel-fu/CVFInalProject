@@ -5,7 +5,7 @@ public class TesterClasss {
 		SongCollection x = new SongCollection();
 		Song newSong = new Song("sem" , "ariel");
 		x.add(newSong);
-System.out.println(x.iterator().toString());
+
 
 	}
 

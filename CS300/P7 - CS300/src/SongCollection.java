@@ -133,7 +133,7 @@ public class SongCollection implements Iterable<Song> {
   public void setPlayDirection(boolean isForward) {
     playDirectionForward = isForward;
   }
-
+// TODO ~ review big-O time complexityw ith dad about the last one... Aiden said he got O(1)?
 ///////////////////////////////////////////////////////////////////////////////////
 //For each of the following big-O time complexity analyses, consider the problem
 //size to be the number of Songs that are stored within the argument songs, when

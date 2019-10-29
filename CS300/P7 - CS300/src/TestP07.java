@@ -147,6 +147,12 @@ public class TestP07 {
 
     //TODO - test empty playlist
     test=new Playlist(null);
+    try {
+    	test.next();
+    }
+    catch(Exception e) {
+    	System.out.println("works on empty playlists too!");
+    }
   }
 
   @Test
@@ -160,17 +166,17 @@ public class TestP07 {
     try {
       test.next();
     } catch (NoSuchElementException e) {
-      System.out.println("null exception was thrown!");
+      assertTrue(true);
     }
 
     test = new ReversePlaylist(tail);
-//    assertTrue(test.getCurrent().equals(tail));
     assertTrue(test.hasNext());
     assertTrue(test.next().equals(other));
     try {
       test.next();
     } catch (NoSuchElementException e) {
-      System.out.println("out of bounds !");
+    	// supposed to throw an exeption
+      System.out.println(e.getMessage());
     }
 
   }

@@ -36,6 +36,7 @@
  * This class represents a single node within a doubly linked list.
  * 
  * @author Ariel
+ * @param T - genetic type parameter for the single node
  *
  */
 public class DoublyLinkedNode<T> {

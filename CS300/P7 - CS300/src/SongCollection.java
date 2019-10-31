@@ -92,11 +92,11 @@ public class SongCollection implements Iterable<Song> {
    */
   public Song remove() {
     if(head == null) {
-      throw new NoSuchElementException("there are no more songs to remove!");
+      throw new NoSuchElementException("There are no more songs to remove!");
     }
     Song previousHead = head.getData();
     head = head.getNext();
-    // if the list is now empty, set the tail back to null, also.
+    // if the list is empty, set the tail back to null, also.
     if(head == null) {
       tail = null;
     }

@@ -56,8 +56,7 @@ public class ReversePlaylist implements Iterator<Song> {
   }
 
   /**
-   * Overrides hasNext() in the Iterator interface (weirdly Eclipse won't let me
-   * put @Override ...)
+   * Overrides hasNext() in the Iterator interface 
    * 
    * @return true if the current pointer doesn't point to null.
    * @Override hasNext() in Iterator<T> interface.
@@ -68,8 +67,7 @@ public class ReversePlaylist implements Iterator<Song> {
   }
 
   /**
-   * Overrides next() in the Iterator interface (weirdly Eclipse won't let me
-   * put @Override ...)
+   * Overrides next() in the Iterator interface 
    * 
    * @return song from the previous pointer/ song that came before the current
    *         song.

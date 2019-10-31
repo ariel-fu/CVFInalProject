@@ -45,48 +45,49 @@ import java.util.NoSuchElementException;
 
 public class Playlist implements Iterator<Song> {
 
-  private DoublyLinkedNode<Song> current;
+	private DoublyLinkedNode<Song> current; // current song in doubly linked list
 
-  /**
-   * Constructor that takes in a DoublyLinkedNode<Song> that is expected to be the
-   * first song in the playlist.
-   * 
-   * @param head - DoublyLinkedNode<Song> that is where the Playlist starts.
-   */
-  public Playlist(DoublyLinkedNode<Song> head) {
+	/**
+	 * Constructor that takes in a DoublyLinkedNode<Song> that is expected to be the
+	 * first song in the playlist.
+	 * 
+	 * @param head - DoublyLinkedNode<Song> that is where the Playlist starts.
+	 */
+	public Playlist(DoublyLinkedNode<Song> head) {
 
-    current = head;
-  }
+		current = head;
+	}
 
-  /**
-   * Checks if there are more songs left in the playlist.
-   * 
-   * @return true if there are still songs left.
-   * @override hasNext() - overrides hasNext from Iterator<T>
-   */
+	/**
+	 * Checks if there are more songs left in the playlist.
+	 * 
+	 * @return true if there are still songs left.
+	 * @override hasNext() - overrides hasNext from Iterator<T>
+	 */
 
-  @Override
-  public boolean hasNext() {
-    return current != null;
-  }
+	@Override
+	public boolean hasNext() {
+		return current != null;
+	}
 
-  /**
-   * Returns a different song each time. Returns from head to tail in order
-   * 
-   * @return next song in playlist.
-   * @throws NoSuchElementException - if no songs are left to be returned by the
-   *                                iterator.
-   * @override next() - overrides next from Iterator<T>
-   */
-  @Override
-  public Song next() {
-    // if there are no more songs to play, throw a NoSuchElementException
-    if(!hasNext()) {
-      throw new NoSuchElementException("There aren't any more songs to play.");
-    }
-    DoublyLinkedNode<Song> currSong = current;
-    current = current.getNext();
-    return currSong.getData();
-  }
+	/**
+	 * Returns a different song each time. Returns from head to tail in order
+	 * 
+	 * @return next song in playlist.
+	 * @throws NoSuchElementException - if no songs are left to be returned by the
+	 *                                iterator.
+	 * @override next() - overrides next from Iterator<T>
+	 */
+	@Override
+	public Song next() {
+		// if there are no more songs to play, throw a NoSuchElementException
+		if (!hasNext()) {
+			throw new NoSuchElementException("There aren't any more songs to play.");
+		}
+		DoublyLinkedNode<Song> currSong = current;
+		// set the next 
+		current = current.getNext();
+		return currSong.getData();
+	}
 
 }

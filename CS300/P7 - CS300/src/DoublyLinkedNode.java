@@ -9,17 +9,6 @@
 // Email:           afu5@wisc.edu
 // Lecturer's Name: Mouna Ayari Ben Hadj Kacem
 //
-//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
-//
-// Partner Name:    None
-// Partner Email:   None
-// Partner Lecturer's Name: None
-// 
-// VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
-//   ___ Write-up states that pair programming is allowed for this assignment.
-//   ___ We have both read and understand the course Pair Programming Policy.
-//   ___ We have registered our team prior to the team registration deadline.
-//
 ///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
 //
 // Students who get help from sources other than their partner must fully 
@@ -50,6 +39,7 @@ public class DoublyLinkedNode<T> {
    * @param previous - node, which comes before this node in a doubly linked list
    * @param data     - to be stored within this node.
    * @param next     - node, which comes after this node in a doubly linked list
+   * @throws IllegalArgumentException - when data is a null reference
    */
   public DoublyLinkedNode(DoublyLinkedNode<T> previous, T data, DoublyLinkedNode<T> next) {
     // if data is a null reference, throw an exception
@@ -61,7 +51,14 @@ public class DoublyLinkedNode<T> {
     this.data = data;
     this.next = next;
   }
-  
+
+  /**
+   * Initialize a new node with the specified data, and null next and previous
+   * reference.
+   * 
+   * @param data - to be stored within this node
+   * @throws IllegalArgumentException - when null is a null reference
+   */
   public DoublyLinkedNode(T data) {
     // if data is a null reference, throw an exception
     if(data == null) {

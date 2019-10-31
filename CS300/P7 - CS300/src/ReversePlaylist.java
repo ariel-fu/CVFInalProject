@@ -11,16 +11,6 @@ import java.util.NoSuchElementException;
 //Email:           afu5@wisc.edu
 //Lecturer's Name: Mouna Ayari Ben Hadj Kacem
 //
-////////////////////PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
-//
-//Partner Name:    None
-//Partner Email:   None
-//Partner Lecturer's Name: None
-//
-//VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
-//___ Write-up states that pair programming is allowed for this assignment.
-//___ We have both read and understand the course Pair Programming Policy.
-//___ We have registered our team prior to the team registration deadline.
 //
 ///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
 //
@@ -56,18 +46,18 @@ public class ReversePlaylist implements Iterator<Song> {
   }
 
   /**
-   * Overrides hasNext() in the Iterator interface 
+   * Overrides hasNext() in the Iterator interface
    * 
    * @return true if the current pointer doesn't point to null.
    * @Override hasNext() in Iterator<T> interface.
    */
-  @Override 
+//  @Override 
   public boolean hasNext() {
     return current != null;
   }
 
   /**
-   * Overrides next() in the Iterator interface 
+   * Overrides next() in the Iterator interface
    * 
    * @return song from the previous pointer/ song that came before the current
    *         song.
@@ -83,6 +73,5 @@ public class ReversePlaylist implements Iterator<Song> {
     current = current.getPrevious();
     return currSong.getData();
   }
-
 
 }

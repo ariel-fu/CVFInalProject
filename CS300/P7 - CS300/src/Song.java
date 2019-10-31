@@ -9,17 +9,6 @@
 // Email:           afu5@wisc.edu
 // Lecturer's Name: Mouna Ayari Ben Hadj Kacem
 //
-//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
-//
-// Partner Name:    None
-// Partner Email:   None
-// Partner Lecturer's Name: None
-// 
-// VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
-//   ___ Write-up states that pair programming is allowed for this assignment.
-//   ___ We have both read and understand the course Pair Programming Policy.
-//   ___ We have registered our team prior to the team registration deadline.
-//
 ///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
 //
 // Students who get help from sources other than their partner must fully 

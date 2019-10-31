@@ -11,7 +11,8 @@ public class TestP07 {
 
   }
 
-  @Test
+  @SuppressWarnings("unlikely-arg-type")
+@Test
   public void testSong() {
     Song test = new Song("elmo", "ariel");
     assertTrue(test.toString().equals("elmo by ariel"));

@@ -1,20 +1,28 @@
-class Car extends Vehicle {
-	public Car() {
-		System.out.println("NEW CAR OBJECT CREATEd");
-	}
+class Cup{
+  public Cup() {
+    System.out.println("CUP object created");
+  }
+  public Cup(Object object) {
+    System.out.println("cup type");
+  }
+  public void pour() {
+    System.out.println("<-----");
+  }
 }
-
-class Vehicle{
-	public Vehicle() {
-		System.out.println("VEHICLE OBJECT CREATED");
-	}
+class Liquid extends Cup{
+  public Liquid() {
+    System.out.println("liquid type");
+  }
+  public void pour() {
+    System.out.println("------>");
+  }
 }
-public class Generic_Type_Bounding<T extends Vehicle> {
+public class Generic_Type_Bounding {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Generic_Type_Bounding<Car> x = new Generic_Type_Bounding<Car>();
-		
+		Cup c = new Liquid();
+		c.pour();
 	}
 
 }

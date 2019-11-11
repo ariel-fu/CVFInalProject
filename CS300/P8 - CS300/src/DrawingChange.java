@@ -28,24 +28,24 @@
  *
  */
 public class DrawingChange {
-	public final int row; // a row (y-coordinate) for this DrawingChange
-	public final int col; // a col (x-coordinate) for this DrawingChange
-	public final char prevChar; // previous character in the (row, col) position
-	public final char newChar; // new character in the (row, col) position
-	
-	/**
-	 * Constructor for DrawingChange class
-	 * @param row - y-coordinate
-	 * @param col - x-coordinate
-	 * @param prevChar - previous char in this position (row, col)
-	 * @param newChar - current / new char in this position (row, col)
-	 */
-	public DrawingChange(int row, int col, char prevChar, char newChar) {
-		this.row = row;
-		this.col = col;
-		this.prevChar = prevChar;
-		this.newChar = newChar;
-	}
-	
-	
+  public final int row; // a row (y-coordinate) for this DrawingChange
+  public final int col; // a col (x-coordinate) for this DrawingChange
+  public final char prevChar; // previous character in the (row, col) position
+  public final char newChar; // new character in the (row, col) position
+
+  /**
+   * Constructor for DrawingChange class
+   * 
+   * @param row      - y-coordinate
+   * @param col      - x-coordinate
+   * @param prevChar - previous char in this position (row, col)
+   * @param newChar  - current / new char in this position (row, col)
+   */
+  public DrawingChange(int row, int col, char prevChar, char newChar) {
+    this.row = row;
+    this.col = col;
+    this.prevChar = prevChar;
+    this.newChar = newChar;
+  }
+
 }

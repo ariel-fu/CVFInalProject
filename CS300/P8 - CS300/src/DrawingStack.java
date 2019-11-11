@@ -46,19 +46,6 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
   }
 
   /**
-   * Constructor for DrawingStack class
-   * 
-   * @param top - LinkedNode of type DrawingChange that is at the top of the stack
-   */
-  public DrawingStack(LinkedNode<DrawingChange> top) {
-    if(top == null) {
-      return;
-    }
-    this.head = top;
-    size++;
-  }
-
-  /**
    * Pushes an object onto the top of the stack
    * 
    * @param object - object to be pushed onto the top of the stack

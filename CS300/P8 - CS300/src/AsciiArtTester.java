@@ -77,13 +77,16 @@ public class AsciiArtTester {
    * @return true if hasNext & next work as expected
    */
   public static boolean testDrawingStackIterator() {
-    LinkedNode<DrawingChange> x = new LinkedNode<DrawingChange>(new DrawingChange(0, 0, ' ', 'e'));
-    DrawingStack stack = new DrawingStack(x);
+    DrawingChange x =  new DrawingChange(0, 0, ' ', 'e');
+    DrawingStack stack = new DrawingStack();
     Iterator<DrawingChange> iterate = stack.iterator();
-    if(!iterate.hasNext()) {
+    if(iterate.hasNext()) {
       return false;
     }
-    if(!iterate.next().equals(x.getData())) {
+    
+    stack.push(x);
+    iterate = stack.iterator();
+    if(!iterate.next().equals(x)) {
       return false;
     }
     try {
@@ -212,7 +215,7 @@ public class AsciiArtTester {
    */
   public static boolean testDrawingStackPop() {
     try {
-      DrawingStack test = new DrawingStack(null);
+      DrawingStack test = new DrawingStack();
       try {
         test.pop();
         return false;
@@ -274,9 +277,8 @@ public class AsciiArtTester {
 //      return false;
 //    }
 
-      LinkedNode<DrawingChange> top = new LinkedNode<DrawingChange>(
-              new DrawingChange(0, 0, 'p', 'd'));
-      DrawingStack test = new DrawingStack(top);
+    
+      DrawingStack test = new DrawingStack();
       try {
         test.push(other);
       } catch (Exception e1) {
@@ -306,8 +308,8 @@ public class AsciiArtTester {
       }
       // peek empty
       // check return value - throw exception
-      test = new DrawingStack(null);
-
+      
+      test = new DrawingStack();
       try {
         DrawingChange emptyPeek = test.peek();
         return false;
@@ -320,7 +322,7 @@ public class AsciiArtTester {
 
       // pop empty
       // check return value - should throw exception
-      test = new DrawingStack(null);
+      test = new DrawingStack();
 
       try {
         DrawingChange emptyPop = test.pop();

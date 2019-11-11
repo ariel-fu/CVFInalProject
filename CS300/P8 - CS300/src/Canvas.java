@@ -60,8 +60,8 @@ public class Canvas {
     }
     this.width = width;
     this.height = height;
-    undoStack = new DrawingStack(null);
-    redoStack = new DrawingStack(null);
+    undoStack = new DrawingStack();
+    redoStack = new DrawingStack();
   }
 
   /**

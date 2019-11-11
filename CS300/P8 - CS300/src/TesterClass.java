@@ -4,7 +4,7 @@ public class TesterClass {
 
 	public static void main(String[] args) {
 		LinkedNode<DrawingChange> top = new LinkedNode<DrawingChange>(new DrawingChange(0, 0, ' ', '3'));
-		DrawingStack x = new DrawingStack(null);
+		DrawingStack x = new DrawingStack();
 		try{
 			x.peek();
 		}

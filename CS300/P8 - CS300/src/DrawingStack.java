@@ -1,6 +1,5 @@
 import java.util.EmptyStackException;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 ////////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
@@ -51,14 +50,16 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
    * @param object - object to be pushed onto the top of the stack
    * @throws IllegalArgumentException if the input is null.
    */
-//TODO: add @Override annotation!
-//  @Override
+  @Override
   public void push(DrawingChange element) {
     if(element == null) {
       throw new IllegalArgumentException("The drawing change added to the Stack cannot be null.");
     }
+    // set the pushed element to the head
     LinkedNode<DrawingChange> nextNode = new LinkedNode<DrawingChange>(element);
+    nextNode.setNext(head);
     head = nextNode;
+    // increment the size of the Stack
     size++;
   }
 
@@ -68,8 +69,8 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
    * @return previous head of the stack
    * @throws EmptyStackException without error message if the stack is empty.
    */
-//TODO: add @Override annotation!
-  // @Override
+
+   @Override
   public DrawingChange pop() {
     if(isEmpty()) {
       throw new EmptyStackException();
@@ -86,11 +87,9 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
    * @return head of the stack / the top of the stack
    * @throws EmptyStackException - if the stack is empty
    */
-  // TODO: add @Override annotation!
-  // @Override
+ @Override
   public DrawingChange peek() {
     if(isEmpty()) {
-      // throw new NoSuchElementException("The stack is empty.");
       throw new EmptyStackException();
 
     }
@@ -102,8 +101,7 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
    * 
    * @return true if the head is equal to null
    */
-//TODO: add @Override annotation!
-  // @Override
+ @Override
   public boolean isEmpty() {
     return head == null;
   }
@@ -113,8 +111,7 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
    * 
    * @return size of the stack
    */
-//TODO: add @Override annotation!
-  // @Override
+ @Override
   public int size() {
     return size;
   }
@@ -124,8 +121,8 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
    * 
    * @return DrawingStackIterator object that starts at the head of the stack
    */
-//TODO: add @Override annotation!
-//  @Override
+
+  @Override
   public Iterator<DrawingChange> iterator() {
 
     return new DrawingStackIterator<DrawingChange>(head);

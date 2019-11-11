@@ -51,7 +51,6 @@ public class Canvas {
       throw new IllegalArgumentException("Out of bounds for width or height: " + width
               + " width value " + height + " height value.");
     }
-    // TODO : review if width and height matches up!
     drawingArray = new char[height][width];
     for(int row = 0; row < height; row++) {
       for(int col = 0; col < width; col++) {
@@ -213,4 +212,5 @@ public class Canvas {
     return stringVersion;
   }
 
+	
 }

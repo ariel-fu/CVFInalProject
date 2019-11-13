@@ -156,9 +156,6 @@ public class Canvas {
     catch (Exception e) {
       return false; // if any other EmptyStackException is thrown, return false.
     }
-    if (redoStack.peek() != drawingChange) {
-      return false;
-    }
     if (drawingArray[drawingChange.row][drawingChange.col] != drawingChange.prevChar) {
       return false;
     }

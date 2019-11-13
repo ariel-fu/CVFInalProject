@@ -73,9 +73,21 @@ public class AsciiArtTester {
       } catch (Exception e) {
         return false; // any other exception other than IllegalArgumentException will be wrong.
       }
+      
+      // peek at an empty stack
+      test = new DrawingStack();
+      try {
+        test.peek();
+        return false;
+      } catch(EmptyStackException e) {
+      } catch(Exception e) {
+        return false;
+      }
     } catch (Exception e) {
       return false; // if any exceptions were thrown inside this tester method, return false.
     }
+    
+
 
     return true;
   }
@@ -311,7 +323,11 @@ public class AsciiArtTester {
       return false;
     }
  
-    
+    test.draw(1, 2, 'X');
+    test.undo();
+    if(test.getCanvas()[1][2] != 'X') {
+      return false;
+    }
 
     return true;
   }

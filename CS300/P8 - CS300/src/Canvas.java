@@ -99,12 +99,10 @@ public class Canvas {
    * 
    * @param row - row
    * @param col - col
-   * @throws IllegalArgumentException if the row or the col input are out of
-   *                                  bounds
    * @return true if the row and the col given are within bounds.
    */
   private boolean validRowCol(int row, int col) {
-    if (row >= width || col >= height || row < 0 || col < 0) {
+    if (row >= height || col >= width || row < 0 || col < 0) {
       return false;
     }
 

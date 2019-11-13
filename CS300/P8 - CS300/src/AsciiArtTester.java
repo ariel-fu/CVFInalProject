@@ -63,50 +63,7 @@ public class AsciiArtTester {
         // no exceptions should be thrown.
         return false;
       }
-
-      try {
-        DrawingChange pop = test.pop();
-        if (!test.isEmpty()) {
-          // the Stack should not be empty yet.
-          return false;
-        }
-        if (!compare(pop, other)) {
-          return false;
-        }
-
-      } catch (Exception e3) {
-        return false;
-      }
-      // peek empty
-      // check return value - should be an exception
-
-      test = new DrawingStack();
-      try {
-        DrawingChange emptyPeek = test.peek();
-        return false;
-      } catch (EmptyStackException e) {
-        // should throw an exception from peeking an empty stack.
-      } catch (Exception e) {
-        return false;
-      }
-
-      // pop empty
-      // check return value - should throw exception
-      test = new DrawingStack();
-
-      try {
-        DrawingChange emptyPop = test.pop();
-
-        return false;
-
-      } catch (EmptyStackException e) {
-        // should throw an exception from popping an empty stack.
-      } catch (Exception e) {
-        return false; // any other exception other than EmptyStackException will be wrong
-      }
-
       // push a null
-
       test = new DrawingStack();
       try {
         DrawingChange nullPush = null;
@@ -193,6 +150,9 @@ public class AsciiArtTester {
 
     stack.push(x);
     iterate = stack.iterator();
+    if (!iterate.hasNext()) {
+      return false; // if the new iterator doesn't have next, return false.
+    }
     if (!iterate.next().equals(x)) {
       return false;
     }
@@ -205,18 +165,15 @@ public class AsciiArtTester {
       // should not throw any other exceptions
       return false;
     }
-
-    DrawingChange[] changes = new DrawingChange[3];
-    for (int i = 0; i < changes.length; i++) {
-      changes[i] = new DrawingChange(i, i + 1, ' ', 'a');
-    }
-    if (changes[1].newChar != 'a') {
-      return false;
-    }
-    if (changes[0].row != 0) {
-      return false;
-    }
-    if (changes[2].col != 3) {
+    try {
+      int count = 0;
+      for (DrawingChange current : stack) {
+        count++;
+      }
+      if (count != stack.size()) {
+        return false;
+      }
+    } catch (Exception e) {
       return false;
     }
     return true;
@@ -262,6 +219,31 @@ public class AsciiArtTester {
       return false;
     }
 
+    // test again with more specific bounds
+    test = new Canvas(10, 15); // width of 10, height of 15
+    try {
+      test.draw(14, 9, 'e'); // should draw at [14][9] --> [row][col]
+    } catch (Exception e) {
+      return false;
+    }
+
+    try {
+      test.draw(16, 11, 'q'); // should throw IllegalArgumentException
+      return false;
+    } catch (IllegalArgumentException e) {
+    } catch (Exception e) {
+      return false;
+    }
+
+    try {
+      test.draw(15, 10, 'n'); // should also throw IllegalArgumentException
+      return false;
+    } catch (IllegalArgumentException e) {
+
+    } catch (Exception e) {
+      return false;
+    }
+
     return true;
 
   }
@@ -272,6 +254,7 @@ public class AsciiArtTester {
    * @return true if the pop method works as expected
    */
   public static boolean testDrawingStackPop() {
+    DrawingChange head;
     try {
       DrawingStack test = new DrawingStack();
       try {
@@ -283,7 +266,8 @@ public class AsciiArtTester {
         return false;
       }
       try {
-        test.push(new DrawingChange(0, 1, ' ', 'p'));
+        head = new DrawingChange(0, 1, ' ', 'p');
+        test.push(head);
       } catch (Exception e) {
         return false; // no exceptions should be thrown from this push method.
       }
@@ -294,18 +278,8 @@ public class AsciiArtTester {
         return false;
       }
       // check if the removed change has the same values as the changed pushed in
-      if (change.row != 0) {
-        return false;
-      }
-      if (change.col != 1) {
-        return false;
-      }
-      if (change.prevChar != ' ') {
-        return false;
-      }
-      if (change.newChar != 'p') {
-        return false;
-      }
+      if (!compare(change, head))
+        ;
       // make sure there is nothing left in the stack after removing the only change
       // pushed onto the stack.
       if (!test.isEmpty()) {
@@ -336,20 +310,8 @@ public class AsciiArtTester {
     if (test.getCanvas()[0][0] == 'p') {
       return false;
     }
-    // re-draw 'p' at [0][0], by using the redo method and popping one off the
-    // redoStack.
-    test.redo();
-    if (test.getCanvas()[0][0] != 'p') {
-      return false;
-    }
-    // redo(ing) one more time, while the redoStack is empty, will throw an
-    // EmptyStackException
-    try {
-      if (test.redo() == false) {
-      }
-    } catch (Exception e) {
-      return false;
-    }
+ 
+    
 
     return true;
   }

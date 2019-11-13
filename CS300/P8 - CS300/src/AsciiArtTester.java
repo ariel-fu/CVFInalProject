@@ -4,6 +4,8 @@ import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.hamcrest.core.IsEqual;
+
 ////////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 //Title:           AsciiArtTester
@@ -28,7 +30,7 @@ import java.util.NoSuchElementException;
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 /**
  * This class is a Tester class for methods created in DrawingChange,
- * DrawingStack, Canvas
+ * DrawingStack, Canvas, and DrawingStackIterator
  * 
  * @author Ariel
  *
@@ -42,10 +44,32 @@ public class AsciiArtTester {
 	 */
 	public static boolean testUndo() {
 		Canvas test = new Canvas(5, 5);
+		// draw 'p' at [0][0]
 		test.draw(0, 0, 'p');
-		if (!test.undo()) {
+		if (test.getCanvas()[0][0] != 'p') {
 			return false;
 		}
+		// remove 'p' at [0][0] by using undo, adding one to the redoStack.
+		test.undo();
+		if (test.getCanvas()[0][0] == 'p') {
+			return false;
+		}
+		// re-draw 'p' at [0][0], by using the redo method and popping one off the
+		// redoStack.
+		test.redo();
+		if (test.getCanvas()[0][0] != 'p') {
+			return false;
+		}
+		// redo(ing) one more time, while the redoStack is empty, will throw an
+		// EmptyStackException
+		try {
+			test.redo();
+			return false;
+		} catch (EmptyStackException e) {
+		} catch (Exception e) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -58,14 +82,17 @@ public class AsciiArtTester {
 		Canvas test = new Canvas(5, 5);
 		try {
 			test.redo();
-
 			return false;
+		} catch (EmptyStackException e) {
 		} catch (Exception e) {
+			return false;
 		}
 		test.draw(0, 0, 'p');
-
+		if (test.getCanvas()[0][0] != 'p') {
+			return false;
+		}
 		test.undo();
-		if (!test.redo()) {
+		if (test.getCanvas()[0][0] == 'p') {
 			return false;
 		}
 		return true;
@@ -256,11 +283,7 @@ public class AsciiArtTester {
 			}
 			// make sure there is nothing left in the stack after removing the only change
 			// pushed onto the stack.
-			try {
-				test.peek();
-				return false;
-			} catch (EmptyStackException e) {
-			} catch (Exception e) {
+			if (!test.isEmpty()) {
 				return false;
 			}
 		} catch (Exception e) {
@@ -420,6 +443,12 @@ public class AsciiArtTester {
 		return true;
 	}
 
+	/**
+	 * Main method to print out AsciiArtTestSuite's result, true if all tests
+	 * passed, false and the name of the method if it failed.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		System.out.println(runAsciiArtTestSuite());
 	}

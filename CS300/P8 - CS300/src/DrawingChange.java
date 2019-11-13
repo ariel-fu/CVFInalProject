@@ -22,7 +22,7 @@
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 /**
  * This class represents a collection of a row field, a column field, a previous
- * char field, and a new char field. in order.
+ * char field, and a new char field.
  * 
  * @author Ariel
  *

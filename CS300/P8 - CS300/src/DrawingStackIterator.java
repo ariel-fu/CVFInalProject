@@ -41,7 +41,7 @@ public class DrawingStackIterator<DrawingChange> implements Iterator<DrawingChan
 	}
 
 	/**
-	 * Returns whether the stack is empty or not
+	 * Returns true if current is equal to null
 	 * 
 	 * @return true if current is equal to null
 	 */

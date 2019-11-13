@@ -31,8 +31,8 @@ import java.util.Iterator;
  *
  **/
 public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingChange> {
-  private LinkedNode<DrawingChange> head;
-  private int size;
+  private LinkedNode<DrawingChange> head; // head / top of the Stack
+  private int size; // total number of DrawingChange objects stored in the Stack
 
   /**
    * No argument constructor for DrawingStack class, it sets the size of the stack
@@ -64,7 +64,7 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
   }
 
   /**
-   * Removes the head of the stack and returns the head of the stack
+   * Removes the head of the stack and returns that object
    * 
    * @return previous head of the stack
    * @throws EmptyStackException without error message if the stack is empty.
@@ -121,10 +121,7 @@ public class DrawingStack implements StackADT<DrawingChange>, Iterable<DrawingCh
    * 
    * @return DrawingStackIterator object that starts at the head of the stack
    */
-
-  @Override
   public Iterator<DrawingChange> iterator() {
-
     return new DrawingStackIterator<DrawingChange>(head);
   }
 

@@ -156,18 +156,21 @@ public class CamperBST {
     } else {
       // nodes with only one child or no child
       if(current.getLeftNode() == null) {
+        System.out.println("Deleting: " + current.getData());
         return current.getRightNode();
       } else if(current.getRightNode() == null) {
+        System.out.println("Deleting: " + current.getData());
         return current.getLeftNode();
+      } else {
+
+        // nodes with two children
+        // find the inorder successor's data and set it to the current node's data
+        current.setData(findMinimum(current.getRightNode()));
+
+        // delete the inorder successor, replace the item in this node with the smallest
+        // item in the right subtree.
+        current.setRightNode(deleteHelp(current.getRightNode(), current.getRightNode().getData()));
       }
-
-      // nodes with two children
-      // find the inorder successor's data and set it to the current node's data
-      current.setData(findMinimum(current.getRightNode()));
-
-      // delete the inorder successor, replace the item in this node with the smallest
-      // item in the right subtree.
-      current.setRightNode(deleteHelp(current.getRightNode(), current.getRightNode().getData()));
     }
     return current;
   }

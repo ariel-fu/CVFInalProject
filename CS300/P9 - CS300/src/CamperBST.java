@@ -155,10 +155,10 @@ public class CamperBST {
       current.setRightNode(deleteHelp(current.getRightNode(), key));
     } else {
       // nodes with only one child or no child
-      if(current.getRightNode() == null) {
-        return current.getLeftNode();
-      } else if(current.getLeftNode() == null) {
+      if(current.getLeftNode() == null) {
         return current.getRightNode();
+      } else if(current.getRightNode() == null) {
+        return current.getLeftNode();
       }
 
       // nodes with two children

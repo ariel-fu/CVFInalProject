@@ -1,7 +1,7 @@
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
-// Title:           CamperBST
+// Title:           Camper
 // Files:           Camper, CamperBST, CamperTreeNode, CampEnrollmentApp, CamperManager, 
 // Course:          300, Fall, and 2019
 //
@@ -143,42 +143,7 @@ public class Camper implements Comparable<Camper> {
    */
   @Override
   public int compareTo(Camper camper) {
-    // compare the last name first
-    String camperLastName = camper.lastName; // the camper's last name (argument)
-    String thisLastName = this.lastName; // this camper's last name
-    for(int i = 0; i < camper.lastName.length(); i++) {
-      if(!equal(camperLastName.charAt(i), thisLastName.charAt(i))) {
-        if(camperLastName.charAt(i) > thisLastName.charAt(i)) {
-          return -1; // if this camper's last name is less than the argument, return a negative int
-        } else {
-          return 1; // if greater, return a positive int
-        }
-      }
-    }
-
-    // compare the first name, if the last names are the same.
-    String camperFirstName = camper.firstName; // the camper's first name (argument)
-    String thisFirstName = this.firstName; // this camper's first name
-    for(int i = 0; i < camper.firstName.length(); i++) {
-      if(!equal(camperFirstName.charAt(i), thisFirstName.charAt(i))) {
-        if(camperFirstName.charAt(i) > thisFirstName.charAt(i)) {
-          return -1; // if this camper is less than the argument, return a negative int
-        } else {
-          return 1; // if greater, return a positive int
-        }
-      }
-    }
-    return 0; // both of these first names and last names are the same
-  }
-
-  /**
-   * Takes in two chars and compares them
-   * 
-   * @param camper   - char of the camper input in compareTo method
-   * @param comparer - char of the Camper being compared to the camper input
-   * @return true if camper is the same char as comparer
-   */
-  private boolean equal(char camper, char comparer) {
-    return camper == comparer;
+    // String compareTo compares the two Strings lexigraphically
+    return this.toString().compareTo(camper.toString());
   }
 }

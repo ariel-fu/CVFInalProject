@@ -96,6 +96,17 @@ public class CampEnrollmentApp {
     System.out.println("Unenrollment of " + split[1] + " " + split[2] + " Successful!");
 
   }
+  
+  public void traverse(String order) {
+    Camper camper = null;
+    if(order.toUpperCase().equals("PREORDER")) {
+      
+    } else if(order.equals("POSTORDER")) {
+      
+    } else if(order.equals("INORDER")) {
+      
+    }
+  }
 
   public static void main(String[] args) throws IOException {
     CampEnrollmentApp app = new CampEnrollmentApp();

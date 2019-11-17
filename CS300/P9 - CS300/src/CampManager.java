@@ -101,7 +101,6 @@ public class CampManager {
    * @throws NoSuchElementException - if CamperBST.delete throws the exception
    */
   public void unenrollCamper(Camper delCamper) throws NoSuchElementException {
-    
       campers.delete(delCamper);
   }
 

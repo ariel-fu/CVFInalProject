@@ -1,15 +1,13 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-
-import com.sun.corba.se.spi.monitoring.StatisticsAccumulator;
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           CampEnrollmentApp
-// Files:           Camper, CamperBST, CamperTreeNode, CampEnrollmentApp, CamperManager, 
+// Files:           CampEnrollmentApp, Camper, CamperBST, CampManager, CampTreeNode 
 // Course:          300, Fall, and 2019
 //
 // Author:          (Ariel Fu)
@@ -54,7 +52,7 @@ public class CampEnrollmentApp {
    * Prints out the statistics of the camp
    */
   public void statistics() {
-   
+    manager.printStatistics();
   }
 
   /**
@@ -69,14 +67,16 @@ public class CampEnrollmentApp {
     Camper camper = null; // set to a default value that will later be set to the camper being
                           // enrolled's info.
     try {
-      camper = new Camper(split[1], split[2], age);
+      // split at index 2 is the first name, index 1 is the last name.
+      camper = new Camper(split[2], split[1], age);
     } catch (IllegalArgumentException e) {
       // if the age is out of range, an exception will be thrown and the enrollment of
       // that child will be unsuccessful.
       System.out.println("This person is either too old or too young to be in Camp Badger");
+      return;
     }
     manager.enrollCamper(camper);
-    System.out.println("Enrollment of " + split[1] + " " + split[2] + " Successful!");
+    System.out.println("Enrollment of " + split[2] + " " + split[1] + " Successful!");
   }
 
   /**
@@ -87,41 +87,64 @@ public class CampEnrollmentApp {
    */
   public void unenroll(String info) {
     String[] split = info.split(" ");
-    Camper camper = null;
+    Iterator<Camper> iterate = manager.traverse("INORDER");
+    Camper current = null;
+    while (iterate.hasNext()) {
+      Camper next = iterate.next();
+      if(next.getFirstName().equals(split[2])) {
+        if(next.getLastName().equals(split[1])) {
+          current = next;
+        }
+      }
+    }
     try {
-      manager.unenrollCamper(camper);
-    } catch (NoSuchElementException e) {
+      manager.unenrollCamper(current);
+      System.out.println("--------------------------");
+      System.out.println("Unenrollment of " + split[2] + " " + split[1] + " Successful!");
+    } catch (Exception e) {
       System.out.println("That camper is not enrolled.");
     }
-    System.out.println("Unenrollment of " + split[1] + " " + split[2] + " Successful!");
 
   }
-  
+
+  /**
+   * Traverses the BST depending on the order
+   * 
+   * @param order - type of traversal
+   */
   public void traverse(String order) {
-    Camper camper = null;
-    if(order.toUpperCase().equals("PREORDER")) {
-      
-    } else if(order.equals("POSTORDER")) {
-      
-    } else if(order.equals("INORDER")) {
-      
+    String[] command = order.split(" ");
+    System.out.println("--- " + command[1] + " Traversal ---");
+    Iterator<Camper> iterate = manager.traverse(command[1]);
+    while (iterate.hasNext()) {
+      System.out.println(iterate.next());
     }
   }
 
+  /**
+   * Executes the commands read by text file
+   * 
+   * @param args
+   * @throws IOException - if the text file is invalid
+   */
   public static void main(String[] args) throws IOException {
     CampEnrollmentApp app = new CampEnrollmentApp();
     List<String> fileLines = Files.readAllLines(Paths.get("sim.txt"));
-    for(int i = 0; i < fileLines.size(); i++) {
-      String info = fileLines.get(i);
-      if(info.contains("E")) {
+
+    Iterator<String> iterate = fileLines.iterator();
+    while (iterate.hasNext()) {
+      String info = iterate.next();
+      String[] command = info.split(" ");
+      if(command[0].equals("E")) {
         app.enroll(info);
-      } else if(info.contains("R")) {
+      } else if(command[0].equals("R")) {
         app.unenroll(info);
-      } else if(info.contains("T")) {
-      
-      } else if(info.contains("S")) {
+      } else if(command[0].equals("T")) {
+        app.traverse(info);
+      } else if(command[0].equals("S")) {
         app.statistics();
       }
+
     }
   }
 }

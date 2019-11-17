@@ -2,7 +2,7 @@
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           Camper
-// Files:           Camper, CamperBST, CamperTreeNode, CampEnrollmentApp, CamperManager, 
+// Files:           CampEnrollmentApp, Camper, CamperBST, CampManager, CampTreeNode 
 // Course:          300, Fall, and 2019
 //
 // Author:          (Ariel Fu)

@@ -1,9 +1,11 @@
+import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           CampManager
-// Files:           Camper, CamperBST, CamperTreeNode, CampEnrollmentApp, CamperManager, 
+// Files:           CampEnrollmentApp, Camper, CamperBST, CampManager, CampTreeNode 
 // Course:          300, Fall, and 2019
 //
 // Author:          (Ariel Fu)
@@ -50,9 +52,10 @@ public class CampManager {
    * Constructor for the CampManager by initializing the campers field
    */
   public CampManager() {
-    campers = null;
+    campers = new CamperBST();
   }
 
+  
   /**
    * "Enrolls" a camper by determining their cabin and adding them to the tree
    * 
@@ -71,6 +74,13 @@ public class CampManager {
     campers.insert(newCamper);
   }
 
+  /**
+   * Gets the BST of campers of this manager
+   * @return BST of campers
+   */
+  public CamperBST getCampers() {
+    return campers;
+  }
   /**
    * Prints statistics based on the current "state" of the camp. The statistics to
    * be printed is the total number of campers.
@@ -91,7 +101,7 @@ public class CampManager {
    * @return the Iterator of Campers from CampBST.traverse()
    */
   public Iterator<Camper> traverse(String order) {
-
+    return campers.traverse(order);
   }
 
   /**
@@ -103,5 +113,7 @@ public class CampManager {
   public void unenrollCamper(Camper delCamper) throws NoSuchElementException {
       campers.delete(delCamper);
   }
+  
+  
 
 }

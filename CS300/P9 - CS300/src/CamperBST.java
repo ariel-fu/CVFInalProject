@@ -79,7 +79,6 @@ public class CamperBST {
    */
   public void insert(Camper newCamper) {
     root = insertHelp(root, newCamper);
-    size++;
   }
 
   /**
@@ -91,10 +90,15 @@ public class CamperBST {
    * @return the root of the modified subtree we inserted into
    */
   private CampTreeNode insertHelp(CampTreeNode current, Camper newCamper) {
-    CampTreeNode node = new CampTreeNode();
-    node.setData(newCamper);
+    if(newCamper == null) {
+      return current;
+    }
+
     if(current == null) {
+      CampTreeNode node = new CampTreeNode();
+      node.setData(newCamper);
       current = node;
+      size++;
     } else {
       if(newCamper.compareTo(current.getData()) < 0) {
         current.setLeftNode(insertHelp(current.getLeftNode(), newCamper));
@@ -165,7 +169,7 @@ public class CamperBST {
 
         // nodes with two children
         // find the inorder successor's data and set it to the current node's data
-        current.setData(findMinimum(current.getRightNode()));
+        current.setData(getLeftMost(current.getRightNode()).getData());
 
         // delete the inorder successor, replace the item in this node with the smallest
         // item in the right subtree.
@@ -175,18 +179,18 @@ public class CamperBST {
     return current;
   }
 
-  private Camper findMinimum(CampTreeNode current) {
-    CampTreeNode minimum = current;
-    // if current is null, return it.
-    if(current == null) {
-      return current.getData();
+  /**
+   * Gets the left most node of current node
+   * 
+   * @param current - node to get the left most node
+   * @return left most node of the current node
+   */
+  public CampTreeNode getLeftMost(CampTreeNode current) {
+    if(current.getLeftNode() == null) {
+      return current;
+    } else {
+      return getLeftMost(current.getLeftNode());
     }
-    // works like an iterator.
-    while (current.getRightNode() != null) {
-      minimum = current;
-      current = current.getLeftNode();
-    }
-    return minimum.getData();
   }
 
   // DEBUG

@@ -143,9 +143,9 @@ public class Camper implements Comparable<Camper> {
    */
   @Override
   public int compareTo(Camper camper) {
-    // String compareTo compares the two Strings lexigraphically
-    String thisCamper = this.lastName + ", " + this.firstName;
-    String otherCamper = camper.lastName + ", " + camper.firstName;
-    return thisCamper.compareTo(otherCamper);
+    if(this.lastName.compareTo(camper.lastName) == 0) {
+      return this.firstName.compareTo(camper.firstName);
+    } 
+    return this.lastName.compareTo(camper.lastName);
   }
 }

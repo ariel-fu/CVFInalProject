@@ -120,6 +120,10 @@ public class CamperBST {
     printHelp(root);
   }
 
+  /**
+   * Helper method for print
+   * @param current - The root of the subtree to print from
+   */
   private void printHelp(CampTreeNode current) {
     if(current == null) {
       return;

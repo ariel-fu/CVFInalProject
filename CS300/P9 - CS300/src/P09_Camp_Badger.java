@@ -4,8 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-
-
 import org.junit.Test;
 
 public class P09_Camp_Badger {
@@ -113,9 +111,7 @@ public class P09_Camp_Badger {
     camper2 = new Camper("ariel", "fu", 10);
     tree.insert(key);
     tree.insert(camper2);
-    tree.print();
     tree.delete(camper2);
-    tree.print();
     assertTrue(!tree.isEmpty());
     assertTrue(tree.root.getData().equals(key));
 
@@ -145,11 +141,10 @@ public class P09_Camp_Badger {
     tree.insert(C1);
     Camper C3 = new Camper("C3", "abe", 10);
     tree.insert(C3);
-    tree.print();
-    System.out.println("----------");
+
     tree.delete(A1);
     assertTrue(tree.root.getLeftNode().getLeftNode() == null);
-    tree.print();
+    
     tree.insert(A1);
     tree.delete(A3);
     assertTrue(tree.root.getLeftNode().getRightNode() == null);
@@ -165,24 +160,24 @@ public class P09_Camp_Badger {
     // remove from a left subtree with two children
     tree.insert(C3);
     tree.delete(A2);
-    System.out.println("__________");
-    tree.print();
     assertTrue(tree.root.getLeftNode().getData() == A3);
 
     // remove from a right subtree with two children
     tree = rebuild();
     tree.delete(C2);
-    System.out.println("-------");
-    tree.print();
     assertTrue(tree.root.getRightNode().getData().compareTo(C3) == 0);
 
     // remove the root
     tree = rebuild();
     tree.delete(B);
-    System.out.println("-----------");
-    tree.print();
-    System.out.println(tree.root.getData());
     assertTrue(tree.root.getData().compareTo(C1) == 0);
+    String[] array = new String[] { "A1", "A2", "A3", "C1", "C2", "C3" };
+    Iterator<Camper> iterate = tree.traverse("INORDER");
+    int i = 0;
+    while (iterate.hasNext()) {
+      assertTrue(iterate.next().getFirstName().equals(array[i]));
+      i++;
+    }
   }
 
   private CamperBST rebuild() {
@@ -242,28 +237,27 @@ public class P09_Camp_Badger {
     CamperBST tree;
     Iterator<Camper> iterate;
     int i;
-    
-    
+
     // test Post-order
-    lastNames = new String[] {"A1", "A3", "A2", "C1", "C3", "C2", "B"};
+    lastNames = new String[] { "A1", "A3", "A2", "C1", "C3", "C2", "B" };
     tree = new CamperBST();
     tree = rebuild();
-    
+
     iterate = tree.traverse("POSTORDER");
-    i=0;
-    while(iterate.hasNext()) {
+    i = 0;
+    while (iterate.hasNext()) {
       assertTrue(iterate.next().getFirstName().equals(lastNames[i]));
       i++;
     }
-    
+
     // test pre-order
-    lastNames = new String[] {"B", "A2", "A1", "A3", "C2", "C1", "C3"};
+    lastNames = new String[] { "B", "A2", "A1", "A3", "C2", "C1", "C3" };
     tree = new CamperBST();
     tree = rebuild();
-    
+
     iterate = tree.traverse("PREORDER");
-    i=0;
-    while(iterate.hasNext()) {
+    i = 0;
+    while (iterate.hasNext()) {
       assertTrue(iterate.next().getFirstName().equals(lastNames[i]));
       i++;
     }
@@ -273,8 +267,8 @@ public class P09_Camp_Badger {
     tree = rebuild();
     System.out.println("_---Traversal----");
     iterate = tree.traverse("INORDER");
-    i=0;
-    while(iterate.hasNext()) {
+    i = 0;
+    while (iterate.hasNext()) {
       assertTrue(iterate.next().getFirstName().equals(lastNames[i]));
       i++;
     }

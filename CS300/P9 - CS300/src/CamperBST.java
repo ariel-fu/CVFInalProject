@@ -274,7 +274,7 @@ public class CamperBST {
    */
   public void printPreOrder(CampTreeNode current) {
     if(isEmpty()) {
-      System.out.println("It is empty.");
+      return;
     } else {
       // process the parent/add to the traverse LinkedList
       traversedLList.add(current.getData());
@@ -297,7 +297,7 @@ public class CamperBST {
    */
   public void printInOrder(CampTreeNode current) {
     if(isEmpty()) {
-      System.out.println("BST is empty.");
+      return;
     } else {
       // if the parent has a left child, recur on the left side
       if(current.getLeftNode() != null) {
@@ -321,7 +321,7 @@ public class CamperBST {
    */
   public void printPostOrder(CampTreeNode current) {
     if(isEmpty()) {
-      System.out.println("BST is empty.");
+      return;
     } else {
       // if the parent has a left child, recur on the left side
       if(current.getLeftNode() != null) {

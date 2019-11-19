@@ -115,9 +115,13 @@ public class CampEnrollmentApp {
   public void traverse(String order) {
     String[] command = order.split(" ");
     System.out.println("--- " + command[1] + " Traversal ---");
-    Iterator<Camper> iterate = manager.traverse(command[1]);
-    while (iterate.hasNext()) {
-      System.out.println(iterate.next());
+    if(manager.getCampers().isEmpty()) {
+      System.out.println("The camper list is empty.");
+    } else {
+      Iterator<Camper> iterate = manager.traverse(command[1]);
+      while (iterate.hasNext()) {
+        System.out.println(iterate.next());
+      }
     }
   }
 

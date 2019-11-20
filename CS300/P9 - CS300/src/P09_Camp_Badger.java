@@ -144,7 +144,7 @@ public class P09_Camp_Badger {
 
     tree.delete(A1);
     assertTrue(tree.root.getLeftNode().getLeftNode() == null);
-    
+
     tree.insert(A1);
     tree.delete(A3);
     assertTrue(tree.root.getLeftNode().getRightNode() == null);
@@ -272,6 +272,17 @@ public class P09_Camp_Badger {
       assertTrue(iterate.next().getFirstName().equals(lastNames[i]));
       i++;
     }
+
+    // traverse an empty tree - in-order
+    tree = new CamperBST();
+    iterate = tree.traverse("INORDER");
+
+    // traverse an empty tree - post-order
+    tree = new CamperBST();
+    iterate = tree.traverse("POSTORDER");
+    // traverse an empty tree - pre-order
+    tree = new CamperBST();
+    iterate = tree.traverse("PREORDER");
   }
 
 }

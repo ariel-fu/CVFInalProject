@@ -101,7 +101,6 @@ public class CampManager {
    * @return the Iterator of Campers from CampBST.traverse()
    */
   public Iterator<Camper> traverse(String order) {
-    
     return campers.traverse(order);
   }
 

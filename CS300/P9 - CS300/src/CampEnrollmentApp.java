@@ -140,12 +140,16 @@ public class CampEnrollmentApp {
       String info = iterate.next();
       String[] command = info.split(" ");
       if(command[0].equals("E")) {
+        // E means enroll
         app.enroll(info);
       } else if(command[0].equals("R")) {
+        // R means unenroll
         app.unenroll(info);
       } else if(command[0].equals("T")) {
+        // T means traverse the tree
         app.traverse(info);
       } else if(command[0].equals("S")) {
+        // S means print out statistics
         app.statistics();
       }
 

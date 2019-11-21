@@ -81,6 +81,7 @@ public class CampManager {
   public CamperBST getCampers() {
     return campers;
   }
+  
   /**
    * Prints statistics based on the current "state" of the camp. The statistics to
    * be printed is the total number of campers.
@@ -88,7 +89,7 @@ public class CampManager {
   public void printStatistics() {
 
     System.out.println("--- Camp Statistics ---");
-    System.out.println("Number of campers: " + campers.size());
+    System.out.println("Number of Campers: " + campers.size());
     System.out.println("------------------------");
 
   }

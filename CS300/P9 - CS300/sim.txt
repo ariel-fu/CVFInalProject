@@ -10,3 +10,9 @@ R Emmerich-Danziger Emma
 S
 R Miller Kazuhira
 E Sears George 15
+
+T INORDER
+S
+T POSTORDER
+S
+T PREORDER

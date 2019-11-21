@@ -1,9 +1,6 @@
 import static org.junit.Assert.*;
-
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
-
 import org.junit.Test;
 
 public class P09_Camp_Badger {
@@ -12,49 +9,54 @@ public class P09_Camp_Badger {
   public void testInsert() {
     // insert at the left side
     CamperBST tree = new CamperBST();
-    Camper key = new Camper("Alexa", "Fu", 12);
+    Camper key = new Camper("", "B", 12);
     tree.insert(key);
     assertTrue(tree.root.getData() == (key));
 
     // insert at the left subtree
-    Camper insertLeftCamper = new Camper("Abe", "Bet", 10);
+    Camper insertLeftCamper = new Camper("2", "A2", 10);
     tree.insert(insertLeftCamper);
     assertTrue(tree.root.getLeftNode().getData() == (insertLeftCamper));
 
     // insert at the left subtree's left subtree
-    Camper insertLeftSubtree = new Camper("Earl", "Bater", 8);
+    Camper insertLeftSubtree = new Camper("1", "A1", 8);
     tree.insert(insertLeftSubtree);
     assertTrue(tree.root.getLeftNode().getLeftNode().getData() == (insertLeftSubtree));
 
     // insert at the left subtree's right subtree
-    Camper insertRightSubtree = new Camper("Eda", "Bouti", 9);
+    Camper insertRightSubtree = new Camper("3", "A3", 9);
     tree.insert(insertRightSubtree);
     assertTrue(tree.root.getLeftNode().getRightNode().getData() == (insertRightSubtree));
 
-    // insert at the right side
-    tree = new CamperBST();
-    key = new Camper("Alexa", "Fu", 12);
-    tree.insert(key);
-    assertTrue(tree.root.getData() == (key));
 
     // insert at the right subtree
-    Camper newCamper = new Camper("Loius", "Maker", 14);
+    Camper newCamper = new Camper("2", "C2", 14);
     tree.insert(newCamper);
-    assertTrue(tree.size() == 2);
+    assertTrue(tree.size() == 5);
     assertTrue(tree.root.getData().equals(key));
     assertTrue(tree.root.getRightNode().getData() == (newCamper));
 
     // insert at the right subtree's left subtree
-    Camper insertRightCamper = new Camper("Carl", "Maitey", 12);
+    Camper insertRightCamper = new Camper("1", "C1", 12);
     tree.insert(insertRightCamper);
-    assertTrue(tree.size() == 3);
+    assertTrue(tree.size() == 6);
     assertTrue(tree.root.getRightNode().getLeftNode().getData() == (insertRightCamper));
 
     // insert at the right subtree's right subtree
-    Camper insertRightOfTheRight = new Camper("Tainta", "Zink", 14);
+    Camper insertRightOfTheRight = new Camper("3", "C3", 14);
     tree.insert(insertRightOfTheRight);
-    assertTrue(tree.size() == 4);
+    assertTrue(tree.size() == 7);
     assertTrue(tree.root.getRightNode().getRightNode().getData() == (insertRightOfTheRight));
+    
+    String[] array = new String[] {"A1", "A2", "A3", "B", "C1", "C2", "C3"};
+    int i = 0;
+    Iterator<Camper> iterate = tree.traverse("INORDER");
+
+    while(iterate.hasNext()) {
+      
+      assertTrue(iterate.next().getLastName().equals(array[i]));
+      i++;
+    }
   }
 
   @Test
@@ -265,7 +267,6 @@ public class P09_Camp_Badger {
     lastNames = new String[] { "A1", "A2", "A3", "B", "C1", "C2", "C3" };
     tree = new CamperBST();
     tree = rebuild();
-    System.out.println("_---Traversal----");
     iterate = tree.traverse("INORDER");
     i = 0;
     while (iterate.hasNext()) {

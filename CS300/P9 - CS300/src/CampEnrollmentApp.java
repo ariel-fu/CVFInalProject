@@ -64,11 +64,13 @@ public class CampEnrollmentApp {
     // each command is seperated by a space
     String[] split = info.split(" ");
     Integer age = Integer.parseInt(split[3]);
+    String lastName = split[1];
+    String firstName = split[2];
     Camper camper = null; // set to a default value that will later be set to the camper being
                           // enrolled's info.
     try {
       // split at index 2 is the first name, index 1 is the last name.
-      camper = new Camper(split[2], split[1], age);
+      camper = new Camper(firstName, lastName, age);
     } catch (IllegalArgumentException e) {
       // if the age is out of range, an exception will be thrown and the enrollment of
       // that child will be unsuccessful.
@@ -76,7 +78,7 @@ public class CampEnrollmentApp {
       return;
     }
     manager.enrollCamper(camper);
-    System.out.println("Enrollment of " + split[2] + " " + split[1] + " Successful!");
+    System.out.println("Enrollment of " + firstName + " " + lastName + " Successful!");
   }
 
   /**
@@ -89,10 +91,12 @@ public class CampEnrollmentApp {
     String[] split = info.split(" ");
     Iterator<Camper> iterate = manager.traverse("INORDER");
     Camper current = null;
+    String firstName = split[2];
+    String lastName = split[1];
     while (iterate.hasNext()) {
       Camper next = iterate.next();
-      if(next.getFirstName().equals(split[2])) {
-        if(next.getLastName().equals(split[1])) {
+      if(next.getFirstName().equals(firstName)) {
+        if(next.getLastName().equals(lastName)) {
           current = next;
         }
       }
@@ -100,7 +104,7 @@ public class CampEnrollmentApp {
     try {
       manager.unenrollCamper(current);
       System.out.println("--------------------------");
-      System.out.println("Unenrollment of " + split[2] + " " + split[1] + " Successful!");
+      System.out.println("Unenrollment of " + firstName + " " + lastName + " Successful!");
     } catch (Exception e) {
       System.out.println("That camper is not enrolled.");
     }

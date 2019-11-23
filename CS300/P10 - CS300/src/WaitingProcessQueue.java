@@ -32,9 +32,9 @@ import java.util.Arrays;
 public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
   private static final int INITIAL_CAPACITY = 20; // the initial capacity of this waiting process
                                                   // queue
-  private CustomProcess[] data; // min heap-array storing the CustomProcesses inserted in this
-                                // WaitingProcessQueue. data is an oversize array
-  private int size; // number of CustomProcesses stored in this WaitingProcessQueue
+  protected CustomProcess[] data; // min heap-array storing the CustomProcesses inserted in this
+  // WaitingProcessQueue. data is an oversize array
+  protected int size; // number of CustomProcesses stored in this WaitingProcessQueue
 
   /**
    * No-argument constructor that creates an empty waiting process queue whose
@@ -93,11 +93,13 @@ public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
     // set the root to the last element in the heap
     data[0] = data[size - 1];
     data[size - 1] = null; // remove it from the heap
-    int currentIndex = 0;
-    // while it is not a leaf
-    while (!isLeaf(currentIndex)) {
-      minHeapPercolateDown(currentIndex);
-      currentIndex = getHighestPriorityChild(currentIndex);
+    int current = 0;
+    // while its priority is smaller than its highest priority child's priority,
+    // swap them
+    while (data[current].compareTo(data[getHighestPriorityChild(current)]) > 0) {
+      minHeapPercolateDown(current);
+      
+      
     }
     size--;
     return currentBest;
@@ -146,11 +148,10 @@ public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
    * @param index - element to percolate up
    */
   protected void minHeapPercolateUp(int index) {
-    CustomProcess currElement = data[index];
     int parentOfCurrent = getParent(index);
-    CustomProcess temp = null;
+    CustomProcess temp = data[index];
     // swap the parent and the current
-    temp = currElement;
+    temp = data[index];
     // set the data at the index given to the process at the parent
     data[index] = data[parentOfCurrent];
     // set the data at the index of the parent to the process at the given index
@@ -165,19 +166,11 @@ public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
    */
   protected void minHeapPercolateDown(int index) {
     CustomProcess temp = data[index]; // data at index.
-
-    if(data[getLeftChild(index)].compareTo(data[getRightChild(index)]) > 0) {
-      // right child is smaller than the left child
-      data[index] = data[getRightChild(index)];
-      data[getRightChild(index)] = temp;
-    } else if(data[getLeftChild(index)].compareTo(data[getRightChild(index)]) < 0) {
-      // left child is smaller than the right child
-      data[index] = data[getLeftChild(index)];
-      data[getLeftChild(index)] = temp;
-    } else {
-      // both are equal, swap with the right branch
-      data[index] = data[getRightChild(index)];
-      data[getRightChild(index)] = temp;
+    // if its smallest child has a higher priority than this index, perform a swap
+    // with it
+    if(data[index].compareTo(data[getHighestPriorityChild(index)]) > 0) {
+      data[index] = data[getHighestPriorityChild(index)];
+      data[getHighestPriorityChild(index)] = temp;
     }
 
   }
@@ -217,7 +210,11 @@ public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
    * @return index of left child of the parent
    */
   protected int getLeftChild(int i) {
-    return 2 * i + 1;
+    if(hasLeftChild(i)) {
+      return 2 * i + 1;
+    } else {
+      return i;
+    }
   }
 
   /**
@@ -227,7 +224,11 @@ public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
    * @return index of the right child of the parent
    */
   protected int getRightChild(int i) {
-    return 2 * i + 2;
+    if(hasRightChild(i)) {
+      return 2 * i + 2;
+    } else {
+      return i;
+    }
   }
 
   /**
@@ -237,34 +238,53 @@ public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
    * @return index of the child with the highest priority
    */
   protected int getHighestPriorityChild(int i) {
-    if(data[getLeftChild(i)].compareTo(data[getRightChild(i)]) < 0) {
+    if(hasRightChild(i)) {
+      if(data[getLeftChild(i)].compareTo(data[getRightChild(i)]) < 0) {
+        return getLeftChild(i);
+      } else {
+        return getRightChild(i);
+      }
+    } else if(hasLeftChild(i)) {
       return getLeftChild(i);
     } else {
-      return getRightChild(i);
+      return i;
     }
+  }
+
+  /**
+   * Helper method that returns true if current node has a left child
+   * 
+   * @param i - index of current node
+   * @return true if node has a left child
+   */
+  protected boolean hasLeftChild(int i) {
+    return 2 * i + 1 < size;
+  }
+
+  /**
+   * Helper method that returns true if current node has a right child
+   * 
+   * @param i - index of current node
+   * @return true if node has a right child
+   */
+  protected boolean hasRightChild(int i) {
+    return 2 * i + 2 < size;
   }
 
   /**
    * Helper method for getting parent of either right or left child
    * 
    * @param i - index of child
-   * @return index of parent of this child
+   * @return index of the parent of this child
    */
   protected int getParent(int i) {
-    return (i - 1) / 2;
-  }
-
-  /**
-   * Helper method that returns true if int is a leaf node
-   * 
-   * @param i - index of current
-   * @return true if the node is a leaf
-   */
-  protected boolean isLeaf(int i) {
-    if(i >= (size / 2) && i <= size) {
-      return true;
+    // if i is the root, return itself
+    if(i == 0) {
+      return i;
+    } else {
+      // otherwise return the parent's index
+      return (i - 1) / 2;
     }
-    return false;
   }
 
   // DEBUG

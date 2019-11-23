@@ -64,6 +64,11 @@ public class P10_Test {
       assertTrue(false);
     }
   }
+  
+  @Test
+  public void testRemove() {
+    
+  }
 
   public WaitingProcessQueue rebuild() {
     WaitingProcessQueue test = new WaitingProcessQueue();

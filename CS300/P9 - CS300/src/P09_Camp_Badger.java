@@ -14,6 +14,7 @@ public class P09_Camp_Badger {
     assertTrue(tree.root.getData() == (key));
 
     // insert at the left subtree
+    
     Camper insertLeftCamper = new Camper("2", "A2", 10);
     tree.insert(insertLeftCamper);
     assertTrue(tree.root.getLeftNode().getData() == (insertLeftCamper));
@@ -57,6 +58,18 @@ public class P09_Camp_Badger {
       assertTrue(iterate.next().getLastName().equals(array[i]));
       i++;
     }
+    
+
+    // insert a null
+    tree = new CamperBST();
+    key = null;
+    tree.insert(null);
+    assertTrue(tree.root == null);
+    
+    tree = rebuild();
+    key = null;
+    tree.insert(key);
+    assertTrue(tree.size() == 7);
   }
 
   @Test
@@ -68,15 +81,18 @@ public class P09_Camp_Badger {
     camper1 = new Camper("abe", "EARL", 12);
     camper2 = new Camper("abe", "earl", 12);
     assertTrue(camper1.compareTo(camper2) < 0);
+    assertTrue(camper2.compareTo(camper1) > 0);
 
-    camper1 = new Camper("abe", "eArl", 12);
-    camper2 = new Camper("abe", "eaRl", 12);
+    camper1 = new Camper("Abe", "eARl", 12);
+    camper2 = new Camper("abe", "eARl", 12);
     assertTrue(camper1.compareTo(camper2) < 0);
+    assertTrue(camper2.compareTo(camper1) > 0);
 
   }
 
   @Test
   public void testRemove() {
+    
     // remove from nothing
     CamperBST tree = new CamperBST();
     Camper key = new Camper("Alexa", "Fu", 12);
@@ -107,6 +123,17 @@ public class P09_Camp_Badger {
       assertTrue(false);
     }
 
+    // remove a null
+    tree = rebuild();
+    key = null;
+    try {
+      tree.delete(key);
+      assertTrue(false);
+    } catch(NoSuchElementException e) {
+      assertTrue(true);
+    }
+    
+    
     // remove from a left subtree leaf
     tree = new CamperBST();
     key = new Camper("earl", "Westhood", 12);

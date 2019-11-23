@@ -84,11 +84,17 @@ public class WaitingProcessQueue implements WaitingQueueADT<CustomProcess> {
    */
   @Override
   public CustomProcess removeBest() {
+    // if it empty, throw a NoSuchElementException
     if(isEmpty()) {
       throw new NoSuchElementException("Queue is empty");
     }
+    // the best is at the root
     CustomProcess currentBest = data[0];
+    // set the root to the last element in the heap
+    data[0] = data[size - 1];
+    data[size - 1] = null; // remove it from the heap
     int currentIndex = 0;
+    // while it is not a leaf
     while (!isLeaf(currentIndex)) {
       minHeapPercolateDown(currentIndex);
       currentIndex = getHighestPriorityChild(currentIndex);

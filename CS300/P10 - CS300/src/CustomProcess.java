@@ -21,8 +21,7 @@
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 /**
- * This class represents the data type for the preocesses used in the
- * application
+ * This class represents the data type for the processes used in the application
  * 
  * @author Ariel
  *
@@ -66,6 +65,7 @@ public class CustomProcess implements Comparable<CustomProcess> {
       return 10;
     } else if(this.getBurstTime() == other.getBurstTime()) {
       // if they have the same burstTime, check their processID
+      // smaller ID == smaller CustomProcess
       if(this.getProcessId() < other.getProcessId()) {
         return -10;
       } else if(this.getProcessId() > other.getProcessId()) {

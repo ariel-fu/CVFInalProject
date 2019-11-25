@@ -4,7 +4,7 @@ import java.util.Arrays;
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           WaitingProcessQueue
-// Files:           CustomProcess, WaitingProcessQueue 
+// Files:           CustomProcess, ProcessScheduler, WaitingProcessQueue, WaitingQueueADT 
 // Course:          300, Fall, and 2019
 //
 // Author:          (Ariel Fu)

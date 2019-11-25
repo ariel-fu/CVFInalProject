@@ -3,7 +3,7 @@ import java.util.NoSuchElementException;
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           ProcessSchedulerTester
-// Files:           CustomProcess,ProcessSchedulerTester, WaitngProcessQueue, WaitingQueueADT  
+// Files:           CustomProcess, ProcessScheduler, WaitingProcessQueue, WaitingQueueADT
 // Course:          300, Fall, and 2019
 //
 // Author:          (Ariel Fu)

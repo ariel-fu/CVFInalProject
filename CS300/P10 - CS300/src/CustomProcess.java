@@ -1,7 +1,7 @@
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           CustomProcess
-// Files:           CustomProcess 
+// Files:           CustomProcess, ProcessScheduler, WaitingProcessQueue, WaitingQueueADT 
 // Course:          300, Fall, and 2019
 //
 // Author:          (Ariel Fu)

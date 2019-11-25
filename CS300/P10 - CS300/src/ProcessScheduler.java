@@ -72,15 +72,6 @@ public class ProcessScheduler {
   }
 
   /**
-   * Helps with the quit process
-   * 
-   * @return a string that has the number of processes run and how long it took.
-   */
-  private String quit() {
-    return numProcessesRun + " processes run in " + currentTime + " units of time!";
-  }
-
-  /**
    * Runs the scanner and schedules accordingly
    * 
    * @param args
@@ -158,6 +149,10 @@ public class ProcessScheduler {
 
       }
     } while (!stringInputed.equalsIgnoreCase("quit") || !stringInputed.equalsIgnoreCase("q"));
+    // close the scanner if it was used.
+    if(scanner != null) {
+      scanner.close();
+    }
     System.out.println(numberOfProcesses + " processes run in " + schedule.currentTime
             + " units of time!\n" + "Thank you for using our scheduler!\n" + "Goodbye!\n");
   }

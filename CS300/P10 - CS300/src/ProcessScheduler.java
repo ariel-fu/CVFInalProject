@@ -1,10 +1,9 @@
-import java.util.Queue;
 import java.util.Scanner;
 
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           ProcessSchedulerTester
-// Files:           CustomProcess,ProcessSchedulerTester, WaitngProcessQueue, WaitingQueueADT  
+// Files:           CustomProcess,ProcessSchedulerTester, WaitingProcessQueue, WaitingQueueADT  
 // Course:          300, Fall, and 2019
 //
 // Author:          (Ariel Fu)
@@ -24,19 +23,20 @@ import java.util.Scanner;
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 /**
- * This class represents the data type for the main scheduler for our processes.
+ * This class represents the main scheduler for our processes.
  */
 public class ProcessScheduler {
   private int currentTime; // stores the current time after the last run
   private int numProcessesRun; // stores the number of processes run so far
   private WaitingProcessQueue queue; // this processing unit's queue
-  
 
+  /**
+   * Constructor for the ProcessScheduler class
+   */
   public ProcessScheduler() {
     queue = new WaitingProcessQueue();
     currentTime = 0;
     numProcessesRun = 0;
-
   }
 
   /**
@@ -99,13 +99,20 @@ public class ProcessScheduler {
 
       // if the user inputed quit, break out of the do/while loop then say goodbye
       if(command.equalsIgnoreCase("q")) {
-        break;
+        // string input must be 1
+        if(splitString.length == 1) {
+          break;
+        }
+
       } else if(command.equalsIgnoreCase("quit")) {
-        break;
+        // string input must be 1
+        if(splitString.length == 1) {
+          break;
+        }
       }
 
       // check if it is a valid command
-      if(!isValidCommand(command)) {
+      if(!isValidCommand(splitString)) {
         System.out.println("WARNING: Please enter a valid command! \n");
         continue;
       }
@@ -113,6 +120,7 @@ public class ProcessScheduler {
       // if it is valid, check if it is a valid input
       if(!isValidArgument(splitString)) {
         System.out.println("WARNING: burst time MUST be an integer! \n");
+        continue;
       }
 
       // if both the command and argument (if it has one) are valid, do the command.
@@ -128,8 +136,6 @@ public class ProcessScheduler {
         schedule.numProcessesRun = 0; // reset the number of processes to run.
       } else if(splitString[0].equalsIgnoreCase("s")
               || splitString[0].equalsIgnoreCase("schedule")) {
-        // run the same things for input "s" and "schedule"
-
         // get the burst time
         int burstTime = Integer.parseInt(splitString[1]);
         try {
@@ -139,13 +145,14 @@ public class ProcessScheduler {
           // schedule the process
           schedule.scheduleProcess(process);
           numberOfProcesses++;
+
           // print out the ID and the burst time of the process recently scheduled.
           System.out.println("Process ID " + process.getProcessId() + " scheduled. Burst Time = "
                   + burstTime + "\n");
         } catch (IllegalArgumentException e) {
           // if the burst time is a non-positive or zero integer, print out the error
           // message.
-          System.out.println(e.getMessage());
+          System.out.println(e.getMessage() + "\n");
         }
 
       }
@@ -154,6 +161,8 @@ public class ProcessScheduler {
     if(scanner != null) {
       scanner.close();
     }
+
+    // then print out the goodbye message
     System.out.println(numberOfProcesses + " processes run in " + schedule.currentTime
             + " units of time!\n" + "Thank you for using our scheduler!\n" + "Goodbye!\n");
   }
@@ -161,20 +170,37 @@ public class ProcessScheduler {
   /**
    * Checks if the input is a valid command
    * 
-   * @param stringInputed - input from Scanner
+   * @param command - input from Scanner as a String array
    * @return true if the command is a valid command
    */
-  public static boolean isValidCommand(String stringInputed) {
-
+  public static boolean isValidCommand(String[] stringInputed) {
+    // if it is not within the correct range of lengths, it is not a valid command
+    if(stringInputed.length > 2 || stringInputed.length <= 0) {
+      return false;
+    }
+    String command = stringInputed[0];
     // check if it matches any one of the 6 commands
-    if(stringInputed.equalsIgnoreCase("r")) {
-      return true;
-    } else if(stringInputed.equalsIgnoreCase("run")) {
-      return true;
-    } else if(stringInputed.equalsIgnoreCase("s")) {
-      return true;
-    } else if(stringInputed.equalsIgnoreCase("schedule")) {
-      return true;
+
+    if(command.equalsIgnoreCase("r")) {
+      // string input must be 1
+      if(stringInputed.length == 1) {
+        return true;
+      }
+    } else if(command.equalsIgnoreCase("run")) {
+      // string input must be 1
+      if(stringInputed.length == 1) {
+        return true;
+      }
+    } else if(command.equalsIgnoreCase("s")) {
+      // string input must be 2
+      if(stringInputed.length == 2) {
+        return true;
+      }
+    } else if(command.equalsIgnoreCase("schedule")) {
+      // string input must be 2
+      if(stringInputed.length == 2) {
+        return true;
+      }
     }
     // if it doesn't match any of the commands, return false
     return false;
@@ -189,13 +215,23 @@ public class ProcessScheduler {
    */
   public static boolean isValidArgument(String[] splitString) {
     String command = splitString[0];
+    // if the second argument in the splitString is an integer, return true
     if(command.equalsIgnoreCase("s")) {
       return isNumeric(splitString[1]);
     } else if(command.equalsIgnoreCase("schedule")) {
+      // if the second argument in the splitString is an integer, return true
       return isNumeric(splitString[1]);
     } else if(command.equalsIgnoreCase("r")) {
+      // if the length is two, it is a valid argument (nothing)
+      if(splitString.length == 2) {
+        return false;
+      }
       return true;
     } else if(command.equalsIgnoreCase("run")) {
+      // if the length is two, it is a valid argument (nothing)
+      if(splitString.length == 2) {
+        return false;
+      }
       return true;
     }
     return false;
@@ -206,7 +242,6 @@ public class ProcessScheduler {
    * Checks if the element (String) is numeric
    * 
    * @param string - element that is supposed to be numeric
-   * @param result -
    * @return true if string is numeric
    */
   public static boolean isNumeric(String string) {

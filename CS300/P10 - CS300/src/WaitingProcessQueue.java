@@ -24,7 +24,7 @@ import java.util.Arrays;
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 /**
- * This class represents the priority queue
+ * This class represents the priority queue that stores CustomProcesses
  * 
  * @author Ariel
  *

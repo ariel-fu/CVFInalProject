@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 /**
- * This is a tester class for method in CustomProcess and WaitingProcessQueue
+ * This is a tester class for methods in P10
  * 
  * @author Ariel
  */

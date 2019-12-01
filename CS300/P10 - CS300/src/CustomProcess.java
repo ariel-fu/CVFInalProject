@@ -32,6 +32,12 @@ public class CustomProcess implements Comparable<CustomProcess> {
   private final int PROCESS_ID; // unique identifier for this process
   private int burstTime; // time required by this process for CPU execution
 
+  /**
+   * Constructor for CustomProcess class
+   * 
+   * @param burstTime - time it takes to complete process
+   * @throws IllegalArgumentException - burstTime is less than or equal to 0
+   */
   public CustomProcess(int burstTime) {
     if(burstTime <= 0) {
       throw new IllegalArgumentException("The time of a process cannot be 0 or less.");

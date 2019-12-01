@@ -46,7 +46,6 @@ public class ProcessScheduler {
    */
   public void scheduleProcess(CustomProcess process) {
     queue.insert(process);
-    numProcessesRun++;
   }
 
   /**
@@ -61,6 +60,8 @@ public class ProcessScheduler {
       value += "Time " + currentTime + " : Process ID " + removed.getProcessId()
               + " Starting. \r\n";
       currentTime += removed.getBurstTime();
+      // increase the number of processes runned so far
+      numProcessesRun++;
       value += "Time " + currentTime + " : Process ID " + removed.getProcessId()
               + " Completed. \r\n";
       // if the queue is empty, print out
@@ -126,14 +127,15 @@ public class ProcessScheduler {
       // if both the command and argument (if it has one) are valid, do the command.
       if(splitString[0].equalsIgnoreCase("r") || splitString[0].equalsIgnoreCase("run")) {
 
-        if(schedule.numProcessesRun > 1) {
-          System.out.println("Starting " + schedule.numProcessesRun + " processes");
+        if(numberOfProcesses > 1) {
+          System.out.println("Starting " + numberOfProcesses + " processes");
         } else {
-          System.out.println("Starting " + schedule.numProcessesRun + " process");
+          System.out.println("Starting " + numberOfProcesses + " process");
         }
 
         System.out.println(schedule.run());
-        schedule.numProcessesRun = 0; // reset the number of processes to run.
+        numberOfProcesses = 0; // reset the number of processes to run.
+
       } else if(splitString[0].equalsIgnoreCase("s")
               || splitString[0].equalsIgnoreCase("schedule")) {
         // get the burst time
@@ -163,7 +165,7 @@ public class ProcessScheduler {
     }
 
     // then print out the goodbye message
-    System.out.println(numberOfProcesses + " processes run in " + schedule.currentTime
+    System.out.println(schedule.numProcessesRun + " processes run in " + schedule.currentTime
             + " units of time!\n" + "Thank you for using our scheduler!\n" + "Goodbye!\n");
   }
 
@@ -245,11 +247,10 @@ public class ProcessScheduler {
    * @return true if string is numeric
    */
   public static boolean isNumeric(String string) {
-    // try to parse to an int
+    // try to parse to an int, if an exception is thrown it is not numeric
     try {
       int test = Integer.parseInt(string);
     } catch (Exception e) {
-      // if there is an exception, it is not numeric
       return false;
     }
     return true;

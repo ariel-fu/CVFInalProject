@@ -36,6 +36,7 @@ public class Requirements {
    */
   public Requirements(File file) throws FileNotFoundException {
     scnr = new Scanner(file);
+    requirement = new ArrayList<Skill>();
     addListOfSkills(scnr);
   }
 
@@ -52,14 +53,11 @@ public class Requirements {
     } else {
       currentSkill = file.next();
     }
-    int index = 0;
     // add all the skills into the ArrayList along with its requirement name.
     while (file.hasNext()) {
-      requirement.set(index, new Skill(currentSkill)); // place the current skill into the ArrayList
-      index++;
+      requirement.add(new Skill(currentSkill)); // place the current skill into the ArrayList
       currentSkill = file.nextLine(); // set the currentSkill to the next skill
     }
-    nextRequirement = file.nextLine();
   }
 
   /**
@@ -67,19 +65,24 @@ public class Requirements {
    * 
    * @param file - file that has requirements and skills
    * @return an ArrayList of Strings that represent a requirement
+   * @throws FileNotFoundException - file is not found.
+   * 
    */
-  public ArrayList<String> getRequirement(Scanner file) {
-    ArrayList<String> reqs = new ArrayList<>();
-    String nextLine = file.nextLine();
-    int index = 1;
+  public ArrayList<String> getRequirement(String filePathName) throws FileNotFoundException {
+    File newFile = new File(filePathName);
+    Scanner scanner = new Scanner(newFile);
 
-    reqs.add(nextLine); // add the first line/requirement to the List
+    System.out.println("File not found...");
+
+    ArrayList<String> reqs = new ArrayList<>();
+    String nextLine = ""; // file.nextLine();
 
     // while the file has lines, add in requirements.
-    while (file.hasNext()) {
-      if(nextLine.equals("")) {
-        reqs.set(index, file.skip("\r").nextLine());
+    for(int i = 0; i < requirement.size(); i++) {
+      if(nextLine.equals("") && scanner.hasNext()) {
+        reqs.add(scanner.nextLine());
       }
+      nextLine = scanner.next();
     }
     return reqs;
   }

@@ -3,31 +3,24 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import sun.swing.FilePane;
-
 import java.nio.file.Paths;
-
 
 /**
  * Main class runs my gymnastic beam routine builder
  * 
  * @author Ariel This class asks the user for an input of a variety of skills to
  *         add into their routine.
- * @name Ariel Fu
- *  Email: afu5@wisc.edu
- *  Lecture: Lecture 001
+ * @name Ariel Fu Email: afu5@wisc.edu Lecture: Lecture 001
  * 
  */
 
 public class Main {
-  public static final String title = "Name: Ariel Fu, email: afu5@wisc.edu, Lecture: Lecture 001"; 
+  public static final String title = "Name: Ariel Fu, email: afu5@wisc.edu, Lecture: Lecture 001";
   private static final Scanner scanner = new Scanner(System.in);
-  
+
   public static void main(String[] args) throws IOException {
     System.out.println(title);
     System.out.println("Welcome to the gymnastics beam routine builder.");
@@ -75,10 +68,25 @@ public class Main {
                     + currSkillList.size() + " Please try again.");
             command = scanner.nextLine();
           }
-          // set the item in the routine to the skill at index command (a number from 1 ->
-          // the list size)
-          routine.add(currSkillList.get(Integer.parseInt(command) - 1));
+        } else if(command.equals("")) {
+          // first print out an error message to try again.
+
+          System.out.println("Whoops, you didn't choose a number within range of 1-"
+                  + currSkillList.size() + " Please try again.");
+          command = scanner.nextLine();
+          while (command.equals("") || !isValidInput(command, currSkillList)) {
+            if(command.equalsIgnoreCase("exit")) {
+              break;
+            }
+            System.out.println("Whoops, you didn't choose a number within range of 1-"
+                    + currSkillList.size() + " Please try again.");
+            command = scanner.nextLine();
+          }
         }
+
+        // set the item in the routine to the skill at index command (a number from 1 ->
+        // the list size)
+        routine.add(currSkillList.get(Integer.parseInt(command) - 1));
         currReq++; // increment the index for the current requirement list
         System.out.println(""); // added for spacing / aesthetics
       }

@@ -1,6 +1,7 @@
+Name: Ariel Fu, email: afu5@wisc.edu, Lecture: Lecture 001
 Welcome to the gymnastics beam routine builder.
 Please input your list of requirements / file path name: 
-C:\Users\Ariel\git\Ariel\CS400\P0\src\input.txt
+C:\Users\Ariel\git\Ariel\CS400\P0\input.txt
 Please choose a Mount requirement. Enter exit at any time to quit.
 Skills: 
 | 1. Basic mount | 2. Press handstand | 3. Front tuck on the end of the beam | 
@@ -11,6 +12,8 @@ Please choose a Acro Series requirement. Enter exit at any time to quit.
 Skills: 
 | 1A. Back hand-spring to a lay-out step-out | 2A. Cart-wheel to a round-off | 
 Choose a skill using the numbers 1-2
+3
+Whoops, you didn't choose a number within range of 1-2 Please try again.
 1
 
 Please choose a Gym Acro requirement. Enter exit at any time to quit.

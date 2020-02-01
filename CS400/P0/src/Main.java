@@ -38,9 +38,17 @@ public class Main {
       ArrayList<String> routine = new ArrayList<String>(); // a List of the routine, all skills
                                                            // picked will be added to this list.
 
+//TODO - why limit to req size?
       // should only run as long as there are still requirements left in the routine.
       for(int i = 0; i < reqs.size(); i++) {
-        System.out.println("Please choose a " + reqs.get(currReq)
+
+/* TODO	refactor this out to a function 
+  		- ask for input
+        - validate input (exit or valid #)
+        - quit valid input */
+          
+
+    	System.out.println("Please choose a " + reqs.get(currReq)
                 + " requirement. Enter exit at any time to quit.");
         // increment after a requirement is chosen.
 
@@ -54,6 +62,7 @@ public class Main {
         System.out.println("Choose a skill using the numbers 1-" + currSkillList.size());
 
         command = scanner.nextLine();
+
 
         // break if the user entered exit.
         if(command.equalsIgnoreCase("exit")) {
@@ -87,12 +96,17 @@ public class Main {
         // set the item in the routine to the skill at index command (a number from 1 ->
         // the list size)
         routine.add(currSkillList.get(Integer.parseInt(command) - 1));
+
+//TODO - where is currReq used?
         currReq++; // increment the index for the current requirement list
         System.out.println(""); // added for spacing / aesthetics
       }
       if(command.equalsIgnoreCase("exit")) {
         System.out.println("Successful exit.");
       } else {
+    	  
+    	  
+ //TODO - you did not asked user for the output file
         File file = new File("C:\\Users\\Ariel\\git\\Ariel\\CS400\\P0\\src\\output.txt");
         PrintWriter writer = null;
 
@@ -119,12 +133,14 @@ public class Main {
           writer.write(" STICK!");
           System.out.println("Successful routine :)");
           writer.close();
+//TODO - you did not asked user for the output file
         } catch (FileNotFoundException e) {
           System.out.println(
                   "Sorry, that file was not found. Please try the program again, but with a different file name.");
         }
 
       }
+//TODO - you need to close the file stream
     } catch (Exception e) {
       System.out.println("File is not found or not valid. Re-run the program.");
       System.out.println(e.getMessage());
@@ -189,6 +205,9 @@ public class Main {
     return listOfSkills; // return the String[] of skills
   }
 
+
+//TODO -  static function is not needed in those cases 
+  
   /**
    * Tests if there is a valid input for getting a skill
    * 

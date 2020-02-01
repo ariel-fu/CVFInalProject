@@ -18,7 +18,7 @@ import java.nio.file.Paths;
  */
 
 public class Main {
-  public static final String title = "Name: Ariel Fu, email: afu5@wisc.edu, Lecture: Lecture 001";
+  public static final String title = "Name: Ariel Fu, Email: afu5@wisc.edu, Lecture: Lecture 001";
   private static final Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) throws IOException {
@@ -139,14 +139,11 @@ public class Main {
    */
   protected static ArrayList<String> getReqs(List<String> fileLines) {
     ArrayList<String> listOfRequirements = new ArrayList<String>();
-    int currentIndex = 0; // to help keep track of the current index.
     for(int i = 0; i < fileLines.size(); i++) {
       if(!fileLines.get(i).equals("")) {
         char firstCharacter = fileLines.get(i).charAt(0);
-
         if(!isNumeric(firstCharacter)) {
           listOfRequirements.add(fileLines.get(i));
-          currentIndex++;
         }
       }
     }

@@ -41,6 +41,7 @@
 // TODO: what is do work? all of the implementations or insert or remove??
 public class CompareDS {
   public static void main(String[] args) {
+    // calculate the time it takes to do the work for 10000 inserts on DS_My
     System.out.println("DS_My is doing work for 10000");
     DS_My ds = new DS_My();
     long startTime = System.nanoTime();
@@ -50,15 +51,15 @@ public class CompareDS {
     long endTime = System.nanoTime();        
     long myTime = (endTime-startTime);    
     System.out.println("DS_My took: " + myTime + " nanoseconds to insert 10000 items.");
-
-    DS_Deb deb = new DS_Deb();
+ // calculate the time it takes to do the work for 10000 inserts on DS_Andy (or brian?)
+    DS_Brian brian = new DS_Brian();
     startTime = System.nanoTime();
     for (int i = 0; i < 10000; i++) {
-      deb.insert(Integer.toString(i), "#" + i);
+      brian.insert(Integer.toString(i), "#" + i);
     }
     endTime = System.nanoTime();
     long debTime = (endTime - startTime);
-    System.out.println("DS_Deb took: " + debTime + " nanoseconds to insert 10000 items.");
+    System.out.println("DS_Andy took: " + debTime + " nanoseconds to insert 10000 items.");
     
     System.out.println("The difference was " + (myTime-debTime) + " nanoseconds.");
   }

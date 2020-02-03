@@ -92,21 +92,19 @@ public class DS_My implements DataStructureADT<String, String> {
   public void insert(String key, String value) {
     // TODO Auto-generated method stub
     // check if the key is null, if so throw an IllegalArgumentException
-    if(key == null) {
+    if (key == null) {
       throw new IllegalArgumentException("null key");
     }
     // then check if the array is maxed out. (length = currNumPairs)
-    if(pairArray.length == currNumPairs) {
+    if (pairArray.length == currNumPairs) {
       // if it is, expand the array
       pairArray = expandArray(pairArray);
     }
 
     // TODO - check dup before expand
     // run a for loop through the array to check if this key is a duplicate key.
-    for(int i = 0; i < currNumPairs; i++) {
-      if(pairArray[i].getKey().equals(key)) {
-        throw new RuntimeException("duplicate key");
-      }
+    if (this.contains(key)) {
+      throw new RuntimeException("duplicate key.");
     }
     // if no duplicate keys are found, add the new Pair to the end of the array
     pairArray[currNumPairs] = new Pair(key, value);
@@ -124,12 +122,12 @@ public class DS_My implements DataStructureADT<String, String> {
   public boolean remove(String key) {
     // TODO Auto-generated method stub
     // check if the key is null, if so throw an IllegalArgumentException
-    if(key == null) {
+    if (key == null) {
       throw new IllegalArgumentException("null key");
     }
 
-    for(int i = 0; i < currNumPairs; i++) {
-      if(pairArray[i].getKey().compareTo(key) == 0) {
+    for (int i = 0; i < currNumPairs; i++) {
+      if (pairArray[i].getKey().compareTo(key) == 0) {
         // take the element at the end and add it to the curr index
         pairArray[i] = pairArray[currNumPairs - 1];
         // decrease the number of elements in the array
@@ -153,13 +151,13 @@ public class DS_My implements DataStructureADT<String, String> {
   public String get(String key) {
     // TODO Auto-generated method stub
     // if the key is null, throw an IllegalArgumentException
-    if(key == null) {
+    if (key == null) {
       throw new IllegalArgumentException("null key");
     }
     // run through the array to find the element that matches the key
-    for(int i = 0; i < currNumPairs; i++) {
+    for (int i = 0; i < currNumPairs; i++) {
       String currKey = pairArray[i].getKey();
-      if(currKey.equals(key)) {
+      if (currKey.equals(key)) {
         return currKey;
       }
     }
@@ -177,9 +175,9 @@ public class DS_My implements DataStructureADT<String, String> {
   @Override
   public boolean contains(String key) {
     // TODO Auto-generated method stub
-    for(int i = 0; i < currNumPairs; i++) {
+    for (int i = 0; i < currNumPairs; i++) {
       // if there is an element with the same key, return true
-      if(pairArray[i].getKey().equals(key)) {
+      if (pairArray[i].getKey().equals(key)) {
         return true;
       }
     }
@@ -208,7 +206,7 @@ public class DS_My implements DataStructureADT<String, String> {
   private Pair[] expandArray(Pair[] array) {
     Pair[] biggerArray = new Pair[array.length * 2];
     // transfer all the Pairs in the old array to the new array.
-    for(int i = 0; i < array.length; i++) {
+    for (int i = 0; i < array.length; i++) {
       biggerArray[i] = array[i];
     }
 
@@ -227,11 +225,11 @@ public class DS_My implements DataStructureADT<String, String> {
   private Pair[] removeElement(Pair[] array, String key) {
     Pair[] newArray = new Pair[array.length]; // start with the same length
     int newArrayIndex = 0; // index of the newArray
-    for(int i = 0; i < array.length; i++) {
+    for (int i = 0; i < array.length; i++) {
       // check if the current element == null
-      if(array[i] != null) {
+      if (array[i] != null) {
         // if it not, check if it is equal to the value
-        if(!array[i].getKey().equals(key)) {
+        if (!array[i].getKey().equals(key)) {
           // if it is not equal to the value, add the current element to newArray.
           newArray[newArrayIndex] = array[i];
           newArrayIndex++;

@@ -48,10 +48,11 @@ public class CompareDS {
     for (int i = 0; i < 10000; i++) {
       ds.insert(Integer.toString(i), "#" + i);
     }
-    long endTime = System.nanoTime();        
-    long myTime = (endTime-startTime);    
+    long endTime = System.nanoTime();
+    long myTime = (endTime - startTime);
     System.out.println("DS_My took: " + myTime + " nanoseconds to insert 10000 items.");
- // calculate the time it takes to do the work for 10000 inserts on DS_Andy (or brian?)
+    // calculate the time it takes to do the work for 10000 inserts on DS_Andy (or
+    // brian?)
     DS_Brian brian = new DS_Brian();
     startTime = System.nanoTime();
     for (int i = 0; i < 10000; i++) {
@@ -59,9 +60,9 @@ public class CompareDS {
     }
     endTime = System.nanoTime();
     long debTime = (endTime - startTime);
-    System.out.println("DS_Andy took: " + debTime + " nanoseconds to insert 10000 items.");
-    
-    System.out.println("The difference was " + (myTime-debTime) + " nanoseconds.");
+    System.out.println("DS_Andy " + " took: " + debTime + " nanoseconds to insert 10000 items.");
+
+    System.out.println("The difference was " + (myTime - debTime) + " nanoseconds.");
   }
 
 }

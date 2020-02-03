@@ -117,10 +117,24 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     String duplicate = "1";
     String key = "one";
     ds.insert(key, duplicate);
+    
+    // insert more into the array
+    for(int i=0; i<15; i++) {
+      ds.insert("#" + i, "value");
+    }
+    // remove "duplicate" key
+    ds.remove(key);
+
+    // insert more into the array again
+    for(int i=0; i<15; i++) {
+      ds.insert("#2" + i, "value");
+    }
+    
     try {
       ds.insert(key, duplicate);
-      fail("Duplicate key should've threw a RuntimeException");
+      
     } catch (RuntimeException e) {
+      fail("NO EXCEPTIONS !");
     }
 
   }

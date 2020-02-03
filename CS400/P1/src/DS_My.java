@@ -29,6 +29,12 @@
 //               
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+// IMPORTANT NOTES WORTH READING
+/*
+ *  Please note that the insert algorithm takes a long time when inserting a very large number - 100,000 or more. 
+ *  The largest it has inserted without taking a time that makes you wonder if it is actually working is
+ */
+// 
 
 // TODO: Add class header here (DONE)
 public class DS_My implements DataStructureADT<String, String> {

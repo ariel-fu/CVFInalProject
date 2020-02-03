@@ -82,6 +82,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
   }
 
   // TODO: add tests 05 - 07 as described in assignment
+  // TODO: add method headers for test methods.
   // 005 - insert and remove 1
   @Test
   void test05_insert_remove_one() {

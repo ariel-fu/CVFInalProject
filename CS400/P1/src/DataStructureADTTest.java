@@ -43,7 +43,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     String key = "1";
     String value = "one";
     ds.insert(key, value);
-    assertEquals(ds.size(), 1);
+    assert (ds.size() == 1);
   }
 
   @Test
@@ -51,11 +51,9 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     String key = "1";
     String value = "one";
     ds.insert(key, value);
-    assertTrue(ds.remove(key)); // remove the key
-    assertEquals(ds.size(), 0); // confirm that the size becomes 0.
-    if(ds.size() != 0) {
+    assert (ds.remove(key)); // remove the key
+    if(ds.size() != 0)
       fail("data structure should be empty, with size=0, but size=" + ds.size());
-    }
   }
 
   @Test
@@ -69,7 +67,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
       fail("duplicate exception not thrown");
     } catch (RuntimeException re) {
     }
-    assertTrue(ds.size() == 2);
+    assert (ds.size() == 2);
   }
 
   @Test
@@ -77,14 +75,14 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     String key = "1";
     String value = "one";
     ds.insert(key, value);
-    assertTrue(!ds.remove("2")); // remove non-existent key is false
-    assertTrue(ds.remove(key)); // remove existing key is true
+    assert (!ds.remove("2")); // remove non-existent key is false
+    assert (ds.remove(key)); // remove existing key is true
     if(ds.get(key) != null)
       fail("get(" + key + ") returned " + ds.get(key) + " which should have been removed");
   }
 
   // TODO: add tests 05 - 07 as described in assignment
-  //005 - insert and remove 1
+  // 005 - insert and remove 1
   @Test
   void test05_insert_remove_one() {
     String key = "1";
@@ -94,29 +92,111 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     if(ds.size() != 0) {
       fail("data structure should be empty, with size=0, but size=" + ds.size());
     }
-    
+
   }
+
   // 006 - insert lots of pairs and see if size is correct
   @Test
-  void test06_insert_many_size(){
+  void test06_insert_many_size() {
     String value = "1";
     try {
-    for(int key=0; key<100; key++) {
-      ds.insert(Integer.toString(key), value);
-    }
-    } catch(Exception e) {
+      for(int key = 0; key < 100; key++) {
+        ds.insert(Integer.toString(key), value);
+      }
+    } catch (Exception e) {
       System.out.println(ds.size());
       fail("data structure is not expanding itself when it is full");
     }
     assertTrue(ds.size() == 100);
   }
+
   // 007 - insert duplicate values (should be ok)
   @Test
-  void test07_no_duplicates(){
-    
+  void test07_no_duplicates() {
+    String duplicate = "1";
+    String key = "one";
+    ds.insert(key, duplicate);
+    try {
+      ds.insert(key, duplicate);
+      fail("Duplicate key should've threw a RuntimeException");
+    } catch (RuntimeException e) {
+    }
+
+  }
+
+  // 008 - insert duplicate keys after removal
+  @Test
+  void test08_insert_duplicate_after_removal() {
+    String value = "1";
+    String key = "one";
+
+    for(int i = 0; i < 100; i++) {
+      ds.insert(Integer.toString(i), "#" + i);
+    }
+    ds.remove("1");
+    try {
+      ds.insert(key, value);
+    } catch (RuntimeException e) {
+      fail("Should be able to insert. Since duplicate key is removed");
+    }
+  }
+
+  // 009 - insert null values with valid keys.
+  @Test
+  void test009_insert_null_values() {
+    String value = null;
+    String key = "one";
+
+    try {
+      ds.insert(key, value);
+    } catch (IllegalArgumentException e) {
+      fail("Should not consider value");
+    } catch (Exception e) {
+      fail("NOOOOOOOOOoooooo nOt An ExCePtIoN !");
+    }
+    assertTrue(ds.size() == 1);
+  }
+
+  // 010 - insert 1,000 and remove all of them, cannot run quickly when reached
+  // 100,000
+  @Test
+  void test010_insert_and_remove() {
+    for(int i = 0; i < 10000; i++) {
+      ds.insert(Integer.toString(i), "#" + i);
+    }
+    assertTrue(ds.size() == 10000);
+
+    for(int i = 0; i < 10000; i++) {
+      ds.remove(Integer.toString(i));
+    }
+    assertTrue(ds.size() == 0);
+  }
+
+  // 011 - remove from an empty
+  @Test
+  void test011_remove_empty_array() {
+    try {
+      assertFalse(ds.remove("one"));
+    } catch (Exception e) {
+      fail("NO EXCEPTIONS!");
+    }
+  }
+
+  // 012 - contains empty array
+  @Test
+  void test012_contains_empty() {
+    assertFalse(ds.contains("one"));
   }
   
-  // 008 - insert duplicate keys after removal
+  // 013 - contains null key
+  @Test
+  void test013_contains_null() {
+    ds.insert("one", "1");
+    ds.insert("two", "1");
+    ds.insert("three", "1");
+    assertFalse(ds.contains("null"));
+  }
+  // 014 -
   // TODO: add more tests of your own design to ensure that you can detect
   // implementation that fail
 

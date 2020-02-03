@@ -100,9 +100,11 @@ public class DS_My implements DataStructureADT<String, String> {
       // if it is, expand the array
       pairArray = expandArray(pairArray);
     }
+
+    // TODO - check dup before expand
     // run a for loop through the array to check if this key is a duplicate key.
     for(int i = 0; i < currNumPairs; i++) {
-      if(pairArray[i].getKey() == key) {
+      if(pairArray[i].getKey().equals(key)) {
         throw new RuntimeException("duplicate key");
       }
     }
@@ -127,8 +129,9 @@ public class DS_My implements DataStructureADT<String, String> {
     }
 
     for(int i = 0; i < currNumPairs; i++) {
-      if(pairArray[i].getKey() == key) {
-        pairArray = removeElement(pairArray, pairArray[i].getKey()); // remove the element with key
+      if(pairArray[i].getKey().compareTo(key) == 0) {
+        // take the element at the end and add it to the curr index
+        pairArray[i] = pairArray[currNumPairs - 1];
         // decrease the number of elements in the array
         currNumPairs--;
         return true; // found the key in the array
@@ -153,7 +156,6 @@ public class DS_My implements DataStructureADT<String, String> {
     if(key == null) {
       throw new IllegalArgumentException("null key");
     }
-
     // run through the array to find the element that matches the key
     for(int i = 0; i < currNumPairs; i++) {
       String currKey = pairArray[i].getKey();
@@ -166,7 +168,8 @@ public class DS_My implements DataStructureADT<String, String> {
   }
 
   /**
-   * This method
+   * This method searches the array to find if the key inputed exists in the
+   * array.
    * 
    * @param key - the key of the element to be found
    * @return true if the array contains an element with the same key
@@ -213,6 +216,7 @@ public class DS_My implements DataStructureADT<String, String> {
     return biggerArray;
   }
 
+  // TODO - remove if not used
   /**
    * Helper method to remove an element from an array
    * 

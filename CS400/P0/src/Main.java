@@ -33,22 +33,13 @@ public class Main {
 
       List<String> fileLines = Files.readAllLines(Paths.get(filePathName));
       String command = "";
-      ArrayList<String> reqs = getReqs(fileLines);
+      ArrayList<String> reqs = getReqs(fileLines); // an ArrayList of requirements
+
       int currReq = 0; // helps keep track of curr index in the requirement list.
       ArrayList<String> routine = new ArrayList<String>(); // a List of the routine, all skills
                                                            // picked will be added to this list.
-
-//TODO - why limit to req size?
-      // should only run as long as there are still requirements left in the routine.
       for(int i = 0; i < reqs.size(); i++) {
-
-/* TODO	refactor this out to a function 
-  		- ask for input
-        - validate input (exit or valid #)
-        - quit valid input */
-          
-
-    	System.out.println("Please choose a " + reqs.get(currReq)
+        System.out.println("Please choose a " + reqs.get(currReq)
                 + " requirement. Enter exit at any time to quit.");
         // increment after a requirement is chosen.
 
@@ -63,27 +54,13 @@ public class Main {
 
         command = scanner.nextLine();
 
-
         // break if the user entered exit.
         if(command.equalsIgnoreCase("exit")) {
           break;
-        } else if(!command.equals("")) {
-          //
+        } else if(!isValidInput(command, currSkillList)) {
+          // if it is not a valid input, keep prompting user for input until they give a
+          // valid input.
           while (!isValidInput(command, currSkillList)) {
-            if(command.equalsIgnoreCase("exit")) {
-              break;
-            }
-            System.out.println("Whoops, you didn't choose a number within range of 1-"
-                    + currSkillList.size() + " Please try again.");
-            command = scanner.nextLine();
-          }
-        } else if(command.equals("")) {
-          // first print out an error message to try again.
-
-          System.out.println("Whoops, you didn't choose a number within range of 1-"
-                  + currSkillList.size() + " Please try again.");
-          command = scanner.nextLine();
-          while (command.equals("") || !isValidInput(command, currSkillList)) {
             if(command.equalsIgnoreCase("exit")) {
               break;
             }
@@ -97,16 +74,14 @@ public class Main {
         // the list size)
         routine.add(currSkillList.get(Integer.parseInt(command) - 1));
 
-//TODO - where is currReq used?
         currReq++; // increment the index for the current requirement list
         System.out.println(""); // added for spacing / aesthetics
       }
       if(command.equalsIgnoreCase("exit")) {
         System.out.println("Successful exit.");
       } else {
-    	  
-    	  
- //TODO - you did not asked user for the output file
+
+        
         File file = new File("C:\\Users\\Ariel\\git\\Ariel\\CS400\\P0\\src\\output.txt");
         PrintWriter writer = null;
 
@@ -114,7 +89,7 @@ public class Main {
         try {
           writer = new PrintWriter(file);
           // prints or writes out routine out to the File output.txt
-          writer.write("Here is your routine!");
+          writer.write("Here is your routine! \n");
           for(int i = 0; i < routine.size() - 1; i++) {
             // split the skill from its difficulty
             String[] skill = routine.get(i).split(" ");
@@ -122,7 +97,7 @@ public class Main {
             for(int skillIndex = 1; skillIndex < skill.length; skillIndex++) {
               writer.write(" " + skill[skillIndex] + " ");
             }
-            writer.write(" *dance* ");
+            writer.write("\n *dance* \n");
           }
           // repeat the split operation for the last skill.
           String[] skill = routine.get(routine.size() - 1).split(" ");
@@ -130,20 +105,19 @@ public class Main {
           for(int skillIndex = 1; skillIndex < skill.length; skillIndex++) {
             writer.write(" " + skill[skillIndex] + " ");
           }
-          writer.write(" STICK!");
+          writer.write("\n STICK IT! \n");
           System.out.println("Successful routine :)");
           writer.close();
-//TODO - you did not asked user for the output file
         } catch (FileNotFoundException e) {
-          System.out.println(
-                  "Sorry, that file was not found. Please try the program again, but with a different file name.");
+          System.out.println("File not found.");
         }
 
       }
-//TODO - you need to close the file stream
+
     } catch (Exception e) {
       System.out.println("File is not found or not valid. Re-run the program.");
       System.out.println(e.getMessage());
+      scanner.close();
     }
   }
 
@@ -205,9 +179,6 @@ public class Main {
     return listOfSkills; // return the String[] of skills
   }
 
-
-//TODO -  static function is not needed in those cases 
-  
   /**
    * Tests if there is a valid input for getting a skill
    * 
@@ -236,15 +207,29 @@ public class Main {
    * @return true if the input is within the range of 1-fileLines.size()
    */
   protected static boolean isValidInput(String input, ArrayList<String> fileLines) {
-    // first, the input must be numeric
-    char firstLetter = input.charAt(0);
-    if(isNumeric(firstLetter)) {
-      String s = Character.toString(firstLetter);
-      int numInput = Integer.parseInt(s);
-      if(numInput <= fileLines.size()) {
+    // check if the input is null or an empty String.
+    if(input == null) {
+      return false;
+    } else if(input.equals("")) {
+      return false;
+    }
+    // split the string and see if the element at index 0 is numeric
+    String[] split = input.split(" ");
+    // if there are more that just the number to be chosen, it is not a valid input.
+    if(split.length > 1) {
+      return false;
+    }
+    try {
+      int num = Integer.parseInt(split[0]); // try to parse to an int.
+      // if it is an integer, check if it is within bounds (within the size of the
+      // ArrayList)
+      if(num <= fileLines.size()) {
         return true;
       }
+    } catch (Exception e) {
+      return false;
     }
+
     return false;
   }
 

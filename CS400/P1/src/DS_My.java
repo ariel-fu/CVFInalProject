@@ -116,7 +116,7 @@ public class DS_My implements DataStructureADT<String, String> {
     // Check if this key is a duplicate key. If it is, throw a RuntimeException
     // if the key is already associated with an index, it exists in the array.
     int keyIndex = getIndex(key);
-    if(!validIndex(keyIndex)) {
+    if(validIndex(keyIndex)) {
       throw new RuntimeException("duplicate key.");
     }
 

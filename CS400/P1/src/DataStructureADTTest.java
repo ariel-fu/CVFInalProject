@@ -128,25 +128,27 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
   void test07_no_duplicates() {
     String duplicate = "1";
     String key = "one";
+
+    // insert the key that will have a duplicate key - later on.
     ds.insert(key, duplicate);
 
-    // insert more into the array
+    // insert more Pairs into the array
     for(int i = 0; i < 15; i++) {
       ds.insert("#" + i, "value");
     }
+
     // remove "duplicate" key
     ds.remove(key);
-    System.out.println(ds.size()); // DEBUG
-    // insert more into the array again
+
+    // insert more Pairs into the array again
     for(int i = 0; i < 15; i++) {
       ds.insert("#2" + i, "value");
     }
-     System.out.println(ds.size()); // DEBUG
 
     try {
       ds.insert(key, duplicate);
-      System.out.println(ds.size()); // DEBUG
-      assertTrue(ds.size() == 30);
+
+      assertTrue(ds.size() == 31);
     } catch (RuntimeException e) {
       fail("NO EXCEPTIONS SHOULD BE THROWN!");
     }

@@ -44,7 +44,7 @@ public class DS_My implements DataStructureADT<String, String> {
 
   // TODO - may wish to define an inner class
   // for storing key and value as a pair
-  // such a class and its members should be "private"
+  // such a class and its members should be "private" (DONE)
   private class Pair {
     private String value; // stores the value of the pair
     private String key; // stores the key String of the pair
@@ -81,7 +81,7 @@ public class DS_My implements DataStructureADT<String, String> {
   }
 
   // Private Fields of the class
-  // TODO create field(s) here to store data pairs
+  // TODO create field(s) here to store data pairs (DONE)
   private int numPairs; // current number of elements in the Pair[]
   private Pair[] pairArray; // array to hold the Pair(s)
 
@@ -90,7 +90,7 @@ public class DS_My implements DataStructureADT<String, String> {
    * pairArray to hold 20 elements.
    */
   public DS_My() {
-    numPairs = 0; // set the current number of elements to 0 (duh)
+    numPairs = 0; // set the current number of elements to 0 
     pairArray = new Pair[20]; // set the array to hold 20 elements (to start)
   }
 
@@ -107,8 +107,6 @@ public class DS_My implements DataStructureADT<String, String> {
    *                                  a key already in the Pair array.
    */
   
-//TODO: figure out how to use getIndex(STring) in this method.. do i need to?
-  // TODO: am running through the array twice?
   @Override
   public void insert(String key, String value) {
     // check if the key is null, if so throw an IllegalArgumentException

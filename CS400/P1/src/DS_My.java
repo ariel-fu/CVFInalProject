@@ -90,7 +90,7 @@ public class DS_My implements DataStructureADT<String, String> {
    * pairArray to hold 20 elements.
    */
   public DS_My() {
-    numPairs = 0; // set the current number of elements to 0 
+    numPairs = 0; // set the current number of elements to 0
     pairArray = new Pair[20]; // set the array to hold 20 elements (to start)
   }
 
@@ -106,7 +106,7 @@ public class DS_My implements DataStructureADT<String, String> {
    * @throws RunTimeException         - if there the key input is a duplicate of
    *                                  a key already in the Pair array.
    */
-  
+
   @Override
   public void insert(String key, String value) {
     // check if the key is null, if so throw an IllegalArgumentException
@@ -163,7 +163,7 @@ public class DS_My implements DataStructureADT<String, String> {
    * 
    * @param key - key of element to get
    * @throws IllegalArgumentException - if the key is null
-   * @return the value associated with the key 
+   * @return the value associated with the key
    */
   @Override
   public String get(String key) {
@@ -173,7 +173,7 @@ public class DS_My implements DataStructureADT<String, String> {
       throw new IllegalArgumentException("null key");
     }
     int keyIndex = getIndex(key);
-    if(keyIndex>=0) {
+    if(keyIndex >= 0) {
       return pairArray[keyIndex].getValue();
     }
     // if there isn't an element that matches the key, return null
@@ -188,12 +188,16 @@ public class DS_My implements DataStructureADT<String, String> {
    * @param key - the key of the element to be found
    * @return true if the array contains an element with the same key
    */
-  
+
   // TODO: figure out how to use getIndex(STring) in this method
   @Override
   public boolean contains(String key) {
-   int keyIndex = getIndex(key);
-     
+    int keyIndex = getIndex(key);
+
+    // if the key is found, return true.
+    if(keyIndex >= -1) {
+      return true;
+    }
     // else return false.
     return false;
   }

@@ -114,7 +114,9 @@ public class DS_My implements DataStructureADT<String, String> {
       throw new IllegalArgumentException("null key");
     }
     // Check if this key is a duplicate key. If it is, throw a RuntimeException
-    if(this.contains(key)) {
+    // if the key is already associated with an index, it exists in the array.
+    int keyIndex = getIndex(key);
+    if(!validIndex(keyIndex)) {
       throw new RuntimeException("duplicate key.");
     }
 
@@ -143,11 +145,10 @@ public class DS_My implements DataStructureADT<String, String> {
     if(key == null) {
       throw new IllegalArgumentException("null key");
     }
-    if(contains(key)) {
-      // get the index of the key
-      int indexOfKey = getIndex(key);
+    int keyIndex = getIndex(key);
+    if(validIndex(keyIndex)) {
       // set the key at the index to the last key in the array
-      pairArray[indexOfKey] = pairArray[numPairs - 1];
+      pairArray[keyIndex] = pairArray[numPairs - 1];
       // set the last key index to null
       pairArray[numPairs - 1] = null;
       // decrease the number of elements in the array
@@ -173,7 +174,7 @@ public class DS_My implements DataStructureADT<String, String> {
       throw new IllegalArgumentException("null key");
     }
     int keyIndex = getIndex(key);
-    if(keyIndex >= 0) {
+    if(validIndex(keyIndex)) {
       return pairArray[keyIndex].getValue();
     }
     // if there isn't an element that matches the key, return null
@@ -195,7 +196,7 @@ public class DS_My implements DataStructureADT<String, String> {
     int keyIndex = getIndex(key);
 
     // if the key is found, return true.
-    if(keyIndex >= -1) {
+    if(validIndex(keyIndex)) {
       return true;
     }
     // else return false.
@@ -247,4 +248,16 @@ public class DS_My implements DataStructureADT<String, String> {
     return -1;
   }
 
+  /**
+   * Helper method that determines if the index is a valid index or not
+   * 
+   * @param keyIndex - index of the key
+   * @return true if the index is between 0 and numPairs, false if it isn't
+   */
+  private boolean validIndex(int keyIndex) {
+    if(keyIndex < numPairs && keyIndex >= 0) {
+      return true;
+    }
+    return false;
+  }
 }

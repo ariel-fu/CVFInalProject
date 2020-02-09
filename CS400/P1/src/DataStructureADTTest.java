@@ -228,11 +228,28 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
    */
   @Test
   void test013_remove_nothing() {
-    ds.insert("one", "1");
+    ds.insert("", "1");
     ds.insert("two", "1");
     ds.insert("three", "1");
     ds.remove("four");
     assertTrue(ds.size() == 3);
+  }
+  
+  @Test
+  void test014_contains_not_in_array() {
+    for(int i=0; i<20; i++) {
+      ds.insert("#" + i, i+"");
+    }
+    assertTrue(!ds.contains("#20"));
+  }
+  
+  @Test 
+  void test014_contains_null_key() {
+    for(int i=0; i<20; i++) {
+      ds.insert("#"+i, i+"");
+    }
+    assertTrue(!ds.contains(null));
+    
   }
   // TODO: add more tests of your own design to ensure that you can detect
   // implementation that fail

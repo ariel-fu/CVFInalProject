@@ -106,6 +106,9 @@ public class DS_My implements DataStructureADT<String, String> {
    * @throws RunTimeException         - if there the key input is a duplicate of
    *                                  a key already in the Pair array.
    */
+  
+//TODO: figure out how to use getIndex(STring) in this method.. do i need to?
+  // TODO: am running through the array twice?
   @Override
   public void insert(String key, String value) {
     // check if the key is null, if so throw an IllegalArgumentException
@@ -121,11 +124,6 @@ public class DS_My implements DataStructureADT<String, String> {
     if(pairArray.length == numPairs) {
       // if it is, expand the array
       pairArray = expandArray(pairArray);
-    }
-
-    // run a for loop through the array to check if this key is a duplicate key.
-    if(this.contains(key)) {
-      throw new RuntimeException("duplicate key.");
     }
     // if no duplicate keys are found, add the new Pair to the end of the array
     pairArray[numPairs] = new Pair(key, value);
@@ -197,14 +195,12 @@ public class DS_My implements DataStructureADT<String, String> {
    * @param key - the key of the element to be found
    * @return true if the array contains an element with the same key
    */
+  
+  // TODO: figure out how to use getIndex(STring) in this method
   @Override
   public boolean contains(String key) {
-    for(int i = 0; i < numPairs; i++) {
-      // if there is an element with the same key, return true
-      if(pairArray[i].getKey().equals(key)) {
-        return true;
-      }
-    }
+   int keyIndex = getIndex(key);
+     
     // else return false.
     return false;
   }

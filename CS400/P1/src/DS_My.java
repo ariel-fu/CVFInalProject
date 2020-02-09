@@ -163,8 +163,7 @@ public class DS_My implements DataStructureADT<String, String> {
    * 
    * @param key - key of element to get
    * @throws IllegalArgumentException - if the key is null
-   * @return the element with the same key. If there isn't an element with the
-   *         same key, return null.
+   * @return the value associated with the key 
    */
   @Override
   public String get(String key) {
@@ -173,13 +172,9 @@ public class DS_My implements DataStructureADT<String, String> {
     if(key == null) {
       throw new IllegalArgumentException("null key");
     }
-
-    // otherwise run through the array to find the element that matches the key
-    for(int i = 0; i < numPairs; i++) {
-      Pair currPair = pairArray[i];
-      if(currPair.getKey().equals(key)) {
-        return currPair.getValue();
-      }
+    int keyIndex = getIndex(key);
+    if(keyIndex>=0) {
+      return pairArray[keyIndex].getValue();
     }
     // if there isn't an element that matches the key, return null
     return null;

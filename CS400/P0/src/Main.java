@@ -7,13 +7,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.nio.file.Paths;
+////////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           Main.java
+//Files:           Main.java, Requirement.java, Skill.java, input.txt, output.txt, log.txt
+//Course:          (CS400, Spring, 2020)
+//
+//Author:          (Ariel Fu)
+//Email:           (afu5@wisc.edu)
+//Lecture Number: 001
+//
+////////////////////PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+
+//
+//VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+//___ Write-up states that pair programming is allowed for this assignment.
+//___ We have both read and understand the course Pair Programming Policy.
+//___ We have registered our team prior to the team registration deadline.
+//
+///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+//Students who get help from sources other than their partner must fully 
+//acknowledge and credit those sources of help here.  Instructors and TAs do 
+//not need to be credited here, but tutors, friends, relatives, room mates, 
+//strangers, and others do.  If you received no outside help from either type
+//of source, then please explicitly indicate NONE.
+//
+//Persons:         (NONE)
+//Online Sources:  (NONE)
+//
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 
 /**
- * Main class runs my gymnastic beam routine builder
+ * Main class runs my gymnastic beam routine builder. This class asks the user
+ * for an input of a variety of skills to add into their routine.
  * 
- * @author Ariel This class asks the user for an input of a variety of skills to
- *         add into their routine.
- * @name Ariel Fu Email: afu5@wisc.edu Lecture: Lecture 001
+ * @author Ariel
  * 
  */
 
@@ -22,9 +52,11 @@ public class Main {
   private static final Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) throws IOException {
-    System.out.println(title);
+    System.out.print(title + "\r\n");
+
     System.out.println("Welcome to the gymnastics beam routine builder.");
-    System.out.println("Please input your list of requirements / file path name: ");
+    System.out.println(
+            "Please input your list of requirements / file path name: ");
     // get the file path name, convert to a file, then create a new scanner that
     // takes in input from the file.
     String filePathName = "";
@@ -33,81 +65,82 @@ public class Main {
 
       List<String> fileLines = Files.readAllLines(Paths.get(filePathName));
       String command = "";
-      ArrayList<String> reqs = getReqs(fileLines); // an ArrayList of requirements
+      // an ArrayList of requirements
+      ArrayList<Requirement> reqs = getReqs(fileLines);
 
-      int currReq = 0; // helps keep track of curr index in the requirement list.
-      ArrayList<String> routine = new ArrayList<String>(); // a List of the routine, all skills
-                                                           // picked will be added to this list.
+      // a List of the routine, all skills picked will be added to this list.
+      ArrayList<Skill> routine = new ArrayList<Skill>();
+
       for(int i = 0; i < reqs.size(); i++) {
-        System.out.println("Please choose a " + reqs.get(currReq)
+        Requirement req = reqs.get(i);
+        System.out.println("Please choose a " + req.getName()
                 + " requirement. Enter exit at any time to quit.");
-        // increment after a requirement is chosen.
 
         System.out.println("Skills: ");
-        printList(getSkills(fileLines, reqs.get(currReq)));
+        printList(req.getListOfSkills());
         System.out.println();
 
         // String array of skills under current requirement
-        ArrayList<String> currSkillList = getSkills(fileLines, reqs.get(currReq));
+        ArrayList<Skill> currSkillList = req.getListOfSkills();
         // prompt user to choose a skill
-        System.out.println("Choose a skill using the numbers 1-" + currSkillList.size());
+        System.out.println(
+                "Choose a skill using the numbers 1-" + currSkillList.size());
 
         command = scanner.nextLine();
+        command = command.trim(); // take out any empty spaces in front or after
+                                  // the command.
 
         // break if the user entered exit.
         if(command.equalsIgnoreCase("exit")) {
           break;
         } else if(!isValidInput(command, currSkillList)) {
-          // if it is not a valid input, keep prompting user for input until they give a
-          // valid input.
+          // if it is not a valid input, keep prompting user for input until
+          // they give a valid input.
           while (!isValidInput(command, currSkillList)) {
             if(command.equalsIgnoreCase("exit")) {
               break;
             }
-            System.out.println("Whoops, you didn't choose a number within range of 1-"
-                    + currSkillList.size() + " Please try again.");
+            System.out.println(
+                    "Whoops, you didn't choose a number within range of 1-"
+                            + currSkillList.size() + " Please try again.");
             command = scanner.nextLine();
           }
         }
 
-        // set the item in the routine to the skill at index command (a number from 1 ->
-        // the list size)
+        // set the item in the routine to the skill at index command (a number
+        // from 1 -> the list size)
         routine.add(currSkillList.get(Integer.parseInt(command) - 1));
 
-        currReq++; // increment the index for the current requirement list
-        System.out.println(""); // added for spacing / aesthetics
+        // if it is at the end of the routine
+        if(i == reqs.size() - 1) {
+          // add the skill that signals the end
+          routine.add(new Skill("STICK IT!!!"));
+        } else {
+          // else add the dance in between the skills
+          routine.add(new Skill("*DANCE*"));
+        }
+
+        System.out.println(""); // added for spacing
       }
+
+      // if command is exit, print out a successful exit and quit.
       if(command.equalsIgnoreCase("exit")) {
         System.out.println("Successful exit.");
       } else {
+        // otherwise, print the routine out to console.
+        System.out.println("Your routine \r\n");
+        printList(routine);
+        scanner.close(); // close scanner before writing to file
 
-        
-        File file = new File("C:\\Users\\Ariel\\git\\Ariel\\CS400\\P0\\src\\output.txt");
+        File file = new File("output.txt");
         PrintWriter writer = null;
-
         // use a try catch statement in-case output file is not in directory
         try {
           writer = new PrintWriter(file);
-          // prints or writes out routine out to the File output.txt
-          writer.write("Here is your routine! \n");
-          for(int i = 0; i < routine.size() - 1; i++) {
-            // split the skill from its difficulty
-            String[] skill = routine.get(i).split(" ");
-            // print out the skill (without its difficulty number)
-            for(int skillIndex = 1; skillIndex < skill.length; skillIndex++) {
-              writer.write(" " + skill[skillIndex] + " ");
-            }
-            writer.write("\n *dance* \n");
-          }
-          // repeat the split operation for the last skill.
-          String[] skill = routine.get(routine.size() - 1).split(" ");
-          // repeat write operation
-          for(int skillIndex = 1; skillIndex < skill.length; skillIndex++) {
-            writer.write(" " + skill[skillIndex] + " ");
-          }
-          writer.write("\n STICK IT! \n");
-          System.out.println("Successful routine :)");
+          // and print the routine out to the output file.
+          output(writer, routine);
           writer.close();
+
         } catch (FileNotFoundException e) {
           System.out.println("File not found.");
         }
@@ -116,9 +149,25 @@ public class Main {
 
     } catch (Exception e) {
       System.out.println("File is not found or not valid. Re-run the program.");
-      System.out.println(e.getMessage());
-      scanner.close();
+      scanner.close(); // close the scanner
     }
+  }
+
+  /**
+   * Helper method that writes to the output file
+   * 
+   * @param writer  - PrintWriter that writes data to the file
+   * @param routine - the routine to be written to the file.
+   */
+  private static void output(PrintWriter writer, ArrayList<Skill> routine) {
+    // prints or writes out routine out to the File output.txt
+    writer.write("Here is your routine! \r\n");
+    for(int i = 0; i < routine.size(); i++) {
+      writer.write(routine.get(i).toString());
+      writer.write("\r\n");
+    }
+
+    System.out.println("\r\nSuccessful routine :)");
   }
 
   /**
@@ -127,76 +176,19 @@ public class Main {
    * @param fileLines - a List that holds all the info from the File
    * @return a String[] that holds the requirements
    */
-  protected static ArrayList<String> getReqs(List<String> fileLines) {
-    ArrayList<String> listOfRequirements = new ArrayList<String>();
+  private static ArrayList<Requirement> getReqs(List<String> fileLines) {
+    ArrayList<Requirement> listOfRequirements = new ArrayList<Requirement>();
+    ArrayList<String> data = new ArrayList<String>();
     for(int i = 0; i < fileLines.size(); i++) {
-      if(!fileLines.get(i).equals("")) {
-        char firstCharacter = fileLines.get(i).charAt(0);
-        if(!isNumeric(firstCharacter)) {
-          listOfRequirements.add(fileLines.get(i));
-        }
+      if(fileLines.get(i).equals("")) {
+        listOfRequirements.add(new Requirement(data));
+        data = new ArrayList<String>();
+      } else {
+        data.add(fileLines.get(i));
       }
     }
-
+    listOfRequirements.add(new Requirement(data));
     return listOfRequirements; // return the String[] of skills
-  }
-
-  /**
-   * Retrieves the skills in the routine from the List
-   * 
-   * @param fileLines       - a List that holds all the info from the File
-   * @param requirementName - name of the requirement that the skills are under.
-   * @return a String[] that holds the requirements
-   */
-  protected static ArrayList<String> getSkills(List<String> fileLines, String requirementName) {
-    ArrayList<String> listOfSkills = new ArrayList<String>();
-    int startingIndex = 0; // start at the beginning of the list
-
-    // first find where in the list the requirement and list of skills are.
-    for(int i = 0; i < fileLines.size(); i++) {
-      if(fileLines.get(i).equals(requirementName)) {
-        startingIndex = i;
-      }
-    }
-    // start at where the requirement is, and add every skill (until hit a empty
-    // line or the end) to the list of skills array.
-
-    for(int i = startingIndex; i < fileLines.size(); i++) {
-      // add the skills to the array
-      if(!fileLines.get(i).equals("")) {
-        char firstCharacter = fileLines.get(i).charAt(0);
-        if(isNumeric(firstCharacter)) {
-          listOfSkills.add(fileLines.get(i));
-        }
-      }
-
-      // check if the next one is an empty, if so, break.
-      if(i + 1 < fileLines.size() && fileLines.get(i + 1).equals("")) {
-        break;
-      }
-
-    }
-    return listOfSkills; // return the String[] of skills
-  }
-
-  /**
-   * Tests if there is a valid input for getting a skill
-   * 
-   * @param input     - input given by the user
-   * @param fileLines - list with a certain length.
-   * @return true if the input is within the range of 1-fileLines.size()
-   */
-  protected static boolean isNumeric(char input) {
-    // Requirement have an input of only numbers from 1-fileLines.size()
-    try {
-      String character = Character.toString(input);
-      Integer.parseInt(character);
-    } catch (Exception e) {
-      return false;
-    }
-
-    return true; // if the char is able to parse to a String then an Integer, it is numeric.
-
   }
 
   /**
@@ -206,7 +198,8 @@ public class Main {
    * @param fileLines - list with a certain length.
    * @return true if the input is within the range of 1-fileLines.size()
    */
-  protected static boolean isValidInput(String input, ArrayList<String> fileLines) {
+  private static boolean isValidInput(String input,
+          ArrayList<Skill> fileLines) {
     // check if the input is null or an empty String.
     if(input == null) {
       return false;
@@ -215,15 +208,16 @@ public class Main {
     }
     // split the string and see if the element at index 0 is numeric
     String[] split = input.split(" ");
-    // if there are more that just the number to be chosen, it is not a valid input.
+    // if there are more that just the number to be chosen, it is not a valid
+    // input.
     if(split.length > 1) {
       return false;
     }
     try {
       int num = Integer.parseInt(split[0]); // try to parse to an int.
-      // if it is an integer, check if it is within bounds (within the size of the
-      // ArrayList)
-      if(num <= fileLines.size()) {
+      // if it is an integer, check if it is within bounds (within the size of
+      // the ArrayList)
+      if(num <= fileLines.size() && num > 0) {
         return true;
       }
     } catch (Exception e) {
@@ -238,11 +232,10 @@ public class Main {
    * 
    * @param skillList - a String array that is going to be printed out
    */
-  protected static void printList(ArrayList<String> skillList) {
-    System.out.print("| ");
+  private static void printList(ArrayList<Skill> skillList) {
     for(int i = 0; i < skillList.size(); i++) {
       if(skillList.get(i) != null) {
-        System.out.print(skillList.get(i) + " | ");
+        System.out.println((i + 1) + ". " + skillList.get(i));
       }
     }
   }

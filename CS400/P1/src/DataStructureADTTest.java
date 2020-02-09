@@ -33,7 +33,8 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
   @Test
   void test00_empty_ds_size() {
     if(ds.size() != 0)
-      fail("data structure should be empty, with size=0, but size=" + ds.size());
+      fail("data structure should be empty, with size=0, but size="
+              + ds.size());
   }
 
   // TODO: review tests 01 - 04
@@ -53,7 +54,8 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     ds.insert(key, value);
     assert (ds.remove(key)); // remove the key
     if(ds.size() != 0)
-      fail("data structure should be empty, with size=0, but size=" + ds.size());
+      fail("data structure should be empty, with size=0, but size="
+              + ds.size());
   }
 
   @Test
@@ -78,12 +80,16 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     assert (!ds.remove("2")); // remove non-existent key is false
     assert (ds.remove(key)); // remove existing key is true
     if(ds.get(key) != null)
-      fail("get(" + key + ") returned " + ds.get(key) + " which should have been removed");
+      fail("get(" + key + ") returned " + ds.get(key)
+              + " which should have been removed");
   }
 
   // TODO: add tests 05 - 07 as described in assignment
   // TODO: add method headers for test methods.
-  // 005 - insert and remove 1
+
+  /**
+   * This test method tests insert and remove only 1 key-value pair.
+   */
   @Test
   void test05_insert_remove_one() {
     String key = "1";
@@ -91,12 +97,15 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     ds.insert(key, value);
     assertTrue(ds.remove(key));
     if(ds.size() != 0) {
-      fail("data structure should be empty, with size=0, but size=" + ds.size());
+      fail("data structure should be empty, with size=0, but size="
+              + ds.size());
     }
 
   }
 
-  // 006 - insert lots of pairs and see if size is correct
+  /**
+   * This test method inserts a lot of pairs and see if size is correct
+   */
   @Test
   void test06_insert_many_size() {
     String value = "1";
@@ -111,54 +120,44 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     assertTrue(ds.size() == 100);
   }
 
-  // 007 - insert duplicate values (should be ok)
+  /**
+   * This test method inserts many pairs, then removes a pair, inserts more
+   * pairs, then inserts a duplicate of the removed pair.
+   */
   @Test
   void test07_no_duplicates() {
     String duplicate = "1";
     String key = "one";
     ds.insert(key, duplicate);
-    
+
     // insert more into the array
-    for(int i=0; i<15; i++) {
+    for(int i = 0; i < 15; i++) {
       ds.insert("#" + i, "value");
     }
     // remove "duplicate" key
     ds.remove(key);
-
+    System.out.println(ds.size()); // DEBUG
     // insert more into the array again
-    for(int i=0; i<15; i++) {
+    for(int i = 0; i < 15; i++) {
       ds.insert("#2" + i, "value");
     }
-    
+     System.out.println(ds.size()); // DEBUG
+
     try {
       ds.insert(key, duplicate);
-      
+      System.out.println(ds.size()); // DEBUG
+      assertTrue(ds.size() == 30);
     } catch (RuntimeException e) {
-      fail("NO EXCEPTIONS !");
+      fail("NO EXCEPTIONS SHOULD BE THROWN!");
     }
 
   }
 
-  // 008 - insert duplicate keys after removal
+  /**
+   * This test method inserts a null value with a valid key
+   */
   @Test
-  void test08_insert_duplicate_after_removal() {
-    String value = "1";
-    String key = "one";
-
-    for(int i = 0; i < 100; i++) {
-      ds.insert(Integer.toString(i), "#" + i);
-    }
-    ds.remove("1");
-    try {
-      ds.insert(key, value);
-    } catch (RuntimeException e) {
-      fail("Should be able to insert. Since duplicate key is removed");
-    }
-  }
-
-  // 009 - insert null values with valid keys.
-  @Test
-  void test009_insert_null_values() {
+  void test08_insert_null_values() {
     String value = null;
     String key = "one";
 
@@ -172,24 +171,28 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     assertTrue(ds.size() == 1);
   }
 
-  // 010 - insert 1,000 and remove all of them, cannot run quickly when reached
-  // 100,000
+  /**
+   * This test method insert 1,000 and remove all of them, cannot run quickly
+   * when reach // about 25,000 pairs.
+   */
   @Test
-  void test010_insert_and_remove() {
-    for(int i = 0; i < 10000; i++) {
+  void test09_insert_and_remove() {
+    for(int i = 0; i < 25000; i++) {
       ds.insert(Integer.toString(i), "#" + i);
     }
-    assertTrue(ds.size() == 10000);
+    assertTrue(ds.size() == 25000);
 
-    for(int i = 0; i < 10000; i++) {
+    for(int i = 0; i < 25000; i++) {
       ds.remove(Integer.toString(i));
     }
     assertTrue(ds.size() == 0);
   }
 
-  // 011 - remove from an empty
+  /**
+   * This test method tests removing from an empty
+   */
   @Test
-  void test011_remove_empty_array() {
+  void test10_remove_empty_array() {
     try {
       assertFalse(ds.remove("one"));
     } catch (Exception e) {
@@ -197,21 +200,38 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     }
   }
 
-  // 012 - contains empty array
+  /**
+   * This test method tests what contains returns when given an empty array
+   */
   @Test
-  void test012_contains_empty() {
+  void test11_contains_empty() {
     assertFalse(ds.contains("one"));
   }
-  
-  // 013 - contains null key
+
+  /**
+   * This test method tests using contains when given a null key
+   */
   @Test
-  void test013_contains_null() {
+  void test012_contains_null() {
     ds.insert("one", "1");
     ds.insert("two", "1");
     ds.insert("three", "1");
     assertFalse(ds.contains("null"));
   }
-  // 014 -
+  // 014 - remove something that is not there
+
+  /**
+   * This test method uses removes with a key that is not in the array, checking
+   * that size was not changed.
+   */
+  @Test
+  void test013_remove_nothing() {
+    ds.insert("one", "1");
+    ds.insert("two", "1");
+    ds.insert("three", "1");
+    ds.remove("four");
+    assertTrue(ds.size() == 3);
+  }
   // TODO: add more tests of your own design to ensure that you can detect
   // implementation that fail
 

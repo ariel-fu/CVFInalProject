@@ -1,7 +1,7 @@
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
 // Title:           DS_My.java
-// Files:           DataStructureADT.java, DataStructureADTTest.java, DS_My.java, TestDS_My.java
+// Files:           DataStructureADT.java, DataStructureADTTest.java, DS_My.java, TestDS_My.java, CompareDS.java.
 // Course:          (CS400, Spring, 2020)
 //
 // Author:          (Ariel Fu)
@@ -32,7 +32,10 @@
 // IMPORTANT NOTES WORTH READING
 /*
  *  Please note that the insert algorithm takes a long time when inserting a very large number - 100,000 or more. 
- *  The largest it has inserted without taking a time that makes you wonder if it is actually working is
+ *  The largest it has inserted without taking a time that makes you wonder if it is actually working is around 25,000.
+ *  Be warned of the following as well:
+ *  1. Items are inserted at the end of the array to increase the insert time-complexity
+ *  2. Since items are inserted in at random order, contains and remove has longer time complexity of O(n).
  */
 // 
 
@@ -66,6 +69,15 @@ public class DS_My implements DataStructureADT<String, String> {
       return key;
     }
 
+    /**
+     * Helper method that returns the value String
+     * 
+     * @return the value of the key
+     */
+    private String getValue() {
+      return value;
+    }
+
   }
 
   // Private Fields of the class
@@ -91,25 +103,23 @@ public class DS_My implements DataStructureADT<String, String> {
    * @param key   - key of the Pair
    * @param value - value associated with the key
    * @throws IllegalArgumentException - if the key is null
-   * @throws RunTimeException         - if there the key input is a duplicate of a
-   *                                  key already in the Pair array.
+   * @throws RunTimeException         - if there the key input is a duplicate of
+   *                                  a key already in the Pair array.
    */
   @Override
   public void insert(String key, String value) {
-    // TODO Auto-generated method stub
     // check if the key is null, if so throw an IllegalArgumentException
-    if (key == null) {
+    if(key == null) {
       throw new IllegalArgumentException("null key");
     }
     // then check if the array is maxed out. (length = currNumPairs)
-    if (pairArray.length == currNumPairs) {
+    if(pairArray.length == currNumPairs) {
       // if it is, expand the array
       pairArray = expandArray(pairArray);
     }
 
-    // TODO - check dup before expand
     // run a for loop through the array to check if this key is a duplicate key.
-    if (this.contains(key)) {
+    if(this.contains(key)) {
       throw new RuntimeException("duplicate key.");
     }
     // if no duplicate keys are found, add the new Pair to the end of the array
@@ -126,22 +136,28 @@ public class DS_My implements DataStructureADT<String, String> {
    */
   @Override
   public boolean remove(String key) {
-    // TODO Auto-generated method stub
     // check if the key is null, if so throw an IllegalArgumentException
-    if (key == null) {
+    if(key == null) {
       throw new IllegalArgumentException("null key");
     }
 
-    for (int i = 0; i < currNumPairs; i++) {
-      if (pairArray[i].getKey().compareTo(key) == 0) {
+    for(int i = 0; i < currNumPairs; i++) {
+      // if the current key is equal to the key that is going to be removed.
+      if(pairArray[i].getKey().compareTo(key) == 0) {
+
         // take the element at the end and add it to the curr index
         pairArray[i] = pairArray[currNumPairs - 1];
+
+        // set the element at the end of the array to null
+        pairArray[currNumPairs - 1] = null;
+
         // decrease the number of elements in the array
         currNumPairs--;
+
         return true; // found the key in the array
       }
     }
-    return false;
+    return false; // the key was not in the array
   }
 
   /**
@@ -155,20 +171,22 @@ public class DS_My implements DataStructureADT<String, String> {
    */
   @Override
   public String get(String key) {
-    // TODO Auto-generated method stub
+
     // if the key is null, throw an IllegalArgumentException
-    if (key == null) {
+    if(key == null) {
       throw new IllegalArgumentException("null key");
     }
-    // run through the array to find the element that matches the key
-    for (int i = 0; i < currNumPairs; i++) {
-      String currKey = pairArray[i].getKey();
-      if (currKey.equals(key)) {
-        return currKey;
+
+    // otherwise run through the array to find the element that matches the key
+    for(int i = 0; i < currNumPairs; i++) {
+      Pair currPair = pairArray[i];
+      if(currPair.getKey().equals(key)) {
+        return currPair.getValue();
       }
     }
     // if there isn't an element that matches the key, return null
     return null;
+
   }
 
   /**
@@ -180,10 +198,9 @@ public class DS_My implements DataStructureADT<String, String> {
    */
   @Override
   public boolean contains(String key) {
-    // TODO Auto-generated method stub
-    for (int i = 0; i < currNumPairs; i++) {
+    for(int i = 0; i < currNumPairs; i++) {
       // if there is an element with the same key, return true
-      if (pairArray[i].getKey().equals(key)) {
+      if(pairArray[i].getKey().equals(key)) {
         return true;
       }
     }
@@ -192,14 +209,13 @@ public class DS_My implements DataStructureADT<String, String> {
   }
 
   /**
-   * This method returns the size of the array, and by size, I mean the number of
-   * elements in the array.
+   * This method returns the size of the array, and by size, I mean the number
+   * of elements in the array.
    * 
    * @return the current number of elements in the Pair[]
    */
   @Override
   public int size() {
-    // TODO Auto-generated method stub
     return currNumPairs;
   }
 
@@ -212,7 +228,7 @@ public class DS_My implements DataStructureADT<String, String> {
   private Pair[] expandArray(Pair[] array) {
     Pair[] biggerArray = new Pair[array.length * 2];
     // transfer all the Pairs in the old array to the new array.
-    for (int i = 0; i < array.length; i++) {
+    for(int i = 0; i < array.length; i++) {
       biggerArray[i] = array[i];
     }
 
@@ -220,31 +236,5 @@ public class DS_My implements DataStructureADT<String, String> {
     return biggerArray;
   }
 
-  // TODO - remove if not used
-  /**
-   * Helper method to remove an element from an array
-   * 
-   * @param array - array that needs to remove an element
-   * @param key   - the element to be removed
-   * @return a Pair[] with the element with key removed.
-   */
-  private Pair[] removeElement(Pair[] array, String key) {
-    Pair[] newArray = new Pair[array.length]; // start with the same length
-    int newArrayIndex = 0; // index of the newArray
-    for (int i = 0; i < array.length; i++) {
-      // check if the current element == null
-      if (array[i] != null) {
-        // if it not, check if it is equal to the value
-        if (!array[i].getKey().equals(key)) {
-          // if it is not equal to the value, add the current element to newArray.
-          newArray[newArrayIndex] = array[i];
-          newArrayIndex++;
-        }
-        // if it is equal to the value, skip one.
-      }
-
-    }
-    return newArray; // return the newArray
-  }
 
 }

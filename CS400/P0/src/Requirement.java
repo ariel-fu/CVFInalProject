@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 ////////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
-//Title:           Skill.java
+//Title:           Requirement.java
 //Files:           Main.java, Requirement.java, Skill.java, input.txt, output.txt, log.txt
 //Course:          (CS400, Spring, 2020)
 //
@@ -31,29 +33,47 @@
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 
 /**
- * This class models a skill that is part of a Requirement.
+ * This class models a single requirement in a routine.
  * 
  * @author Ariel
  *
  */
-public class Skill {
+public class Requirement {
+  private ArrayList<Skill> skills; // an ArrayList of skill for the
+                                   // requirement
   private String name;
 
   /**
-   * Constructor to set the name
+   * Constructor that sets the name of the requirement and fills the ArrayList
+   * of Skill with skills
    * 
-   * @param name - name of the skill
+   * @param data - ArrayList that contains the name of the requirement and
+   *             skills under that requirement. First element in the ArrayList
+   *             is always the name of the requirement.
    */
-  public Skill(String name) {
-    this.name = name;
+  public Requirement(ArrayList<String> data) {
+    this.name = data.get(0);
+    skills = new ArrayList<Skill>();
+    for(int i = 1; i < data.size(); i++) {
+      skills.add(new Skill(data.get(i)));
+    }
   }
 
   /**
-   * Overrides Object's toString method
+   * Getter method for the name of the requirement
    * 
-   * @return the name
+   * @return the name of the requirement
    */
-  public String toString() {
+  public String getName() {
     return name;
+  }
+
+  /**
+   * Getter method for the ArrayList of skills
+   * 
+   * @return requirement - list of skills
+   */
+  public ArrayList<Skill> getListOfSkills() {
+    return skills;
   }
 }

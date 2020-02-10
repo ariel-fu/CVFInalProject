@@ -29,17 +29,18 @@
 //               
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
-// IMPORTANT NOTES WORTH READING
+// IMPORTANT NOTES WORTH READING:
 /*
- *  Please note that the insert algorithm takes a long time when inserting a very large number - 100,000 or more. 
+ *  1. Please note that the insert algorithm takes a long time when inserting a very large number - 100,000 or more. 
  *  The largest it has inserted without taking a time that makes you wonder if it is actually working is around 25,000.
+ *  
  *  Be warned of the following as well:
- *  1. Items are inserted at the end of the array to increase the insert time-complexity
- *  2. Since items are inserted in at random order, contains and remove has longer time complexity of O(n).
+ *  a. Items are inserted at the end of the array to increase the insert time-complexity. Which unfortunately doesn't work, 
+ *     as I have to check the array for duplicate values.
+ *  
+ *  b. Since items are inserted in at the end of the array, contains and remove also have longer time complexity of O(n).
  */
-// 
 
-// TODO: Add class header here (DONE)
 public class DS_My implements DataStructureADT<String, String> {
 
   // TODO - may wish to define an inner class
@@ -110,18 +111,18 @@ public class DS_My implements DataStructureADT<String, String> {
   @Override
   public void insert(String key, String value) {
     // check if the key is null, if so throw an IllegalArgumentException
-    if(key == null) {
+    if (key == null) {
       throw new IllegalArgumentException("null key");
     }
     // Check if this key is a duplicate key. If it is, throw a RuntimeException
     // if the key is already associated with an index, it exists in the array.
     int keyIndex = getIndex(key);
-    if(validIndex(keyIndex)) {
+    if (validIndex(keyIndex)) {
       throw new RuntimeException("duplicate key.");
     }
 
     // Now that we know the key is a valid key, check if the array is maxed out.
-    if(pairArray.length == numPairs) {
+    if (pairArray.length == numPairs) {
       // if it is, expand the array
       pairArray = expandArray(pairArray);
     }
@@ -142,11 +143,11 @@ public class DS_My implements DataStructureADT<String, String> {
   @Override
   public boolean remove(String key) {
     // check if the key is null, if so throw an IllegalArgumentException
-    if(key == null) {
+    if (key == null) {
       throw new IllegalArgumentException("null key");
     }
     int keyIndex = getIndex(key);
-    if(validIndex(keyIndex)) {
+    if (validIndex(keyIndex)) {
       // set the key at the index to the last key in the array
       pairArray[keyIndex] = pairArray[numPairs - 1];
       // set the last key index to null
@@ -170,11 +171,11 @@ public class DS_My implements DataStructureADT<String, String> {
   public String get(String key) {
 
     // if the key is null, throw an IllegalArgumentException
-    if(key == null) {
+    if (key == null) {
       throw new IllegalArgumentException("null key");
     }
     int keyIndex = getIndex(key);
-    if(validIndex(keyIndex)) {
+    if (validIndex(keyIndex)) {
       return pairArray[keyIndex].getValue();
     }
     // if there isn't an element that matches the key, return null
@@ -187,19 +188,25 @@ public class DS_My implements DataStructureADT<String, String> {
    * array.
    * 
    * @param key - the key of the element to be found
-   * @return true if the array contains an element with the same key
+   * @return true if the array contains an element with the same key, false if
+   *         the array does not contain the key or the key is null.
    */
 
   // TODO: figure out how to use getIndex(STring) in this method
   @Override
   public boolean contains(String key) {
-    int keyIndex = getIndex(key);
-
+    // if the key is null, return false
+    if (key == null) {
+      return false;
+    }
+    // get the index of the key
+    int keyIndex = getIndex(key); 
+    
     // if the key is found, return true.
-    if(validIndex(keyIndex)) {
+    if (validIndex(keyIndex)) {
       return true;
     }
-    // else return false.
+    // if the key is not in the array, return false
     return false;
   }
 
@@ -223,7 +230,7 @@ public class DS_My implements DataStructureADT<String, String> {
   private Pair[] expandArray(Pair[] array) {
     Pair[] biggerArray = new Pair[array.length * 2];
     // transfer all the Pairs in the old array to the new array.
-    for(int i = 0; i < array.length; i++) {
+    for (int i = 0; i < array.length; i++) {
       biggerArray[i] = array[i];
     }
 
@@ -239,9 +246,9 @@ public class DS_My implements DataStructureADT<String, String> {
    * @return the index of the key, or -1 if the key is not in the array.
    */
   private int getIndex(String key) {
-    for(int i = 0; i < numPairs; i++) {
+    for (int i = 0; i < numPairs; i++) {
       String currKey = pairArray[i].getKey();
-      if(currKey.equals(key)) {
+      if (currKey.equals(key)) {
         return i;
       }
     }
@@ -255,7 +262,7 @@ public class DS_My implements DataStructureADT<String, String> {
    * @return true if the index is between 0 and numPairs, false if it isn't
    */
   private boolean validIndex(int keyIndex) {
-    if(keyIndex < numPairs && keyIndex >= 0) {
+    if (keyIndex < numPairs && keyIndex >= 0) {
       return true;
     }
     return false;

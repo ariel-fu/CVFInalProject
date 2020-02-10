@@ -32,9 +32,9 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
 
   @Test
   void test00_empty_ds_size() {
-    if(ds.size() != 0)
-      fail("data structure should be empty, with size=0, but size="
-              + ds.size());
+    if (ds.size() != 0)
+      fail(
+          "data structure should be empty, with size=0, but size=" + ds.size());
   }
 
   // TODO: review tests 01 - 04
@@ -53,9 +53,9 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     String value = "one";
     ds.insert(key, value);
     assert (ds.remove(key)); // remove the key
-    if(ds.size() != 0)
-      fail("data structure should be empty, with size=0, but size="
-              + ds.size());
+    if (ds.size() != 0)
+      fail(
+          "data structure should be empty, with size=0, but size=" + ds.size());
   }
 
   @Test
@@ -79,9 +79,9 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     ds.insert(key, value);
     assert (!ds.remove("2")); // remove non-existent key is false
     assert (ds.remove(key)); // remove existing key is true
-    if(ds.get(key) != null)
+    if (ds.get(key) != null)
       fail("get(" + key + ") returned " + ds.get(key)
-              + " which should have been removed");
+          + " which should have been removed");
   }
 
   // TODO: add tests 05 - 07 as described in assignment
@@ -96,9 +96,9 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     String value = "one";
     ds.insert(key, value);
     assertTrue(ds.remove(key));
-    if(ds.size() != 0) {
-      fail("data structure should be empty, with size=0, but size="
-              + ds.size());
+    if (ds.size() != 0) {
+      fail(
+          "data structure should be empty, with size=0, but size=" + ds.size());
     }
 
   }
@@ -110,7 +110,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
   void test06_insert_many_size() {
     String value = "1";
     try {
-      for(int key = 0; key < 100; key++) {
+      for (int key = 0; key < 100; key++) {
         ds.insert(Integer.toString(key), value);
       }
     } catch (Exception e) {
@@ -133,7 +133,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     ds.insert(key, duplicate);
 
     // insert more Pairs into the array
-    for(int i = 0; i < 15; i++) {
+    for (int i = 0; i < 15; i++) {
       ds.insert("#" + i, "value");
     }
 
@@ -141,7 +141,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     ds.remove(key);
 
     // insert more Pairs into the array again
-    for(int i = 0; i < 15; i++) {
+    for (int i = 0; i < 15; i++) {
       ds.insert("#2" + i, "value");
     }
 
@@ -179,12 +179,12 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
    */
   @Test
   void test09_insert_and_remove() {
-    for(int i = 0; i < 25000; i++) {
+    for (int i = 0; i < 25000; i++) {
       ds.insert(Integer.toString(i), "#" + i);
     }
     assertTrue(ds.size() == 25000);
 
-    for(int i = 0; i < 25000; i++) {
+    for (int i = 0; i < 25000; i++) {
       ds.remove(Integer.toString(i));
     }
     assertTrue(ds.size() == 0);
@@ -228,28 +228,116 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
    */
   @Test
   void test013_remove_nothing() {
-    ds.insert("", "1");
+    ds.insert("", "1"); // inserting empty strings should be ok. (According to Professor Deppeler.)
     ds.insert("two", "1");
     ds.insert("three", "1");
     ds.remove("four");
     assertTrue(ds.size() == 3);
   }
-  
+
+  /**
+   * This method tests if contains will return false when looking for an element
+   * not in the array.
+   */
   @Test
   void test014_contains_not_in_array() {
-    for(int i=0; i<20; i++) {
-      ds.insert("#" + i, i+"");
+    for (int i = 0; i < 20; i++) {
+      ds.insert("#" + i, i + "");
     }
     assertTrue(!ds.contains("#20"));
   }
-  
-  @Test 
+
+  /**
+   * This method tests if calling contains with a null key with result in an
+   * error, or return false.
+   */
+  @Test
   void test014_contains_null_key() {
-    for(int i=0; i<20; i++) {
-      ds.insert("#"+i, i+"");
+    for (int i = 0; i < 20; i++) {
+      ds.insert("#" + i, i + "");
     }
     assertTrue(!ds.contains(null));
-    
+
+  }
+
+  /**
+   * Tests if contains will return true when the key is in the array
+   */
+  @Test
+  void test015_contains_work() {
+    String key = "valid";
+    String value = "deww";
+
+    ds.insert(key, value);
+    for (int i = 0; i < 9; i++) {
+      ds.insert("#" + i, "" + i);
+    }
+    assertTrue(ds.contains(key));
+
+  }
+
+  /**
+   * Test if get will work when given a valid key, and the key is in the array.
+   * The value returned should be equal to the value inserted.
+   */
+  @Test
+  void test016_test_valid_get() {
+    String key = "super valid key";
+    String value = "value";
+    ds.insert(key, value);
+    assertTrue(value.equals(ds.get(key)));
+  }
+
+  /**
+   * Test if the get method will throw a IllegalArgumentException when a null
+   * key is passed in as input.
+   * 
+   */
+  @Test
+  void test017_test_null_get() {
+
+    String key = "super valid key";
+    String value = "value";
+    ds.insert(key, value);
+    try {
+      assertTrue(null == ds.get(null));
+      fail("Should have thrown an IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // make sure that get didn't do anything to the size of the array.
+      assertTrue(ds.size() == 1);
+    } catch (Exception e) {
+      fail("Only IllegalArgumentException should have been thrown.");
+    }
+  }
+
+  /**
+   * This method tests if get will return null if a key is not in the array
+   */
+  @Test
+  void test018_test_get_fail() {
+    String key = "valid";
+    String value = "also valid";
+    ds.insert(key, value);
+    try {
+      assertTrue(null == ds.get("not in array"));
+    } catch (Exception e) {
+      fail("No exceptions!");
+    }
+  }
+  
+  /**
+   * This method tests if the get method will return null if the key was inserted then removed. 
+   */
+  @Test
+  void test019_test_get_removed_pair() {
+    String key = "remove";
+    String value = "random value";
+    ds.insert(key, value);
+    for(int i=0; i<21; i++) {
+      ds.insert("#"+i, "i: "+i);
+    }
+    ds.remove(key);
+    assertTrue(ds.get(key) == null);
   }
   // TODO: add more tests of your own design to ensure that you can detect
   // implementation that fail

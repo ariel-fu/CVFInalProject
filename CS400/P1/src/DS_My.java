@@ -101,7 +101,8 @@ public class DS_My implements DataStructureADT<String, String> {
   /**
    * This method inserts a new Pair that consists of a key and a value
    * 
-   * @param key   - key of the Pair
+   * @param key   - key of the Pair, anything except null is a valid key: empty
+   *              string, a single space, etc.
    * @param value - value associated with the key
    * @throws IllegalArgumentException - if the key is null
    * @throws RunTimeException         - if there the key input is a duplicate of
@@ -200,8 +201,8 @@ public class DS_My implements DataStructureADT<String, String> {
       return false;
     }
     // get the index of the key
-    int keyIndex = getIndex(key); 
-    
+    int keyIndex = getIndex(key);
+
     // if the key is found, return true.
     if (validIndex(keyIndex)) {
       return true;

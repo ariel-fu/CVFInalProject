@@ -114,7 +114,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
         ds.insert(Integer.toString(key), value);
       }
     } catch (Exception e) {
-      System.out.println(ds.size());
+
       fail("data structure is not expanding itself when it is full");
     }
     assertTrue(ds.size() == 100);
@@ -228,7 +228,8 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
    */
   @Test
   void test013_remove_nothing() {
-    ds.insert("", "1"); // inserting empty strings should be ok. (According to Professor Deppeler.)
+    ds.insert("", "1"); // inserting empty strings should be ok. (According to
+                        // Professor Deppeler.)
     ds.insert("two", "1");
     ds.insert("three", "1");
     ds.remove("four");
@@ -300,7 +301,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
     String value = "value";
     ds.insert(key, value);
     try {
-      assertTrue(null == ds.get(null));
+      ds.get(null); // should throw an IllegalArgumentException.
       fail("Should have thrown an IllegalArgumentException");
     } catch (IllegalArgumentException e) {
       // make sure that get didn't do anything to the size of the array.
@@ -324,19 +325,23 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String, String>> 
       fail("No exceptions!");
     }
   }
-  
+
   /**
-   * This method tests if the get method will return null if the key was inserted then removed. 
+   * This method tests if the get method will return null if the key was
+   * inserted then removed.
    */
   @Test
   void test019_test_get_removed_pair() {
     String key = "remove";
     String value = "random value";
     ds.insert(key, value);
-    for(int i=0; i<21; i++) {
-      ds.insert("#"+i, "i: "+i);
+    for (int i = 0; i < 21; i++) {
+      ds.insert("#" + i, "i: " + i);
     }
     ds.remove(key);
+    for (int i = 0; i < 21; i++) {
+      ds.insert(" #" + i, "i: " + i);
+    } 
     assertTrue(ds.get(key) == null);
   }
   // TODO: add more tests of your own design to ensure that you can detect

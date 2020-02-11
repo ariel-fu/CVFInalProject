@@ -43,24 +43,22 @@ public class CompareDS {
   public static void main(String[] args) {
     long fastestTime = 0;
     String nameOfFastestImplementation = "";
-    String thingsToDo = "insert 10,000 items, " + "\r\n"
-        + "check for an item that isn't in the data structure and remove all items.";
+    String thingsToDo = "1. Insert 10,000 items " + "\r\n"
+        + "2. Check for an item that isn't in the data structure " + "\r\n"
+        + "3. Get an item that isn't in the data structure" + "\r\n"
+        + "3. Remove all items" + "\r\n" + "4. Check that size = 0";
 
     System.out.println(
-        "CompareDS.main compares work time for DS_: My, Brian, Mark, Srivatsan, and Yang");
-    System.out.println("Each implementation will " + thingsToDo); // print out
-                                                                  // the
-                                                                  // description
-                                                                  // of
-                                                                  // what each
-                                                                  // trial does.
+        "CompareDS.main compares work time for DS_: Brian, My, and Mark");
+    // print out the description of what each trial does.
+    System.out.println("Each implementation will " + "\r\n" + thingsToDo);
     System.out.println("********************************");
     System.out.println();
 
     // put Brian to the trial.
     long brian = brianImplementation();
     System.out.println("Brian's implementation took " + brian
-        + " nanoseconds to calculate " + thingsToDo);
+        + " nanoseconds to do " + "\r\n" + thingsToDo);
 
     // set the current fastest implementation to Brian.
     fastestTime = brian;
@@ -70,7 +68,7 @@ public class CompareDS {
     // put Mark to the trial.
     long mark = markImplementation();
     System.out.println("Mark's implementation took " + mark
-        + " nanoseconds to do " + thingsToDo);
+        + " nanoseconds to do " + "\r\n" + thingsToDo);
     // check if Mark has a faster implementation than Brian
     if (mark < fastestTime) {
       fastestTime = mark;
@@ -80,35 +78,14 @@ public class CompareDS {
 
     // put me to the trial.
     long me = myImplementation();
-    System.out.println(
-        "My implementation took " + me + " nanoseconds to do " + thingsToDo);
+    System.out.println("My implementation took " + me + " nanoseconds to do "
+        + "\r\n" + thingsToDo);
     // check if I have a faster implementation compared to the current fastest
     // implementation
     if (me < fastestTime) {
       fastestTime = me;
       nameOfFastestImplementation = "Ariel (me)";
     }
-    System.out.println("********************************");
-//
-//    // Srivatsan up for trial.
-//    long srivatsan = srivatsanImplementation();
-//    System.out.println(
-//            "Srivatsan's implementation took " + srivatsan + " nanoseconds to do " + thingsToDo);
-//
-//    // check if Srivatsan has the fastest implementation so far.
-//    if(srivatsan < fastestTime) {
-//      fastestTime = srivatsan;
-//      nameOfFastestImplementation = "Srivatsan";
-//    }
-//    System.out.println("********************************");
-//
-//    // Yang up for trial.
-//    long yang = yangImplementation();
-//    System.out.println("Yang's implementation took " + yang + " nanoseconds to do " + thingsToDo);
-//    if(yang < fastestTime) {
-//      fastestTime = yang;
-//      nameOfFastestImplementation = "Yang";
-//    }
     System.out.println("********************************");
 
     System.out.println("Now, the results of our trial...");
@@ -120,14 +97,12 @@ public class CompareDS {
   /**
    * This method calculates how long it takes Brian's implementation to insert
    * 10,000 items, check if it contains an item that isn't in the data
-   * structure, and remove all 10,000 items.
+   * structure, remove all 10,000 items, and check that size = 0.
    * 
    * @return time it takes to do all that (in nanoseconds)
    */
   private static long brianImplementation() {
-    // calculate the time it takes to do the work for 10000 inserts on DS_Andy
-    // (or
-    // brian?)
+    // calculate the time it takes to do the work for 10000 inserts on DS_Brian
     DS_Brian brian = new DS_Brian();
     long startTime = System.nanoTime();
     for (int i = 0; i < 10000; i++) {
@@ -139,14 +114,26 @@ public class CompareDS {
     // calculate the time it takes to find a key that isn't in the data
     // structure.
     startTime = System.nanoTime();
-    brian.contains("randome key");
+    brian.contains("random key");
     endTime = System.nanoTime();
     totalTime += (endTime - startTime); // add it to the total time
 
+    // calculate the time it takes to get something that is not in the list.
+    startTime = System.nanoTime();
+    brian.get("not in the list (hopefully)");
+    endTime = System.nanoTime();
+    totalTime += (endTime - startTime);
     // calculate the time it takes to remove the whole list
     startTime = System.nanoTime();
     for (int i = 0; i < 10000; i++) {
       brian.remove(Integer.toString(i));
+    }
+    endTime = System.nanoTime();
+    totalTime += (endTime - startTime); // add it to the total time
+
+    // calculate the time it takes to get the size of the Data structure
+    startTime = System.nanoTime();
+    if (brian.size() == 0) {
     }
     endTime = System.nanoTime();
     totalTime += (endTime - startTime); // add it to the total time
@@ -157,15 +144,13 @@ public class CompareDS {
 
   /**
    * This method calculates how long it takes Mark's implementation to insert
-   * 10,000 items, check if it contains an item that isn't in the array, and
-   * remove all 10,000 items.
+   * 10,000 items, check if it contains an item that isn't in the array, remove
+   * all 10,000 items, and check that size = 0.
    * 
    * @return time it takes to do all that (in nanoseconds)
    */
   private static long markImplementation() {
-    // calculate the time it takes to do the work for 10000 inserts on DS_Andy
-    // (or
-    // mark?)
+    // calculate the time it takes to do the work for 10000 inserts on DS_Mark
     DS_Mark mark = new DS_Mark();
     long startTime = System.nanoTime();
     for (int i = 0; i < 10000; i++) {
@@ -176,9 +161,15 @@ public class CompareDS {
     // calculate the time it takes to find a key that isn't in the data
     // structure.
     startTime = System.nanoTime();
-    mark.contains("randome key");
+    mark.contains("random key");
     endTime = System.nanoTime();
     totalTime += (endTime - startTime); // add it to the total time
+
+    // calculate the time it takes to get an item that is not in the list.
+    startTime = System.nanoTime();
+    mark.get("not in the list (hopefully)");
+    endTime = System.nanoTime();
+    totalTime += (endTime - startTime);
 
     // calculate the time it takes to remove the whole list
     startTime = System.nanoTime();
@@ -188,13 +179,20 @@ public class CompareDS {
     endTime = System.nanoTime();
     totalTime += (endTime - startTime); // add it to the total time
 
+    // calculate the time it takes to get the size of the Data structure
+    startTime = System.nanoTime();
+    if (mark.size() == 0) {
+    }
+    endTime = System.nanoTime();
+    totalTime += (endTime - startTime); // add it to the total time
+
     return totalTime;
   }
 
   /**
    * This method calculates how long it takes my implementation to insert 10,000
-   * items, check if it contains an item that isn't in the array, and remove all
-   * 10,000 items.
+   * items, check if it contains an item that isn't in the array, remove all
+   * 10,000 items, and check the size of the array is equal to 0
    * 
    * @return time it takes to do all that (in nanoseconds)
    */
@@ -210,9 +208,15 @@ public class CompareDS {
     // calculate the time it takes to find a key that isn't in the data
     // structure.
     startTime = System.nanoTime();
-    ds.contains("randome key");
+    ds.contains("random key");
     endTime = System.nanoTime();
     totalTime += (endTime - startTime); // add it to the total time
+
+    // calculate the time it takes to get something that is not in the list.
+    startTime = System.nanoTime();
+    ds.get("not in the list (hopefully)");
+    endTime = System.nanoTime();
+    totalTime += (endTime - startTime);
 
     // calculate the time it takes to remove the whole list
     startTime = System.nanoTime();
@@ -222,75 +226,13 @@ public class CompareDS {
     endTime = System.nanoTime();
     totalTime += (endTime - startTime); // add it to the total time
 
+    // calculate the time it takes to check the size of the Data structure.
+    startTime = System.nanoTime();
+    if (ds.size() == 0) {
+    }
+    endTime = System.nanoTime();
+    totalTime += (endTime - startTime); // add it to the total time
+
     return totalTime;
   }
-
-  // TODO: Not sure if Srivatsan and Yang work with my Junit test. Get seems to
-  // be having issues. Double check if my debug code is having problems.
-//
-//  /**
-//   * This method calculates how long it takes Srivatsan's implementation to insert
-//   * 10,000 items, check if it contains an item isn't in the array, and remove all
-//   * 10,000 items.
-//   * 
-//   * @return time it takes to do all that (in nanoseconds)
-//   */
-//  private static long srivatsanImplementation() {
-//    // calculate the time it takes to do the work for 10000 inserts on DS_Srivatsan
-//    DS_Srivatsan srivatsan = new DS_Srivatsan();
-//    long startTime = System.nanoTime();
-//    for(int i = 0; i < 10000; i++) {
-//      srivatsan.insert(Integer.toString(i), "#" + i);
-//    }
-//    long endTime = System.nanoTime();
-//    long totalTime = (endTime - startTime); // calculate the time it takes to find a key that isn't
-//                                            // in the data structure.
-//    startTime = System.nanoTime();
-//    srivatsan.contains("randome key");
-//    endTime = System.nanoTime();
-//    totalTime += (endTime - startTime); // add it to the total time
-//
-//    // calculate the time it takes to remove the whole list
-//    startTime = System.nanoTime();
-//    for(int i = 0; i < 10000; i++) {
-//      srivatsan.remove(Integer.toString(i));
-//    }
-//    endTime = System.nanoTime();
-//    totalTime += (endTime - startTime); // add it to the total time
-//
-//    return totalTime;
-//  }
-//
-//  /**
-//   * This method calculates how long it takes Yang's implementation to insert
-//   * 10,000 items, check if it contains an item isn't in the array, and remove all
-//   * 10,000 items.
-//   * 
-//   * @return time it takes to do all that (in nanoseconds)
-//   */
-//  private static long yangImplementation() {
-//    // calculate the time it takes to do the work for 10000 inserts on DS_Srivatsan
-//    DS_Yang yang = new DS_Yang();
-//    long startTime = System.nanoTime();
-//    for(int i = 0; i < 10000; i++) {
-//      yang.insert(Integer.toString(i), "#" + i);
-//    }
-//    long endTime = System.nanoTime();
-//    long totalTime = (endTime - startTime);
-//    // calculate the time it takes to find a key that isn't in the data structure.
-//    startTime = System.nanoTime();
-//    yang.contains("randome key");
-//    endTime = System.nanoTime();
-//    totalTime += (endTime - startTime); // add it to the total time
-//
-//    // calculate the time it takes to remove the whole list
-//    startTime = System.nanoTime();
-//    for(int i = 0; i < 10000; i++) {
-//      yang.remove(Integer.toString(i));
-//    }
-//    endTime = System.nanoTime();
-//    totalTime += (endTime - startTime); // add it to the total time
-//
-//    return totalTime;
-//  }
 }

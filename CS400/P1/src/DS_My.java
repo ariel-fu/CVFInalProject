@@ -43,9 +43,6 @@
 
 public class DS_My implements DataStructureADT<String, String> {
 
-  // TODO - may wish to define an inner class
-  // for storing key and value as a pair
-  // such a class and its members should be "private" (DONE)
   private class Pair {
     private String value; // stores the value of the pair
     private String key; // stores the key String of the pair
@@ -82,7 +79,6 @@ public class DS_My implements DataStructureADT<String, String> {
   }
 
   // Private Fields of the class
-  // TODO create field(s) here to store data pairs (DONE)
   private int numPairs; // current number of elements in the Pair[]
   private Pair[] pairArray; // array to hold the Pair(s)
 
@@ -95,8 +91,6 @@ public class DS_My implements DataStructureADT<String, String> {
     pairArray = new Pair[20]; // set the array to hold 20 elements (to start)
   }
 
-  // TODO: add unimplemented methods
-  // ProTip: Eclipse can do this for you
 
   /**
    * This method inserts a new Pair that consists of a key and a value
@@ -192,8 +186,6 @@ public class DS_My implements DataStructureADT<String, String> {
    * @return true if the array contains an element with the same key, false if
    *         the array does not contain the key or the key is null.
    */
-
-  // TODO: figure out how to use getIndex(STring) in this method
   @Override
   public boolean contains(String key) {
     // if the key is null, return false

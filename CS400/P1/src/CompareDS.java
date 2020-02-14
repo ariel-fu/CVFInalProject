@@ -36,9 +36,6 @@
  * @author Ariel
  *
  */
-// TODO: figure out how to improve time complexity for insert 
-// TODO: add in the TAs that work
-// TODO: what is do work? all of the implementations or insert or remove??
 public class CompareDS {
   public static void main(String[] args) {
     long fastestTime = 0;

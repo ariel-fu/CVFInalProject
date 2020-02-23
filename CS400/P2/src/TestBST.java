@@ -1,6 +1,9 @@
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,7 +102,7 @@ public class TestBST {
 		} catch (Exception e) {
 			e.printStackTrace();
 
-			fail("Unexpected exception 001: " + e.getMessage());
+			fail("Unexpected exception 002: " + e.getMessage());
 		}
 	}
 
@@ -141,7 +144,7 @@ public class TestBST {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Unexpected exception 001: " + e.getMessage());
+			fail("Unexpected exception 003: " + e.getMessage());
 		}
 	}
 
@@ -201,6 +204,110 @@ public class TestBST {
 	}
 
 	@Test
+	void testBST_insert_null_value() {
+		try {
+			bst.insert(2, null);
+		} catch (IllegalNullKeyException e) {
+			fail(e.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	void testBST_insert_null_keys() {
+		try {
+			bst.insert(null, "valid");
+		} catch (IllegalNullKeyException e) {
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	void testBST_insert_duplicate() {
+		String value = "valid value";
+		try {
+			bst.insert(1, value);
+			bst.insert(12, value);
+			bst.insert(15, value);
+			bst.insert(10, value);
+			bst.insert(1, value);
+		} catch (DuplicateKeyException e) {
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	void testBST_remove_simple() {
+		try {
+			for (int i = 0; i < 10; i++) {
+				bst.insert(i, "i" + i);
+			}
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+
+		assertTrue(bst.numKeys() == 10);
+		try {
+			assertTrue(bst.remove(2));
+		} catch (IllegalNullKeyException e) {
+			fail(e.getMessage());
+		}
+		assertTrue(bst.numKeys() == 9);
+	}
+
+	@Test
+	void testBST_insert_remove_1() {
+
+		try {
+			bst.insert(1, "1");
+			bst.remove(1);
+			assertTrue(bst.numKeys() == 0);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+
+	}
+
+	@Test
+	void testBST_remove_nothing() {
+		try {
+			bst.remove(1);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	void testBST_remove_null_input() {
+		try {
+			bst.remove(null);
+		} catch (IllegalNullKeyException e) {
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	void testBST_remove_not_in_BST() {
+		String value = "e";
+		try {
+			bst.insert(1, value);
+			bst.insert(2, value);
+			bst.insert(3, value);
+			bst.insert(4, value);
+			bst.insert(5, value);
+			bst.insert(6, value);
+			bst.insert(7, value);
+			assertTrue(!bst.remove(0));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
 	void testBST_simple_height() {
 		try {
 			for (int i = 0; i < 5; i++) {
@@ -210,6 +317,112 @@ public class TestBST {
 			fail("no exceptions should be thrown");
 		}
 		assertTrue(bst.getHeight() == 5);
+	}
+
+	@Test
+	void testBST_preOrder() {
+
+		try {
+			bst.insert(2, "e");
+			bst.insert(9, "e");
+			bst.insert(1, "e");
+
+			bst.insert(0, "e");
+			bst.insert(3, "e");
+		} catch (IllegalNullKeyException e) {
+
+			fail(e.getMessage());
+		} catch (DuplicateKeyException e) {
+
+			fail(e.getMessage());
+		}
+		List<Integer> resultsPreOrder = bst.getPreOrderTraversal();
+		LinkedList<Integer> expected = new LinkedList<Integer>();
+		expected.add(2);
+		expected.add(1);
+		expected.add(0);
+		expected.add(9);
+		expected.add(3);
+		System.out.println(bst.getInOrderTraversal());
+		for (int i = 0; i < expected.size(); i++) {
+			if (!resultsPreOrder.get(i).equals(expected.get(i))) {
+				System.out.println(resultsPreOrder);
+				fail("Results @i: " + resultsPreOrder.get(i) + " expected: " + expected.get(i));
+			}
+		}
+	}
+
+	@Test
+	void testBST_inOrder() {
+		try {
+			bst.insert(12, "1");
+			bst.insert(123, "1");
+			bst.insert(75, "1");
+			bst.insert(15, "1");
+			bst.insert(411, "1");
+			bst.insert(11, "1");
+			bst.insert(175, "1");
+			bst.insert(91, "1");
+			List<Integer> inOrderBST = bst.getInOrderTraversal();
+			Integer[] expected = new Integer[] { 11, 12, 15, 75, 91, 123, 175, 411 };
+			for (int i = 0; i < expected.length; i++) {
+				if (!inOrderBST.get(i).equals(expected[i])) {
+					fail("BST: " + inOrderBST.get(i) + " expected: " + expected[i]);
+				}
+			}
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	void testBST_postOrder() {
+		try {
+			bst.insert(50, "1");
+			bst.insert(20, "1");
+			bst.insert(30, "1");
+			bst.insert(10, "1");
+			bst.insert(0, "1");
+			bst.insert(15, "1");
+			bst.insert(80, "1");
+			bst.insert(70, "1");
+			bst.insert(90, "1");
+			bst.insert(85, "1");
+			List<Integer> postOrder = bst.getPostOrderTraversal();
+			Integer[] expected = new Integer[] { 0, 15, 10, 30, 20, 70, 85, 90, 80, 50 };
+			for (int i = 0; i < expected.length; i++) {
+				if (!postOrder.get(i).equals(expected[i])) {
+					fail("BST: " + postOrder.get(i) + " expected: " + expected[i]);
+				}
+			}
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	void testBST_level_order() {
+		try {
+			bst.insert(50, "1");
+			bst.insert(20, "1");
+			bst.insert(30, "1");
+			bst.insert(10, "1");
+			bst.insert(0, "1");
+			bst.insert(15, "1");
+			bst.insert(80, "1");
+			bst.insert(70, "1");
+			bst.insert(90, "1");
+			bst.insert(85, "1");
+			List<Integer> levelOrder = bst.getLevelOrderTraversal();
+			Integer[] expected = new Integer[] { 50, 20, 80, 10, 30, 70, 90, 0, 15, 85 };
+			for (int i = 0; i < expected.length; i++) {
+				if (!levelOrder.get(i).equals(expected[i])) {
+					fail("BST: " + levelOrder.get(i) + " expected: " + expected[i]);
+				}
+			}
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 	// TODO: Add your own tests
 

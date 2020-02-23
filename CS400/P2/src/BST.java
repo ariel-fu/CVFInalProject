@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -66,21 +67,21 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 		}
 
 		/**
-		 * Sets the right node to the node inputted
+		 * Returns the right node of the current node
 		 * 
-		 * @param node - node to replace the right child node
+		 * @return right node of the current node
 		 */
-		private void setRight(Node node) {
-			this.rightNode = node;
+		private Node getRightNode() {
+			return this.rightNode;
 		}
 
 		/**
-		 * Sets the left node to the node inputted
+		 * Returns the left node of the current node
 		 * 
-		 * @param node - node to replace the left child node
+		 * @return left node of the current node
 		 */
-		private void setLeft(Node node) {
-			this.leftNode = node;
+		private Node getLeftNode() {
+			return this.leftNode;
 		}
 
 		/**
@@ -100,10 +101,26 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 		private boolean hasLeft() {
 			return this.leftNode != null;
 		}
+
+		private void setRight(Node node) {
+			this.rightNode = node;
+		}
+
+		private void setLeft(Node node) {
+			this.leftNode = node;
+		}
 	}
 
 	private Node root; // root of the BST
 	private int numNodes; // total number of nodes in the BST
+
+	/**
+	 * No argument constructor for the BST
+	 */
+	public BST() {
+		root = null;
+		numNodes = 0;
+	}
 
 	/**
 	 * Returns the key that is in the root node of this ST. If root is null, returns
@@ -161,7 +178,7 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 			throw new KeyNotFoundException("Key is not in BST");
 		}
 
-		return keyNode.rightNode.getKey();
+		return keyNode.getRightNode().getKey();
 	}
 
 	/**
@@ -181,7 +198,7 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 			curr = getNode(curr.leftNode, key);
 		} else if (curr.key.compareTo(key) < 0) {
 			// the key is greater than the current node's key, go right
-			curr = getNode(curr.rightNode, key);
+			curr = getNode(curr.getRightNode(), key);
 		}
 		// found the node with matching keys
 		return curr;
@@ -203,7 +220,7 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @return the number of levels that contain keys in this BINARY SEARCH TREE
 	 */
 	public int getHeight() {
-		return 1 + maxHeight(root.leftNode) + maxHeight(root.rightNode);
+		return 1 + maxHeight(root.getLeftNode()) + maxHeight(root.getRightNode());
 	}
 
 	/**
@@ -212,16 +229,20 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @param curr - current node
 	 * @return the max height of the curr tree
 	 */
-	// TODO: fix implementation --> running into null pointers
 	private int maxHeight(Node curr) {
-		int leftSubtree = 0;
-		int rightSubtree = 0;
-		leftSubtree += maxHeight(curr.leftNode);
-		rightSubtree += maxHeight(curr.rightNode);
-		if (leftSubtree > rightSubtree) {
-			return leftSubtree;
+		if (curr == null) {
+			return 0;
+		} else {
+			int left = maxHeight(curr.getLeftNode()); // recur to find the maxHeight in the left subtree
+			int right = maxHeight(curr.getRightNode()); // recur to find the maxHeight in the right subtree
+			if (left > right) {
+				// add one for the current node
+				return left + 1;
+			} else {
+				// add one for the current node
+				return right + 1;
+			}
 		}
-		return rightSubtree;
 	}
 
 	/**
@@ -233,7 +254,41 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @return List of Keys in-order
 	 */
 	public List<K> getInOrderTraversal() {
-		return null;
+		List<K> listOfKeys = new LinkedList<K>();
+		List<Node> listOfNodes = inOrderHelper(root);
+		for (int i = 0; i < listOfNodes.size(); i++) {
+			listOfKeys.add(listOfNodes.get(i).getKey());
+		}
+		return listOfKeys;
+	}
+
+	/**
+	 * Helper method for the in-order traversal
+	 * 
+	 * @param currNode - current node in the BST
+	 * @return an empty list of the BST is null, or a list with the nodes in
+	 *         ascending order
+	 */
+	private List<Node> inOrderHelper(Node currNode) {
+		List<Node> inOrderList = new LinkedList<Node>();
+		// recursive cases
+		if (currNode != null) {
+			// recur on the left sub-tree if currentNode has a left child
+			if (currNode.hasLeft()) {
+				List<Node> leftSide = inOrderHelper(currNode.getLeftNode());
+				inOrderList = transferValues(inOrderList, leftSide);
+			}
+			// process the parent
+			inOrderList.add(currNode);
+			// recur on the right sub-tree if the currentNode has a right child
+			if (currNode.hasRight()) {
+				List<Node> rightSide = inOrderHelper(currNode.getRightNode());
+				inOrderList = transferValues(inOrderList, rightSide);
+			}
+		}
+
+		// Base case: empty subtree (currentNode is null) --> return an empty list
+		return inOrderList;
 	}
 
 	/**
@@ -245,12 +300,43 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @return List of Keys in pre-order
 	 */
 	public List<K> getPreOrderTraversal() {
-		return null;
+		// the helper method returns a list of nodes
+		List<Node> listOfNode = preOrderTraversalHelper(root); // recursive method
+		List<K> listOfKey = new LinkedList<K>();
+		// get all the nodes' keys into a new list
+		for (int i = 0; i < listOfNode.size(); i++) {
+			Node currNode = listOfNode.get(i);
+			listOfKey.add(currNode.getKey());
+		}
+		return listOfKey;
 	}
 
-	private List<K> preOrderTraversalHelper() {
-		List<K> newList = new List<K>();
-
+	/**
+	 * Recursive helper method to do a pre-order traversal and add each node to the
+	 * list.
+	 * 
+	 * @param currentNode - current node in the BSt
+	 * @return a list with all the nodes in the BST in a pre-order, or an empty list
+	 *         if the BST is empty
+	 */
+	private List<Node> preOrderTraversalHelper(Node currentNode) {
+		List<Node> preOrderList = new LinkedList<Node>();
+		if (currentNode != null) {
+			// add the parent to the list.
+			preOrderList.add(currentNode);
+			// recur on the left sub-tree if currentNode has a left child
+			if (currentNode.getLeftNode() != null) {
+				List<Node> leftSide = preOrderTraversalHelper(currentNode.getLeftNode());
+				preOrderList = transferValues(preOrderList, leftSide);
+			}
+			// recur on the right sub-tree if the currentNode has a right child
+			if (currentNode.getRightNode() != null) {
+				List<Node> rightSide = preOrderTraversalHelper(currentNode.getRightNode());
+				preOrderList = transferValues(preOrderList, rightSide);
+			}
+		}
+		// base case --> return an empty list
+		return preOrderList;
 	}
 
 	/**
@@ -262,7 +348,42 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @return List of Keys in post-order
 	 */
 	public List<K> getPostOrderTraversal() {
-		return null;
+		List<Node> listOfNodes = postOrderTraversalHelper(root);
+		List<K> listOfKeys = new LinkedList<K>();
+		for (int i = 0; i < listOfNodes.size(); i++) {
+			K currkey = listOfNodes.get(i).getKey();
+			listOfKeys.add(currkey);
+		}
+		return listOfKeys;
+	}
+
+	/**
+	 * Recursive helper method to do a post-order traversal and add each node to the
+	 * list.
+	 * 
+	 * @param currentNode - current node in the BSt
+	 * @return a list with all the nodes in the BST in a pre-order, or an empty list
+	 *         if the BST is empty
+	 */
+	private List<Node> postOrderTraversalHelper(Node currentNode) {
+		List<Node> postOrderList = new LinkedList<Node>();
+		if (currentNode != null) {
+			// recur on the left sub-tree if currentNode has a left child
+			if (currentNode.hasLeft()) {
+				List<Node> leftSide = postOrderTraversalHelper(currentNode.getLeftNode());
+				postOrderList = transferValues(postOrderList, leftSide);
+			}
+			// recur on the right sub-tree if the currentNode has a right child
+			if (currentNode.hasRight()) {
+				List<Node> rightSide = postOrderTraversalHelper(currentNode.getRightNode());
+				postOrderList = transferValues(postOrderList, rightSide);
+			}
+			// add the parent to the list.
+			postOrderList.add(currentNode);
+
+		}
+		// base case --> return an empty list
+		return postOrderList;
 	}
 
 	/**
@@ -276,7 +397,66 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @return List of Keys in level-order
 	 */
 	public List<K> getLevelOrderTraversal() {
-		return null;
+		List<K> listOfKeys = new LinkedList<K>();
+		List<Node> listOfNodes = levelOrderTraversalHelper(root);
+		for (int i = 0; i < listOfNodes.size(); i++) {
+			listOfKeys.add(listOfNodes.get(i).getKey());
+		}
+		return listOfKeys;
+	}
+
+	/**
+	 * Helper method/recursive method that traverses each level and adds to the
+	 * list.
+	 * 
+	 * @param currNode - current node
+	 * @return a list of nodes in order by level
+	 */
+	private List<Node> levelOrderTraversalHelper(Node currNode) {
+		List<Node> levelOrder = new LinkedList<Node>();
+		if (currNode != null) {
+			for (int i = 1; i < this.maxHeight(currNode) + 1; i++) {
+				levelOrder = transferValues(levelOrder, givenLevel(currNode, i));
+			}
+		}
+		return levelOrder;
+	}
+
+	/**
+	 * Helper method that will add to a list the nodes at a given level
+	 * 
+	 * @param currNode - current node
+	 * @param level    - given level
+	 * @return a list with the nodes at a given level
+	 */
+	private List<Node> givenLevel(Node currNode, int level) {
+		List<Node> list = new LinkedList<Node>();
+		if (currNode == null) {
+			return list;
+		}
+		if (level == 1) {
+			// add the current node
+			list.add(currNode);
+		} else if (level > 1) {
+			// traverse the level under the current level
+			transferValues(list, givenLevel(currNode.getLeftNode(), level - 1));
+			transferValues(list, givenLevel(currNode.getRightNode(), level - 1));
+		}
+		return list;
+	}
+
+	/**
+	 * Helper method for transfering values of one list to another
+	 * 
+	 * @param receiver - taking the values
+	 * @param giver    - giving the values
+	 * @return receiver with all the new values from the giver list.
+	 */
+	private List<Node> transferValues(List<Node> receiver, List<Node> giver) {
+		for (int i = 0; i < giver.size(); i++) {
+			receiver.add(giver.get(i));
+		}
+		return receiver;
 	}
 
 	/**
@@ -312,11 +492,11 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 		} else if (curr.key.compareTo(key) > 0) {
 			// if the key is less than the current node's key, go left
 
-			curr.setLeft(insertHelp(curr.leftNode, key, value));
+			curr.setLeft(insertHelp(curr.getLeftNode(), key, value));
 		} else if (curr.key.compareTo(key) < 0) {
 			// if the key is greater than the current node's key, go right
 
-			curr.setRight(insertHelp(curr.rightNode, key, value));
+			curr.setRight(insertHelp(curr.getRightNode(), key, value));
 		}
 		return curr;
 
@@ -347,33 +527,33 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * 
 	 * @param curr - current node
 	 * @param key  - key to find to remove
-	 * @return
+	 * @return the new root (or same root)
 	 */
 	private Node removeHelper(Node curr, K key) {
 		if (curr.getKey().compareTo(key) > 0) {
 			// if the curr key is greater than the key, go left
-			curr.setLeft(removeHelper(curr.leftNode, key));
+			curr.setLeft(removeHelper(curr.getLeftNode(), key));
 		} else if (curr.getKey().compareTo(key) < 0) {
 			// if the curr key is less than the key, go right
-			curr.setRight(removeHelper(curr.rightNode, key));
+			curr.setRight(removeHelper(curr.getRightNode(), key));
 		} else {
 			// found node to delete
 			// leaf --> has no children
-			if (curr.leftNode == null && curr.rightNode == null) {
+			if (curr.getLeftNode() == null && curr.getRightNode() == null) {
 				curr = null;
-			} else if (curr.leftNode == null) {
+			} else if (curr.getLeftNode() == null) {
 				// set the curr node to its only child (right child) and set its only child to
 				// null
-				curr = curr.rightNode;
-				curr.rightNode = null;
-			} else if (curr.rightNode == null) {
+				curr = curr.getRightNode();
+				curr.setRight(null);
+			} else if (curr.getRightNode() == null) {
 				// set the curr node to its only child (left child) and set its only child to
 				// null
-				curr = curr.leftNode;
-				curr.leftNode = null;
+				curr = curr.getLeftNode();
+				curr.setLeft(null);
 			} else {
 				// Find the successor: leftmost node on the right side
-				Node successor = leftMost(curr.rightNode);
+				Node successor = leftMost(curr.getRightNode());
 				// remove the successor
 				removeHelper(curr, successor.getKey());
 				// set curr's key to the successor's key
@@ -390,9 +570,9 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @return the leftmost node from the current node.
 	 */
 	private Node leftMost(Node curr) {
-		curr = curr.leftNode;
+		curr = curr.getLeftNode();
 		while (curr.hasRight()) {
-			curr = curr.rightNode;
+			curr = curr.getRightNode();
 		}
 		return curr;
 	}
@@ -475,8 +655,37 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * The connecting lines are not required if we can interpret your tree.
 	 * 
 	 */
+	// TODO: figure out how to do this
 	public void print() {
-		System.out.println("not yet implemented");
+		List<Node> preOrder = preOrderTraversalHelper(root);
+		for (int i = 0; i < preOrder.size(); i++) {
+			Node currNode = preOrder.get(i);
+
+			String numSpaces = getNumSpaces(i + 1);
+			System.out.println(numSpaces + currNode.getKey());
+			if (currNode.hasLeft()) {
+				System.out.print(numSpaces + " /");
+			}
+			if (currNode.hasRight()) {
+				System.out.println(numSpaces + "  \\");
+			}
+		}
+
+	}
+
+	/**
+	 * Helper method that returns the number of spaces for a certain number: 1 = 1
+	 * spaces etc
+	 * 
+	 * @param i - number of spaces in the String
+	 * @return a String that has a certain number of spaces.
+	 */
+	private String getNumSpaces(int i) {
+		String numSpaces = "";
+		for (int spaces = 0; spaces < i; spaces++) {
+			numSpaces += " ";
+		}
+		return numSpaces;
 	}
 
 } // copyrighted material, students do not have permission to post on public

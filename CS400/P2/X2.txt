@@ -1,0 +1,96 @@
+@startuml
+
+class Puck {
+	- Position p
+	- Velocity v
+	- IPuckListener[] listeners
+	- Color c
+	
+	Puck(Position p, Color c)
+	
+	void setVelocity(Velocity v)
+	void addListener(IPuckListener listener) 
+	void tick()
+	
+	Position getPosition()
+}
+
+interface IPuckListener {
+	update(Puck p)
+}
+
+class Velocity {
+	- Position p
+	- double speed
+}
+
+class Position {
+	+ int x
+	+ int y
+}
+
+class Wall {
+	- Position leftLowerCorner
+	- int width
+	- int height
+	
+	Wall(corner,width,height)
+}
+
+class Canvas {
+	- Wall wall		
+	- Puck[] pucks		
+	- 
+	
+	MAIN()
+	
+	void init()
+	void start()
+	void stop()
+	void reset()
+	- void tick()
+}
+
+class Java.Line {
+	- Color c
+	- Position start
+	- Position end
+	
+	void draw()
+}
+
+class Java.Color
+Java.Line o-- Java.Color
+
+class PuckLine {
+	- int start
+	- int end
+	void update() 
+	..
+	start = end;
+	end = puck.getPosition;
+	draw();
+}
+
+class PuckAverage{
+	-double average
+	-int currNumCollisions
+	PuckAverage()
+	
+	void addTotal(Velocity v)
+	.. adds the speed from v to the double average..
+	
+	double calcAverage()
+}
+
+Wall --|> IPuckListener
+Puck --|> IPuckListener
+PuckLine --|> IPuckListener
+PuckLine --|> Java.Line
+
+Canvas "1" *-- "N" Puck
+Canvas "1" *-- "1" Wall
+Canvas "1" *-- "N" PuckAverage
+
+
+@enduml

@@ -190,6 +190,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests basic insert
+	 */
 	@Test
 	void testBST_insert() {
 		try {
@@ -205,6 +208,9 @@ public class TestBST {
 
 	}
 
+	/**
+	 * Tests inserting a null value --> should pass
+	 */
 	@Test
 	void testBST_insert_null_value() {
 		try {
@@ -216,6 +222,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests inserting a null key, which should throw an IllegalNullKeyException
+	 */
 	@Test
 	void testBST_insert_null_keys() {
 		try {
@@ -226,6 +235,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests inserting a duplicate --> throw a DuplicateKeyException
+	 */
 	void testBST_insert_duplicate() {
 		String value = "valid value";
 		try {
@@ -241,6 +253,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests a simple remove
+	 */
 	@Test
 	void testBST_remove_simple() {
 		try {
@@ -260,6 +275,9 @@ public class TestBST {
 		assertTrue(bst.numKeys() == 9);
 	}
 
+	/**
+	 * Tests inserting and removing one --> the numKeys should = 0
+	 */
 	@Test
 	void testBST_insert_remove_1() {
 
@@ -273,15 +291,21 @@ public class TestBST {
 
 	}
 
+	/**
+	 * Tests removing from an empty BST, remove() should return false
+	 */
 	@Test
 	void testBST_remove_nothing() {
 		try {
-			bst.remove(1);
+			assertTrue(!bst.remove(1));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
+	/**
+	 * Tests removing an input that is null --> throw an IllegalNullKeyException
+	 */
 	@Test
 	void testBST_remove_null_input() {
 		try {
@@ -292,6 +316,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests removing a Node that is not in the BST
+	 */
 	@Test
 	void testBST_remove_not_in_BST() {
 		String value = "e";
@@ -309,6 +336,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests height method with a height of N
+	 */
 	@Test
 	void testBST_simple_height() {
 		try {
@@ -320,7 +350,39 @@ public class TestBST {
 		}
 		assertTrue(bst.getHeight() == 5);
 	}
+	
+	/**
+	 * Tests height of a balanced tree
+	 */
+	@Test
+	void testBST_balanced_height() {
+	  String value = "value";
+	  try {
+	    bst.insert(10, value);
+	    bst.insert(5, value);
+	    bst.insert(15, value);
+	    bst.insert(3, value);
+	    bst.insert(7, value);
+	    bst.insert(1, value);
+	    bst.insert(4, value);
+	    bst.insert(6, value);
+	    bst.insert(9, value);
+	    bst.insert(12, value);
+	    bst.insert(11, value);
+	    bst.insert(14, value);
+	    bst.insert(18, value);
+	    bst.insert(16, value);
+	    bst.insert(20, value);
+	    assertTrue(bst.getHeight() == 4);
+	  } catch(Exception e) {
+	    fail("No exceptions for a getMaxHeight()");
+	  }
+	  
+	}
 
+	/**
+	 * Tests if BST's preorder 
+	 */
 	@Test
 	void testBST_preOrder() {
 
@@ -354,6 +416,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests the inorder operation
+	 */
 	@Test
 	void testBST_inOrder() {
 		try {
@@ -377,6 +442,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests the postorder operation
+	 */
 	@Test
 	void testBST_postOrder() {
 		try {
@@ -402,6 +470,9 @@ public class TestBST {
 		}
 	}
 
+	/**
+	 * Tests the level order operation
+	 */
 	@Test
 	void testBST_level_order() {
 		try {
@@ -426,21 +497,19 @@ public class TestBST {
 			fail(e.getMessage());
 		}
 	}
-
-	@Test
-	void testBST_maxHeight() {
-		try {
-			bst.insert(1, "");
-			bst.insert(2, "");
-			bst.insert(3, "");
-			bst.insert(4, "");
-			bst.insert(5, "");
-			bst.insert(6, "");
-			assertTrue(bst.getHeight() == 6);
-		} catch (Exception e) {
-			fail("BST Max height: " + e.getMessage());
-		}
-
+	
+	
+	void testPrint() {
+	  try {
+      bst.insert(1, "1");
+      bst.insert(2, "2");
+    } catch (IllegalNullKeyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (DuplicateKeyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 	}
 	// TODO: Add your own tests
 

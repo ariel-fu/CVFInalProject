@@ -29,6 +29,8 @@ public class TestBST {
 	void tearDown() throws Exception {
 	}
 
+	// TODO: add java docs
+
 	/**
 	 * CASE 123 Insert three values in sorted order and then check the root, left,
 	 * and right keys to see if insert worked correctly.
@@ -423,6 +425,22 @@ public class TestBST {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+	}
+
+	@Test
+	void testBST_maxHeight() {
+		try {
+			bst.insert(1, "");
+			bst.insert(2, "");
+			bst.insert(3, "");
+			bst.insert(4, "");
+			bst.insert(5, "");
+			bst.insert(6, "");
+			assertTrue(bst.getHeight() == 6);
+		} catch (Exception e) {
+			fail("BST Max height: " + e.getMessage());
+		}
+
 	}
 	// TODO: Add your own tests
 

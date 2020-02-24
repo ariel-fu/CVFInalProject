@@ -220,7 +220,13 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @return the number of levels that contain keys in this BINARY SEARCH TREE
 	 */
 	public int getHeight() {
-		return 1 + maxHeight(root.getLeftNode()) + maxHeight(root.getRightNode());
+		if (root == null) {
+			return 0;
+		} else if (!root.hasLeft() && !root.hasRight()) {
+			return 1;
+		} else {
+			return maxHeight(root);
+		}
 	}
 
 	/**
@@ -469,7 +475,6 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (key == null) {
 			throw new IllegalNullKeyException("Key is null");
 		}
-		// TODO: implement contains method
 		if (contains(key)) {
 			throw new DuplicateKeyException("Duplicate key!");
 		}

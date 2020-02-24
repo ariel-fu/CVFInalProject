@@ -28,6 +28,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		private Node leftNode;
 		private Node rightNode;
 		private int color;
+		private Node parent;
 
 		/**
 		 * Constructor that sets the key and value to the ones inputed, also sets the
@@ -54,15 +55,6 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		}
 
 		/**
-		 * Helper method to set the key of the Node
-		 * 
-		 * @param newKey - new value of the key in the Node
-		 */
-		private void setKey(K key) {
-			this.key = key;
-		}
-
-		/**
 		 * Returns the value of the Node
 		 * 
 		 * @return value of the node
@@ -76,7 +68,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		 * 
 		 * @return right node of the current node
 		 */
-		private Node getRightChild() {
+		private Node getRightNode() {
 			return this.rightNode;
 		}
 
@@ -85,7 +77,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		 * 
 		 * @return left node of the current node
 		 */
-		private Node getLeftChild() {
+		private Node getLeftNode() {
 			return this.leftNode;
 		}
 
@@ -142,6 +134,15 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		private int getColor() {
 			return this.color;
 		}
+
+		public Node getParent() {
+			return this.parent;
+		}
+
+		public void setParent(Node P) {
+			this.parent = P;
+		}
+
 	}
 
 	// USE AND DO NOT EDIT THESE CONSTANTS
@@ -252,7 +253,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (keyNode == null) {
 			throw new KeyNotFoundException("Key is not in RBT");
 		}
-		return keyNode.getLeftChild().getKey();
+		return keyNode.getLeftNode().getKey();
 	}
 
 	/**
@@ -272,9 +273,10 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (keyNode == null) {
 			throw new KeyNotFoundException("Key is not in RBT");
 		}
-		return keyNode.getRightChild().getKey();
+		return keyNode.getRightNode().getKey();
 	}
 
+	// TODO: fix this
 	/**
 	 * Gets the max height of the RBT
 	 * 
@@ -282,7 +284,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	 */
 	@Override
 	public int getHeight() {
-		return 1 + heightHelper(root.getLeftChild()) + heightHelper(root.getRightChild());
+		return 1 + heightHelper(root.getLeftNode()) + heightHelper(root.getRightNode());
 	}
 
 	/**
@@ -295,8 +297,8 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (curr == null) {
 			return 0;
 		} else {
-			int left = heightHelper(curr.getLeftChild()); // recur to find the maxHeight in the left subtree
-			int right = heightHelper(curr.getRightChild()); // recur to find the maxHeight in the right subtree
+			int left = heightHelper(curr.getLeftNode()); // recur to find the maxHeight in the left subtree
+			int right = heightHelper(curr.getRightNode()); // recur to find the maxHeight in the right subtree
 			if (left > right) {
 				// add one for the current node
 				return left + 1;
@@ -330,14 +332,14 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (currNode != null) {
 			// recur on the left sub-tree if currentNode has a left child
 			if (currNode.hasLeft()) {
-				List<Node> leftSide = inOrderHelper(currNode.getLeftChild());
+				List<Node> leftSide = inOrderHelper(currNode.getLeftNode());
 				inOrderList = transferValues(inOrderList, leftSide);
 			}
 			// process the parent
 			inOrderList.add(currNode);
 			// recur on the right sub-tree if the currentNode has a right child
 			if (currNode.hasRight()) {
-				List<Node> rightSide = inOrderHelper(currNode.getRightChild());
+				List<Node> rightSide = inOrderHelper(currNode.getRightNode());
 				inOrderList = transferValues(inOrderList, rightSide);
 			}
 		}
@@ -395,13 +397,13 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 			// add the parent to the list.
 			preOrderList.add(currentNode);
 			// recur on the left sub-tree if currentNode has a left child
-			if (currentNode.getLeftChild() != null) {
-				List<Node> leftSide = preOrderTraversalHelper(currentNode.getLeftChild());
+			if (currentNode.getLeftNode() != null) {
+				List<Node> leftSide = preOrderTraversalHelper(currentNode.getLeftNode());
 				preOrderList = transferValues(preOrderList, leftSide);
 			}
 			// recur on the right sub-tree if the currentNode has a right child
-			if (currentNode.getRightChild() != null) {
-				List<Node> rightSide = preOrderTraversalHelper(currentNode.getRightChild());
+			if (currentNode.getRightNode() != null) {
+				List<Node> rightSide = preOrderTraversalHelper(currentNode.getRightNode());
 				preOrderList = transferValues(preOrderList, rightSide);
 			}
 		}
@@ -441,12 +443,12 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (currentNode != null) {
 			// recur on the left sub-tree if currentNode has a left child
 			if (currentNode.hasLeft()) {
-				List<Node> leftSide = postOrderTraversalHelper(currentNode.getLeftChild());
+				List<Node> leftSide = postOrderTraversalHelper(currentNode.getLeftNode());
 				postOrderList = transferValues(postOrderList, leftSide);
 			}
 			// recur on the right sub-tree if the currentNode has a right child
 			if (currentNode.hasRight()) {
-				List<Node> rightSide = postOrderTraversalHelper(currentNode.getRightChild());
+				List<Node> rightSide = postOrderTraversalHelper(currentNode.getRightNode());
 				postOrderList = transferValues(postOrderList, rightSide);
 			}
 			// add the parent to the list.
@@ -511,12 +513,17 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 			list.add(currNode);
 		} else if (level > 1) {
 			// traverse the level under the current level
-			transferValues(list, givenLevel(currNode.getLeftChild(), level - 1));
-			transferValues(list, givenLevel(currNode.getRightChild(), level - 1));
+			transferValues(list, givenLevel(currNode.getLeftNode(), level - 1));
+			transferValues(list, givenLevel(currNode.getRightNode(), level - 1));
 		}
 		return list;
 	}
 
+	/**
+	 * Inserts into the tree using a BST insert algorithm and then fixes the tree
+	 * 
+	 * @param
+	 */
 	@Override
 	public void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException {
 		// TODO Auto-generated method stub
@@ -526,132 +533,132 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 			throw new DuplicateKeyException("Duplicate key");
 		}
 		// insert the new node
-		root = BSTInsert(root, key, value);
-		fixTree(getNode(root, key)); // start fixing the tree where we inserted the new key.
+		BSTInsert(root, key, value);
+		fixTree(getNode(root, key)); // start fixing the tree where we inserted the
+		// new key.
 	}
 
 	/**
 	 * Fixes the tree after an insert
 	 * 
-	 * @param currNode
+	 * @param child - node that was just inserted
 	 */
-	private void fixTree(Node currNode) {
+	private void fixTree(Node child) {
 		// get the parent of the currNode --> P
-		Node P = getParent(root, currNode.key);
-		if (P == null) {
+		Node parent = child.getParent();
+		if (parent == null) {
 			// CASE #1: the current node is the root
-			currNode.setColor(BLACK);
+			child.setColor(BLACK);
 			return;
-		}
-
-		if (P.getColor() == BLACK) {
+		} else if (parent.getColor() == BLACK) {
 			// CASE #2: The parent of the current node is black so no properties are
 			// violated.
 			return;
-		}
+		} else {
+			// get the parent of the parent --> Grandparent --> G
+			Node grandParent = parent.getParent();
+			// get the sibling of the parent --> PS
+			Node parentSibling = getSibling(grandParent, parent);
 
-		// get the parent of the parent --> Grandparent --> G
-		Node G = getParent(root, P.getKey());
-		// get the sibling of the parent --> PS
-		Node PS = getSibling(G, P);
-		Node newRoot = null; // new root of subtree
-//		Node parentOfGrandParent = getParent(root, G.getKey());
-//		
-		if (PS == null) {
-			// CASE #3: the sibling of P is null or colored black
-			// FIX: Tri-node restructring
-			K currNodeKey = currNode.getKey();
-			K parentKey = P.getKey();
-			K grandParentKey = G.getKey();
-			// TODO: running into null pointer errors somewhere
-			if (currNodeKey.compareTo(parentKey) > 0 && currNodeKey.compareTo(grandParentKey) > 0) {
-				// SUBCASE #1: currNode is bigger than parent and bigger than the grandparent
-				// FIX: left rotate around the grandparent, parent becomes the new root
+			if (parentSibling != null && parentSibling.getColor() == RED) {
+				// case #3 --> recoloring
+				parent.setColor(BLACK);
+				parentSibling.setColor(BLACK);
+				grandParent.setColor(RED);
 
-				newRoot = rotateLeft(G);
-			} else if (currNodeKey.compareTo(parentKey) > 0 && currNodeKey.compareTo(grandParentKey) < 0) {
-				// SUBCASE #2: currNode is bigger than parent and smaller than the grandparent
-				// FIX: right rotate around parent, then right rotate around currNode
-				P = rotateRight(P);
-				currNode = rotateRight(currNode);
-			} else if (currNodeKey.compareTo(parentKey) < 0 && currNodeKey.compareTo(grandParentKey) > 0) {
-				// SUBCASE #3: currNode is smaller than parent and bigger than the grandparent
-				// FIX: left rotate around the parent, then right rotate around currNode
-				P = rotateLeft(P);
-				currNode = rotateRight(currNode);
-			} else if (currNodeKey.compareTo(parentKey) < 0 && currNodeKey.compareTo(grandParentKey) < 0) {
-				// SUBCASE #2: currNode is smaller than parent and smaller than the grandparent
-				// parent becomes the root, parent's left child is the grandparent, and parent's
-				// right child is the currNode.
-				P = rotateRight(P);
-			}
-		} else if (P.getColor() == RED && PS.getColor() == RED) {
-			// CASE #4: Both the parent and the sibling are red. Both must be recolored to
-			// black and the grandparent becomes red.
-			// FIX: recoloring
+				// fix grandparent after recoloring
+				fixTree(grandParent);
+			} else {
+				// case #4 --> tri-node restructuring, parent sibling = black, parent = red
+				if (child == parent.getRightNode() && parent == grandParent.getLeftNode()) {
+					rotateLeft(parent);
+					parent = child;
+					child = child.getLeftNode();
 
-			P.setColor(BLACK);
-			PS.setColor(BLACK);
-			if (G != null) {
-				G.setColor(RED);
-				// rebalance with the grandparent as a red node
-				fixTree(G);
+				} else if (child == parent.getLeftNode() && parent == grandParent.getRightNode()) {
+					rotateRight(parent);
+					parent = child;
+					child = child.getRightNode();
+				}
+
+				if (child == parent.getLeftNode()) {
+					rotateRight(grandParent);
+				} else {
+					rotateLeft(grandParent);
+				}
+
+				parent.setColor(BLACK);
+				grandParent.setColor(RED);
 			}
 		}
-
-		// fix root
-
-//		if (parentOfGrandParent == null) {
-//			root = newRoot;
-//		} else {
-//			if (G.getKey().compareTo(parentOfGrandParent.getKey()) > 0) {
-//				parentOfGrandParent.setRight(newRoot);
-//			} else {
-//				parentOfGrandParent.setLeft(newRoot);
-//			}
-//		}
 	}
 
 	/**
 	 * Rotates the subtree to the right
 	 * 
 	 * @param oldRoot - root of the subtree
-	 * @return the new root --> oldRoot's left child
+	 * 
 	 */
-	// TODO: fix
-	private Node rotateRight(Node oldRoot) {
+	private void rotateRight(Node oldRoot) {
 		// set the new root to the left child of the old root
-		Node newRoot = oldRoot.getLeftChild();
-		// rearrange the tree so the right child of the new root is the left child of
-		// the old root, and the new root's right child is the old root.
-		oldRoot.setLeft(newRoot.getRightChild());
-		newRoot.setRight(newRoot);
-		return newRoot;
+		Node newRoot = oldRoot.getLeftNode();
+		Node rootParent = oldRoot.getParent();
+
+		oldRoot.setLeft(newRoot.getRightNode());
+		newRoot.setRight(oldRoot);
+		oldRoot.setParent(newRoot);
+
+		// handle the child of the left node of the oldRoot
+		if (oldRoot.getLeftNode() != null) {
+			oldRoot.getLeftNode().setParent(oldRoot);
+		}
+
+		// if oldRoot is THE root of the RBT
+		if (rootParent != null) {
+			if (rootParent == rootParent.getLeftNode()) {
+				rootParent.setLeft(newRoot);
+			} else {
+				rootParent.setRight(newRoot);
+			}
+		} else {
+			newRoot.setParent(rootParent);
+			root = newRoot;
+		}
+
 	}
 
 	/**
 	 * Rotates the subtree to the left
 	 * 
 	 * @param oldRoot - root of the subtree
-	 * @return the new root --> oldRoot's right child
 	 */
-	private Node rotateLeft(Node oldRoot) {
-		Node oldRootParent = getParent(root, oldRoot.getKey());
-
+	private void rotateLeft(Node oldRoot) {
 		// set the new root to the right child of the old root
-		Node newRoot = oldRoot.getRightChild();
-		// rearrange the tree so the left child of the new root is the old root
+		Node newRoot = oldRoot.getRightNode();
+		Node rootParent = oldRoot.getParent();
+
+		oldRoot.setRight(newRoot.getLeftNode());
 		newRoot.setLeft(oldRoot);
-		if (oldRootParent == null) {
-			root = newRoot;
-		} else {
-			if (oldRoot.getKey().compareTo(oldRootParent.getKey()) > 0) {
-				oldRootParent.setRight(newRoot);
-			} else {
-				oldRootParent.setLeft(newRoot);
-			}
+		oldRoot.setParent(newRoot);
+
+		// handle the child of the right node of the oldRoot
+		if (oldRoot.getRightNode() != null) {
+			oldRoot.getRightNode().setParent(oldRoot);
 		}
-		return newRoot;
+		// if oldRoot is THE root of the RBT
+		if (rootParent != null) {
+			if (oldRoot == rootParent.getLeftNode()) {
+				rootParent.setLeft(newRoot);
+				newRoot.setParent(rootParent);
+			} else if (oldRoot == rootParent.getRightNode()) {
+				rootParent.setRight(newRoot);
+				newRoot.setParent(rootParent);
+			}
+		} else {
+			newRoot.setParent(rootParent);
+			root = newRoot;
+		}
+
 	}
 
 	/**
@@ -664,39 +671,11 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	private Node getSibling(Node parent, Node currChild) {
 		// if the curr child is bigger than the parent, the sibling is the left child
 		if (currChild.getKey().compareTo(parent.getKey()) > 0) {
-			return parent.getLeftChild();
+			return parent.getLeftNode();
 		} else {
 			// otherwise the sibling is the right child.
-			return parent.getRightChild();
+			return parent.getRightNode();
 		}
-	}
-
-	/**
-	 * Gets the parent of the key's node
-	 * 
-	 * @param key - key of the child node (of the parent)
-	 * @return the parent of the node with the key or null if there is no parent
-	 */
-	private Node getParent(Node node, K key) {
-		List<Node> preOrderList = preOrderTraversalHelper(root);
-		Node parent = null;
-		if (node == null) {
-			return null;
-		}
-
-		while (node != null) {
-			if (key.compareTo(node.getKey()) < 0) {
-				parent = node;
-				node = node.getLeftChild();
-			} else if (key.compareTo(node.getKey()) > 0) {
-				parent = node;
-				node = node.getRightChild();
-			} else {
-				break;
-			}
-		}
-		return parent;
-
 	}
 
 	/**
@@ -707,21 +686,36 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @param value - value of the node to insert in the BST
 	 * @return root of the curr BST
 	 */
-	private Node BSTInsert(Node curr, K key, V value) {
-		if (curr == null) {
-			curr = new Node(key, value);
-			// insert as red
-			curr.setColor(RED);
-		} else if (curr.key.compareTo(key) > 0) {
+	// TODO: change back to private
+	protected void BSTInsert(Node parent, K key, V value) {
+		Node curr;
+		if (parent == null) {
+			root = CreateNode(parent, key, value);
+		} else if (parent.key.compareTo(key) > 0) {
 			// if the key is less than the current node's key, go left
-
-			curr.setLeft(BSTInsert(curr.getLeftChild(), key, value));
-		} else if (curr.key.compareTo(key) < 0) {
+			curr = parent.getLeftNode();
+			if (curr == null) {
+				parent.setLeft(CreateNode(parent, key, value));
+			} else {
+				BSTInsert(curr, key, value);
+			}
+		} else if (parent.key.compareTo(key) < 0) {
 			// if the key is greater than the current node's key, go right
-			curr.setRight(BSTInsert(curr.getRightChild(), key, value));
+			curr = parent.getRightNode();
+			if (curr == null) {
+				parent.setRight(CreateNode(parent, key, value));
+			} else {
+				BSTInsert(curr, key, value);
+			}
 		}
-		return curr;
+	}
 
+	private Node CreateNode(Node parent, K key, V value) {
+		Node current = new Node(key, value);
+		// insert as red
+		current.setColor(RED);
+		current.setParent(parent);
+		return current;
 	}
 
 	@Override
@@ -730,10 +724,26 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		return false;
 	}
 
+	/**
+	 * Gets the value of the key
+	 * 
+	 * @param key - key of the value to find
+	 * @return value of the key
+	 * @throws IllegalNullKeyException - if the key is null
+	 * @throws KeyNotFoundException    - if the key is not in the array
+	 */
 	@Override
 	public V get(K key) throws IllegalNullKeyException, KeyNotFoundException {
-		// TODO Auto-generated method stub
-		return getNode(root, key).getValue();
+		if (key == null) {
+			throw new IllegalNullKeyException("Null key");
+		} else {
+			Node keyNode = getNode(root, key);
+			if (keyNode == null) {
+				throw new KeyNotFoundException("Key is not in RBT");
+			} else {
+				return keyNode.getValue();
+			}
+		}
 	}
 
 	/**
@@ -771,7 +781,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 			curr = getNode(curr.leftNode, key);
 		} else if (curr.key.compareTo(key) < 0) {
 			// the key is greater than the current node's key, go right
-			curr = getNode(curr.getRightChild(), key);
+			curr = getNode(curr.getRightNode(), key);
 		}
 		// found the node with matching keys
 		return curr;

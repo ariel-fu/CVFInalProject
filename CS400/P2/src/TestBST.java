@@ -61,7 +61,9 @@ public class TestBST {
 			Assert.assertEquals(bst.getKeyOfRightChildOf(10), Integer.valueOf(20));
 			Assert.assertEquals(bst.getKeyOfRightChildOf(20), Integer.valueOf(30));
 
+			System.out.println("10 20 30");
 			bst.print();
+			System.out.println("end");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,7 +101,9 @@ public class TestBST {
 			Assert.assertEquals(bst.getKeyOfLeftChildOf(30), Integer.valueOf(20));
 			Assert.assertEquals(bst.getKeyOfLeftChildOf(20), Integer.valueOf(10));
 
+			System.out.println("30 20 10");
 			bst.print();
+			System.out.println("End");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,7 +146,9 @@ public class TestBST {
 			Assert.assertEquals(bst.getKeyOfRightChildOf(10), Integer.valueOf(30));
 			Assert.assertEquals(bst.getKeyOfLeftChildOf(30), Integer.valueOf(20));
 
+			System.out.println("10 30 20");
 			bst.print();
+			System.out.println("End");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,7 +188,9 @@ public class TestBST {
 			Assert.assertEquals(bst.getKeyOfLeftChildOf(30), Integer.valueOf(10));
 			Assert.assertEquals(bst.getKeyOfRightChildOf(10), Integer.valueOf(20));
 
+			System.out.println("30 10 20");
 			bst.print();
+			System.out.println("End");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -350,38 +358,38 @@ public class TestBST {
 		}
 		assertTrue(bst.getHeight() == 5);
 	}
-	
+
 	/**
 	 * Tests height of a balanced tree
 	 */
 	@Test
 	void testBST_balanced_height() {
-	  String value = "value";
-	  try {
-	    bst.insert(10, value);
-	    bst.insert(5, value);
-	    bst.insert(15, value);
-	    bst.insert(3, value);
-	    bst.insert(7, value);
-	    bst.insert(1, value);
-	    bst.insert(4, value);
-	    bst.insert(6, value);
-	    bst.insert(9, value);
-	    bst.insert(12, value);
-	    bst.insert(11, value);
-	    bst.insert(14, value);
-	    bst.insert(18, value);
-	    bst.insert(16, value);
-	    bst.insert(20, value);
-	    assertTrue(bst.getHeight() == 4);
-	  } catch(Exception e) {
-	    fail("No exceptions for a getMaxHeight()");
-	  }
-	  
+		String value = "value";
+		try {
+			bst.insert(10, value);
+			bst.insert(5, value);
+			bst.insert(15, value);
+			bst.insert(3, value);
+			bst.insert(7, value);
+			bst.insert(1, value);
+			bst.insert(4, value);
+			bst.insert(6, value);
+			bst.insert(9, value);
+			bst.insert(12, value);
+			bst.insert(11, value);
+			bst.insert(14, value);
+			bst.insert(18, value);
+			bst.insert(16, value);
+			bst.insert(20, value);
+			assertTrue(bst.getHeight() == 4);
+		} catch (Exception e) {
+			fail("No exceptions for a getMaxHeight()");
+		}
+
 	}
 
 	/**
-	 * Tests if BST's preorder 
+	 * Tests if BST's preorder
 	 */
 	@Test
 	void testBST_preOrder() {
@@ -497,19 +505,18 @@ public class TestBST {
 			fail(e.getMessage());
 		}
 	}
-	
-	
+
 	void testPrint() {
-	  try {
-      bst.insert(1, "1");
-      bst.insert(2, "2");
-    } catch (IllegalNullKeyException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (DuplicateKeyException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+		try {
+			bst.insert(1, "1");
+			bst.insert(2, "2");
+		} catch (IllegalNullKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DuplicateKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	// TODO: Add your own tests
 

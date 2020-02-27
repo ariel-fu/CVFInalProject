@@ -528,7 +528,7 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (!contains(key)) {
 			return false;
 		}
-		removeHelper(root, key);
+		root = removeHelper(root, key);
 		numNodes--;
 		return true;
 	}
@@ -565,12 +565,12 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 				curr = curr.getLeftNode();
 				curr.setLeft(null);
 			} else {
-				// Find the successor: leftmost node on the right side
-				Node successor = leftMost(curr.getRightNode());
+				// Find the predecessor: rightmost node on the left side
+				Node predecessor = leftMost(curr.getLeftNode());
 				// remove the successor
-				removeHelper(curr, successor.getKey());
+				removeHelper(curr, predecessor.getKey());
 				// set curr's key to the successor's key
-				curr.setKey(successor.key);
+				curr.setKey(predecessor.key);
 			}
 		}
 		return curr;
@@ -580,10 +580,9 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * Helper method that gets the leftmost node from the current node
 	 * 
 	 * @param curr - current node
-	 * @return the leftmost node from the current node.
+	 * @return the rightmost node from the current node.
 	 */
 	private Node leftMost(Node curr) {
-		curr = curr.getLeftNode();
 		while (curr.hasRight()) {
 			curr = curr.getRightNode();
 		}

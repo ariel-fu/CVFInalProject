@@ -12,7 +12,7 @@ import java.util.List;
  * throw new UnsupportedOperationException. See
  * https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html
  * 
- * @param <K> is the generic type of key, must be a Comparable tyle
+ * @param <K> is the generic type of key, must be a Comparable type
  * @param <V> is the generic type of value
  */
 public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
@@ -22,7 +22,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @author Ariel
 	 *
 	 */
-	private class Node {
+	class Node {
 		private K key;
 		private V value;
 		private Node leftNode;
@@ -37,7 +37,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		 * @param key   - key of the node
 		 * @param value - value of the node
 		 */
-		private Node(K key, V value) {
+		public Node(K key, V value) {
 			this.key = key;
 			this.value = value;
 			leftNode = null;
@@ -68,6 +68,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		 * 
 		 * @return right node of the current node
 		 */
+
 		private Node getRightNode() {
 			return this.rightNode;
 		}
@@ -104,7 +105,8 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		 * 
 		 * @param node - specified node
 		 */
-		private void setRight(Node node) {
+		// TODO:private void setRight(Node node) {
+		protected void setRight(Node node) {
 			this.rightNode = node;
 		}
 
@@ -113,7 +115,8 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		 * 
 		 * @param node - specified node
 		 */
-		private void setLeft(Node node) {
+		// TODO:private void setLeft(Node node) {
+		public void setLeft(Node node) {
 			this.leftNode = node;
 		}
 
@@ -122,7 +125,9 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		 * 
 		 * @param color - either red or black
 		 */
-		private void setColor(int color) {
+
+		// TODO:private void setColor(int color) {
+		public void setColor(int color) {
 			this.color = color;
 		}
 
@@ -149,7 +154,8 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	public static final int RED = 0;
 	public static final int BLACK = 1;
 
-	Node root; // root of the RBT
+	// TODO: private Node root; // root of the RBT
+	protected Node root; // root of the RBT
 
 	/**
 	 * No argument constructor that sets the root to null
@@ -284,7 +290,13 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	 */
 	@Override
 	public int getHeight() {
-		return 1 + heightHelper(root.getLeftNode()) + heightHelper(root.getRightNode());
+		if (root == null) {
+			return 0;
+		} else if (!root.hasLeft() && !root.hasRight()) {
+			return 1;
+		} else {
+			return heightHelper(root);
+		}
 	}
 
 	/**
@@ -493,7 +505,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	private List<Node> levelOrderTraversalHelper(Node currNode) {
 		List<Node> levelOrder = new LinkedList<Node>();
 		if (currNode != null) {
-			for (int i = 1; i < this.getHeight(); i++) {
+			for (int i = 1; i < this.getHeight() + 1; i++) {
 				levelOrder = transferValues(levelOrder, givenLevel(currNode, i));
 			}
 		}
@@ -547,7 +559,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * 
 	 * @param child - node that was just inserted
 	 */
-	private void fixTree(Node child) {
+	protected void fixTree(Node child) {
 		// get the parent of the currNode --> P
 		Node parent = child.getParent();
 		if (parent == null) {
@@ -577,25 +589,32 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 				// red
 				if (child == parent.getRightNode() && parent == grandParent.getLeftNode()) {
 					rotateLeft(parent);
-					parent = child;
 					child = child.getLeftNode();
 
 				} else if (child == parent.getLeftNode() && parent == grandParent.getRightNode()) {
 					rotateRight(parent);
-					parent = child;
 					child = child.getRightNode();
 				}
 
-				if (child == parent.getLeftNode()) {
-					rotateRight(grandParent);
-				} else {
-					rotateLeft(grandParent);
-				}
-
-				parent.setColor(BLACK);
-				grandParent.setColor(RED);
+				// part 2
+				stepTwoTNR(child);
 			}
 		}
+	}
+
+	private void stepTwoTNR(Node child) {
+		Node parent = child.getParent();
+		if (parent != null) {
+			Node grandParent = parent.getParent();
+			if (child == parent.getLeftNode()) {
+				rotateRight(grandParent);
+			} else {
+				rotateLeft(grandParent);
+			}
+
+			grandParent.setColor(RED);
+		}
+		parent.setColor(BLACK);
 	}
 
 	/**
@@ -608,7 +627,9 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		// set the new root to the left child of the old root
 		Node newRoot = oldRoot.getLeftNode();
 		Node rootParent = oldRoot.getParent();
-
+		if (newRoot == null) {
+			return;
+		}
 		oldRoot.setLeft(newRoot.getRightNode());
 		newRoot.setRight(oldRoot);
 		oldRoot.setParent(newRoot);
@@ -620,15 +641,15 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 
 		// if oldRoot is THE root of the RBT
 		if (rootParent != null) {
-			if (rootParent == rootParent.getLeftNode()) {
+			if (oldRoot == rootParent.getLeftNode()) {
 				rootParent.setLeft(newRoot);
 			} else {
 				rootParent.setRight(newRoot);
 			}
 		} else {
-			newRoot.setParent(rootParent);
 			root = newRoot;
 		}
+		newRoot.setParent(rootParent);
 
 	}
 
@@ -641,7 +662,9 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		// set the new root to the right child of the old root
 		Node newRoot = oldRoot.getRightNode();
 		Node rootParent = oldRoot.getParent();
-
+		if (newRoot == null) {
+			return;
+		}
 		oldRoot.setRight(newRoot.getLeftNode());
 		newRoot.setLeft(oldRoot);
 		oldRoot.setParent(newRoot);
@@ -654,15 +677,16 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 		if (rootParent != null) {
 			if (oldRoot == rootParent.getLeftNode()) {
 				rootParent.setLeft(newRoot);
-				newRoot.setParent(rootParent);
+
 			} else if (oldRoot == rootParent.getRightNode()) {
 				rootParent.setRight(newRoot);
-				newRoot.setParent(rootParent);
+
 			}
 		} else {
-			newRoot.setParent(rootParent);
+
 			root = newRoot;
 		}
+		newRoot.setParent(rootParent);
 
 	}
 
@@ -806,11 +830,12 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 
 	@Override
 	public void print() {
+		System.out.println("------------------------------------------------------------------------");
 		int maxLevel = this.getHeight();
-
 		List<Node> children = new LinkedList<Node>();
 		children.add(root);
 		printChildren(children, maxLevel - 1);
+
 		// TODO: fix the maxHeight()
 	}
 
@@ -827,6 +852,7 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 			}
 
 			printNode(str, currentLevel);
+
 			printNode("", currentLevel);
 
 		}
@@ -865,5 +891,76 @@ public class RBT<K extends Comparable<K>, V> implements STADT<K, V> {
 
 	// TODO [OPTIONAL] you may override print() to include
 	// color R-red or B-black.
+
+}
+
+class FakeRBT extends RBT<Integer, Integer> {
+	public Node getFakeNode(int v, int c, Node p) {
+		Node fake = new Node(v, v);
+		fake.setParent(p);
+		fake.setColor(c);
+		return fake;
+	}
+
+	protected void buildTestCase2A() {
+		root = getFakeNode(40, BLACK, null);
+		Node child20 = getFakeNode(20, RED, root);
+		root.setLeft(child20);
+		Node child45 = getFakeNode(45, BLACK, root);
+		root.setRight(child45);
+
+		Node child15 = getFakeNode(10, RED, child20);
+		child20.setLeft(child15);
+
+		print();
+		this.fixTree(child15);
+		System.out.println("F I X E D :");
+		print();
+	}
+
+	protected void testCaseExtreme() {
+		root = getFakeNode(40, BLACK, null);
+		Node child20 = getFakeNode(20, RED, root);
+		root.setLeft(child20);
+		Node child45 = getFakeNode(45, BLACK, root);
+		root.setRight(child45);
+		Node child30 = getFakeNode(30, RED, child20);
+		child20.setRight(child30);
+		Node child35 = getFakeNode(35, RED, child30);
+		child30.setRight(child35);
+		Node child25 = getFakeNode(25, RED, child30);
+		child30.setLeft(child25);
+//		Node child10 = getFakeNode(10, RED, child20);
+//		child20.setLeft(child10);
+
+		print();
+
+//		this.fixTree(child10);
+
+	}
+
+	protected void testCaseNotARealCase() {
+		root = getFakeNode(40, BLACK, null);
+		Node child30 = getFakeNode(30, RED, root);
+		Node child45 = getFakeNode(45, BLACK, root);
+		root.setRight(child45);
+		root.setLeft(child30);
+		Node child20 = getFakeNode(20, BLACK, child30);
+		child30.setLeft(child20);
+		Node child35 = getFakeNode(35, BLACK, child30);
+		child30.setRight(child35);
+		Node child25 = getFakeNode(25, RED, child20);
+		child20.setRight(child25);
+		Node child10 = getFakeNode(10, RED, child20);
+		child20.setLeft(child10);
+
+		print();
+
+		Node child0 = getFakeNode(0, RED, child10);
+		child10.setLeft(child0);
+
+		fixTree(child0);
+		print();
+	}
 
 }

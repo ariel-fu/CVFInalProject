@@ -17,338 +17,400 @@ import org.junit.jupiter.api.Test;
 //@SuppressWarnings("rawtypes")
 public class TestRBT {
 
-  protected RBT<Integer, String> rbt;
+	protected RBT<Integer, String> rbt;
 
-  /**
-   * @throws java.lang.Exception
-   */
-  @BeforeEach
-  void setUp() throws Exception {
-    rbt = new RBT<Integer, String>();
-  }
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@BeforeEach
+	void setUp() throws Exception {
+		rbt = new RBT<Integer, String>();
+	}
 
-  /**
-   * @throws java.lang.Exception
-   */
-  @AfterEach
-  void tearDown() throws Exception {
-  }
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@AfterEach
+	void tearDown() throws Exception {
+	}
 
-  /**
-   * CASE 123 Insert three values in sorted order and then check the root, left,
-   * and right keys to see if RBT rebalancing occurred.
-   * 
-   */
-  @Test
-  void testRBT_001_insert_sorted_order_simple() {
-    try {
-      rbt.insert(10, "10");
-      Assert.assertTrue(rbt.rootIsBlack());
+	/**
+	 * CASE 123 Insert three values in sorted order and then check the root, left,
+	 * and right keys to see if RBT rebalancing occurred.
+	 * 
+	 */
+	@Test
+	void testRBT_001_insert_sorted_order_simple() {
+		try {
+			rbt.insert(10, "10");
+			Assert.assertTrue(rbt.rootIsBlack());
 
-      rbt.insert(20, "20");
-      Assert.assertTrue(rbt.getKeyOfRightChildOf(10).equals(20));
-      Assert.assertEquals(rbt.colorOf(20), RBT.RED);
+			rbt.insert(20, "20");
+			Assert.assertTrue(rbt.getKeyOfRightChildOf(10).equals(20));
+			Assert.assertEquals(rbt.colorOf(20), RBT.RED);
 
-      rbt.insert(30, "30"); // SHOULD CAUSE REBALANCING
+			rbt.insert(30, "30"); // SHOULD CAUSE REBALANCING
 
-      Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
+			Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
 
-      // IF rebalancing is working,
-      // the tree should have 20 at the root
-      // and 10 as its left child and 30 as its right child
+			// IF rebalancing is working,
+			// the tree should have 20 at the root
+			// and 10 as its left child and 30 as its right child
 
-      // Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
+			// Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
 
-      // Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
-      // Assert.assertEquals(rbt.getKeyOfRightChildOf(20), Integer.valueOf(30));
+			// Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
+			// Assert.assertEquals(rbt.getKeyOfRightChildOf(20), Integer.valueOf(30));
 
-      rbt.print();
+			rbt.print();
 
-    } catch (Exception e) {
-      // e.printStackTrace();
-      fail("Unexpected exception 001: " + e.getMessage());
-    }
-  }
+		} catch (Exception e) {
+			// e.printStackTrace();
+			fail("Unexpected exception 001: " + e.getMessage());
+		}
+	}
 
-  /**
-   * CASE 321 Insert three values in reverse sorted order and then check the
-   * root, left, and right keys to see if rebalancing occurred in the other
-   * direction.
-   */
-  @Test
-  void testRBT_002_insert_reversed_sorted_order_simple() {
-    try {
-      rbt.insert(30, "30");
-      rbt.insert(20, "20");
-      Assert.assertEquals(rbt.getKeyOfLeftChildOf(30), Integer.valueOf(20));
-      rbt.insert(10, "10");
+	/**
+	 * CASE 321 Insert three values in reverse sorted order and then check the root,
+	 * left, and right keys to see if rebalancing occurred in the other direction.
+	 */
+	@Test
+	void testRBT_002_insert_reversed_sorted_order_simple() {
+		try {
+			rbt.insert(30, "30");
+			rbt.insert(20, "20");
+			Assert.assertEquals(rbt.getKeyOfLeftChildOf(30), Integer.valueOf(20));
+			rbt.insert(10, "10");
 
-      // IF rebalancing is working,
-      // the tree should have 20 at the root
-      // and 10 as its left child and 30 as its right child
-      Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
-      Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
-      Assert.assertEquals(rbt.getKeyOfRightChildOf(20), Integer.valueOf(30));
+			// IF rebalancing is working,
+			// the tree should have 20 at the root
+			// and 10 as its left child and 30 as its right child
+			Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
+			Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
+			Assert.assertEquals(rbt.getKeyOfRightChildOf(20), Integer.valueOf(30));
 
-    } catch (Exception e) {
-      fail("Should not have any exceptions at 002: " + e.getMessage());
-    }
-  }
+		} catch (Exception e) {
+			fail("Should not have any exceptions at 002: " + e.getMessage());
+		}
+	}
 
-  /**
-   * CASE 132 Insert three values so that rebalancing requires new key to be the
-   * "new" root of the rebalanced tree.
-   * 
-   * Then check the root, left, and right keys to see if rebalancing occurred
-   * correctly.
-   */
-  @Test
-  void testRBT_003_insert_smallest_largest_middle_order_simple() {
-    try {
-      rbt.insert(10, "10");
-      Assert.assertTrue(rbt.rootIsBlack());
+	/**
+	 * CASE 132 Insert three values so that rebalancing requires new key to be the
+	 * "new" root of the rebalanced tree.
+	 * 
+	 * Then check the root, left, and right keys to see if rebalancing occurred
+	 * correctly.
+	 */
+	@Test
+	void testRBT_003_insert_smallest_largest_middle_order_simple() {
+		try {
+			rbt.insert(10, "10");
+			Assert.assertTrue(rbt.rootIsBlack());
 
-      // insert a second node which should have a color of red
-      rbt.insert(30, "30");
+			// insert a second node which should have a color of red
+			rbt.insert(30, "30");
 
-      Assert.assertTrue(rbt.getKeyOfRightChildOf(10).equals(30));
-      Assert.assertEquals(rbt.colorOf(30), RBT.RED);
+			Assert.assertTrue(rbt.getKeyOfRightChildOf(10).equals(30));
+			Assert.assertEquals(rbt.colorOf(30), RBT.RED);
 
-      rbt.insert(20, "20");
-      // IF rebalancing is working,
-      // the tree should have 20 at the root
-      // and 10 as its left child and 30 as its right child
+			rbt.insert(20, "20");
+			// IF rebalancing is working,
+			// the tree should have 20 at the root
+			// and 10 as its left child and 30 as its right child
 
-      // Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
+			// Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
 
-      Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
+			Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
 
-      // Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
+			// Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
 
-    } catch (Exception e) {
-      fail("Should not have any exceptions at 003: " + e.getMessage());
-    }
+		} catch (DuplicateKeyException e) {
+			fail("Should not have any exceptions at 003: " + e.getMessage());
+		} catch (IllegalNullKeyException e) {
 
-  }
+			fail("Should not have any exceptions at 003: " + e.getMessage());
+		} catch (KeyNotFoundException e) {
+			fail("Should not have any exceptions at 003: " + e.getMessage());
+		}
 
-  /**
-   * CASE 312 Insert three values so that rebalancing requires new key to be the
-   * "new" root of the rebalanced tree.
-   * 
-   * Then check the root, left, and right keys to see if rebalancing occurred
-   * correctly.
-   */
-  @Test
-  void testRBT_004_insert_largest_smallest_middle_order_simple() {
-    try {
-      rbt.insert(30, "30");
-      Assert.assertTrue(rbt.rootIsBlack());
+	}
 
-      // insert a second node which should have a color of red
-      rbt.insert(10, "10");
+	/**
+	 * CASE 312 Insert three values so that rebalancing requires new key to be the
+	 * "new" root of the rebalanced tree.
+	 * 
+	 * Then check the root, left, and right keys to see if rebalancing occurred
+	 * correctly.
+	 */
+	@Test
+	void testRBT_004_insert_largest_smallest_middle_order_simple() {
+		try {
+			rbt.insert(30, "30");
+			Assert.assertTrue(rbt.rootIsBlack());
 
-      Assert.assertTrue(rbt.getKeyOfLeftChildOf(30).equals(10));
-      Assert.assertEquals(rbt.colorOf(10), RBT.RED);
+			// insert a second node which should have a color of red
+			rbt.insert(10, "10");
 
-      rbt.insert(20, "20");
-      // IF rebalancing is working,
-      // the tree should have 20 at the root
-      // and 10 as its left child and 30 as its right child
+			Assert.assertTrue(rbt.getKeyOfLeftChildOf(30).equals(10));
+			Assert.assertEquals(rbt.colorOf(10), RBT.RED);
 
-      Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
+			rbt.insert(20, "20");
+			// IF rebalancing is working,
+			// the tree should have 20 at the root
+			// and 10 as its left child and 30 as its right child
 
-      Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
+			Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
 
-      Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
+			Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
 
-    } catch (Exception e) {
-      fail("Should not have any exceptions at 003: ");
-    }
+			Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
 
-  }
+		} catch (Exception e) {
+			fail("Should not have any exceptions at 003: ");
+		}
 
-  /**
-   * Test inserting in a linear order
-   */
-  @Test
-  void testRBT_insert_in_linear_order() {
-    try {
-      for (int i = 0; i < 5; i++) {
-        rbt.insert(i, "i");
-      }
-    } catch (Exception e) {
+	}
 
-    }
+	/**
+	 * Test inserting in a linear order
+	 */
+	@Test
+	void testRBT_insert_in_linear_order() {
+		try {
+			for (int i = 0; i < 5; i++) {
+				rbt.insert(i, "i");
+			}
+		} catch (Exception e) {
 
-    List inOrder = rbt.getInOrderTraversal();
-    Integer[] expected = new Integer[] { 0, 1, 2, 3, 4 };
+		}
 
-    for (int i = 0; i < expected.length; i++) {
-      assertTrue(inOrder.get(i) == expected[i]);
-    }
+		List inOrder = rbt.getInOrderTraversal();
+		Integer[] expected = new Integer[] { 0, 1, 2, 3, 4 };
 
-  }
+		for (int i = 0; i < expected.length; i++) {
+			assertTrue(inOrder.get(i) == expected[i]);
+		}
 
-  /**
-   * Tests inserting a null key
-   */
-  @Test
-  void testRBT_insert_null_key() {
-    try {
-      rbt.insert(null, "ew");
-    } catch (IllegalNullKeyException e) {
-    } catch (Exception e) {
-      fail("No exception other than the IllegalNullKey should be thrown");
-    }
-  }
+	}
 
-  /**
-   * Tests a right rotate, then a left rotate --> TNR
-   */
-  @Test
-  void testRBT_rebalance_rightRotate_leftRotate() {
-    try {
-      rbt.insert(10, "10");
-      rbt.insert(30, "30");
-      rbt.insert(20, "20");
-      assertTrue(rbt.getKeyAtRoot() == 20);
-      assertTrue(rbt.getKeyOfLeftChildOf(20) == 10);
-      assertTrue(rbt.getKeyOfRightChildOf(20) == 30);
-    } catch (Exception e) {
-      fail("No exceptions, rightRotate then a leftRotate is completely valid");
-    }
-  }
+	/**
+	 * Tests inserting a null key
+	 */
+	@Test
+	void testRBT_insert_null_key() {
+		try {
+			rbt.insert(null, "ew");
+		} catch (IllegalNullKeyException e) {
+		} catch (Exception e) {
+			fail("No exception other than the IllegalNullKey should be thrown");
+		}
+	}
 
-  /**
-   * Tests a left rotate, then a right rotate --> TNR
-   */
-  @Test
-  void testRBT_rebalance_leftRotate_rightRotate() {
-    try {
-      rbt.insert(30, "30");
-      rbt.insert(10, "10");
-      rbt.insert(20, "20");
+	/**
+	 * Tests a right rotate, then a left rotate --> TNR
+	 */
+	@Test
+	void testRBT_rebalance_rightRotate_leftRotate() {
+		try {
+			rbt.insert(10, "10");
+			rbt.insert(30, "30");
+			rbt.insert(20, "20");
+			assertTrue(rbt.getKeyAtRoot() == 20);
+			assertTrue(rbt.getKeyOfLeftChildOf(20) == 10);
+			assertTrue(rbt.getKeyOfRightChildOf(20) == 30);
+			assertTrue(rbt.colorOf(30) == rbt.RED); // uncle
+			assertTrue(rbt.colorOf(20) == rbt.BLACK);
+			assertTrue(rbt.colorOf(10) == rbt.RED);
+		} catch (Exception e) {
+			fail("No exceptions, rightRotate then a leftRotate is completely valid");
+		}
+	}
 
-      assertTrue(rbt.getKeyAtRoot() == 20);
-      assertTrue(rbt.getKeyOfLeftChildOf(20) == 10);
-      assertTrue(rbt.getKeyOfRightChildOf(20) == 30);
-    } catch (Exception e) {
-      fail("No exceptions, leftRotate then a rightRotate should be good to go");
-    }
-  }
+	@Test
+	void testRBT_rebalance_color_of_uncle() {
+		// if the uncle is a red, can't we just do a recoloring? (instead of a
+		// tri-node-restructuring)
+		try {
+			rbt.insert(20, "20");
+			rbt.insert(10, "10");
+			rbt.insert(30, "30");
+			rbt.insert(5, "5");
+			rbt.insert(0, "0");
+			assertTrue(rbt.colorOf(20) == rbt.BLACK);
+			assertTrue(rbt.colorOf(10) == rbt.RED); // GRANDPARENT
+			assertTrue(rbt.colorOf(30) == rbt.BLACK);
+			assertTrue(rbt.colorOf(5) == rbt.BLACK); // PARENT
+			assertTrue(rbt.colorOf(0) == rbt.RED);
+		} catch (Exception e) {
+			fail("no exceptions this time " + e.getMessage());
+		}
+	}
 
-  /**
-   * Test a recoloring of two nodes --> the root and its left, right child
-   */
-  @Test
-  void testRBT_recoloringSimple() {
-    try {
-      rbt.insert(20, "20");
-      rbt.insert(10, "10");
-      rbt.insert(30, "30");
+	/**
+	 * Tests a left rotate, then a right rotate --> TNR
+	 */
+	@Test
+	void testRBT_rebalance_leftRotate_rightRotate() {
+		try {
+			rbt.insert(30, "30");
+			rbt.insert(10, "10");
+			rbt.insert(20, "20");
 
-      rbt.insert(40, "40");
+			assertTrue(rbt.getKeyAtRoot() == 20);
+			assertTrue(rbt.getKeyOfLeftChildOf(20) == 10);
+			assertTrue(rbt.getKeyOfRightChildOf(20) == 30);
+		} catch (Exception e) {
+			fail("No exceptions, leftRotate then a rightRotate should be good to go");
+		}
+	}
 
-      // the root, left child, and right child should be black
-      assertTrue(rbt.colorOf(20) == rbt.BLACK);
-      assertTrue(rbt.colorOf(10) == rbt.BLACK);
-      assertTrue(rbt.colorOf(30) == rbt.BLACK);
-      // the newly inserted node should stay red
-      assertTrue(rbt.colorOf(40) == rbt.RED);
-    } catch (Exception e) {
-      fail("No messages should be thrown during a recoloring");
-    }
+	/**
+	 * Test a recoloring of two nodes --> the root and its left, right child
+	 */
+	@Test
+	void testRBT_recoloringSimple() {
+		try {
+			rbt.insert(20, "20");
+			rbt.insert(10, "10");
+			rbt.insert(30, "30");
 
-  }
+			rbt.insert(40, "40");
 
-  /**
-   * Tests a simple insert and a get
-   */
-  @Test
-  void testRBT_insert_get() {
-    try {
-      rbt.insert(20, "20");
-      assertTrue(rbt.get(20).equals("20"));
-    } catch (Exception e) {
-      fail("Insert and get should not have exceptions");
-    }
-  }
+			// the root, left child, and right child should be black
+			assertTrue(rbt.colorOf(20) == rbt.BLACK);
+			assertTrue(rbt.colorOf(10) == rbt.BLACK);
+			assertTrue(rbt.colorOf(30) == rbt.BLACK);
+			// the newly inserted node should stay red
+			assertTrue(rbt.colorOf(40) == rbt.RED);
+		} catch (Exception e) {
+			fail("No messages should be thrown during a recoloring");
+		}
 
-  /**
-   * Tests a simple insert and contains
-   */
-  @Test
-  void testRBT_insert_contains() {
+	}
 
-    try {
-      rbt.insert(20, "20");
-      assertTrue(rbt.contains(20));
-    } catch (Exception e) {
-      fail("Exception should not be thrown from this contains method.");
-    }
-  }
+	/**
+	 * Test insert a lot
+	 */
+	@Test
+	void testRBT_insert() {
+		try {
+			for (int i = 0; i < 10; i++) {
+				rbt.insert(i, "i: " + i);
+			}
 
-  @Test
-  void testRBT_insert_more_get() {
-
-    try {
-      rbt.insert(20, "20");
-      rbt.insert(30, "30");
-      rbt.insert(40, "40");
-      rbt.insert(10, "10");
-      rbt.get(20);
-    } catch (KeyNotFoundException e) {
-
-    } catch (Exception e) {
-      fail("no exceptions should be thrown" + e.getMessage());
-    }
-  }
-
-//	@Test
-//	void testRBT_BSTInsert() {
-//		try {
-//			rbt.BSTInsert(rbt.root, 10, "10");
-//			if (!rbt.getKeyAtRoot().equals(10))
-//				fail("insert at root does not work");
+			rbt.print();
 //
-//			rbt.BSTInsert(rbt.root, 20, "20");
-//			if (!rbt.getKeyOfRightChildOf(10).equals(20))
-//				fail("insert to right child of root does not work");
-//
-//			rbt.BSTInsert(rbt.root, 30, "30");
-//			if (!rbt.getKeyAtRoot().equals(10))
-//				fail("inserting 30 changed root");
-//
-//			if (!rbt.getKeyOfRightChildOf(20).equals(30))
-//				fail("inserting 30 as right child of 20");
-//
-//			// IF rebalancing is working,
-//			// the tree should have 20 at the root
-//			// and 10 as its left child and 30 as its right child
-//
-//			Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(10));
-//			Assert.assertEquals(rbt.getKeyOfRightChildOf(10), Integer.valueOf(20));
-//			Assert.assertEquals(rbt.getKeyOfRightChildOf(20), Integer.valueOf(30));
-//
-//			rbt.print();
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			fail("Unexpected exception 001: " + e.getMessage());
+//			assertTrue(rbt.getKeyAtRoot() == 3);
+//			assertTrue(rbt.getKeyOfLeftChildOf(3) == 1);
+		} catch (IllegalNullKeyException e) {
+			fail("NO null key exceptions");
+		} catch (DuplicateKeyException e) {
+			fail("NO duplicate keys");
+		}
+//		} catch (KeyNotFoundException e) {
+//			fail("Key is in tree");
 //		}
-//
-//	}
-  // TODO: Add your own tests
+	}
 
-  // Add tests to make sure that rebalancing occurs even if the
-  // tree is larger. Does it maintain it's balance?
-  // Does the height of the tree reflect it's actual height
-  // Use the traversal orders to check.
+	@Test
+	void testRBT_insert_redParent_blackSibiling() {
+		try {
+			rbt.insert(20, "20");
+			rbt.insert(10, "10");
+			rbt.insert(30, "30");
+			rbt.insert(350, "350");
 
-  // Can you insert many and still "get" them back out?
+			rbt.insert(15, "15");
+			rbt.insert(5, "5");
+			rbt.insert(25, "25");
+			rbt.insert(16, "16");
+			rbt.insert(0, "0");
+			rbt.insert(14, "14");
+			rbt.insert(12, "12");
+			assertTrue(rbt.getKeyAtRoot() == 15);
+			assertTrue(rbt.colorOf(30) == 1);
+			rbt.print();
 
-  // Does delete work? Does the tree maintain balance when a key is deleted?
-  // If delete is not implemented, does calling it throw an
-  // UnsupportedOperationException
+		} catch (Exception e) {
+			fail("no exception.." + e.getMessage());
+		}
+	}
+
+	/**
+	 * Tests a simple insert and a get
+	 */
+	@Test
+	void testRBT_insert_get() {
+		try {
+			rbt.insert(20, "20");
+			assertTrue(rbt.get(20).equals("20"));
+		} catch (Exception e) {
+			fail("Insert and get should not have exceptions");
+		}
+	}
+
+	/**
+	 * Tests a simple insert and contains
+	 */
+	@Test
+	void testRBT_insert_contains() {
+
+		try {
+			rbt.insert(20, "20");
+			assertTrue(rbt.contains(20));
+		} catch (Exception e) {
+			fail("Exception should not be thrown from this contains method.");
+		}
+	}
+
+	@Test
+	void testRBT_insert_more_get() {
+
+		try {
+			rbt.insert(20, "20");
+			rbt.insert(30, "30");
+			rbt.insert(40, "40");
+			rbt.insert(10, "10");
+			rbt.get(20);
+		} catch (KeyNotFoundException e) {
+
+		} catch (Exception e) {
+			fail("no exceptions should be thrown" + e.getMessage());
+		}
+
+		System.out.println("FAKE");
+		FakeRBT fRbt = new FakeRBT();
+		// fRbt.buildTestCase2A();
+//		fRbt.testCaseExtreme();
+		fRbt.testCaseNotARealCase();
+	}
+
+	@Test
+	void testRBT_implement_test09() {
+		try {
+			rbt.insert(7, "7");
+			rbt.insert(2, "2");
+			rbt.insert(8, "8");
+			rbt.insert(0, "0");
+			rbt.insert(421, "421");
+
+			List<Integer> levelOrder = rbt.getLevelOrderTraversal();
+			System.out.println(levelOrder);
+		} catch (Exception e) {
+			fail("why is it not 7,2,8,0,421?");
+		}
+	}
+	// TODO: Add your own tests
+
+	// Add tests to make sure that rebalancing occurs even if the
+	// tree is larger. Does it maintain it's balance?
+	// Does the height of the tree reflect it's actual height
+	// Use the traversal orders to check.
+
+	// Can you insert many and still "get" them back out?
+
+	// Does delete work? Does the tree maintain balance when a key is deleted?
+	// If delete is not implemented, does calling it throw an
+	// UnsupportedOperationException
 
 } // copyright Deb Deppeler, all rights reserved, DO NOT SHARE

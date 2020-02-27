@@ -506,6 +506,7 @@ public class TestBST {
 		}
 	}
 
+	@Test
 	void testPrint() {
 		try {
 			bst.insert(1, "1");
@@ -516,6 +517,46 @@ public class TestBST {
 		} catch (DuplicateKeyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void test_insert_remove_contains() {
+		try {
+			bst.insert(20, "20");
+			bst.remove(20);
+			assertTrue(!bst.contains(20));
+		} catch (Exception e) {
+			fail("why?" + e.getMessage());
+		}
+	}
+
+	@Test
+	void test_remove() {
+		try {
+			bst.insert(20, "20");
+			bst.insert(70, "70");
+			bst.insert(01, "01");
+			bst.insert(00, "00");
+			bst.insert(40, "40");
+			bst.insert(30, "30");
+			assertTrue(bst.remove(20));
+			assertTrue(bst.getKeyAtRoot() == 01);
+			assertTrue(bst.remove(30));
+			assertTrue(bst.remove(40));
+			assertTrue(bst.remove(00));
+			assertTrue(bst.getKeyOfRightChildOf(01) == 70);
+			assertTrue(bst.remove(01));
+			assertTrue(bst.getKeyAtRoot() == 70);
+			assertTrue(bst.remove(70));
+			assertTrue(bst.numKeys() == 0);
+
+		} catch (KeyNotFoundException e) {
+			fail("Key not found? I dont think so." + e.getMessage());
+		} catch (IllegalNullKeyException e) {
+			fail("Null key? I dont think so." + e.getMessage());
+		} catch (DuplicateKeyException e) {
+			fail("Duplicate key? not on my watch." + e.getMessage());
 		}
 	}
 	// TODO: Add your own tests

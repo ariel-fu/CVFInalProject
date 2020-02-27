@@ -400,6 +400,23 @@ public class TestRBT {
 			fail("why is it not 7,2,8,0,421?");
 		}
 	}
+
+	@Test
+	void testRBT_insert4_uncle_red() {
+		try {
+			rbt.insert(20, "20");
+			rbt.insert(30, "30");
+			rbt.insert(0, "0");
+			rbt.insert(450, "450");
+			assertTrue(rbt.getKeyAtRoot() == 20);
+			assertTrue(rbt.colorOf(20) == rbt.BLACK);
+			assertTrue(rbt.colorOf(30) == rbt.BLACK);
+			assertTrue(rbt.colorOf(450) == rbt.RED);
+			assertTrue(rbt.colorOf(0) == rbt.BLACK);
+		} catch (Exception e) {
+			fail("no exceptions: " + e.getMessage());
+		}
+	}
 	// TODO: Add your own tests
 
 	// Add tests to make sure that rebalancing occurs even if the

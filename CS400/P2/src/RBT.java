@@ -1,5 +1,16 @@
 import java.util.LinkedList;
 import java.util.List;
+//////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           RBT.java
+//Files:           BST.java, RBT.java, STADT.java, TestBST.java, TestRBT.java, CompareDS.java
+//Course:          (CS400, Spring, 2020)
+//
+//Author:          (Ariel Fu)
+//Email:           (afu5@wisc.edu)
+//Lecture Number: 001
+//
+////////////////////PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
 
 /**
  * Implements a generic Red-Black tree extension of BST<K,V>.

@@ -1,5 +1,36 @@
 import java.util.LinkedList;
 import java.util.List;
+//////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           BST.java
+//Files:           BST.java, RBT.java, STADT.java, TestBST.java, TestRBT.java, CompareDS.java
+//Course:          (CS400, Spring, 2020)
+//
+//Author:          (Ariel Fu)
+//Email:           (afu5@wisc.edu)
+//Lecture Number: 001
+//
+////////////////////PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+
+//
+//VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+//___ Write-up states that pair programming is allowed for this assignment.
+//___ We have both read and understand the course Pair Programming Policy.
+//___ We have registered our team prior to the team registration deadline.
+//
+///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+//Students who get help from sources other than their partner must fully 
+//acknowledge and credit those sources of help here.  Instructors and TAs do 
+//not need to be credited here, but tutors, friends, relatives, room mates, 
+//strangers, and others do.  If you received no outside help from either type
+//of source, then please explicitly indicate NONE.
+//
+//Persons:         (NONE)
+//Online Sources:  (NONE)
+//
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 
 /**
  * Defines the operations required of student's BST class.
@@ -26,8 +57,8 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 		private Node rightNode;
 
 		/**
-		 * Constructor that sets the key and value to the ones inputed, also sets the
-		 * left and right node to null
+     * Constructor that sets the key and value to the ones inputed, also sets
+     * the left and right node to null
 		 * 
 		 * @param key   - key of the node
 		 * @param value - value of the node
@@ -102,10 +133,20 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 			return this.leftNode != null;
 		}
 
+    /**
+     * Sets the right node of the current Node
+     * 
+     * @param node - right node
+     */
 		private void setRight(Node node) {
 			this.rightNode = node;
 		}
 
+    /**
+     * Sets the left node of the current node
+     * 
+     * @param node - left node
+     */
 		private void setLeft(Node node) {
 			this.leftNode = node;
 		}
@@ -123,8 +164,8 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Returns the key that is in the root node of this ST. If root is null, returns
-	 * null.
+   * Returns the key that is in the root node of this ST. If root is null,
+   * returns null.
 	 * 
 	 * @return key found at root node, or null
 	 */
@@ -133,9 +174,9 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Tries to find a node with a key that matches the specified key. If a matching
-	 * node is found, it returns the returns the key that is in the left child. If
-	 * the left child of the found node is null, returns null.
+   * Tries to find a node with a key that matches the specified key. If a
+   * matching node is found, it returns the returns the key that is in the left
+   * child. If the left child of the found node is null, returns null.
 	 * 
 	 * @param key A key to search for
 	 * @return The key that is in the left child of the found key
@@ -143,7 +184,8 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @throws IllegalNullKeyException if key argument is null
 	 * @throws KeyNotFoundException    if key is not found in this BST
 	 */
-	public K getKeyOfLeftChildOf(K key) throws IllegalNullKeyException, KeyNotFoundException {
+  public K getKeyOfLeftChildOf(K key)
+      throws IllegalNullKeyException, KeyNotFoundException {
 		// key arg is null
 		if (key == null) {
 			throw new IllegalNullKeyException("Null Key");
@@ -158,9 +200,9 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Tries to find a node with a key that matches the specified key. If a matching
-	 * node is found, it returns the returns the key that is in the right child. If
-	 * the right child of the found node is null, returns null.
+   * Tries to find a node with a key that matches the specified key. If a
+   * matching node is found, it returns the returns the key that is in the right
+   * child. If the right child of the found node is null, returns null.
 	 * 
 	 * @param key A key to search for
 	 * @return The key that is in the right child of the found key
@@ -168,7 +210,8 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * @throws IllegalNullKeyException if key is null
 	 * @throws KeyNotFoundException    if key is not found in this BST
 	 */
-	public K getKeyOfRightChildOf(K key) throws IllegalNullKeyException, KeyNotFoundException {
+  public K getKeyOfRightChildOf(K key)
+      throws IllegalNullKeyException, KeyNotFoundException {
 		if (key == null) {
 			throw new IllegalNullKeyException("Null key input");
 		}
@@ -184,6 +227,7 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	/**
 	 * Tries to find Node given the key.
 	 * 
+   * @param curr - current node in the tree
 	 * @param key - key of the Node
 	 * @return node with associated key
 	 */
@@ -213,9 +257,9 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * height(root.left), height(root.right) )
 	 * 
 	 * Examples: A BST with no keys, has a height of zero (0). A BST with one key,
-	 * has a height of one (1). A BST with two keys, has a height of two (2). A BST
-	 * with three keys, can be balanced with a height of two(2) or it may be linear
-	 * with a height of three (3) ... and so on for tree with other heights
+   * has a height of one (1). A BST with two keys, has a height of two (2). A
+   * BST with three keys, can be balanced with a height of two(2) or it may be
+   * linear with a height of three (3) ... and so on for tree with other heights
 	 * 
 	 * @return the number of levels that contain keys in this BINARY SEARCH TREE
 	 */
@@ -254,8 +298,8 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Returns the keys of the data structure in sorted order. In the case of binary
-	 * search trees, the visit order is: L V R
+   * Returns the keys of the data structure in sorted order. In the case of
+   * binary search trees, the visit order is: L V R
 	 * 
 	 * If the SearchTree is empty, an empty list is returned.
 	 * 
@@ -320,12 +364,12 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Recursive helper method to do a pre-order traversal and add each node to the
-	 * list.
+   * Recursive helper method to do a pre-order traversal and add each node to
+   * the list.
 	 * 
 	 * @param currentNode - current node in the BSt
-	 * @return a list with all the nodes in the BST in a pre-order, or an empty list
-	 *         if the BST is empty
+   * @return a list with all the nodes in the BST in a pre-order, or an empty
+   *         list if the BST is empty
 	 */
 	private List<Node> preOrderTraversalHelper(Node currentNode) {
 		List<Node> preOrderList = new LinkedList<Node>();
@@ -334,12 +378,14 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 			preOrderList.add(currentNode);
 			// recur on the left sub-tree if currentNode has a left child
 			if (currentNode.getLeftNode() != null) {
-				List<Node> leftSide = preOrderTraversalHelper(currentNode.getLeftNode());
+        List<Node> leftSide = preOrderTraversalHelper(
+            currentNode.getLeftNode());
 				preOrderList = transferValues(preOrderList, leftSide);
 			}
 			// recur on the right sub-tree if the currentNode has a right child
 			if (currentNode.getRightNode() != null) {
-				List<Node> rightSide = preOrderTraversalHelper(currentNode.getRightNode());
+        List<Node> rightSide = preOrderTraversalHelper(
+            currentNode.getRightNode());
 				preOrderList = transferValues(preOrderList, rightSide);
 			}
 		}
@@ -348,8 +394,8 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Returns the keys of the data structure in post-order traversal order. In the
-	 * case of binary search trees, the order is: L R V
+   * Returns the keys of the data structure in post-order traversal order. In
+   * the case of binary search trees, the order is: L R V
 	 * 
 	 * If the SearchTree is empty, an empty list is returned.
 	 * 
@@ -366,24 +412,26 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Recursive helper method to do a post-order traversal and add each node to the
-	 * list.
+   * Recursive helper method to do a post-order traversal and add each node to
+   * the list.
 	 * 
 	 * @param currentNode - current node in the BSt
-	 * @return a list with all the nodes in the BST in a pre-order, or an empty list
-	 *         if the BST is empty
+   * @return a list with all the nodes in the BST in a pre-order, or an empty
+   *         list if the BST is empty
 	 */
 	private List<Node> postOrderTraversalHelper(Node currentNode) {
 		List<Node> postOrderList = new LinkedList<Node>();
 		if (currentNode != null) {
 			// recur on the left sub-tree if currentNode has a left child
 			if (currentNode.hasLeft()) {
-				List<Node> leftSide = postOrderTraversalHelper(currentNode.getLeftNode());
+        List<Node> leftSide = postOrderTraversalHelper(
+            currentNode.getLeftNode());
 				postOrderList = transferValues(postOrderList, leftSide);
 			}
 			// recur on the right sub-tree if the currentNode has a right child
 			if (currentNode.hasRight()) {
-				List<Node> rightSide = postOrderTraversalHelper(currentNode.getRightNode());
+        List<Node> rightSide = postOrderTraversalHelper(
+            currentNode.getRightNode());
 				postOrderList = transferValues(postOrderList, rightSide);
 			}
 			// add the parent to the list.
@@ -472,12 +520,18 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Add the key,value pair to the data structure and increase the number of keys.
-	 * If key is null, throw IllegalNullKeyException; If key is already in data
-	 * structure, throw DuplicateKeyException(); Do not increase the num of keys in
-	 * the structure, if key,value pair is not added.
+   * Add the key,value pair to the data structure and increase the number of
+   * keys. If key is null, throw IllegalNullKeyException; If key is already in
+   * data structure, throw DuplicateKeyException(); Do not increase the num of
+   * keys in the structure, if key,value pair is not added.
+   * 
+   * @param key   - key of the node to insert
+   * @param value - value associated with the key
+   * @throws IllegalNullKeyException - if the key input is null
+   * @throws DuplicateKeyException   - if the key is already in the BST
 	 */
-	public void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException {
+  public void insert(K key, V value)
+      throws IllegalNullKeyException, DuplicateKeyException {
 		if (key == null) {
 			throw new IllegalNullKeyException("Key is null");
 		}
@@ -517,8 +571,9 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * If key is found, remove the key,value pair from the data structure and
 	 * decrease num keys, and return true.
 	 * 
-	 * @return false if key is not found, do not decrease the number of keys in the
-	 *         data structure
+   * @param key - find and delete the Node with this key
+   * @return false if key is not found, do not decrease the number of keys in
+   *         the data structure
 	 * @throw IllegalNullKeyException - If key is null
 	 */
 	public boolean remove(K key) throws IllegalNullKeyException {
@@ -566,10 +621,10 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 				curr.setLeft(null);
 			} else {
 				// Find the predecessor: rightmost node on the left side
-				Node predecessor = leftMost(curr.getLeftNode());
-				// remove the successor
+        Node predecessor = predecessor(curr.getLeftNode());
+        // remove the predecessor
 				removeHelper(curr, predecessor.getKey());
-				// set curr's key to the successor's key
+        // set curr's key to the predecessor's key
 				curr.setKey(predecessor.key);
 			}
 		}
@@ -577,12 +632,12 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	}
 
 	/**
-	 * Helper method that gets the leftmost node from the current node
+   * Helper method that gets the predecessor of a node
 	 * 
 	 * @param curr - current node
 	 * @return the rightmost node from the current node.
 	 */
-	private Node leftMost(Node curr) {
+  private Node predecessor(Node curr) {
 		while (curr.hasRight()) {
 			curr = curr.getRightNode();
 		}
@@ -606,7 +661,7 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 		Node keyNode = getNode(root, key);
 		// if getNode returns a null, the key is not in the BST
 		if (keyNode == null) {
-			throw new IllegalNullKeyException("Key is not in BST");
+      throw new KeyNotFoundException("Key is not in BST");
 		}
 		// otherwise return the key's associated value.
 		return keyNode.getValue();
@@ -615,6 +670,7 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	/**
 	 * Returns true if the key is in the data structure
 	 * 
+   * @param key - key to find
 	 * @throw IllegalNullKeyException - key is null
 	 * @return false if key is not null and is not present
 	 */
@@ -641,20 +697,21 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	/**
 	 * Print the tree.
 	 *
-	 * For our testing purposes of your print method: all keys that we insert in the
-	 * tree will have a string length of exactly 2 characters. example: numbers
-	 * 10-99, or strings aa - zz, or AA to ZZ
+   * For our testing purposes of your print method: all keys that we insert in
+   * the tree will have a string length of exactly 2 characters. example:
+   * numbers 10-99, or strings aa - zz, or AA to ZZ
 	 *
 	 * This makes it easier for you to not worry about spacing issues.
 	 *
-	 * You can display a binary search in any of a variety of ways, but we must see
-	 * a tree that we can identify left and right children of each node
+   * You can display a binary search in any of a variety of ways, but we must
+   * see a tree that we can identify left and right children of each node
 	 *
 	 * For example:
 	 * 
 	 * 30 /\ / \ 20 40 / /\ / / \ 10 35 50
 	 * 
-	 * Look from bottom to top. Inorder traversal of above tree (10,20,30,35,40,50)
+   * Look from bottom to top. Inorder traversal of above tree
+   * (10,20,30,35,40,50)
 	 * 
 	 * Or, you can display a tree of this kind.
 	 * 
@@ -667,7 +724,6 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 	 * The connecting lines are not required if we can interpret your tree.
 	 * 
 	 */
-	// TODO: figure out how to do this
 	public void print() {
 		int maxLevel = this.getHeight();
 
@@ -677,6 +733,12 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 
 	}
 
+  /**
+   * Prints out the list, with X as a null Node
+   * 
+   * @param children     - list of children
+   * @param currentLevel - current level in the BST
+   */
 	private void printChildren(List<Node> children, int currentLevel) {
 		for (int i = 0; i < children.size(); i++) {
 			String str = "X";
@@ -715,6 +777,13 @@ public class BST<K extends Comparable<K>, V> implements STADT<K, V> {
 
 	}
 
+  /**
+   * Prints out the node along with the adequate spacing
+   * 
+   * @param str   - string to print out
+   * @param level - for spacing, should print out 2^(max height of BST) - 1 tabs
+   *              in front of the String.
+   */
 	private void printNode(String str, int level) {
 		for (int i = 0; i < (int) Math.pow(2, level) - 1; i++) {
 			System.out.print("\t");

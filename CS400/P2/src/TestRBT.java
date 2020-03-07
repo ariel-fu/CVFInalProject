@@ -8,6 +8,38 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+//////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           TestRBT.java
+//Files:           BST.java, RBT.java, STADT.java, TestBST.java, TestRBT.java, CompareDS.java
+//Course:          (CS400, Spring, 2020)
+//
+//Author:          (Ariel Fu)
+//Email:           (afu5@wisc.edu)
+//Lecture Number: 001
+//
+////////////////////PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+
+//
+//VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+//___ Write-up states that pair programming is allowed for this assignment.
+//___ We have both read and understand the course Pair Programming Policy.
+//___ We have registered our team prior to the team registration deadline.
+//
+///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+//Students who get help from sources other than their partner must fully 
+//acknowledge and credit those sources of help here.  Instructors and TAs do 
+//not need to be credited here, but tutors, friends, relatives, room mates, 
+//strangers, and others do.  If you received no outside help from either type
+//of source, then please explicitly indicate NONE.
+//
+//Persons:         (NONE)
+//Online Sources:  (NONE)
+//
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 //import org.junit.jupiter.api.AfterAll;
 //import org.junit.jupiter.api.BeforeAll;
 
@@ -57,10 +89,10 @@ public class TestRBT {
       // the tree should have 20 at the root
       // and 10 as its left child and 30 as its right child
 
-      // Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
+      Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
 
-      // Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
-      // Assert.assertEquals(rbt.getKeyOfRightChildOf(20), Integer.valueOf(30));
+      Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
+      Assert.assertEquals(rbt.getKeyOfRightChildOf(20), Integer.valueOf(30));
 
       rbt.print();
 
@@ -119,11 +151,11 @@ public class TestRBT {
       // the tree should have 20 at the root
       // and 10 as its left child and 30 as its right child
 
-      // Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
+      Assert.assertTrue(rbt.getKeyOfRightChildOf(20).equals(30));
 
       Assert.assertEquals(rbt.getKeyAtRoot(), Integer.valueOf(20));
 
-      // Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
+      Assert.assertEquals(rbt.getKeyOfLeftChildOf(20), Integer.valueOf(10));
 
     } catch (DuplicateKeyException e) {
       fail("Should not have any exceptions at 003: " + e.getMessage());
@@ -181,17 +213,21 @@ public class TestRBT {
       for (int i = 0; i < 5; i++) {
         rbt.insert(i, "i");
       }
+      // should have rebalanced with 1 at the root
+      assertTrue(rbt.getKeyAtRoot() == 1);
+      assertTrue(rbt.getKeyOfLeftChildOf(1) == 0);
+      // should have a recoloring that "pushed" down the color of the parent -->
+      // black.
+      assertTrue(rbt.colorOf(3) == rbt.BLACK);
+      assertTrue(rbt.colorOf(0) == rbt.BLACK);
+      assertTrue(rbt.colorOf(1) == rbt.BLACK);
+      assertTrue(rbt.getKeyOfRightChildOf(1) == 3);
+      assertTrue(rbt.getKeyOfLeftChildOf(3) == 2);
+      assertTrue(rbt.colorOf(2) == rbt.RED);
+      assertTrue(rbt.colorOf(4) == rbt.RED);
     } catch (Exception e) {
-
+      fail("No exceptions from inserting in a linear order: " + e.getMessage());
     }
-
-    List inOrder = rbt.getInOrderTraversal();
-    Integer[] expected = new Integer[] { 0, 1, 2, 3, 4 };
-
-    for (int i = 0; i < expected.length; i++) {
-      assertTrue(inOrder.get(i) == expected[i]);
-    }
-
   }
 
   /**
@@ -205,6 +241,26 @@ public class TestRBT {
     } catch (Exception e) {
       fail("No exception other than the IllegalNullKey should be thrown");
     }
+  }
+
+  /**
+   * Tests inserting a duplicate key
+   */
+  @Test
+  void testRBT_insert_duplicate() {
+    try {
+      // insert some values into the RBT
+      for (int i = 0; i < 10; i++) {
+        rbt.insert(i, i + "");
+      }
+      // insert the duplicate into the RBT
+      rbt.insert(1, 1 + "1");
+    } catch (DuplicateKeyException e) {
+
+    } catch (Exception e) {
+      fail("only DuplicateKeyException should have been thrown");
+    }
+
   }
 
   /**
@@ -244,19 +300,19 @@ public class TestRBT {
       assertTrue(rbt.colorOf(10) == rbt.BLACK);
       assertTrue(rbt.colorOf(30) == rbt.BLACK);
       assertTrue(rbt.colorOf(5) == rbt.RED);
-      
-      
+
       rbt.insert(0, "0");
 
+      // should have done a tri-node-restructuring so 5 is the new "root" of the
+      // subtree between 0, 5, 10
       assertTrue(rbt.getKeyOfLeftChildOf(20) == 5);
       assertTrue(rbt.getKeyOfLeftChildOf(5) == 0);
-      
+      assertTrue(rbt.getKeyOfRightChildOf(5) == 10);
+
     } catch (Exception e) {
       fail("no exceptions this time " + e.getMessage());
     }
   }
-  
-  
 
   /**
    * Tests a left rotate, then a right rotate --> TNR
@@ -301,7 +357,7 @@ public class TestRBT {
   }
 
   /**
-   * Test insert a lot
+   * Test insert a lot, then a print
    */
   @Test
   void testRBT_insert() {
@@ -318,7 +374,7 @@ public class TestRBT {
   }
 
   /**
-   * Tests inserting with a red parent and a black sibiling
+   * Tests inserting with a red parent and a black sibling
    */
   @Test
   void testRBT_insert_redParent_blackSibiling() {
@@ -372,7 +428,7 @@ public class TestRBT {
   }
 
   /**
-   * Tests insert more nodes and then get some
+   * Tests insert more nodes and then get
    */
   @Test
   void testRBT_insert_more_get() {
@@ -389,10 +445,6 @@ public class TestRBT {
       fail("no exceptions should be thrown" + e.getMessage());
     }
 
-    System.out.println("FAKE");
-    FakeRBT fRbt = new FakeRBT();
-    fRbt.buildTestCase2A();
-    fRbt.testCaseNotARealCase();
   }
 
   /**
@@ -447,7 +499,7 @@ public class TestRBT {
       fail("Only UnsupportedOperationException is going to be thrown");
     }
   }
-  
+
   /**
    * Insert so it does a right rotate
    */
@@ -460,15 +512,15 @@ public class TestRBT {
       assertTrue(rbt.getKeyAtRoot() == 10);
       assertTrue(rbt.getKeyOfLeftChildOf(10) == 5);
       assertTrue(rbt.getKeyOfRightChildOf(10) == 20);
-      
+
       assertTrue(rbt.colorOf(10) == rbt.BLACK);
       assertTrue(rbt.colorOf(5) == rbt.RED);
       assertTrue(rbt.colorOf(20) == rbt.RED);
-    } catch(Exception e) {
+    } catch (Exception e) {
       fail("No exceptions from left, left");
     }
   }
-  
+
   /**
    * Insert so it does a left rotate then a right rotate
    */
@@ -478,19 +530,19 @@ public class TestRBT {
       rbt.insert(20, "20");
       rbt.insert(5, "5");
       rbt.insert(10, "10");
-      
+
       assertTrue(rbt.getKeyAtRoot() == 10);
       assertTrue(rbt.getKeyOfLeftChildOf(10) == 5);
       assertTrue(rbt.getKeyOfRightChildOf(10) == 20);
-      
+
       assertTrue(rbt.colorOf(10) == rbt.BLACK);
       assertTrue(rbt.colorOf(5) == rbt.RED);
       assertTrue(rbt.colorOf(20) == rbt.RED);
-    } catch(Exception e) {
+    } catch (Exception e) {
       fail("No exceptions from left, left");
     }
   }
-  
+
   /**
    * Insert so it does a left rotate
    */
@@ -500,21 +552,19 @@ public class TestRBT {
       rbt.insert(5, "5");
       rbt.insert(10, "10");
       rbt.insert(20, "20");
-      
-      
-      
+
       assertTrue(rbt.getKeyAtRoot() == 10);
       assertTrue(rbt.getKeyOfLeftChildOf(10) == 5);
       assertTrue(rbt.getKeyOfRightChildOf(10) == 20);
-      
+
       assertTrue(rbt.colorOf(10) == rbt.BLACK);
       assertTrue(rbt.colorOf(5) == rbt.RED);
       assertTrue(rbt.colorOf(20) == rbt.RED);
-    } catch(Exception e) {
+    } catch (Exception e) {
       fail("No exceptions from left, left");
     }
   }
-  
+
   /**
    * Insert so it does a right rotate then a left rotate
    */
@@ -524,18 +574,70 @@ public class TestRBT {
       rbt.insert(5, "5");
       rbt.insert(20, "20");
       rbt.insert(10, "10");
-           
+
       assertTrue(rbt.getKeyAtRoot() == 10);
       assertTrue(rbt.getKeyOfLeftChildOf(10) == 5);
       assertTrue(rbt.getKeyOfRightChildOf(10) == 20);
-      
+
       assertTrue(rbt.colorOf(10) == rbt.BLACK);
       assertTrue(rbt.colorOf(5) == rbt.RED);
       assertTrue(rbt.colorOf(20) == rbt.RED);
-    } catch(Exception e) {
+    } catch (Exception e) {
       fail("No exceptions from left, left");
     }
   }
+
+  /**
+   * Tests using the get method with a valid input
+   */
+  @Test
+  void testRBT_getValid() {
+    try {
+      for (int i = 0; i < 10; i++) {
+        rbt.insert(i, "" + i);
+      }
+
+      assertTrue(rbt.get(1).equals("1"));
+    } catch (Exception e) {
+      fail("No exceptions from a valid get: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Tests get that does not have a key in the RBT
+   */
+  @Test
+  void testRBT_get_not_in_RBT() {
+    try {
+      for (int i = 0; i < 10; i++) {
+        rbt.insert(i, i + "");
+      }
+      rbt.get(20);
+    } catch (KeyNotFoundException e) {
+
+    } catch (Exception e) {
+      fail("No exceptions from an invalid get other than a KeyNotFound: "
+          + e.getMessage());
+    }
+  }
+
+  /**
+   * Tests numKeys() to see if it returns the correct size after every insert.
+   */
+  @Test
+  void testRBT_size() {
+    try {
+      for (int i = 0; i < 50; i++) {
+        rbt.insert(i, i + "");
+        // numKeys starts at 1
+        assertTrue(rbt.numKeys() == i + 1);
+      }
+
+    } catch (Exception e) {
+      fail("No exceptions from the numKeys: " + e.getMessage());
+    }
+  }
+
   // TODO: Add your own tests
 
   // Add tests to make sure that rebalancing occurs even if the

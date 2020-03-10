@@ -1,3 +1,14 @@
+
+//////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           HashTableTest.java
+//Files:           HashTable.java, HashTableADT.java, HashTableTest.java
+//Course:          (CS400, Spring, 2020)
+//
+//Author:          (Ariel Fu)
+//Email:           (afu5@wisc.edu)
+//Lecture Number: 001
+//
 // TODO: add imports as needed
 
 // org.junit.Assert.*; 
@@ -22,6 +33,7 @@ public class HashTableTest {
 
   @After
   public void tearDown() throws Exception {
+    ht = null;
   }
 
   /**
@@ -60,7 +72,7 @@ public class HashTableTest {
   @Test
   public void test_no_arg_constructor() {
     HashTable no_arg = new HashTable<Integer, Integer>();
-    assertTrue(no_arg.getCapacity() == 123);
+    assertTrue(no_arg.getCapacity() == 101);
     assertTrue(no_arg.getLoadFactorThreshold() == 0.75);
   }
 
@@ -85,23 +97,6 @@ public class HashTableTest {
       assertTrue(ht.numKeys() == 3);
     } catch (IllegalNullKeyException e) {
       fail("No exceptions should be thrown from simple insert");
-    }
-  }
-
-  /**
-   * Tests a rehashing and resizing
-   */
-  @Test
-  public void test_need_rehash_and_resize() {
-    try {
-      for (int i = 0; i < 8; i++) {
-        ht.insert(i, i);
-      }
-
-      assertTrue(ht.getCapacity() == 23);
-      assertTrue(ht.numKeys() == 8);
-    } catch (IllegalNullKeyException e) {
-      fail("No exceptions should be thrown from rehashing and resizing");
     }
   }
 
@@ -213,39 +208,29 @@ public class HashTableTest {
   }
 
   /**
-   * Tests #18 on Gradescope
+   * Tests resize and rehash operation
    */
   @Test
-  public void test_get_247001() {
+  public void test_resize() {
     try {
-      ht.insert(247001, 01);
-      ht.insert(00, 00);
-      ht.insert(80, 80);
-
-      ht.insert(30, 30);
-      ht.insert(27, 27);
-      ht.insert(23, 23);
-      ht.insert(49, 49);
-
-      ht.remove(247001);
-
-      ht.insert(50, 50);
-      ht.insert(12, 12);
-      ht.insert(247001, 01);
-
-      assertTrue(ht.numKeys() == 9);
-      ht.insert(15, 15);
-      ht.insert(93, 93);
-      assertTrue(ht.numKeys() == 11);
-      Integer one = 01;
-      System.out.println(one.hashCode());
-      System.out.println(ht.get(247001));
-
-      assertTrue(ht.get(247001) == 01);
-    } catch (KeyNotFoundException e) {
-      fail("No exceptions" + e.getMessage());
     } catch (Exception e) {
-      fail("No excpetions");
+      fail(e.getMessage());
     }
   }
+
+  /**
+   * Tests inserting large-ish values
+   */
+  @Test
+  public void testLargeValues() {
+    try {
+      for (int i = 0; i < 100; i++) {
+        ht.insert(i * 50, i);
+      }
+
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
 }

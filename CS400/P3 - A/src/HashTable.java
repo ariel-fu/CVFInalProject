@@ -76,11 +76,26 @@ public class HashTable<K extends Comparable<K>, V>
       this.value = value;
     }
   }
+  
+  private class NodeList extends ArrayList<Node> {
+	  private boolean insert(K key, V value) {
+		  for (int i=0 ; i<this.size(); i++) {
+			  Node currentNode = get(i);
+			  if (currentNode.getKey().compareTo(key)==0) {
+				  currentNode.setValue(value);
+				  return false;
+			  }
+		  }
+		  add((new Node(key,value));
+		  return true;
+	  }
+  }
 
   private int tableSize; // curr capacity
   private double loadFactorThreshold; // threshold
-  private ArrayList<Node> hashTable; // hashTable
+  private ArrayList<NodeList> hashTable; // hashTable
   private int currentNumberOfElements;
+  private int numberOfFilled
 
   /**
    * No arg-constructor that sets the capacity of the hashtable to 103, and the
@@ -88,16 +103,7 @@ public class HashTable<K extends Comparable<K>, V>
    */
   public HashTable() {
     // set to default numbers, 101 and the load factor threshold is 3/4 full.
-    tableSize = 101;
-    loadFactorThreshold = 0.75;
-    currentNumberOfElements = 0;
-    hashTable = new ArrayList<Node>();
-
-    // initialize every value in the ArrayList to null
-    for (int i = 0; i < tableSize; i++) {
-      hashTable.add(null);
-    }
-
+    this(101,.75);
   }
 
   // TODO: comment and complete a constructor that accepts
@@ -125,11 +131,11 @@ public class HashTable<K extends Comparable<K>, V>
       this.tableSize = initialCapacity;
       this.loadFactorThreshold = loadFactorThreshold;
       this.currentNumberOfElements = 0;
-      hashTable = new ArrayList<Node>();
+      hashTable = new ArrayList<NodeList>();
 
       // initialize every value in the ArrayList to null
       for (int i = 0; i < tableSize; i++) {
-        hashTable.add(null);
+        hashTable.add(new NodeList(0));
       }
     }
   }
@@ -149,26 +155,25 @@ public class HashTable<K extends Comparable<K>, V>
     }
 
     int hashIndex = key.hashCode() % tableSize;
+    
+    
 
     if (hashTable.get(hashIndex) == null) {
-      hashTable.set(hashIndex, new Node(key, value));
-      currentNumberOfElements++;
-    } else {
-      Node collisionNode = hashTable.get(hashIndex);
-
-      while (collisionNode.next != null
-          && collisionNode.getKey().compareTo(key) != 0) {
-        collisionNode = collisionNode.next;
-      }
-
-      if (collisionNode.getKey().compareTo(key) == 0) {
-        collisionNode.setValue(value);
-      } else {
-        collisionNode.next = new Node(key, value);
-      }
+    	hashTable.set(hashIndex, new NodeList(0));
+    }
+    
+    NodeList currentList =hashTable.get(hashIndex); 
+    
+    if (currentList.size()==0) {
+    	numberOfFilled++;
+    }
+    
+    boolean result = currentList.insert(key, value);
+    
+    if (result)
       currentNumberOfElements++;
     }
-
+  
     double currLoadFactor = currentNumberOfElements / tableSize;
     if (currLoadFactor >= loadFactorThreshold) {
       this.resizeAndRehash();

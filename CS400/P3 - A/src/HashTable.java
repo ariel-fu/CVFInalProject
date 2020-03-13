@@ -98,26 +98,28 @@ public class HashTable<K extends Comparable<K>, V>
      * 
      * @param key   - new key
      * @param value - new value
-     * @return true if there was no replacing, false if a value was replaced.
+     * @return true if there was replacing, false if the value was not replaced.
      */
-    private boolean insert(K key, V value) {
+    private boolean insertNewNode(K key, V value) {
       for (int i = 0; i < this.size(); i++) {
         Node currentNode = get(i);
         if (currentNode.getKey().compareTo(key) == 0) {
+          // replace the value and return false because the number of buckets
+          // does not need to increase.
           currentNode.setValue(value);
-          return false;
+          return true;
         }
       }
       // no replacing needed!
       this.add(new Node(key, value));
-      return true;
+      return false;
     }
 
     /**
      * This removes a Node from the list given a key
      * 
      * @param key - key of the Node to remove
-     * @return true if the Node was in the list and remmoved properly, false
+     * @return true if the Node was in the list and removed properly, false
      *         otherwise
      */
     private boolean remove(K key) {
@@ -147,9 +149,6 @@ public class HashTable<K extends Comparable<K>, V>
     this(101, .75);
   }
 
-  // TODO: comment and complete a constructor that accepts
-  // initial capacity and load factor threshold
-  // threshold is the load factor that causes a resize and rehash
   /**
    * Takes in a capacity for the hash table and a load factor threshold that
    * causes resizing and rehashing.
@@ -161,7 +160,10 @@ public class HashTable<K extends Comparable<K>, V>
    *                                  the load factor threshold is 0 or less.
    */
   public HashTable(int initialCapacity, double loadFactorThreshold) {
-    if (initialCapacity < 0) {
+    // if the initial capacity and the load factor threshold are 0 or less, an
+    // IllegalArgumentException will be thrown. (Professor Deppeler said that
+    // this is ok for me to throw.)
+    if (initialCapacity <= 0) {
       throw new IllegalArgumentException(
           "Initial capacity must be a positive integer.");
     } else if (loadFactorThreshold <= 0.0) {
@@ -171,23 +173,18 @@ public class HashTable<K extends Comparable<K>, V>
       // init all variables to the input or 0.
       this.tableSize = initialCapacity;
       this.loadFactorThreshold = loadFactorThreshold;
-      this.numBuckets = 0;
-      this.numElements = 0;
-      hashTable = new ArrayList<NodeList>();
-
-      // initialize every value in the ArrayList to null
-      for (int i = 0; i < tableSize; i++) {
-        hashTable.add(null);
-      }
+      // set the number of elements and buckets to 0 and initialize the
+      // ArrayList to the table size and populate with null values
+      this.resetTable();
     }
   }
 
   /**
    * Inserts a key-value pair into the hash table, will replace if the key
-   * matches with anyother key in the hashtable
+   * matches with any other key in the hash table
    * 
-   * @param key   - key associated with the pair
-   * @param value - value
+   * @param key   - key to get the hash code which in turn gets the hash index
+   * @param value - value associated with the key
    * @throws IllegalNullKeyException - if the key is null.
    */
   @Override
@@ -205,11 +202,11 @@ public class HashTable<K extends Comparable<K>, V>
       numBuckets++;
     }
 
-    boolean result = currentList.insert(key, value);
+    boolean replaceValue = currentList.insertNewNode(key, value);
 
     // if a new NodeList was created, aka there wasn't a collision, increment
     // the number of buckets filled.
-    if (result == true) {
+    if (replaceValue != true) {
       numElements++;
     }
 
@@ -236,19 +233,22 @@ public class HashTable<K extends Comparable<K>, V>
     int hashIndex = key.hashCode() % tableSize;
 
     NodeList currentList = hashTable.get(hashIndex);
+    if (currentList != null) {
+      boolean keyInTable = currentList.remove(key);
 
-    boolean result = currentList.remove(key);
-    // if removed, decrement the number of elements
-    if (result == true) {
-      numElements--;
-      // if the list of nodes is now empty, decrement the number of filled
-      // lists/buckets this hash table has.
-      if (currentList.size() == 0) {
-        numBuckets--;
+      // if removed, decrement the number of elements
+      if (keyInTable == true) {
+        numElements--;
+        // if the list of nodes is now empty, decrement the number of filled
+        // lists/buckets this hash table has.
+        if (currentList.size() == 0) {
+          numBuckets--;
+        }
       }
+      return keyInTable;
     }
-    return result;
-
+    return false; // key is not in table, the hash index does not map to a valid
+                  // bucket
   }
 
   /**
@@ -258,17 +258,14 @@ public class HashTable<K extends Comparable<K>, V>
   private void resizeAndRehash() {
 
     ArrayList<NodeList> temp = hashTable;
-    hashTable = new ArrayList<NodeList>();
 
+    // double the current table size and add 1
     tableSize = tableSize * 2 + 1;
 
-    for (int i = 0; i < tableSize; i++) {
-      hashTable.add(null);
-    }
+    // reset the table to be able to resize and rehash
+    this.resetTable();
 
-    // reset and reenter all the key-value pairs
-    this.numElements = 0;
-    this.numBuckets = 0;
+    // rehash :)
     for (NodeList nodeList : temp) {
       // add the node list to its respective hash index
       if (nodeList != null) {
@@ -277,12 +274,29 @@ public class HashTable<K extends Comparable<K>, V>
           // insert the current node into the hash table
           try {
             this.insert(currNode.getKey(), currNode.getValue());
-          } catch (IllegalNullKeyException e) {
+          } catch (IllegalNullKeyException e) { // most likely will not happen
           }
         }
       }
     }
     return;
+  }
+
+  /**
+   * Resets the number of elements and buckets to 0, and reinits the ArrayList
+   * to be filled to the table size with null values.
+   */
+  private void resetTable() {
+    hashTable = new ArrayList<NodeList>(tableSize);
+
+    this.numElements = 0;
+    this.numBuckets = 0;
+    // set the number of elements and buckets to 0 and initialize the
+    // ArrayList to the table size and populate with null values
+    for (int i = 0; i < tableSize; i++) {
+      hashTable.add(null);
+    }
+
   }
 
   /**
@@ -305,12 +319,13 @@ public class HashTable<K extends Comparable<K>, V>
    */
   @Override
   public V get(K key) throws IllegalNullKeyException, KeyNotFoundException {
+    // if key is null, throw IllegalNullKeyException
     if (key == null) {
       throw new IllegalNullKeyException("Null key");
     }
 
     Node keyNode = getNode(key);
-    // key was not in the hash table
+    // key was not in the hash table, throw KeyNotFound exception
     if (keyNode == null) {
       throw new KeyNotFoundException("Tried to get this key: " + key);
     } else {
@@ -321,7 +336,7 @@ public class HashTable<K extends Comparable<K>, V>
   /**
    * Gets the number of elements in the hash table
    * 
-   * @return the number of keys / elements
+   * @return the number of keys/elements in the table
    */
   @Override
   public int numKeys() {

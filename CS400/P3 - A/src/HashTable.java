@@ -230,7 +230,7 @@ public class HashTable<K extends Comparable<K>, V>
       throw new IllegalNullKeyException("Null key, cannot remove");
     }
 
-    int hashIndex = key.hashCode() % tableSize;
+    int hashIndex = this.getHashIndex(key);
 
     NodeList currentList = hashTable.get(hashIndex);
     if (currentList != null) {
@@ -243,6 +243,7 @@ public class HashTable<K extends Comparable<K>, V>
         // lists/buckets this hash table has.
         if (currentList.size() == 0) {
           numBuckets--;
+          hashTable.set(hashIndex, null);
         }
       }
       return keyInTable;

@@ -278,4 +278,20 @@ public class HashTableTest {
 
   }
 
+  @Test
+  public void testLoadFactor() {
+    try {
+      HashTable test = new HashTable<Integer, Integer>(2, 0.5);
+      test.insert(0, 0);
+      System.out.println(test.getLoadFactor());
+      assertTrue(test.getLoadFactor() == 1.0 / test.getCapacity());
+      test.insert(1, 1);
+      test.insert(2, 2);
+      assertTrue(test.getLoadFactor() == 3.0 / test.getCapacity());
+      test.insert(3, 3);
+      test.insert(4, 4);
+    } catch (Exception e) {
+
+    }
+  }
 }

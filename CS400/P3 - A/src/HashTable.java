@@ -161,7 +161,6 @@ public class HashTable<K extends Comparable<K>, V>
    *                                  the load factor threshold is 0 or less.
    */
   public HashTable(int initialCapacity, double loadFactorThreshold) {
-    // TODO: ask if need to do something if the IC and the LFT are negative
     if (initialCapacity < 0) {
       throw new IllegalArgumentException(
           "Initial capacity must be a positive integer.");
@@ -169,6 +168,7 @@ public class HashTable<K extends Comparable<K>, V>
       throw new IllegalArgumentException(
           "The load factor threshold must be a non-zero, positive integer");
     } else {
+      // init all variables to the input or 0.
       this.tableSize = initialCapacity;
       this.loadFactorThreshold = loadFactorThreshold;
       this.numBuckets = 0;
@@ -267,16 +267,13 @@ public class HashTable<K extends Comparable<K>, V>
     }
 
     for (NodeList nodeList : temp) {
+      // add the node list to its respective hash index
+      // get the first element's key to get the hash index and add in the
+      // NodeList to that index
       if (nodeList != null) {
-        for (int i = 0; i < nodeList.size(); i++) {
-          Node currNode = nodeList.get(i);
-          // insert the current node into the hash table
-          try {
-            this.insert(currNode.getKey(), currNode.getValue());
-          } catch (IllegalNullKeyException e) {
-          }
-
-        }
+        Node firstNode = nodeList.get(0);
+        int hashIndexOfList = this.getHashIndex(firstNode.getKey());
+        hashTable.set(hashIndexOfList, nodeList);
       }
     }
     return;
@@ -345,7 +342,7 @@ public class HashTable<K extends Comparable<K>, V>
   public double getLoadFactor() {
 
     // (how full the table is)
-    return (double) numBuckets / tableSize;
+    return ((double) numBuckets) / tableSize;
   }
 
   /**

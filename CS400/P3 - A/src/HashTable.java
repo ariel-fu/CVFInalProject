@@ -20,7 +20,7 @@ import java.util.ArrayList;
 //
 // TODO: describe the collision resolution scheme you have chosen
 // identify your scheme as open addressing or bucket
-// I will use open addressing (double hashing) to solve collisions.
+// I will use chained buckets. More specifically, an ArrayList of ArrayLists.
 //
 // TODO: explain your hashing algorithm here 
 // I am using .hashCode() to get the hash code for an element
@@ -72,30 +72,71 @@ public class HashTable<K extends Comparable<K>, V>
       return value;
     }
 
+    /**
+     * Setter method for the value of this node
+     * 
+     * @param value - new value
+     */
     private void setValue(V value) {
       this.value = value;
     }
+
   }
-  
+
+  /**
+   * This class models a list inside the hash table that stores the Nodes that
+   * have collisions.
+   * 
+   * @author Ariel
+   *
+   */
   private class NodeList extends ArrayList<Node> {
-	  private boolean insert(K key, V value) {
-		  for (int i=0 ; i<this.size(); i++) {
-			  Node currentNode = get(i);
-			  if (currentNode.getKey().compareTo(key)==0) {
-				  currentNode.setValue(value);
-				  return false;
-			  }
-		  }
-		  add((new Node(key,value));
-		  return true;
-	  }
+
+    /**
+     * This inserts a Node into the list. If the key is already in the list, it
+     * replaces the value
+     * 
+     * @param key   - new key
+     * @param value - new value
+     * @return true if there was no replacing, false if a value was replaced.
+     */
+    private boolean insert(K key, V value) {
+      for (int i = 0; i < this.size(); i++) {
+        Node currentNode = get(i);
+        if (currentNode.getKey().compareTo(key) == 0) {
+          currentNode.setValue(value);
+          return false;
+        }
+      }
+      // no replacing needed!
+      this.add(new Node(key, value));
+      return true;
+    }
+
+    /**
+     * This removes a Node from the list given a key
+     * 
+     * @param key - key of the Node to remove
+     * @return true if the Node was in the list and remmoved properly, false
+     *         otherwise
+     */
+    private boolean remove(K key) {
+      for (int i = 0; i < this.size(); i++) {
+        Node currentNode = get(i);
+        if (currentNode.getKey().compareTo(key) == 0) {
+          this.remove(i);
+          return true;
+        }
+      }
+      return false;
+    }
   }
 
   private int tableSize; // curr capacity
   private double loadFactorThreshold; // threshold
   private ArrayList<NodeList> hashTable; // hashTable
-  private int currentNumberOfElements;
-  private int numberOfFilled
+  private int numElements; // number of elements in the hash table
+  private int numBuckets; // number of filled slots in the hashTable
 
   /**
    * No arg-constructor that sets the capacity of the hashtable to 103, and the
@@ -103,7 +144,7 @@ public class HashTable<K extends Comparable<K>, V>
    */
   public HashTable() {
     // set to default numbers, 101 and the load factor threshold is 3/4 full.
-    this(101,.75);
+    this(101, .75);
   }
 
   // TODO: comment and complete a constructor that accepts
@@ -130,12 +171,13 @@ public class HashTable<K extends Comparable<K>, V>
     } else {
       this.tableSize = initialCapacity;
       this.loadFactorThreshold = loadFactorThreshold;
-      this.currentNumberOfElements = 0;
+      this.numBuckets = 0;
+      this.numElements = 0;
       hashTable = new ArrayList<NodeList>();
 
       // initialize every value in the ArrayList to null
       for (int i = 0; i < tableSize; i++) {
-        hashTable.add(new NodeList(0));
+        hashTable.add(null);
       }
     }
   }
@@ -154,30 +196,28 @@ public class HashTable<K extends Comparable<K>, V>
       throw new IllegalNullKeyException("Key is null.");
     }
 
-    int hashIndex = key.hashCode() % tableSize;
-    
-    
+    int hashIndex = this.getHashIndex(key);
+    NodeList currentList = hashTable.get(hashIndex);
+    // if there was no collision, increment the number of buckets
+    if (currentList == null) {
+      currentList = new NodeList();
+      hashTable.set(hashIndex, currentList);
+      numBuckets++;
+    }
 
-    if (hashTable.get(hashIndex) == null) {
-    	hashTable.set(hashIndex, new NodeList(0));
-    }
-    
-    NodeList currentList =hashTable.get(hashIndex); 
-    
-    if (currentList.size()==0) {
-    	numberOfFilled++;
-    }
-    
     boolean result = currentList.insert(key, value);
-    
-    if (result)
-      currentNumberOfElements++;
+
+    // if a new NodeList was created, aka there wasn't a collision, increment
+    // the number of buckets filled.
+    if (result == true) {
+      numElements++;
     }
-  
-    double currLoadFactor = currentNumberOfElements / tableSize;
+
+    double currLoadFactor = numBuckets / tableSize;
     if (currLoadFactor >= loadFactorThreshold) {
       this.resizeAndRehash();
     }
+
   }
 
   /**
@@ -195,26 +235,20 @@ public class HashTable<K extends Comparable<K>, V>
 
     int hashIndex = key.hashCode() % tableSize;
 
-    if (hashTable.get(hashIndex) != null) {
-      Node prev = null;
-      Node curr = hashTable.get(hashIndex);
+    NodeList currentList = hashTable.get(hashIndex);
 
-      while (curr.next != null && curr.getKey().compareTo(key) != 0) {
-        prev = curr;
-        curr = curr.next;
-      }
-
-      if (curr.getKey().compareTo(key) == 0) {
-        if (prev == null) {
-          hashTable.set(hashIndex, curr.next);
-        } else {
-          prev.next = curr.next;
-        }
-        currentNumberOfElements--;
-        return true; // removed
+    boolean result = currentList.remove(key);
+    // if removed, decrement the number of elements
+    if (result == true) {
+      numElements--;
+      // if the list of nodes is now empty, decrement the number of filled
+      // lists/buckets this hash table has.
+      if (currentList.size() == 0) {
+        numBuckets--;
       }
     }
-    return false;
+    return result;
+
   }
 
   /**
@@ -223,8 +257,8 @@ public class HashTable<K extends Comparable<K>, V>
    */
   private void resizeAndRehash() {
 
-    ArrayList<Node> temp = hashTable;
-    hashTable = new ArrayList<Node>();
+    ArrayList<NodeList> temp = hashTable;
+    hashTable = new ArrayList<NodeList>();
 
     tableSize = tableSize * 2 + 1;
 
@@ -232,16 +266,30 @@ public class HashTable<K extends Comparable<K>, V>
       hashTable.add(null);
     }
 
-    for (Node node : temp) {
-      while (node != null) {
-        try {
-          this.insert(node.getKey(), node.getValue());
-        } catch (IllegalNullKeyException e) {
-          // do nothing
+    for (NodeList nodeList : temp) {
+      if (nodeList != null) {
+        for (int i = 0; i < nodeList.size(); i++) {
+          Node currNode = nodeList.get(i);
+          // insert the current node into the hash table
+          try {
+            this.insert(currNode.getKey(), currNode.getValue());
+          } catch (IllegalNullKeyException e) {
+          }
+
         }
-        node = node.next;
       }
     }
+    return;
+  }
+
+  /**
+   * Helper method with the hashIndex
+   * 
+   * @param key - key that defines the hashCode
+   * @return the key's hashCode % by the tableSize
+   */
+  private int getHashIndex(K key) {
+    return Math.abs(key.hashCode()) % tableSize;
   }
 
   /**
@@ -259,6 +307,7 @@ public class HashTable<K extends Comparable<K>, V>
     }
 
     Node keyNode = getNode(key);
+    // key was not in the hash table
     if (keyNode == null) {
       throw new KeyNotFoundException("Tried to get this key: " + key);
     } else {
@@ -273,7 +322,7 @@ public class HashTable<K extends Comparable<K>, V>
    */
   @Override
   public int numKeys() {
-    return currentNumberOfElements;
+    return numElements;
   }
 
   /**
@@ -296,7 +345,7 @@ public class HashTable<K extends Comparable<K>, V>
   public double getLoadFactor() {
 
     // (how full the table is)
-    return currentNumberOfElements / tableSize;
+    return (double) numBuckets / tableSize;
   }
 
   /**
@@ -311,13 +360,13 @@ public class HashTable<K extends Comparable<K>, V>
   }
 
   /**
-   * Returns 3 - for double hashing
+   * Returns 4 - for array of arrays
    * 
-   * @return double hashing - 3
+   * @return CHAINING - array of arrays
    */
   @Override
   public int getCollisionResolution() {
-    return 3;
+    return 4;
   }
 
   /**
@@ -327,14 +376,14 @@ public class HashTable<K extends Comparable<K>, V>
    * @return null if the key is not in the hash table or the node
    */
   private Node getNode(K key) {
-    int hashIndex = Math.abs(key.hashCode() % tableSize);
-    Node keyNode = hashTable.get(hashIndex);
+    int hashIndex = this.getHashIndex(key);
+    NodeList keyNode = hashTable.get(hashIndex);
     if (keyNode != null) {
-      while (keyNode != null && keyNode.getKey().compareTo(key) != 0) {
-        keyNode = keyNode.next;
+      for (int i = 0; i < keyNode.size(); i++) {
+        if (keyNode.get(i).getKey().compareTo(key) == 0) {
+          return keyNode.get(i);
+        }
       }
-
-      return keyNode;
     }
     return null;
   }

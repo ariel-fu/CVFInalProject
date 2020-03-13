@@ -175,7 +175,6 @@ public class HashTableTest {
       fail("No exceptions should be thrown from remove all");
     }
   }
-  // TODO add your own tests of your implementation
 
   /**
    * Tries to get a key that is not in hash table
@@ -196,6 +195,9 @@ public class HashTableTest {
     }
   }
 
+  /**
+   * Tests getting a null value
+   */
   @Test
   public void test_get_null() {
     try {
@@ -213,7 +215,19 @@ public class HashTableTest {
   @Test
   public void test_resize() {
     try {
-    } catch (Exception e) {
+      HashTable test = new HashTable<Integer, Integer>(2, 0.5);
+      test.insert(10, 10);
+      assertTrue(test.getCapacity() == 2);
+      test.insert(40, 40);
+      assertTrue(test.getCapacity() == 2);
+
+      test.insert(37, 37);
+      assertTrue(test.getCapacity() == 5);
+
+      assertTrue(test.get(37) == Integer.valueOf(37));
+    } catch (IllegalNullKeyException e) {
+      fail(e.getMessage());
+    } catch (KeyNotFoundException e) {
       fail(e.getMessage());
     }
   }
@@ -224,13 +238,44 @@ public class HashTableTest {
   @Test
   public void testLargeValues() {
     try {
-      for (int i = 0; i < 100; i++) {
+      for (int i = 0; i < 5; i++) {
         ht.insert(i * 50, i);
       }
 
-    } catch (Exception e) {
+      for (int i = 0; i < 5; i++) {
+        try {
+          assertTrue(ht.get(i * 50) == i);
+        } catch (KeyNotFoundException e) {
+          fail("Key " + e.getMessage());
+        }
+      }
+
+    } catch (IllegalNullKeyException e) {
       fail(e.getMessage());
     }
+  }
+
+  /**
+   * Tests inserting large values, stops running under 10 seconds when inserting
+   * over 6000000.
+   */
+  @Test
+  public void testAddALot() {
+    try {
+      for (int i = 0; i < 6000000; i++) {
+        ht.insert(i, i);
+      }
+
+      for (int i = 0; i < 6000000; i++) {
+        assertTrue(ht.get(i).equals(Integer.valueOf(i)));
+      }
+
+    } catch (IllegalNullKeyException e) {
+      fail(e.getMessage());
+    } catch (KeyNotFoundException e) {
+      fail(e.getMessage());
+    }
+
   }
 
 }

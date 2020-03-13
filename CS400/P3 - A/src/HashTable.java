@@ -90,7 +90,9 @@ public class HashTable<K extends Comparable<K>, V>
    * @author Ariel
    *
    */
-  private class NodeList extends ArrayList<Node> {
+  private class NodeList
+
+      extends ArrayList<Node> {
 
     /**
      * This inserts a Node into the list. If the key is already in the list, it

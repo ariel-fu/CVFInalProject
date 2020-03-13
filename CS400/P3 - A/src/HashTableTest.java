@@ -323,4 +323,33 @@ public class HashTableTest {
       fail("No exceptions should be thrown");
     }
   }
+
+  /**
+   * Tests removing a key that is not in the hash table
+   */
+  @Test
+  public void testRemoveNothing() {
+    try {
+      assertTrue(!ht.remove(0));
+    } catch (IllegalNullKeyException e) {
+      fail("Not a null key");
+    } catch (Exception e) {
+      fail("Exception thrown from remove nothing");
+    }
+  }
+
+  /**
+   * Tests removing a null key, expected to throw an IllegalNullKey exception
+   */
+  @Test
+  public void testRemoveNull() {
+    try {
+      ht.remove(null);
+      fail("Did not throw an exception");
+    } catch (IllegalNullKeyException e) {
+
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
 }

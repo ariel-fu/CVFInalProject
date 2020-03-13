@@ -213,7 +213,7 @@ public class HashTable<K extends Comparable<K>, V>
       numElements++;
     }
 
-    double currLoadFactor = numBuckets / tableSize;
+    double currLoadFactor = this.getLoadFactor();
     if (currLoadFactor >= loadFactorThreshold) {
       this.resizeAndRehash();
     }
@@ -266,14 +266,20 @@ public class HashTable<K extends Comparable<K>, V>
       hashTable.add(null);
     }
 
+    // reset and reenter all the key-value pairs
+    this.numElements = 0;
+    this.numBuckets = 0;
     for (NodeList nodeList : temp) {
       // add the node list to its respective hash index
-      // get the first element's key to get the hash index and add in the
-      // NodeList to that index
       if (nodeList != null) {
-        Node firstNode = nodeList.get(0);
-        int hashIndexOfList = this.getHashIndex(firstNode.getKey());
-        hashTable.set(hashIndexOfList, nodeList);
+        for (int i = 0; i < nodeList.size(); i++) {
+          Node currNode = nodeList.get(i);
+          // insert the current node into the hash table
+          try {
+            this.insert(currNode.getKey(), currNode.getValue());
+          } catch (IllegalNullKeyException e) {
+          }
+        }
       }
     }
     return;

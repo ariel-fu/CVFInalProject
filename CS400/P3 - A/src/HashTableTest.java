@@ -215,16 +215,19 @@ public class HashTableTest {
   @Test
   public void test_resize() {
     try {
-      HashTable test = new HashTable<Integer, Integer>(2, 0.5);
-      test.insert(10, 10);
-      assertTrue(test.getCapacity() == 2);
-      test.insert(40, 40);
-      assertTrue(test.getCapacity() == 2);
+      HashTable test = new HashTable<Integer, Integer>(1, 1.0);
+      test.insert(0, 0);
+      assertTrue(test.getCapacity() == 3);
+      test.insert(1, 1);
+      assertTrue(test.getCapacity() == 3);
+      assertTrue(test.get(0) == Integer.valueOf(0));
 
-      test.insert(37, 37);
-      assertTrue(test.getCapacity() == 5);
+      test.insert(2, 2);
+      assertTrue(test.getCapacity() == 7);
 
-      assertTrue(test.get(37) == Integer.valueOf(37));
+      test.insert(7, 7);
+      assertTrue(test.getCapacity() == 7);
+      assertTrue(test.get(7) == Integer.valueOf(7));
     } catch (IllegalNullKeyException e) {
       fail(e.getMessage());
     } catch (KeyNotFoundException e) {
@@ -266,18 +269,42 @@ public class HashTableTest {
         ht.insert(i, i);
       }
 
-      for (int i = 0; i < 6000000; i++) {
+      ht.remove(0);
+      ht.remove(1);
+
+      for (int i = 2; i < 6000000; i++) {
         assertTrue(ht.get(i).equals(Integer.valueOf(i)));
+      }
+
+      for (int i = 2; i < 6000000; i++) {
+        assertTrue(ht.remove(i));
+      }
+
+      // try to get the two that were removed
+      try {
+        ht.get(0);
+      } catch (KeyNotFoundException e) {
+
+      }
+
+      try {
+        ht.get(1);
+      } catch (KeyNotFoundException e) {
       }
 
     } catch (IllegalNullKeyException e) {
       fail(e.getMessage());
     } catch (KeyNotFoundException e) {
       fail(e.getMessage());
+    } catch (Exception e) {
+      fail(e.getMessage());
     }
 
   }
 
+  /**
+   * Tests the load factor
+   */
   @Test
   public void testLoadFactor() {
     try {
@@ -288,10 +315,12 @@ public class HashTableTest {
       test.insert(1, 1);
       test.insert(2, 2);
       assertTrue(test.getLoadFactor() == 3.0 / test.getCapacity());
-      test.insert(3, 3);
-      test.insert(4, 4);
-    } catch (Exception e) {
 
+      test.remove(0);
+      assertTrue(test.getLoadFactor() == 2.0 / test.getCapacity());
+
+    } catch (Exception e) {
+      fail("No exceptions should be thrown");
     }
   }
 }

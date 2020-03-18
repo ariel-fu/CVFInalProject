@@ -72,9 +72,8 @@ public class MyProfiler<K extends Comparable<K>, V> {
 
     try {
 
-      int numElements = Integer.parseInt(args[0]); // TODO - figure out what to do with this
-    
       int numElements = Integer.parseInt(args[0]);
+
       int i = 0;
       MyProfiler<Integer, Integer> profile = new MyProfiler<Integer, Integer>();
 

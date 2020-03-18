@@ -29,6 +29,17 @@ import java.util.ArrayList;
 //       you must use the hashCode provided by the <K key> object
 //       and one of the techniques presented in lecture
 //
+// NOTE: this hashtable can only insert up to 20,000,000 key-value pairs before running into an OutOfMemoryError.
+// Use at your own risk :)
+/**
+ * This class models my hashtable that can take in two parameters, a key and a
+ * value. The key must be a Comparable type, and the value can be any type.
+ * 
+ * @author Ariel
+ *
+ * @param <K> - type that is Comparable
+ * @param <V> - any type
+ */
 public class HashTable<K extends Comparable<K>, V>
     implements HashTableADT<K, V> {
 

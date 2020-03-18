@@ -12,7 +12,7 @@ sample_profiler:
 
 my_profiler:
 	javac MyProfiler.java
-	$(MY_PROFILE_SETTINGS) MyProfiler 10000000
+	$(MY_PROFILE_SETTINGS) MyProfiler 100000
 
 clean:
 	\rm -f *.class

@@ -267,18 +267,18 @@ public class HashTableTest {
   public void testAddALot() {
     try {
       ht = new HashTable<Integer, Integer>();
-      for (int i = 0; i < 10000000; i++) {
+      for (int i = 0; i < 100000000; i++) {
         ht.insert(i, i);
       }
 
       ht.remove(0);
       ht.remove(1);
 
-      for (int i = 2; i < 10000000; i++) {
+      for (int i = 2; i < 100000000; i++) {
         assertTrue(ht.get(i).equals(Integer.valueOf(i)));
       }
 
-      for (int i = 2; i < 10000000; i++) {
+      for (int i = 2; i < 100000000; i++) {
         assertTrue(ht.remove(i));
       }
 

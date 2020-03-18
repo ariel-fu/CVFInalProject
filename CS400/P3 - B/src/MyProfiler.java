@@ -53,7 +53,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
   public static void main(String[] args) {
     try {
 //      int numElements = Integer.parseInt(args[0]); // TODO - figure out what to do with this
-      int numElements = 50;
+     int numElements =1000000000;
       MyProfiler<Integer, Integer> profile = new MyProfiler<Integer, Integer>();
       // TODO: complete the main method.
       // Create a profile object.

@@ -8,6 +8,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
   TreeMap<K, V> treemap;
 
   /**
+   * 
    * Initializes the hashtable and the treemap
    */
   public MyProfiler() {
@@ -51,9 +52,10 @@ public class MyProfiler<K extends Comparable<K>, V> {
    * @param args
    */
   public static void main(String[] args) {
+    int i = 0;
     try {
-//      int numElements = Integer.parseInt(args[0]); // TODO - figure out what to do with this
-      int numElements = 50;
+//      int numElements = Integer.parseInt(args[0]);
+      int numElements = 10000000;
       MyProfiler<Integer, Integer> profile = new MyProfiler<Integer, Integer>();
       // TODO: complete the main method.
       // Create a profile object.
@@ -62,20 +64,28 @@ public class MyProfiler<K extends Comparable<K>, V> {
       // execute the insert method of profile as many times as numElements
       // execute the retrieve method of profile as many times as numElements
       // See, ProfileSample.java for example.
-      for (int i = 0; i < numElements; i++) {
+      // insert numElements time
+      for (i = 0; i < numElements; i++) {
         profile.insert(i, i);
       }
 
-      for (int i = 0; i < numElements; i++) {
-        profile.retrieve(i);
+      // get all the key-value pairs inserted
+      for (int j = 0; j < numElements; j++) {
+        profile.retrieve(j);
       }
 
       String msg = String.format("Inserted and retreived %d (key,value) pairs",
           numElements);
       System.out.println(msg);
+    } catch (OutOfMemoryError e) {
+      // can I have this here? also ask
+      // TODO: remove i (?) ask professor
+      System.out.println("Usage: java MyProfiler <number_of_elements> " + i);
+//    System.out.println(e.getMessage());
+      System.exit(1);
     } catch (Exception e) {
-      System.out.println("Usage: java MyProfiler <number_of_elements>");
-      System.out.println(e.getMessage());
+      System.out.println("Usage: java MyProfiler <number_of_elements> " + i);
+//      System.out.println(e.getMessage());
       System.exit(1);
     }
   }

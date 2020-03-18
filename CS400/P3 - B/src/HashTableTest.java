@@ -266,18 +266,19 @@ public class HashTableTest {
   @Test
   public void testAddALot() {
     try {
-      for (int i = 0; i < 6000000; i++) {
+      ht = new HashTable<Integer, Integer>();
+      for (int i = 0; i < 10000000; i++) {
         ht.insert(i, i);
       }
 
       ht.remove(0);
       ht.remove(1);
 
-      for (int i = 2; i < 6000000; i++) {
+      for (int i = 2; i < 10000000; i++) {
         assertTrue(ht.get(i).equals(Integer.valueOf(i)));
       }
 
-      for (int i = 2; i < 6000000; i++) {
+      for (int i = 2; i < 10000000; i++) {
         assertTrue(ht.remove(i));
       }
 
@@ -351,6 +352,17 @@ public class HashTableTest {
 
     } catch (Exception e) {
       fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void add() {
+    try {
+      for (int i = 0; i < 10000000; i++) {
+        ht.insert(i, i);
+      }
+    } catch (Exception e) {
+
     }
   }
 }

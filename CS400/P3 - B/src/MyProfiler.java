@@ -8,6 +8,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
   TreeMap<K, V> treemap;
 
   /**
+   * 
    * Initializes the hashtable and the treemap
    */
   public MyProfiler() {
@@ -24,13 +25,21 @@ public class MyProfiler<K extends Comparable<K>, V> {
    */
   public void insert(K key, V value) throws IllegalNullKeyException {
     hashtable.insert(key, value);
-    treemap.put(key, value);
-    // TODO: complete insert method
-    // Insert K, V into both data structures
+
   }
 
   /**
-   * Runs the get method from the hashtable and the treemap
+   * Inserts the key and value pair into the tree map
+   * 
+   * @param key   - key
+   * @param value - value
+   */
+  private void insertTree(K key, V value) {
+    treemap.put(key, value);
+  }
+
+  /**
+   * Runs the get method from the hashtable
    * 
    * @param key - get this key
    * @throws KeyNotFoundException    - if the key is not in the hashtable
@@ -39,9 +48,18 @@ public class MyProfiler<K extends Comparable<K>, V> {
   public void retrieve(K key)
       throws IllegalNullKeyException, KeyNotFoundException {
     hashtable.get(key);
-    treemap.get(key);
+
     // TODO: complete the retrieve method
     // get value V for key K from data structures
+  }
+
+  /**
+   * Runs the get method from the tree map
+   * 
+   * @param key - key to get
+   */
+  private void retrieveTree(K key) {
+    treemap.get(key);
   }
 
   /**
@@ -51,31 +69,41 @@ public class MyProfiler<K extends Comparable<K>, V> {
    * @param args
    */
   public static void main(String[] args) {
+
     try {
-//      int numElements = Integer.parseInt(args[0]); // TODO - figure out what to do with this
-     int numElements =1000000000;
+
+      int numElements = Integer.parseInt(args[0]); // TODO - figure out what to do with this
+    
+      int numElements = Integer.parseInt(args[0]);
+      int i = 0;
       MyProfiler<Integer, Integer> profile = new MyProfiler<Integer, Integer>();
-      // TODO: complete the main method.
-      // Create a profile object.
-      // For example, Profile<Integer, Integer> profile = new Profile<Integer,
-      // Integer>();
-      // execute the insert method of profile as many times as numElements
-      // execute the retrieve method of profile as many times as numElements
-      // See, ProfileSample.java for example.
-      for (int i = 0; i < numElements; i++) {
+
+      // insert numElements time into the hash table
+      for (i = 0; i < numElements; i++) {
         profile.insert(i, i);
       }
 
-      for (int i = 0; i < numElements; i++) {
+      // insert numElements time into the tree map
+      for (i = 0; i < numElements; i++) {
+        profile.insertTree(i, i);
+      }
+
+      // get all the key-value pairs inserted into the hash table
+      for (i = 0; i < numElements; i++) {
         profile.retrieve(i);
+      }
+
+      // get all the key-value pairs inserted into the treemap
+      for (i = 0; i < numElements; i++) {
+        profile.retrieveTree(i);
       }
 
       String msg = String.format("Inserted and retreived %d (key,value) pairs",
           numElements);
       System.out.println(msg);
     } catch (Exception e) {
+      // print the exception message
       System.out.println("Usage: java MyProfiler <number_of_elements>");
-      System.out.println(e.getMessage());
       System.exit(1);
     }
   }

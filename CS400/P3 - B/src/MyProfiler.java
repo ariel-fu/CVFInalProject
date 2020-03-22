@@ -87,15 +87,15 @@ public class MyProfiler<K extends Comparable<K>, V> {
         profile.retrieve(i);
       }
 
-      // insert numElements time into the tree map
-      for (i = 0; i < numElements; i++) {
-        profile.insertTree(i, i);
-      }
-
-      // get all the key-value pairs inserted into the treemap
-      for (i = 0; i < numElements; i++) {
-        profile.retrieveTree(i);
-      }
+//      // insert numElements time into the tree map
+//      for (i = 0; i < numElements; i++) {
+//        profile.insertTree(i, i);
+//      }
+//
+//      // get all the key-value pairs inserted into the treemap
+//      for (i = 0; i < numElements; i++) {
+//        profile.retrieveTree(i);
+//      }
 
       String msg = String.format("Inserted and retreived %d (key,value) pairs",
           numElements);

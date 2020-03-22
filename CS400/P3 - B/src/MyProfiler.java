@@ -82,14 +82,14 @@ public class MyProfiler<K extends Comparable<K>, V> {
         profile.insert(i, i);
       }
 
-      // insert numElements time into the tree map
-      for (i = 0; i < numElements; i++) {
-        profile.insertTree(i, i);
-      }
-
       // get all the key-value pairs inserted into the hash table
       for (i = 0; i < numElements; i++) {
         profile.retrieve(i);
+      }
+
+      // insert numElements time into the tree map
+      for (i = 0; i < numElements; i++) {
+        profile.insertTree(i, i);
       }
 
       // get all the key-value pairs inserted into the treemap

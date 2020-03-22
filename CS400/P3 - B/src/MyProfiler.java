@@ -1,6 +1,7 @@
 
 // Used as the data structure to test our hash table against Tree Map
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 public class MyProfiler<K extends Comparable<K>, V> {
 
@@ -77,7 +78,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
       int i = 0;
       MyProfiler<Integer, Integer> profile = new MyProfiler<Integer, Integer>();
 
-      profile.wait(5000);
+      TimeUnit.SECONDS.sleep(5);
       // insert numElements time into the hash table
       for (i = 0; i < numElements; i++) {
         profile.insert(i, i);
@@ -88,7 +89,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
         profile.retrieve(i);
       }
 
-      profile.wait(5000);
+      TimeUnit.SECONDS.sleep(5);
 
       // insert numElements time into the tree map
       for (i = 0; i < numElements; i++) {
@@ -101,11 +102,11 @@ public class MyProfiler<K extends Comparable<K>, V> {
       }
 
       // do it again but inserting and retrieving from the tree first
-      profile.wait(5000);
+      TimeUnit.SECONDS.sleep(5);
 
       profile = new MyProfiler<Integer, Integer>();
 
-      profile.wait(5000);
+      TimeUnit.SECONDS.sleep(5);
 
       // insert numElements time into the tree map
       for (i = 0; i < numElements; i++) {
@@ -117,7 +118,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
         profile.retrieveTree(i);
       }
 
-      profile.wait(5000);
+      TimeUnit.SECONDS.sleep(5);
       // insert numElements time into the hash table
       for (i = 0; i < numElements; i++) {
         profile.insert(i, i);
@@ -127,14 +128,15 @@ public class MyProfiler<K extends Comparable<K>, V> {
       for (i = 0; i < numElements; i++) {
         profile.retrieve(i);
       }
-      profile.wait(5000);
+      TimeUnit.SECONDS.sleep(5);
 
       String msg = String.format("Inserted and retreived %d (key,value) pairs",
           numElements);
       System.out.println(msg);
     } catch (Exception e) {
       // print the exception message
-      System.out.println("Usage: java MyProfiler <number_of_elements>");
+      System.out.println(
+          "Usage: java MyProfiler <number_of_elements>" + e.getMessage());
       System.exit(1);
     }
   }

@@ -89,7 +89,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
         profile.retrieve(i);
       }
 
-      TimeUnit.SECONDS.sleep(5);
+      
 
       // insert numElements time into the tree map
       for (i = 0; i < numElements; i++) {
@@ -101,35 +101,9 @@ public class MyProfiler<K extends Comparable<K>, V> {
         profile.retrieveTree(i);
       }
 
-      // do it again but inserting and retrieving from the tree first
-      TimeUnit.SECONDS.sleep(5);
+     
 
-      profile = new MyProfiler<Integer, Integer>();
-
-      TimeUnit.SECONDS.sleep(5);
-
-      // insert numElements time into the tree map
-      for (i = 0; i < numElements; i++) {
-        profile.insertTree(i, i);
-      }
-
-      // get all the key-value pairs inserted into the treemap
-      for (i = 0; i < numElements; i++) {
-        profile.retrieveTree(i);
-      }
-
-      TimeUnit.SECONDS.sleep(5);
-      // insert numElements time into the hash table
-      for (i = 0; i < numElements; i++) {
-        profile.insert(i, i);
-      }
-
-      // get all the key-value pairs inserted into the hash table
-      for (i = 0; i < numElements; i++) {
-        profile.retrieve(i);
-      }
-      TimeUnit.SECONDS.sleep(5);
-
+     
       String msg = String.format("Inserted and retreived %d (key,value) pairs",
           numElements);
       System.out.println(msg);

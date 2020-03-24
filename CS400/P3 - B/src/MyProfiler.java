@@ -1,7 +1,6 @@
 
 // Used as the data structure to test our hash table against Tree Map
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 
 public class MyProfiler<K extends Comparable<K>, V> {
 
@@ -78,7 +77,6 @@ public class MyProfiler<K extends Comparable<K>, V> {
       int i = 0;
       MyProfiler<Integer, Integer> profile = new MyProfiler<Integer, Integer>();
 
-      TimeUnit.SECONDS.sleep(5);
       // insert numElements time into the hash table
       for (i = 0; i < numElements; i++) {
         profile.insert(i, i);
@@ -88,8 +86,6 @@ public class MyProfiler<K extends Comparable<K>, V> {
       for (i = 0; i < numElements; i++) {
         profile.retrieve(i);
       }
-
-      
 
       // insert numElements time into the tree map
       for (i = 0; i < numElements; i++) {
@@ -101,9 +97,6 @@ public class MyProfiler<K extends Comparable<K>, V> {
         profile.retrieveTree(i);
       }
 
-     
-
-     
       String msg = String.format("Inserted and retreived %d (key,value) pairs",
           numElements);
       System.out.println(msg);

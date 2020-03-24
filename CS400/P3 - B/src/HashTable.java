@@ -114,15 +114,25 @@ public class HashTable<K extends Comparable<K>, V>
      * @return true if there was replacing, false if the value was not replaced.
      */
     private boolean insertNewNode(K key, V value) {
-      for (int i = 0; i < this.size(); i++) {
-        Node currentNode = get(i);
-        if (currentNode.getKey().compareTo(key) == 0) {
-          // replace the value and return false because the number of buckets
-          // does not need to increase.
-          currentNode.setValue(value);
-          return true;
+//      for (int i = 0; i < this.size(); i++) {
+//        Node currentNode = get(i);
+//        if (currentNode.getKey().compareTo(key) == 0) {
+//          // replace the value and return false because the number of buckets
+//          // does not need to increase.
+//          currentNode.setValue(value);
+//          return true;
+//        }
+//      }
+
+      if (this.contains(key)) {
+        int currIndex = 0;
+        while (this.get(currIndex).getKey().compareTo(key) != 0) {
+          currIndex++;
         }
+        this.get(currIndex).setValue(value);
+        return true;
       }
+
       // no replacing needed!
       this.add(new Node(key, value));
       return false;

@@ -29,7 +29,8 @@ import java.util.ArrayList;
 //       you must use the hashCode provided by the <K key> object
 //       and one of the techniques presented in lecture
 //
-// NOTE: this hashtable can only insert up to 20,000,000 key-value pairs before running into an OutOfMemoryError.
+// NOTE: this hashtable can only insert up to 10,000,000 key-value pairs before running into an OutOfMemoryError.
+// 
 // Use at your own risk :)
 /**
  * This class models my hashtable that can take in two parameters, a key and a
@@ -114,15 +115,6 @@ public class HashTable<K extends Comparable<K>, V>
      * @return true if there was replacing, false if the value was not replaced.
      */
     private boolean insertNewNode(K key, V value) {
-//      for (int i = 0; i < this.size(); i++) {
-//        Node currentNode = get(i);
-//        if (currentNode.getKey().compareTo(key) == 0) {
-//          // replace the value and return false because the number of buckets
-//          // does not need to increase.
-//          currentNode.setValue(value);
-//          return true;
-//        }
-//      }
 
       if (this.contains(key)) {
         int currIndex = 0;

@@ -147,6 +147,28 @@ public class PackageManager {
     return "";
   }
 
+  /**
+   * Helper method to tell if there is a cycle in the curr list of data
+   * 
+   * @param data - List of data that needs to be checked for a cycle
+   * @return true if there is a cycle in the list
+   */
+  private boolean hasCycle(List<String> data) {
+    String[] visited = new String[data.size()];
+    for (int i = 0; i < data.size(); i++) {
+      // iterate through the visited list to see if we have previously visited
+      // this String.
+      for (int j = 0; j < visited.length; j++) {
+        if (data.get(i).equals(visited[j])) {
+          return true;
+        }
+      }
+      // add the String that we just visited to the visited list
+      visited[i] = data.get(i);
+    }
+    return false;
+  }
+
   public static void main(String[] args) {
     System.out.println("PackageManager.main()");
   }

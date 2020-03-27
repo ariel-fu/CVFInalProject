@@ -53,7 +53,6 @@ public class HashTable<K extends Comparable<K>, V>
   private class Node {
     private K key; // key in this node
     private V value; // value associated with the key
-    private Node next; // next value
 
     /**
      * Constructor that sets the key and value to the input
@@ -102,9 +101,7 @@ public class HashTable<K extends Comparable<K>, V>
    * @author Ariel
    *
    */
-  private class NodeList
-
-      extends ArrayList<Node> {
+  private class NodeList extends ArrayList<Node> {
 
     /**
      * This inserts a Node into the list. If the key is already in the list, it
@@ -115,7 +112,6 @@ public class HashTable<K extends Comparable<K>, V>
      * @return true if there was replacing, false if the value was not replaced.
      */
     private boolean insertNewNode(K key, V value) {
-
       if (this.contains(key)) {
         int currIndex = 0;
         while (this.get(currIndex).getKey().compareTo(key) != 0) {
@@ -161,7 +157,7 @@ public class HashTable<K extends Comparable<K>, V>
    */
   public HashTable() {
     // set to default numbers, 101 and the load factor threshold is 3/4 full.
-    this(101, .75);
+    this(101, 0.75);
   }
 
   /**

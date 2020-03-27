@@ -1,3 +1,13 @@
+//////////////////ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+//Title:           MyProfiler.java
+//Files:           HashTable.java, HashTableADT.java, HashTableTest.java, MyProfiler.java
+//Course:          (CS400, Spring, 2020)
+//
+//Author:          (Ariel Fu)
+//Email:           (afu5@wisc.edu)
+//Lecture Number: 001
+//
 
 // Used as the data structure to test our hash table against Tree Map
 import java.util.TreeMap;
@@ -49,8 +59,6 @@ public class MyProfiler<K extends Comparable<K>, V> {
       throws IllegalNullKeyException, KeyNotFoundException {
     hashtable.get(key);
 
-    // TODO: complete the retrieve method
-    // get value V for key K from data structures
   }
 
   /**

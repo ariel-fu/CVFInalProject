@@ -23,4 +23,9 @@ The screenshot shows the Stack Trace from the JDK Mission Control. It was used t
 
 5) Describe other screenshots if you include them in your submission.
 
+1. only_hashtable_insert_get --> runs only hashtable's insert and retrieve methods
+2. only_treemap_insert_get --> runs only treemap's insert and retrieve methods
+3. hashTable vs treemap --> shows how the hashtable compares again the treemap, the left hand side is the hashtable and the right hand side is the tree map. It focuses on method profiling and memory allocation. 
+It shows how my hashtable  has better/less CPU cycles, but takes more CPU space.
+
 

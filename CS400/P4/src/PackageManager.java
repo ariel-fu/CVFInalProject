@@ -1,7 +1,10 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.json.*;
 
 /**
  * Filename: PackageManager.java Project: p4 Authors:
@@ -29,13 +32,56 @@ import java.util.Set;
 
 public class PackageManager {
 
+  /**
+   * This class models the queue that I will use in my BFS
+   * 
+   * @author Ariel
+   *
+   */
+  private class Queue {
+    private ArrayList<String> queue;
+
+    private Queue() {
+      queue = new ArrayList<String>();
+    }
+
+    /**
+     * Adds a String to the end of the queue
+     * 
+     * @param data - new String to add to the queue
+     */
+    private void enqueue(String data) {
+      queue.add(data);
+    }
+
+    /**
+     * Removes and returns the first element of the queue.
+     * 
+     * @return the first element in the queue
+     */
+    private String dequeue() {
+      String returnValue = queue.get(0);
+      queue.remove(0);
+      return returnValue;
+    }
+
+    /**
+     * Returns if the queue is empty
+     * 
+     * @return if the size of the list = 0
+     */
+    private boolean isEmpty() {
+      return queue.size() == 0;
+    }
+  }
+
   private Graph graph;
 
   /*
    * Package Manager default no-argument constructor.
    */
   public PackageManager() {
-
+    graph = new Graph();
   }
 
   /**
@@ -49,8 +95,18 @@ public class PackageManager {
    * @throws ParseException        if the given json cannot be parsed
    */
   public void constructGraph(String jsonFilepath)
-      throws FileNotFoundException, IOException, java.text.ParseException {
+      throws FileNotFoundException, IOException, ParseException {
+    JSONObject json = new JSONObject();
+    String[] name = json.getNames("name");
 
+  }
+
+  private void addVertex(String[] name) {
+    if (name.length != 1) {
+      // what to do if the input is not good? ask deb
+    } else {
+      graph.addVertex(name[0]);
+    }
   }
 
   /**
@@ -148,28 +204,97 @@ public class PackageManager {
   }
 
   /**
-   * Helper method to tell if there is a cycle in the curr list of data
-   * 
-   * @param data - List of data that needs to be checked for a cycle
-   * @return true if there is a cycle in the list
+   * Helper method that performs the BFS
+   * @param v - start vertex
+   * @return a list of the vertices in the BFS order - depth first
    */
-  private boolean hasCycle(List<String> data) {
-    String[] visited = new String[data.size()];
-    for (int i = 0; i < data.size(); i++) {
-      // iterate through the visited list to see if we have previously visited
-      // this String.
-      for (int j = 0; j < visited.length; j++) {
-        if (data.get(i).equals(visited[j])) {
-          return true;
-        }
+  private List<String> BFS(String v) {
+    Queue queue = new Queue();
+    List<String> visited = new ArrayList<String>();
+    List<String> order = new ArrayList<String>();
+    // mark v as visited, and add it to the order
+    visited.add(v);
+    order.add(v);
+    // add v to the queue
+    queue.enqueue(v);
+
+    // while loop until the queue is empty
+    while (!queue.isEmpty()) {
+      // remove a vertex from the queue
+      String curr = queue.dequeue();
+      List<String> unvisitedSucc = this.getUnvisitedSuccsessors(visited,
+          graph.getAdjacentVerticesOf(curr));
+      // for each unvisited successor, mark as visited and add it to the queue
+      for (int i = 0; i < unvisitedSucc.size(); i++) {
+        curr = unvisitedSucc.get(i);
+        queue.enqueue(curr);
       }
-      // add the String that we just visited to the visited list
-      visited[i] = data.get(i);
     }
-    return false;
+
+    return order;
   }
 
-  public static void main(String[] args) {
+  /**
+   * A private method that performs a DFS on the start vertex and all its
+   * successors.
+   * 
+   * @param start - start vertex of the DFS
+   * @return a list of the graph in a DFS order
+   */
+  private List<String> DFS(String start) {
+    // keep a list of visited vertices, a list of unvisited successors,
+    // and a list of vertices that are adjacent to it.
+    List<String> visited = new ArrayList<String>(); // not sure about this one.
+    List<String> successors = graph.getAdjacentVerticesOf(start);
+    List<String> unvisited = this.getUnvisitedSuccsessors(visited, successors);
+
+    // mark the starting vertex as visited
+    visited.add(start);
+    // iterate through all the unvisited successors and call DFS on them
+    for (int i = 0; i < unvisited.size(); i++) {
+      List<String> recurse = this.DFS(unvisited.get(i));
+      visited = this.combineLists(visited, recurse);
+    }
+    return visited;
+  }
+
+  /**
+   * Combines two lists
+   * 
+   * @param retriever - takes the elements from the other list
+   * @param giver     - gives its elements to the retrieving list
+   * @return a list that combines both lists.
+   */
+  private List<String> combineLists(List<String> retriever,
+      List<String> giver) {
+    for (int i = 0; i < giver.size(); i++) {
+      retriever.add(giver.get(i));
+    }
+    return retriever;
+  }
+
+  /**
+   * Takes in two lists, one a list of visited vertices and another the list of
+   * successors, and determines which successors have not been visited
+   * 
+   * @param visited    - list of previously visited vertices
+   * @param successors - list of successors
+   * @return
+   */
+  private List<String> getUnvisitedSuccsessors(List<String> visited,
+      List<String> successors) {
+    List<String> unvisisted = new ArrayList<String>();
+    for (int i = 0; i < successors.size(); i++) {
+      String curr = successors.get(i);
+      if (!visited.contains(curr)) {
+        unvisisted.add(curr);
+      }
+    }
+    return unvisisted;
+  }
+
+  public static void main(String[] args)
+      throws JSONException, FileNotFoundException {
     System.out.println("PackageManager.main()");
   }
 

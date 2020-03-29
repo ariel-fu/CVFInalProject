@@ -1,10 +1,12 @@
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import org.json.*;
+
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 /**
  * Filename: PackageManager.java Project: p4 Authors:
@@ -93,12 +95,34 @@ public class PackageManager {
    * @throws FileNotFoundException if file path is incorrect
    * @throws IOException           if the give file cannot be read
    * @throws ParseException        if the given json cannot be parsed
+   * @throws ParseException
    */
-  public void constructGraph(String jsonFilepath)
-      throws FileNotFoundException, IOException, ParseException {
-    JSONObject json = new JSONObject();
-    String[] name = json.getNames("name");
+  public void constructGraph(String jsonFilepath) throws FileNotFoundException,
+      IOException, org.json.simple.parser.ParseException {
+    Object object = new JSONParser().parse(new FileReader(jsonFilepath));
+    JSONObject json = (JSONObject) object;
+    JSONArray packages = (JSONArray) json.get("packages");
+    Package[] listOfPackages = new Package[packages.size()];
+    for (int i = 0; i < packages.size(); i++) {
+      // get the package from the json file
+      JSONObject jsonPackage = (JSONObject) packages.get(i);
+      // get the name from the package object in the JSON file
+      String packageName = (String) jsonPackage.get("name");
+      // get the JSONArray of the dependencies of the current package
+      JSONArray jsonDependencies = (JSONArray) jsonPackage.get("dependencies");
+      // convert the JSONArray to a String[]
+      String[] dependencies = this.castToStringArray(jsonDependencies);
+      // add the new package to the list of packages
+      listOfPackages[i] = new Package(packageName, dependencies);
+    }
+  }
 
+  private String[] castToStringArray(JSONArray jsonDependencies) {
+    String[] dependencies = new String[jsonDependencies.size()];
+    for (int i = 0; i < dependencies.length; i++) {
+      dependencies[i] = (String) jsonDependencies.get(i);
+    }
+    return dependencies;
   }
 
   private void addVertex(String[] name) {
@@ -205,6 +229,7 @@ public class PackageManager {
 
   /**
    * Helper method that performs the BFS
+   * 
    * @param v - start vertex
    * @return a list of the vertices in the BFS order - depth first
    */

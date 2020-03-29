@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -360,7 +360,7 @@ public class Graph implements GraphADT {
    */
   @Override
   public Set<String> getAllVertices() {
-    Set verticesSet = new HashSet<String>();
+    Set verticesSet = new LinkedHashSet<String>();
     for (int i = 0; i < vertexList.size(); i++) {
       verticesSet.add(vertexList.get(i).getData());
     }

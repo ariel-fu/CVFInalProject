@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.json.simple.*;
-import org.json.simple.parser.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * Filename: PackageManager.java Project: p4 Authors:
@@ -33,6 +35,62 @@ import org.json.simple.parser.*;
  */
 
 public class PackageManager {
+
+  /**
+   * This class models a Stack that is used in my topological ordering algorithm
+   * 
+   * @author Ariel
+   *
+   */
+  private class Stack {
+    private ArrayList<String> stack; // Stack implemented as an ArrayList
+
+    /**
+     * No-arg constructor that inits the stack
+     */
+    private Stack() {
+      stack = new ArrayList<String>();
+    }
+
+    /**
+     * Adds a String to the top of the Stack
+     * 
+     * @param data - data of the String
+     */
+    private void push(String data) {
+      stack.add(data);
+    }
+
+    /**
+     * Gets the top of the stack without removing anything
+     * 
+     * @return the top of the stack
+     */
+    private String peek() {
+      // the end of the list is the head of the stack
+      return stack.get(stack.size() - 1);
+    }
+
+    /**
+     * removes the end of the list aka the head of the stack
+     * 
+     * @return the head of the stack
+     */
+    private String pop() {
+      String head = stack.get(stack.size() - 1);
+      stack.remove(head);
+      return head;
+    }
+
+    /**
+     * Returns if the stack is empty
+     * 
+     * @return true if the stack is empty
+     */
+    private boolean isEmpty() {
+      return stack.size() == 0;
+    }
+  }
 
   /**
    * This class models the queue that I will use in my BFS
@@ -95,17 +153,17 @@ public class PackageManager {
    * @throws FileNotFoundException if file path is incorrect
    * @throws IOException           if the give file cannot be read
    * @throws ParseException        if the given json cannot be parsed
-   * @throws ParseException
+   * 
    */
   public void constructGraph(String jsonFilepath) throws FileNotFoundException,
       IOException, org.json.simple.parser.ParseException {
     Object object = new JSONParser().parse(new FileReader(jsonFilepath));
     JSONObject json = (JSONObject) object;
-    JSONArray packages = (JSONArray) json.get("packages");
-    Package[] listOfPackages = new Package[packages.size()];
-    for (int i = 0; i < packages.size(); i++) {
+    JSONArray listOfPackages = (JSONArray) json.get("packages");
+    Package[] packages = new Package[listOfPackages.size()];
+    for (int i = 0; i < listOfPackages.size(); i++) {
       // get the package from the json file
-      JSONObject jsonPackage = (JSONObject) packages.get(i);
+      JSONObject jsonPackage = (JSONObject) listOfPackages.get(i);
       // get the name from the package object in the JSON file
       String packageName = (String) jsonPackage.get("name");
       // get the JSONArray of the dependencies of the current package
@@ -113,10 +171,39 @@ public class PackageManager {
       // convert the JSONArray to a String[]
       String[] dependencies = this.castToStringArray(jsonDependencies);
       // add the new package to the list of packages
-      listOfPackages[i] = new Package(packageName, dependencies);
+      packages[i] = new Package(packageName, dependencies);
+    }
+
+    // build a graph with the list of packages from the JSON file
+    this.buildGraph(packages);
+  }
+
+  /**
+   * Builds the graph given an array of Packages
+   * 
+   * @param packages - list of packages to be put into the graph
+   *
+   */
+  private void buildGraph(Package[] packages) {
+    for (int packageIndex = 0; packageIndex < packages.length; packageIndex++) {
+      Package currPackage = packages[packageIndex];
+      // add the name of the package as a vertex in the graph
+      graph.addVertex(currPackage.getName());
+      // get the String[] of dependencies to add to the graph
+      String[] dependencies = currPackage.getDependencies();
+      for (int depIndex = 0; depIndex < dependencies.length; depIndex++) {
+        // add an edge between the dependency vertex and the name of the package
+        graph.addEdge(dependencies[depIndex], currPackage.getName());
+      }
     }
   }
 
+  /**
+   * Takes in a JSONArrray and casts every element to a String
+   * 
+   * @param jsonDependencies - JSONArray to cast to a String[]
+   * @return a String[] that contains everything in the JSONArray
+   */
   private String[] castToStringArray(JSONArray jsonDependencies) {
     String[] dependencies = new String[jsonDependencies.size()];
     for (int i = 0; i < dependencies.length; i++) {
@@ -125,21 +212,13 @@ public class PackageManager {
     return dependencies;
   }
 
-  private void addVertex(String[] name) {
-    if (name.length != 1) {
-      // what to do if the input is not good? ask deb
-    } else {
-      graph.addVertex(name[0]);
-    }
-  }
-
   /**
    * Helper method to get all packages in the graph.
    * 
    * @return Set<String> of all the packages
    */
   public Set<String> getAllPackages() {
-    return null;
+    return graph.getAllVertices();
   }
 
   /**
@@ -166,6 +245,46 @@ public class PackageManager {
     return null;
   }
 
+  private String getStartVertex(String random) {
+    List<String> predecessors = this.getPredecessor(random);
+    String current = random;
+    while (predecessors != null) {
+      for (int i = 0; i < predecessors.size(); i++) {
+        current = predecessors.get(i);
+        predecessors = this.getPredecessor(predecessors.get(i));
+      }
+    }
+    return current;
+
+  }
+
+  /**
+   * 
+   * @param startVertex
+   * @return
+   */
+  private List<String> topologicalOrder(String startVertex) {
+    int num = graph.order(); // get the total number of vertices
+    Stack stack = new Stack();
+    // keep track of the order
+    List<String> topoOrder = new ArrayList<String>();
+    // keep track of visited vertices
+    boolean[] visited = new boolean[num];
+    int currIndex = num - 1;
+
+    // add the start vertex to the stack and set it to visited
+    stack.push(startVertex);
+    visited[currIndex] = true;
+    currIndex--; // for the next vertex
+
+    while (!stack.isEmpty()) {
+      String headOfStack = stack.peek(); // head of the stack
+
+    }
+
+    return topoOrder;
+  }
+
   /**
    * Given two packages - one to be installed and the other installed, return a
    * List of the packages that need to be newly installed.
@@ -190,6 +309,31 @@ public class PackageManager {
   public List<String> toInstall(String newPkg, String installedPkg)
       throws CycleException, PackageNotFoundException {
     return null;
+  }
+
+  /**
+   * Gets a list of predecessors of the vertex
+   * 
+   * @param vertex - get the predecessor of this vertex
+   * @return a list of predecessors of the vertex. If tit does not have any, it
+   *         returns null.
+   */
+  private List<String> getPredecessor(String vertex) {
+    Set<String> allVertices = graph.getAllVertices();
+    String[] vertices = (String[]) allVertices.toArray();
+    List<String> predecessors = new ArrayList<String>();
+    for (int i = 0; i < vertices.length; i++) {
+      List<String> adjList = graph.getAdjacentVerticesOf(vertices[i]);
+      for (int j = 0; j < adjList.size(); j++) {
+        if (adjList.get(i).equals(vertex)) {
+          predecessors.add(vertex);
+        }
+      }
+    }
+    if (predecessors.isEmpty()) {
+      return null;
+    }
+    return predecessors;
   }
 
   /**
@@ -318,8 +462,7 @@ public class PackageManager {
     return unvisisted;
   }
 
-  public static void main(String[] args)
-      throws JSONException, FileNotFoundException {
+  public static void main(String[] args) {
     System.out.println("PackageManager.main()");
   }
 

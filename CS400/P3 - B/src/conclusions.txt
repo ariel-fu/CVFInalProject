@@ -1,3 +1,7 @@
+Filename: Conclusions.txt
+Project: P3 B
+Author: Ariel Fu
+
 p3b CONCLUSIONS.TXT
 
 Complete p3b and answer the following questions using results of running JDK Mission Control to justify your conclusions..

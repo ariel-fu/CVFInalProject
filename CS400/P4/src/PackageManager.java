@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -256,7 +255,7 @@ public class PackageManager {
       throw new PackageNotFoundException("Package does not exist.");
     } else {
       // throws a CycleException if a cycle is detected in the graph
-      return topologicalOrderPredecessor(pkg);
+      return topologicalOrder(pkg);
     }
   }
 
@@ -294,9 +293,8 @@ public class PackageManager {
     } else {
       // either one of these two could throw a CycleException that indicates
       // there is a cycle.
-      List<String> topoOrderOfNewPkg = this.topologicalOrderPredecessor(newPkg);
-      List<String> topoOrderInstalledPkg = this
-          .topologicalOrderPredecessor(installedPkg);
+      List<String> topoOrderOfNewPkg = this.topologicalOrder(newPkg);
+      List<String> topoOrderInstalledPkg = this.topologicalOrder(installedPkg);
       // if there is no cycle, return the packages that still need to be
       // installed for the new package to be installed.
       return differenceBetween(topoOrderOfNewPkg, topoOrderInstalledPkg);
@@ -317,7 +315,8 @@ public class PackageManager {
     List<String> ANotB = new ArrayList<String>();
     for (int i = 0; i < A.size(); i++) {
       if (!B.contains(A.get(i))) {
-        ANotB.add(B.get(i));
+        ANotB.add(A.get(i));
+
       }
     }
     return ANotB;
@@ -345,9 +344,47 @@ public class PackageManager {
     if (startVertex == null) {
       throw new CycleException("There is a cycle in the graph!");
     } else { // clear skies!
-      return this.topologicalOrderSuccessor(startVertex);
-    }
+      // get the predecessors of each and merge them
+      Set<String> allVertices = predecessorGraph.getAllVertices();
+      String[] vertList = new String[allVertices.size()];
+      // get all the vertices into an array to iterate through
+      vertList = allVertices.toArray(vertList);
+      List<String> topoOrder = new ArrayList<String>();
+      // iterate through every vertex and add their predecessors to the list of
+      // predecessors.
+      for (int i = 0; i < vertList.length; i++) {
+        topoOrder = this.merge(this.topologicalOrder(vertList[i]), topoOrder);
+      }
 
+      return topoOrder;
+    }
+  }
+
+  /**
+   * Merges two lists, one that gives and one that takes and merges them into
+   * itself
+   * 
+   * @param giver  - gives the elements that are not already in merger
+   * @param merger - takes elements from giver and merges them into itself
+   * @return merger with all the elements from giver that it didn't originally
+   *         have
+   */
+  private List<String> merge(List<String> giver, List<String> merger) {
+    int everyThingIndex = 0;
+    // if everything is null, return the first list.
+    if (merger.size() == 0) {
+      return giver;
+    }
+    for (int i = 0; i < giver.size(); i++) {
+      if (!merger.get(everyThingIndex).equals(giver.get(i))) {
+        merger.add(i, giver.get(i));
+      }
+      // if it is still less than the size, increment its index
+      if (everyThingIndex < merger.size()) {
+        everyThingIndex++;
+      }
+    }
+    return merger;
   }
 
   /**
@@ -370,6 +407,7 @@ public class PackageManager {
     // dependencies it has.
     // then compare and return which ever vertex had the biggest integer
     Set<String> allVertices = predecessorGraph.getAllVertices();
+    // this will fail too...
     String[] verticesArray = (String[]) allVertices.toArray();
 
     int currHighestNum = 0;
@@ -392,12 +430,16 @@ public class PackageManager {
    */
   private String getVertexWithoutDependency() {
     Set<String> allVertices = successorGraph.getAllVertices();
-    String[] arrayOfVertices = (String[]) allVertices.toArray();
+
+    String[] vertices = new String[allVertices.size()];
+    vertices = allVertices.toArray(vertices);
     // iterate over every vertice to find the vertex without a predecessor
-    for (int i = 0; i < arrayOfVertices.length; i++) {
-      if (predecessorGraph.getAdjacentVerticesOf(arrayOfVertices[i]) == null) {
+    for (int i = 0; i < vertices.length; i++) {
+      // if the size of the list of adjacent vertices to the current vertex is
+      // 0, it has no predecessors.
+      if (predecessorGraph.getAdjacentVerticesOf(vertices[i]).size() == 0) {
         // found a vertex that does not rely on another vertex
-        return arrayOfVertices[i];
+        return vertices[i];
       }
     }
     // if every vertex relies on another vertex, there must be a cycle.
@@ -452,45 +494,7 @@ public class PackageManager {
     return order.size();
   }
 
-//  /**
-//   * A private method that performs a DFS on the start vertex and all its
-//   * successors.
-//   * 
-//   * @param start - start vertex of the DFS
-//   * @return a list of the graph in a DFS order
-//   */
-//  private List<String> DFS(String start) {
-//    // keep a list of visited vertices, a list of unvisited successors,
-//    // and a list of vertices that are adjacent to it.
-//    List<String> visited = new ArrayList<String>(); // not sure about this one.
-//    List<String> successors = graph.getAdjacentVerticesOf(start);
-//    List<String> unvisited = this.getUnvisitedSuccsessors(visited, successors);
-//
-//    // mark the starting vertex as visited
-//    visited.add(start);
-//    // iterate through all the unvisited successors and call DFS on them
-//    for (int i = 0; i < unvisited.size(); i++) {
-//      List<String> recurse = this.DFS(unvisited.get(i));
-//      visited = this.combineLists(visited, recurse);
-//    }
-//    return visited;
-//  }
-//
-//  /**
-//   * Combines two lists
-//   * 
-//   * @param retriever - takes the elements from the other list
-//   * @param giver     - gives its elements to the retrieving list
-//   * @return a list that combines both lists.
-//   */
-//  private List<String> combineLists(List<String> retriever,
-//      List<String> giver) {
-//    for (int i = 0; i < giver.size(); i++) {
-//      retriever.add(giver.get(i));
-//    }
-//    return retriever;
-//  }
-//
+
   /**
    * Takes in two lists, one a list of visited vertices and another the list of
    * successors, and determines which successors have not been visited
@@ -518,19 +522,15 @@ public class PackageManager {
    * @return a list of the vertices that startVertex depends on.
    * @throws CycleException - if there is a cycle in the graph
    */
-  private List<String> topologicalOrderPredecessor(String startVertex)
+  private List<String> topologicalOrder(String startVertex)
       throws CycleException {
-    int num = predecessorGraph.order(); // get the total number of vertices
     Stack stack = new Stack();
     // keep track of the vertices in the stack
     List<String> verticesInStack = new ArrayList<String>();
 
     // keep track of the order
     List<String> topoOrder = new ArrayList<String>();
-    // inits the array (move on)
-    for (int i = 0; i < num; i++) {
-      topoOrder.add(null);
-    }
+
     // keep track of visited vertices
     List<String> visited = new ArrayList<String>();
 
@@ -544,103 +544,122 @@ public class PackageManager {
     int index = 0; // current index in the predecessor list
     // while the stack is not empty
     // do i even need index>predecessors.size() (?) pondor on this one
-    while (!stack.isEmpty() && index > predecessors.size()) {
+    while (!stack.isEmpty()) {
       String currHead = stack.peek(); // head of the stack
-
-      // set the list to the list of adjacent vertices of the current vertex
+      // get all the predecessors of the current pacakge at the head of the
+      // stack
       predecessors = predecessorGraph.getAdjacentVerticesOf(currHead);
+
+      // check if there is a cycle
+      if (this.isCycle(predecessors, verticesInStack)) {
+        throw new CycleException("There is a cycle in the graph.");
+      }
 
       // all predecessors have been visited
       if (visited.containsAll(predecessors)) {
         // pop of the head and remove it from the list of vertices in the stack.
         currHead = stack.pop();
         verticesInStack.remove(currHead);
-        // add to the index num in the topological order list.
-        topoOrder.add(num, currHead);
+        // add to the ned of the list
+        topoOrder.add(currHead);
+
         // set the index in the predecessor list back to 0
         index = 0;
       } else {
-        String nextPrd = predecessors.get(index);
-        if (verticesInStack.contains(nextPrd)) {
-          // TODO: ask deb if adding a str msg to cycleexception class is ok
-          throw new CycleException("Cycle caused by -->  " + nextPrd);
-        } else {
-          // mark as visited, add to stack, increment the index in the
-          // predecessor list, and add to the list of vertices in the stack
-          visited.add(nextPrd);
-          stack.push(nextPrd);
-          verticesInStack.add(nextPrd);
-          index++;
-        }
-      }
-    }
-    // return the list of the vertices in topological order
-    return topoOrder;
-  }
-
-  /**
-   * Gets the topological order of the start vertex
-   * 
-   * @param startVertex - vertex to start at for the topological order
-   * @return a list of the vertices that depend on the start vertex
-   */
-  private List<String> topologicalOrderSuccessor(String startVertex)
-      throws CycleException {
-    int num = successorGraph.order(); // get the total number of vertices
-    Stack stack = new Stack();
-    // keep track of the vertices in the stack
-    List<String> verticesInStack = new ArrayList<String>();
-
-    // keep track of the order
-    List<String> topoOrder = new ArrayList<String>();
-    // inits the array (move on)
-    for (int i = 0; i < num; i++) {
-      topoOrder.add(null);
-    }
-    // keep track of visited vertices
-    List<String> visited = new ArrayList<String>();
-
-    // add the start vertex to the stack and the list of vertices in the stack.
-    // Then set it to visited
-    stack.push(startVertex);
-    verticesInStack.add(startVertex);
-    visited.add(startVertex);
-    // create a list that holds the predecessors of this vertex (package)
-    List<String> successors = new ArrayList<String>();
-    int index = 0; // current index in the predecessor list
-    // while the stack is not empty
-    // do i even need index>predecessors.size() (?) pondor on this one
-    while (!stack.isEmpty() && index > successors.size()) {
-      String currHead = stack.peek(); // head of the stack
-
-      // set the list to the list of adjacent vertices of the current vertex
-      successors = successorGraph.getAdjacentVerticesOf(currHead);
-
-      // all successors have been visited
-      if (visited.containsAll(successors)) {
-        // pop of the head and remove it from the list of vertices in the stack.
-        currHead = stack.pop();
-        verticesInStack.remove(currHead);
-        // add to the index num in the topological order list.
-        topoOrder.add(num, currHead);
-        // set the index in the predecessor list back to 0
-        index = 0;
-      } else {
-        String nextPrd = successors.get(index);
+        String predescessor = predecessors.get(index);
 
         // mark as visited, add to stack, increment the index in the
         // predecessor list, and add to the list of vertices in the stack
-        visited.add(nextPrd);
-        stack.push(nextPrd);
-        verticesInStack.add(nextPrd);
+        visited.add(predescessor);
+        stack.push(predescessor);
+        verticesInStack.add(predescessor);
         index++;
       }
-
     }
     // return the list of the vertices in topological order
     return topoOrder;
   }
 
+  private String getNextPredecessor(List<String> predecesors, List<String>)
+  /**
+   * Checks if any of the predecessors are also in the list of vertices already
+   * in the Stack
+   * 
+   * @param predecessors    - list of predecessors
+   * @param verticesInStack - list of vertices already in the Stack
+   * @return true if any of the predecessors are also in the Stack list
+   */
+  private boolean isCycle(List<String> predecessors,
+      List<String> verticesInStack) {
+    for (int i = 0; i < predecessors.size(); i++) {
+      if (verticesInStack.contains(predecessors.get(i))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+//  /**
+//   * Gets the topological order of the start vertex
+//   * 
+//   * @param startVertex - vertex to start at for the topological order
+//   * @return a list of the vertices that depend on the start vertex
+//   */
+//  private List<String> topologicalOrderSuccessor(String startVertex)
+//      throws CycleException {
+//    Stack stack = new Stack();
+//    // keep track of the vertices in the stack
+//    List<String> verticesInStack = new ArrayList<String>();
+//
+//    // keep track of the order
+//    List<String> topoOrder = new ArrayList<String>();
+//
+//    // keep track of visited vertices
+//    List<String> visited = new ArrayList<String>();
+//
+//    // add the start vertex to the stack and the list of vertices in the stack.
+//    // Then set it to visited
+//    stack.push(startVertex);
+//    verticesInStack.add(startVertex);
+//    visited.add(startVertex);
+//    // create a list that holds the predecessors of this vertex (package)
+//    List<String> successors = new ArrayList<String>();
+//    int index = 0; // current index in the predecessor list
+//    // while the stack is not empty
+//    // do i even need index>predecessors.size() (?) pondor on this one
+//    while (!stack.isEmpty()) {
+//      String currHead = stack.peek(); // head of the stack
+//
+//      // set the list to the list of adjacent vertices of the current vertex
+//      successors = successorGraph.getAdjacentVerticesOf(currHead);
+//      // check if the current successor is already in the Stack -> cycle
+//      if (this.isCycle(successors, verticesInStack)) {
+//        throw new CycleException("Cycle in the graph");
+//      }
+//      // all successors have been visited
+//      if (visited.containsAll(successors)) {
+//        // pop of the head and remove it from the list of vertices in the stack.
+//        currHead = stack.pop();
+//        verticesInStack.remove(currHead);
+//        // add to the head of the list, building it backwards
+//        topoOrder.add(0, currHead);
+//        // set the index in the predecessor list back to 0
+//        index = 0;
+//      } else {
+//        String succ = successors.get(index);
+//        // mark as visited, add to stack, increment the index in the
+//        // predecessor list, and add to the list of vertices in the stack
+//        visited.add(succ);
+//        stack.push(succ);
+//        verticesInStack.add(succ);
+//        index++;
+//      }
+//
+//    }
+//    // return the list of the vertices in topological order
+//    return topoOrder;
+//  }
+//
   public static void main(String[] args) {
     System.out.println("PackageManager.main()");
   }

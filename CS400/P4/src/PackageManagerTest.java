@@ -1,9 +1,9 @@
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.json.simple.parser.ParseException;
@@ -27,7 +27,7 @@ class PackageManagerTest {
   void setUp() throws Exception {
     pm = new PackageManager();
     pm.constructGraph(
-        "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\valid.json");
+        "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\valid.json");
     graph = new Graph();
   }
 
@@ -44,7 +44,7 @@ class PackageManagerTest {
       pm = new PackageManager();
       // construct a graph using the package manager
       pm.constructGraph(
-          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\valid.json");
+          "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\valid.json");
       Set<String> pmGraph = pm.getAllPackages();
       // compare to the graph that i constructed myself
       graph.addEdge("A", "B");
@@ -73,7 +73,7 @@ class PackageManagerTest {
     try {
       pm = new PackageManager();
       pm.constructGraph(
-          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\cyclic.json");
+          "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\cyclic.json");
       Set<String> pmSet = pm.getAllPackages();
       graph.addEdge("A", "B");
       graph.addEdge("B", "A");
@@ -134,9 +134,8 @@ class PackageManagerTest {
     try {
       pm = new PackageManager();
       pm.constructGraph(
-          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\cyclic.json");
-      java.util.List<String> cycleExceptionThrower = pm
-          .getInstallationOrder("A");
+          "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\cyclic.json");
+      List<String> cycleExceptionThrower = pm.getInstallationOrder("A");
       fail("CycleException was not thrown from this line");
     } catch (CycleException e) {
       // do nothing, we wanted this to happen
@@ -193,7 +192,7 @@ class PackageManagerTest {
     try {
       pm = new PackageManager();
       pm.constructGraph(
-          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\cyclic.json");
+          "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\cyclic.json");
       pm.toInstall("A", "B");
       fail("Cycle exception should have been thrown here");
     } catch (CycleException e) {
@@ -251,12 +250,13 @@ class PackageManagerTest {
     try {
       pm = new PackageManager();
       pm.constructGraph(
-          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\cyclic.json");
+          "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\cyclic.json");
       pm.getInstallationOrderForAllPackages();
       fail("Cycle exception should have been thrown here");
     } catch (CycleException e) {
 
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       fail("Close but not quite");
     }
   }
@@ -276,19 +276,42 @@ class PackageManagerTest {
     }
   }
 
+  /**
+   * Tests if getPackageWithMaxDependencies will throw a CycleException
+   */
   @Test
   void testCyclePackageMaxDependency() {
     try {
 
       pm = new PackageManager();
       pm.constructGraph(
-          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\cyclic.json");
-      pm.toInstall("A", "B");
+          "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\cyclic.json");
+      pm.getPackageWithMaxDependencies();
       fail("Cycle exception should have been thrown here");
 
     } catch (Exception e) {
     }
 
+  }
+
+  /**
+   * Tests every method that detects and throws a CycleException
+   */
+  @Test
+  void testCycle() {
+    try {
+      pm = new PackageManager();
+      pm.constructGraph(
+          "C:\\Users\\Ariel\\git\\Ariel\\CS400\\P4\\src\\testcyclic.json");
+    } catch (Exception e) {
+      fail("No exceptions from constructing");
+    }
+    // test getAllPackages
+    try {
+      pm.getAllPackages();
+    } catch (Exception e) {
+      fail("This method does not even throww ");
+    }
   }
   // TODO: add test cases for what is not a cycle but looks like one
   // TODO: add test case for a cycle ?

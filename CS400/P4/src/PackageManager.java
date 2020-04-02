@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,11 +33,11 @@ import org.json.simple.parser.ParseException;
  * You may add a main method, but we will test all methods with our own Test
  * classes.
  * 
- * My implementation may differ from what comes first, intuitionally. Instead of
- * having A's dependencies point to A, A points to its dependencies. For
- * example: if A depends on B and C, A (in this graph) would have an edge that
- * has a source at A and a destination at B, and another edge that has a source
- * at A and a destination at C.
+ * My implementation may differ from what comes first. Instead of having A's
+ * dependencies point to A, A points to its dependencies. For example: if A
+ * depends on B and C, A (in this graph) would have an edge that has a source at
+ * A and a destination at B, and another edge that has a source at A and a
+ * destination at C.
  */
 
 public class PackageManager {
@@ -97,58 +98,13 @@ public class PackageManager {
     }
   }
 
-  /**
-   * This class models the queue that I will use in my BFS
-   * 
-   * @author Ariel
-   *
-   */
-  private class Queue {
-    private ArrayList<String> queue;
-
-    private Queue() {
-      queue = new ArrayList<String>();
-    }
-
-    /**
-     * Adds a String to the end of the queue
-     * 
-     * @param data - new String to add to the queue
-     */
-    private void enqueue(String data) {
-      queue.add(data);
-    }
-
-    /**
-     * Removes and returns the first element of the queue.
-     * 
-     * @return the first element in the queue
-     */
-    private String dequeue() {
-      String returnValue = queue.get(0);
-      queue.remove(0);
-      return returnValue;
-    }
-
-    /**
-     * Returns if the queue is empty
-     * 
-     * @return if the size of the list = 0
-     */
-    private boolean isEmpty() {
-      return queue.size() == 0;
-    }
-  }
-
   private Graph predecessorGraph;
-  private Graph successorGraph;
 
   /*
    * Package Manager default no-argument constructor.
    */
   public PackageManager() {
     predecessorGraph = new Graph();
-    successorGraph = new Graph();
   }
 
   /**
@@ -201,7 +157,6 @@ public class PackageManager {
       for (int depIndex = 0; depIndex < dependencies.length; depIndex++) {
         // add an edge between the dependency vertex and the name of the package
         predecessorGraph.addEdge(currPackage.getName(), dependencies[depIndex]);
-        successorGraph.addEdge(dependencies[depIndex], currPackage.getName());
       }
     }
   }
@@ -426,11 +381,11 @@ public class PackageManager {
    *         cycle.
    */
   private String getVertexWithoutDependency() {
-    Set<String> allVertices = successorGraph.getAllVertices();
+    Set<String> allVertices = predecessorGraph.getAllVertices();
 
     String[] vertices = new String[allVertices.size()];
     vertices = allVertices.toArray(vertices);
-    // iterate over every vertice to find the vertex without a predecessor
+    // iterate over every vertex to find the vertex without a predecessor
     for (int i = 0; i < vertices.length; i++) {
       // if the size of the list of adjacent vertices to the current vertex is
       // 0, it has no predecessors.
@@ -441,54 +396,6 @@ public class PackageManager {
     }
     // if every vertex relies on another vertex, there must be a cycle.
     return null; // cycle?
-  }
-
-  /**
-   * Helper method that performs the BFS
-   * 
-   * @param v - start vertex
-   * @return the number of vertices the start vertex visited
-   * @throws CycleException
-   */
-  private int BFS(String v) throws CycleException {
-    Queue queue = new Queue();
-    // keep a list of visited vertices and a list of the order of the BFS
-    List<String> visited = new ArrayList<String>();
-    List<String> order = new ArrayList<String>();
-    // also keep a list of the vertices currently in the queue
-    List<String> inQueue = new ArrayList<String>();
-
-    // mark v as visited, and add it to the order
-    visited.add(v);
-    order.add(v);
-    // add v to the queue and the list of vertices that are in the queue
-    queue.enqueue(v);
-    inQueue.add(v);
-
-    // while loop until the queue is empty
-    while (!queue.isEmpty()) {
-      // remove a vertex from the queue and the list of vertices in the queue
-      String curr = queue.dequeue();
-      List<String> unvisitedSucc = this.getUnvisitedSuccsessors(visited,
-          predecessorGraph.getAdjacentVerticesOf(curr));
-      // for each unvisited successor, mark as visited and add it to the queue
-      for (int i = 0; i < unvisitedSucc.size(); i++) {
-        curr = unvisitedSucc.get(i);
-        // if the queue already contains this "unvisited successor", there is a
-        // cycle.
-        if (inQueue.contains(curr)) {
-          throw new CycleException();
-        } else {
-          // add the unvisited successor to the queue and the list of vertices
-          // in
-          // the queue
-          queue.enqueue(curr);
-          inQueue.add(curr);
-        }
-      }
-    }
-
-    return order.size();
   }
 
   /**
@@ -555,26 +462,6 @@ public class PackageManager {
   }
 
   /**
-   * Takes in two lists, one a list of visited vertices and another the list of
-   * successors, and determines which successors have not been visited
-   * 
-   * @param visited    - list of previously visited vertices
-   * @param successors - list of successors
-   * @return
-   */
-  private List<String> getUnvisitedSuccsessors(List<String> visited,
-      List<String> successors) {
-    List<String> unvisisted = new ArrayList<String>();
-    for (int i = 0; i < successors.size(); i++) {
-      String curr = successors.get(i);
-      if (!visited.contains(curr)) {
-        unvisisted.add(curr);
-      }
-    }
-    return unvisisted;
-  }
-
-  /**
    * Gets the topological order of the start vertex
    * 
    * @param startVertex - vertex to start at for the topological order
@@ -600,12 +487,10 @@ public class PackageManager {
     visited.add(startVertex);
     // create a list that holds the predecessors of this vertex (package)
     List<String> predecessors = new ArrayList<String>();
-    int index = 0; // current index in the predecessor list
-    // while the stack is not empty
-    // do i even need index>predecessors.size() (?) pondor on this one
+    // iterate through, adding and removing objects from the Stack
     while (!stack.isEmpty()) {
       String currHead = stack.peek(); // head of the stack
-      // get all the predecessors of the current pacakge at the head of the
+      // get all the predecessors of the current package at the head of the
       // stack
       predecessors = predecessorGraph.getAdjacentVerticesOf(currHead);
 
@@ -623,7 +508,7 @@ public class PackageManager {
         topoOrder.add(currHead);
 
         // set the index in the predecessor list back to 0
-        index = 0;
+
       } else {
         String predescessor = this.getNextPredecessor(predecessors, visited);
 
@@ -632,7 +517,6 @@ public class PackageManager {
         visited.add(predescessor);
         stack.push(predescessor);
         verticesInStack.add(predescessor);
-        index++;
       }
     }
     // return the list of the vertices in topological order
@@ -674,67 +558,11 @@ public class PackageManager {
     return false;
   }
 
-//  /**
-//   * Gets the topological order of the start vertex
-//   * 
-//   * @param startVertex - vertex to start at for the topological order
-//   * @return a list of the vertices that depend on the start vertex
-//   */
-//  private List<String> topologicalOrderSuccessor(String startVertex)
-//      throws CycleException {
-//    Stack stack = new Stack();
-//    // keep track of the vertices in the stack
-//    List<String> verticesInStack = new ArrayList<String>();
-//
-//    // keep track of the order
-//    List<String> topoOrder = new ArrayList<String>();
-//
-//    // keep track of visited vertices
-//    List<String> visited = new ArrayList<String>();
-//
-//    // add the start vertex to the stack and the list of vertices in the stack.
-//    // Then set it to visited
-//    stack.push(startVertex);
-//    verticesInStack.add(startVertex);
-//    visited.add(startVertex);
-//    // create a list that holds the predecessors of this vertex (package)
-//    List<String> successors = new ArrayList<String>();
-//    int index = 0; // current index in the predecessor list
-//    // while the stack is not empty
-//    // do i even need index>predecessors.size() (?) pondor on this one
-//    while (!stack.isEmpty()) {
-//      String currHead = stack.peek(); // head of the stack
-//
-//      // set the list to the list of adjacent vertices of the current vertex
-//      successors = successorGraph.getAdjacentVerticesOf(currHead);
-//      // check if the current successor is already in the Stack -> cycle
-//      if (this.isCycle(successors, verticesInStack)) {
-//        throw new CycleException("Cycle in the graph");
-//      }
-//      // all successors have been visited
-//      if (visited.containsAll(successors)) {
-//        // pop of the head and remove it from the list of vertices in the stack.
-//        currHead = stack.pop();
-//        verticesInStack.remove(currHead);
-//        // add to the head of the list, building it backwards
-//        topoOrder.add(0, currHead);
-//        // set the index in the predecessor list back to 0
-//        index = 0;
-//      } else {
-//        String succ = successors.get(index);
-//        // mark as visited, add to stack, increment the index in the
-//        // predecessor list, and add to the list of vertices in the stack
-//        visited.add(succ);
-//        stack.push(succ);
-//        verticesInStack.add(succ);
-//        index++;
-//      }
-//
-//    }
-//    // return the list of the vertices in topological order
-//    return topoOrder;
-//  }
-//
+  /**
+   * Main method for tests (?)
+   * 
+   * @param args
+   */
   public static void main(String[] args) {
     System.out.println("PackageManager.main()");
   }

@@ -252,7 +252,7 @@ public class PackageManager {
       throws CycleException, PackageNotFoundException {
     Set<String> allPackages = predecessorGraph.getAllVertices();
     if (!allPackages.contains(pkg)) {
-      throw new PackageNotFoundException("Package does not exist.");
+      throw new PackageNotFoundException();
     } else {
       // throws a CycleException if a cycle is detected in the graph
       return topologicalOrder(pkg);
@@ -286,10 +286,9 @@ public class PackageManager {
     // then get what is not installed and not new
     Set<String> allPackages = predecessorGraph.getAllVertices();
     if (!allPackages.contains(newPkg)) {
-      throw new PackageNotFoundException("Package does not exist." + newPkg);
+      throw new PackageNotFoundException();
     } else if (!allPackages.contains(installedPkg)) {
-      throw new PackageNotFoundException(
-          "Package does not exist -> " + installedPkg);
+      throw new PackageNotFoundException();
     } else {
       // either one of these two could throw a CycleException that indicates
       // there is a cycle.
@@ -342,7 +341,7 @@ public class PackageManager {
     String startVertex = this.getVertexWithoutDependency();
     // if there is a cycle in the graph, the method above returns null.
     if (startVertex == null) {
-      throw new CycleException("There is a cycle in the graph!");
+      throw new CycleException();
     } else { // clear skies!
       // get the predecessors of each and merge them
       Set<String> allVertices = predecessorGraph.getAllVertices();
@@ -370,18 +369,15 @@ public class PackageManager {
    *         have
    */
   private List<String> merge(List<String> giver, List<String> merger) {
-    int everyThingIndex = 0;
     // if everything is null, return the first list.
     if (merger.size() == 0) {
       return giver;
     }
     for (int i = 0; i < giver.size(); i++) {
-      if (!merger.get(everyThingIndex).equals(giver.get(i))) {
-        merger.add(i, giver.get(i));
-      }
-      // if it is still less than the size, increment its index
-      if (everyThingIndex < merger.size()) {
-        everyThingIndex++;
+      // if the merger does not contain the current element,
+      // add it to the end of the list
+      if (!merger.contains(giver.get(i))) {
+        merger.add(giver.get(i));
       }
     }
     return merger;
@@ -408,12 +404,13 @@ public class PackageManager {
     // then compare and return which ever vertex had the biggest integer
     Set<String> allVertices = predecessorGraph.getAllVertices();
     // this will fail too...
-    String[] verticesArray = (String[]) allVertices.toArray();
+    String[] verticesArray = new String[allVertices.size()];
+    verticesArray = allVertices.toArray(verticesArray);
 
     int currHighestNum = 0;
     String packageName = "";
     for (int i = 0; i < verticesArray.length; i++) {
-      int currNum = this.BFS(verticesArray[i]);
+      int currNum = this.countDependencies(verticesArray[i]);
       if (currNum > currHighestNum) {
         currHighestNum = currNum;
         packageName = verticesArray[i];
@@ -480,7 +477,7 @@ public class PackageManager {
         // if the queue already contains this "unvisited successor", there is a
         // cycle.
         if (inQueue.contains(curr)) {
-          throw new CycleException("There is a cycle: " + curr);
+          throw new CycleException();
         } else {
           // add the unvisited successor to the queue and the list of vertices
           // in
@@ -494,6 +491,68 @@ public class PackageManager {
     return order.size();
   }
 
+  /**
+   * Counts the dependencies for the start vertex
+   * 
+   * @param startVertex - vertex to start at for the topological order
+   * @return the number of dependencies the start vertex has
+   * @throws CycleException - if there is a cycle in the graph
+   */
+  private int countDependencies(String startVertex) throws CycleException {
+    Stack stack = new Stack();
+    // keep track of the vertices in the stack
+    List<String> verticesInStack = new ArrayList<String>();
+
+    // keep track of the number of dependencies
+    int numDependencies = 0;
+    // keep track of visited vertices
+    List<String> visited = new ArrayList<String>();
+
+    // add the start vertex to the stack and the list of vertices in the stack.
+    // Then set it to visited
+    stack.push(startVertex);
+    verticesInStack.add(startVertex);
+    visited.add(startVertex);
+    // create a list that holds the predecessors of this vertex (package)
+    List<String> predecessors = new ArrayList<String>();
+
+    // while the stack is not empty
+    // do i even need index>predecessors.size() (?) pondor on this one
+    while (!stack.isEmpty()) {
+      String currHead = stack.peek(); // head of the stack
+      // get all the predecessors of the current pacakge at the head of the
+      // stack
+      predecessors = predecessorGraph.getAdjacentVerticesOf(currHead);
+
+      // check if there is a cycle
+      if (this.isCycle(predecessors, verticesInStack)) {
+        throw new CycleException();
+      }
+
+      // all predecessors have been visited
+      if (visited.containsAll(predecessors)) {
+        // pop of the head and remove it from the list of vertices in the stack.
+        currHead = stack.pop();
+        verticesInStack.remove(currHead);
+
+        // increment the number of dependencies
+        numDependencies++;
+        // set the index in the predecessor list back to 0
+
+      } else {
+        String predescessor = this.getNextPredecessor(predecessors, visited);
+
+        // mark as visited, add to stack, increment the index in the
+        // predecessor list, and add to the list of vertices in the stack
+        visited.add(predescessor);
+        stack.push(predescessor);
+        verticesInStack.add(predescessor);
+
+      }
+    }
+    // return the list of the vertices in topological order
+    return numDependencies;
+  }
 
   /**
    * Takes in two lists, one a list of visited vertices and another the list of
@@ -552,7 +611,7 @@ public class PackageManager {
 
       // check if there is a cycle
       if (this.isCycle(predecessors, verticesInStack)) {
-        throw new CycleException("There is a cycle in the graph.");
+        throw new CycleException();
       }
 
       // all predecessors have been visited
@@ -566,7 +625,7 @@ public class PackageManager {
         // set the index in the predecessor list back to 0
         index = 0;
       } else {
-        String predescessor = predecessors.get(index);
+        String predescessor = this.getNextPredecessor(predecessors, visited);
 
         // mark as visited, add to stack, increment the index in the
         // predecessor list, and add to the list of vertices in the stack
@@ -580,7 +639,23 @@ public class PackageManager {
     return topoOrder;
   }
 
-  private String getNextPredecessor(List<String> predecesors, List<String>)
+  /**
+   * Helper method to find the next unvisited predecessor
+   * 
+   * @param predecessors - list of predecessors
+   * @param visited      - list of visited packages
+   * @return the next unvisited predecessor
+   */
+  private String getNextPredecessor(List<String> predecessors,
+      List<String> visited) {
+    for (int i = 0; i < predecessors.size(); i++) {
+      if (!visited.contains(predecessors.get(i))) {
+        return predecessors.get(i);
+      }
+    }
+    return null;
+  }
+
   /**
    * Checks if any of the predecessors are also in the list of vertices already
    * in the Stack

@@ -107,11 +107,13 @@ class PackageManagerTest {
     try {
       java.util.List<String> testPM = pm.getInstallationOrder("A");
       ArrayList<String> hopeful = new ArrayList<String>();
-      hopeful.add("D");
       hopeful.add("C");
+      hopeful.add("D");
       hopeful.add("B");
       hopeful.add("A");
       for (int i = 0; i < testPM.size(); i++) {
+        System.out.println(testPM.get(i));
+        System.out.println("--");
         assertTrue(hopeful.get(i).equals(testPM.get(i)));
       }
       assertTrue(testPM.containsAll(hopeful));
@@ -233,6 +235,7 @@ class PackageManagerTest {
       ideally.add("E");
       for (int i = 0; i < installOrder.size(); i++) {
         System.out.println(installOrder.get(i));
+        assertTrue(installOrder.get(i).equals(ideally.get(i)));
       }
       assertTrue(installOrder.containsAll(ideally));
     } catch (CycleException e) {
@@ -240,9 +243,54 @@ class PackageManagerTest {
     }
   }
 
+  /**
+   * Tests getInstallationOrderForAllPackages when throwing a CycleException
+   */
+  @Test
+  void testGetCycleGraph() {
+    try {
+      pm = new PackageManager();
+      pm.constructGraph(
+          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\cyclic.json");
+      pm.getInstallationOrderForAllPackages();
+      fail("Cycle exception should have been thrown here");
+    } catch (CycleException e) {
+
+    } catch (Exception e) {
+      fail("Close but not quite");
+    }
+  }
+
+  /**
+   * Test getPackageWithMaxDependency
+   */
   @Test
   void testGetPackageWithMaxDependencies() {
-    fail("Not yet implemented");
+    try {
+      String str = pm.getPackageWithMaxDependencies();
+      assertTrue(str.equals("A"));
+    } catch (CycleException e) {
+      fail("There is no cycle...");
+    } catch (Exception e) {
+      fail("NOPE, not on my watch");
+    }
   }
+
+  @Test
+  void testCyclePackageMaxDependency() {
+    try {
+
+      pm = new PackageManager();
+      pm.constructGraph(
+          "C:\\Users\\Ariel\\eclipse-workspace\\Ariel\\CS400\\P4\\src\\cyclic.json");
+      pm.toInstall("A", "B");
+      fail("Cycle exception should have been thrown here");
+
+    } catch (Exception e) {
+    }
+
+  }
+  // TODO: add test cases for what is not a cycle but looks like one
+  // TODO: add test case for a cycle ?
 
 }

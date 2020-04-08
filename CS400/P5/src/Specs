@@ -1,0 +1,7 @@
+- add a Label in the top panel, that says "CS400 My First JavaFX Program"
+- add a ComboBox in the left panel, that shows a drop down box with three or more items that can be selected. 
+(selecting does not have to do anything for this program. Tip: google "JavaFX ComboBox")
+- add an ImageView of an Image in the center panel (Tip: google "JavaFX ImageView")
+(image file must be copied to your project and the image must be a photo or drawing of your face)
+- add a Button in the bottom panel with the label "Done"
+(button does not have to, but can be programmed to close window)

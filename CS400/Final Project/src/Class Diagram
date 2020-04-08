@@ -1,0 +1,97 @@
+@startuml
+note "Green circles are public, red squares are private" as N2
+note top of Main: Reads from files, writes to the files, and runs GUI
+note top of DataStructure: The data structure contains Milk objects. 
+note "Use this one or a regular readFromFile?" as N3
+class Main{
+	- Map<String,Farm> farms
+	
+}
+
+
+class FarmReport{
+ + year
+ + farmId
+ }
+class MonthlyReport{
+ + year
+ + month
+ }
+ 
+class AnnualReport{
+ + year
+ }
+ 
+class DateRangeReport{
+ + startDate
+ + endDate
+ }
+ 
+ abstract class ReportBase {
+ 	ReportBase(Map<String,Farm> farms)
+	- Map<String,Farm> farms
+
+ 	+ {abstract} drawReport()
+ 	+ {abstract} boolean validateInputs()
+ 	---UI---
+ 	+ show()
+ 	+ hide()
+ 	- refresh()
+ 	- clear()
+ }
+ 
+ FarmReport --|> ReportBase
+ DateRangeReport --|> ReportBase
+ AnnualReport --|> ReportBase
+ MonthlyReport --|> ReportBase
+
+Main *-- ReportBase
+
+note "ID, milks data, and methods needed by reports\nMilks stored in an array indexed by days from 1/1" as farmNote
+Farm .. farmNote
+class Farm{
+	- String ID
+	- Milk[] milks
+	---
+	Farm(ID)
+	---
+	+ Milk getMilk(date)
+	+ addMilk(date, Milk milk)
+	
+	+ int getMonthTotal(int month)
+	+ int getYearTotal(int year)
+	+ int getTotal(startDate, endDate)
+}
+
+
+class Milk {
+- int weight
+---
++ Milk(int weight)
+---
+
++ setWeight(int weight)
++ getWeight()
+}
+
+Main "1" *-- "N" Farm
+Farm "1" *-- "365 or 366" Milk
+
+abstract class FarmFile {
+	Map<String,Farm> farms
+	- FileIO io
+	+ load()
+	+ save()
+	+ addToFarmHelper(Farm farm, Date date, int weight)
+	{abstract} String farmToString(Farm farm)
+	{abstract} void addToFarms(String data)
+}
+
+CSVFile --|> FarmFile
+JSONFile --|> FarmFile
+
+Main *--  FarmFile
+
+
+Main "1" *-- "1" FarmEditor
+@enduml

@@ -1,11 +1,10 @@
 @startuml
-note "Green circles are public, red squares are private" as N2
 note top of Main: Reads from files, writes to the files, and runs GUI
-note top of DataStructure: The data structure contains Milk objects. 
-note "Use this one or a regular readFromFile?" as N3
+note bottom of FarmEditor: Allows user to be able to edit their data for a specific farm
+
+
 class Main{
 	- Map<String,Farm> farms
-	
 }
 
 
@@ -28,12 +27,13 @@ class DateRangeReport{
  }
  
  abstract class ReportBase {
- 	ReportBase(Map<String,Farm> farms)
 	- Map<String,Farm> farms
-
+---
+ReportBase(Map<String,Farm> farms)
+---
  	+ {abstract} drawReport()
  	+ {abstract} boolean validateInputs()
- 	---UI---
+ 	--UI Methods--
  	+ show()
  	+ hide()
  	- refresh()
@@ -56,7 +56,7 @@ class Farm{
 	Farm(ID)
 	---
 	+ Milk getMilk(date)
-	+ addMilk(date, Milk milk)
+	+ void addMilk(date, Milk milk)
 	
 	+ int getMonthTotal(int month)
 	+ int getYearTotal(int year)
@@ -78,7 +78,7 @@ Main "1" *-- "N" Farm
 Farm "1" *-- "365 or 366" Milk
 
 abstract class FarmFile {
-	Map<String,Farm> farms
+	- Map<String,Farm> farms
 	- FileIO io
 	+ load()
 	+ save()
@@ -91,7 +91,5 @@ CSVFile --|> FarmFile
 JSONFile --|> FarmFile
 
 Main *--  FarmFile
-
-
 Main "1" *-- "1" FarmEditor
 @enduml

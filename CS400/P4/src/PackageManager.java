@@ -257,8 +257,7 @@ public class PackageManager {
   }
 
   /**
-   * Gets the difference of A-B TODO: may need to redo the javadocs if they
-   * don't make sense
+   * Gets the difference of A-B don't make sense
    * 
    * @param A - List that we want to take out the elements in B
    * @param B - elements in B that we want to take out of A
@@ -288,7 +287,6 @@ public class PackageManager {
    * @return List<String>, order in which all the packages have to be installed
    * @throws CycleException if you encounter a cycle in the graph
    */
-  // TODO: is probably wrong... i would test this one multiple times
   public List<String> getInstallationOrderForAllPackages()
       throws CycleException {
     // #1: get the start vertex to start the topological order for the successor

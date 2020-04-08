@@ -11,6 +11,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Filename: PackageManagerTest.java Project: p4 Authors:Ariel Fu
+ * 
+ * @author Ariel
+ * 
+ *         This class is a JUnit test that helps test all my methods.
+ *
+ */
 class PackageManagerTest {
   private PackageManager pm;
   Graph graph;
@@ -87,6 +95,9 @@ class PackageManagerTest {
     }
   }
 
+  /**
+   * Tests getAllPackages
+   */
   @Test
   void testGetAllPackages() {
     Set<String> set = pm.getAllPackages();
@@ -222,6 +233,9 @@ class PackageManagerTest {
     }
   }
 
+  /**
+   * Tests getting the installation order for all packages
+   */
   @Test
   void testGetInstallationOrderForAllPackages() {
     try {
@@ -310,10 +324,44 @@ class PackageManagerTest {
     try {
       pm.getAllPackages();
     } catch (Exception e) {
-      fail("This method does not even throww ");
+      fail("This method does not even throww an exception");
     }
+    // test getInstallationOrder
+    try {
+      // has a cycle
+      pm.getInstallationOrder("A");
+      fail("Should've threw one tho.");
+    } catch (CycleException e) {
+
+    } catch (Exception e) {
+      fail("This method should not even throww an exception");
+    }
+    // test getInstallationOrder where its predecessors do not have a cycle
+    try {
+      // does not include a cycle
+      pm.getInstallationOrder("B");
+    } catch (CycleException e) {
+      fail("ok...should not throw a CycleException tho.");
+    } catch (Exception e) {
+      fail("ok...should not throw this tho.");
+    }
+    // test installation order for all packages
+    try {
+      pm.getInstallationOrderForAllPackages();
+    } catch (CycleException e) {
+      // good
+    } catch (Exception e) {
+      fail("Should only throw a cycle exception");
+    }
+    // test getPackageWithMaxDependencies
+    try {
+      pm.getPackageWithMaxDependencies();
+    } catch (CycleException e) {
+      // ccontinue as you were
+    } catch (Exception e) {
+      fail("Nope, stop right there");
+    }
+
   }
-  // TODO: add test cases for what is not a cycle but looks like one
-  // TODO: add test case for a cycle ?
 
 }

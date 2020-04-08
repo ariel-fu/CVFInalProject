@@ -80,11 +80,6 @@ public class Graph implements GraphADT {
     private void addAdjacentVertex(Vertex vertex) {
       adjacentVertices.add(vertex);
     }
-//    TODO: possible idea to assign an index to a vertex
-    // similar to hash table...
-//    private int setIndex(int numInserted) {
-//      return numInserted
-//    }
 
   }
 
@@ -263,6 +258,8 @@ public class Graph implements GraphADT {
   /**
    * Removes a vertex from the graph. If the vertex is null, do nothing. If the
    * vertex is not in the graph, do nothing.
+   * 
+   * @param vertex - remove this vertex
    */
   @Override
   public void removeVertex(String vertex) {
@@ -376,13 +373,13 @@ public class Graph implements GraphADT {
   @Override
   public List<String> getAdjacentVerticesOf(String vertex) {
     if (vertex == null) {
-      return null;
-      // TODO: ask on M OH
+      return new ArrayList<String>();
+
     }
     int vertexIndex = this.getIndexOf(vertex);
     if (vertexIndex == -1) {
-      return null;
-      // TODO: ask on M
+      return new ArrayList<String>();
+
     }
     Vertex actualVertex = vertexList.get(vertexIndex);
     return actualVertex.getAdjacentVertices();
@@ -439,7 +436,5 @@ public class Graph implements GraphADT {
     }
     return -1;
   }
-
-  // TODO: implement all the methods declared in GraphADT
 
 }

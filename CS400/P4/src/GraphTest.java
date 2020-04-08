@@ -9,9 +9,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Filename: GraphTest.java Project: p4 Authors:Ariel Fu This class helps me
+ * test my methods.
+ * 
+ * @author Ariel
+ *
+ */
 class GraphTest {
   private Graph graph;
 
+  /**
+   * Sets up the graph
+   * 
+   * @throws Exception
+   */
   @BeforeEach
   void setUp() throws Exception {
     graph = new Graph();
@@ -58,6 +70,10 @@ class GraphTest {
 
   }
 
+  /**
+   * Tests adding a null to the graph. Should be able to run without throwing an
+   * exception
+   */
   @Test
   void testAddNull() {
     try {
@@ -68,6 +84,10 @@ class GraphTest {
     }
   }
 
+  /**
+   * Tests adding a vertex that is already in the graph. It should not throw an
+   * exception
+   */
   @Test
   void testAddAVertexAlreadyInGraph() {
     graph.addVertex("ew peas");
@@ -142,6 +162,11 @@ class GraphTest {
     assertTrue(adjacentToStart.get(0).equals("finish!"));
   }
 
+  /**
+   * Tests adding an edge with vertices that are in the graph already and some
+   * that are not. It creates many cycles, but there should not be an exception
+   * thrown
+   */
   @Test
   void testAddEdgeWithOtherVertices() {
     graph.addEdge("start", "finish");
@@ -171,6 +196,9 @@ class GraphTest {
     assertTrue(finishAdj.size() == 1);
   }
 
+  /**
+   * Adding two edges that have the same vertices will not add the second edge.
+   */
   @Test
   void testAddSameEdge() {
     try {
@@ -182,6 +210,9 @@ class GraphTest {
     }
   }
 
+  /**
+   * Tests calling addEdge with two null inputs. Do nothing
+   */
   @Test
   void testAddNullEdge() {
     try {
@@ -191,6 +222,9 @@ class GraphTest {
     }
   }
 
+  /**
+   * Tests removing an edge
+   */
   @Test
   void testRemoveEdge() {
     graph.addEdge("1", "2");
@@ -200,6 +234,9 @@ class GraphTest {
     assertTrue(graph.order() == 2);
   }
 
+  /**
+   * Tests removing an edge that is not in the graph
+   */
   @Test
   void testRemoveEdgeNotInGraph() {
     try {

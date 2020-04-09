@@ -4,7 +4,14 @@ note bottom of FarmEditor: Allows user to be able to edit their data for a speci
 
 
 class Main{
-	- Map<String,Farm> farms
+ - Map<String,Farm> farms
+ - FarmEditor editor
+ - CSVFile csv
+ - JSONFile json
+ - FarmReport farmReport
+ - AnnualReport annualReport
+ - MonthlyReport monthlyReport
+ - DateRangeReport dateRange
 }
 
 
@@ -89,7 +96,7 @@ abstract class FarmFile {
 
 CSVFile --|> FarmFile
 JSONFile --|> FarmFile
-
+FarmEditor --|> FarmFile
 Main *--  FarmFile
 Main "1" *-- "1" FarmEditor
 @enduml

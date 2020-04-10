@@ -2,17 +2,12 @@ package application;
 
 import java.util.List;
 
-import javax.swing.JComboBox;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.stage.Stage;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -21,11 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 // http://www.java2s.com/Tutorials/Java/JavaFX_How_to/Application/Exit_application.htm
 public class Main extends Application {
 
@@ -42,7 +33,7 @@ public class Main extends Application {
    */
   private ComboBox<String> getComboBox() {
 
-    String[] gradesForAriel = new String[] { "Yes", "totally", "duh",
+    String[] gradesForAriel = new String[] { "Yes", "totally", "duh?",
         "no, haha jk yes", "pretend we like to take exams but go anyways" };
     ComboBox<String> combo = new ComboBox<String>();
     combo.setItems(FXCollections.observableArrayList(gradesForAriel));
@@ -79,14 +70,13 @@ public class Main extends Application {
     button.setOnAction(e -> Platform.exit());
     return button;
   }
-  
+
   private VBox getVBox() {
     Button button1 = new Button("Click here to go to Paris");
     VBox box = new VBox(button1);
     button1.setOnAction(e -> Platform.exit());
     return box;
   }
-  
 
   @Override
   public void start(Stage primaryStage) throws Exception {

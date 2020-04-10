@@ -1,1 +1,4 @@
-"C:\Program Files\Java\jdk-11.0.6\bin\javaw.exe" --module-path "C:\Users\Ariel\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml -Dfile.encoding=Cp1252 -classpath "C:\Users\Ariel\eclipse-workspace\Ariel\CS400\P5\bin;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx.base.jar;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx.controls.jar;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx.fxml.jar;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx.graphics.jar;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx.media.jar;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx.swing.jar;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx.web.jar;C:\Users\Ariel\javafx-sdk-11.0.2\lib\javafx-swt.jar" application.Main
+"C:\Program Files\Java\jdk-11.0.6\bin\javaw.exe" 
+--module-path "C:\Users\Ariel\javafx-sdk-11.0.2\lib" 
+--add-modules javafx.controls,javafx.fxml -Dfile.encoding=Cp1252 
+-classpath "C:\Users\Ariel\eclipse-workspace\Ariel\CS400\P5\HelloFX" application.Main

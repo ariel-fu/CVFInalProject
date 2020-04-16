@@ -73,7 +73,9 @@ public class Main extends Application {
 
   private VBox getVBox() {
     Button button1 = new Button("Click here to go to Paris");
-    VBox box = new VBox(button1);
+    Button button2 = new Button("Click here to go to the exam.");
+    VBox box = new VBox(button1, button2);
+    button2.setOnAction(e -> button2.setText("Try again"));
     button1.setOnAction(e -> Platform.exit());
     return box;
   }

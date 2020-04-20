@@ -1,0 +1,14 @@
+@charset "ISO-8859-1";
+p {
+  font-family: verdana;
+  font-size: 20px;
+}
+
+body {
+  background-color: lightblue;
+  font-size: 20px;
+}
+
+img.small {
+  height: 200px;
+}

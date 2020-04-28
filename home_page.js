@@ -1,14 +1,16 @@
 function change(){
     var elem = document.getElementById("change");
-
- document.getElementById("change").innerHTML = 'Doggos are the best!';
-if (elem.value=='CHANGE'x){
-	 document.getElementById("change").innerHTML = 'Doggos are the best!';
-
- } else if(elm.value == 'Doggos are the best'){
+	
+ var stringInDoc = document.getElementById("change").innerHTML;
+if (stringInDoc==="CHANGE"){
+document.getElementById("change").innerHTML = 'Doggos are the best!';
+ } else if(stringInDoc===("Doggos are the best!")){
  	 document.getElementById("change").innerHTML = 'Puppies are adorable!';
 
  } else {
  	  document.getElementById("change").innerHTML = 'CHANGE';
 }
 }
+
+
+

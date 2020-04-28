@@ -1,10 +1,12 @@
 function change(){
     var elem = document.getElementById("change");
 if (elem.value=="CHANGE"){
-	 elem.innerHTML = 'Doggos are the best';
- } else if(elm.value == 'Doggos are the best'){
- 	 elem.innerHTML = 'Yes they are :)';
+	 document.getElementById("change").innerHTML = "Doggos are the best!";
+
+ } else if(elm.value == "Doggos are the best"){
+ 	 document.getElementById("change").innerHTML = "Puppies are adorable!";
+
  } else {
- 	 elem.innerHTML = 'CHANGE';
+ 	  document.getElementById("change").innerHTML = "CHANGE";
 }
 }

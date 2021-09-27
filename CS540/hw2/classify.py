@@ -54,8 +54,8 @@ def create_bow(vocab, filepath):
         Note: label may be None
     """
     bow = {}
-    noneKey = 'None'
-    bow[noneKey] = 0
+    noneKey = None
+
     # TODO: add your code here
     # open and read the file
     with open(filepath, 'r', encoding='utf-8') as doc:
@@ -67,7 +67,10 @@ def create_bow(vocab, filepath):
                 else:
                     bow[key] = 1
             else:
-                bow[noneKey] += 1
+                if noneKey in bow:
+                    bow[noneKey] += 1
+                else:
+                    bow[noneKey] = 1
     return bow
 
 # Needs modifications
@@ -109,7 +112,7 @@ def p_word_given_label(vocab, training_data, label):
     # set up word_prob to contain all the words inside vocab with a frequency of 0
     for word in vocab:
         word_prob[word] = 0
-    noneKey = 'None'
+    noneKey = None
     word_prob[noneKey] = 0
     
     
@@ -235,10 +238,12 @@ def classify(model, filepath):
     else:
         mostLikely = '2020'
 
-    # set the respective values of log P(y=2020|x), log p(y=2016|x), predicted y
-    retval['log p(y=2020|x)'] = sum2020
-    retval['log p(y=2016|x)'] = sum2016
+    # set the respective values of predicted y, log p(y=2016|x), log p(y=2020|x)
     retval['predicted y'] = mostLikely
+    retval['log p(y=2016|x)'] = sum2016
+    retval['log p(y=2020|x)'] = sum2020
+    
+    
     # return prediction
     return retval
 
@@ -248,4 +253,3 @@ def getWordProb(word, model_prob):
     for wordProb in model_prob:
         if(wordProb == word):
             return model_prob[wordProb]
-

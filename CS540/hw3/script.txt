@@ -5,7 +5,74 @@ pip3 install numpy==1.17.4
 pip3 install matplotlib==3.1.2
 
 from pca import *
-import numpy
+import numpy as np
+
+x = load_and_center_dataset('YaleB_32x32.npy')
+S = get_covariance(x)
+Lambda, U = get_eig(S, 2)
+projection = project_image(x[0], U)
+display_image(x[0], projection)
+
+
+
+
+x = np.load('YaleB_32x32.npy')  
+x = np.array([[1,2,5],[3,4,7]]) 
+np.mean(x, axis=0) 
+x - np.mean(x, axis=0) 
+
+
+x = load_and_center_dataset('YaleB_32x32.npy')
+len(x)
+
+len(x[0])
+
+np.average(x)
+
+x = np.array([[1,2,5],[3,4,7]])
+np.transpose(x)
+
+
+np.dot(x, np.transpose(x))
+
+
+np.dot(np.transpose(x), x)
+
+
+x = np.array([[1,2,3], [2,3,4]])
+print(get_covariance(x))
+
+
+x = load_and_center_dataset('YaleB_32x32.npy')
+S = get_covariance(x)
+
+Lambda, U = get_eig(S, 2)
+print(Lambda)
+print(U)
+
+
+Lambda, U = get_eig_perc(S, 0.04)
+print(Lambda)
+print(U)
+
+
+Lambda, U = get_eig_perc(S, 0.07)
+print(Lambda)
+print(U)
+
+projection = project_image(x[0], U)
+print(projection)
+
+projection = project_image(x[1], U)
+print(projection)
+
+
+
+
+
+
+
+
 
 x = load_and_center_dataset('YaleB_32x32.npy')
 S = get_covariance(x)

@@ -1,0 +1,7 @@
+git hub token: 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
+
+
+
+from pokemon_stats import *
+import numpy as np
+load_data("Pokemon.csv")

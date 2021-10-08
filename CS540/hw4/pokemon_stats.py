@@ -18,7 +18,8 @@ def load_data(filepath):
             row = list(row)
             # break if we have 20 pokemon
             # TESTER
-            if(counter >= 20):
+            if(counter >= 100):
+            # if(counter >= 20):
                 break
 
             # cast the #, total, HP, Attack, Defense, Sp. Atk, Sp. Defense, and Speed to integers
@@ -91,6 +92,7 @@ def hac(dataset):
     listEucDistance = []
     listDistance = []
     clusterCounter = len(clusters)
+    smallestDist = None
     while(clusterCounter > 1):
         i = 0
         # for all current clusters:
@@ -109,42 +111,40 @@ def hac(dataset):
                 
                     # find the smallest euclidean distance between two current clusters
                     dist = single_linkage(cluster1, cluster2)
-                
                     # Cluster = (current index, items, smaller index, larger index, distance between clusters, and total size)
-                    newEucDist = Cluster(index, (cluster1.items + cluster2.items), index1, index2, dist, cluster1.size + cluster2.size)               
+                    currDist = Cluster(index, (cluster1.items + cluster2.items), index1, index2, dist, cluster1.size + cluster2.size)
+                    # if the smallestDist isn't set yet，set to the current
+                    # if the smallestDist is bigger than the currDist, set curr to the smallest
+                    if(smallestDist == None or dist < smallestDist.eucDistance):
+                        smallestDist = currDist                   
+                    
                     # add to the list of euclidean distance: [i, j, dist, num items]
-                    if(len(listEucDistance) == 0):
-                        listEucDistance = [newEucDist]
-                    else:
-                        listEucDistance = listEucDistance+[newEucDist]
+                
+                    # if(len(listEucDistance) == 0):
+                    #     listEucDistance = [newEucDist]
+                    # else:
+                    #     listEucDistance = listEucDistance+[newEucDist]
                 
                 # increment the counter
                 j += 1
             i += 1
             
-        # find the smallest euclidean distance
-        smallestCluster = listEucDistance[0]
-        for listItem in listEucDistance:
-            currDist = listItem.eucDistance
-            if(currDist < smallestCluster.eucDistance):
-                smallestCluster = listItem
-        
+       
         # add the new cluster to the list of clusters and the hacArray
-        clusters = (clusters + [smallestCluster])
+        clusters = (clusters + [smallestDist])
         clusterCounter += 1
         if(len(hacList) == 0):
-            hacList = [smallestCluster]
+            hacList = [smallestDist]
         else:
-            hacList = hacList+[smallestCluster]
+            hacList = hacList+[smallestDist]
         index += 1
 
         # remove the elements at the two indices
-        clusters[smallestCluster.index1] = None
-        clusters[smallestCluster.index2] = None
+        clusters[smallestDist.index1] = None
+        clusters[smallestDist.index2] = None
         clusterCounter -= 2
-        # restart the distance array
-        listEucDistance = []
-    
+        # restart the distance holder
+        smallestDist = None    
     
     # convert hacList into a numpy array
     counter = 0
@@ -163,10 +163,10 @@ def hac(dataset):
         numItems = cluster.size
 
         row = np.array([index1, index2, eucDistance, numItems])
-        print(row)
-        print("items:")
-        print(cluster.items)
-        print("------------------------------")
+        # print(row)
+        # print("items:")
+        # print(cluster.items)
+        # print("------------------------------")
         if(len(retNumpyArr) == 0):
             retNumpyArr = row
         else:
@@ -247,8 +247,7 @@ def main():
     # pokemons_x_y.append(calculate_x_y(pokemons[2]))
     # pokemons_x_y.append(calculate_x_y(pokemons[3]))
     # pokemons_x_y.append(calculate_x_y(pokemons[4]))
-    
-    print(hac(pokemons_x_y))
+
 
 if __name__ =="__main__":
     main()

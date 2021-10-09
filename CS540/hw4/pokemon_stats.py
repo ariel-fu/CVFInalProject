@@ -1,6 +1,7 @@
 import csv
 import math
 import numpy as np
+import random as rand
 import matplotlib.pyplot as plt
 
 def load_data(filepath):
@@ -18,7 +19,7 @@ def load_data(filepath):
             row = list(row)
             # break if we have 20 pokemon
             # TESTER
-            if(counter >= 100):
+            if(counter >= 150):
             # if(counter >= 20):
                 break
 
@@ -215,9 +216,22 @@ def validate_cluster(cluster):
 
 def random_x_y(m): 
     """ takes in the number of samples we want to randomly generate, and returns these samples in a single structure.""" 
+    counter = 0
+    randomValues = []
+    while(counter < m):
+        randX = rand.randrange(360)
+        randY = rand.randrange(360)
+        randomValues += [(randX, randY)]
+        counter += 1
+    return randomValues
+
 
 def imshow_hac(dataset): 
     """performs single linkage hierarchical agglomerative clustering on the Pokemon with the (x,y) feature representation, and imshow the clustering process."""
+
+
+
+
 
 
 ## TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
@@ -228,14 +242,15 @@ def main():
     pokemons[1]
     calculate_x_y(pokemons[1])
     pokemons_x_y = []
-    print(pokemons[7])
-    print(calculate_x_y(pokemons[7]))
-    pokemons_x_y = []
-    for row in pokemons:
-        pokemons_x_y.append(calculate_x_y(row))
+    # print(pokemons[7])
+    # print(calculate_x_y(pokemons[7]))
+    # pokemons_x_y = []
+    # for row in pokemons:
+    #     pokemons_x_y.append(calculate_x_y(row))
 
-    print(hac(pokemons_x_y))
+    # print(hac(pokemons_x_y))
 
+    print(random_x_y(20))
     # pokemons_x_y.append((1, 1))
     # pokemons_x_y.append((2, 1))
     # pokemons_x_y.append((2, 4))

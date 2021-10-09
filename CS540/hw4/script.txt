@@ -8,6 +8,29 @@ pokemons = load_data("Pokemon.csv")
 pokemons[1]
 calculate_x_y(pokemons[1])
 pokemons_x_y = []
+
+pokemons_x_y = []
+for row in pokemons:
+	pokemons_x_y.append(calculate_x_y(row))
+
+hac(pokemons_x_y)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 pokemons_x_y.append(calculate_x_y(pokemons[1]))
 pokemons_x_y.append(calculate_x_y(pokemons[2]))
 	

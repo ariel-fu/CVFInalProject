@@ -19,7 +19,7 @@ def load_data(filepath):
             row = list(row)
             # break if we have 20 pokemon
             # TESTER
-            if(counter >= 150):
+            if(counter >= 20):
             # if(counter >= 20):
                 break
 
@@ -111,7 +111,7 @@ def hac(dataset):
                     index2 = cluster2.index
                 
                     # find the smallest euclidean distance between two current clusters
-                    dist = single_linkage(cluster1, cluster2)
+                    dist, point1, point2 = single_linkage(cluster1, cluster2)
                     # Cluster = (current index, items, smaller index, larger index, distance between clusters, and total size)
                     currDist = Cluster(index, (cluster1.items + cluster2.items), index1, index2, dist, cluster1.size + cluster2.size)
                     # if the smallestDist isn't set yet，set to the current
@@ -190,17 +190,18 @@ def single_linkage(cluster1, cluster2):
     dist = []
     for p1 in point1:
         for p2 in point2:
-            if(len(dist) == 0):
-                dist = [math.dist(p1, p2)]
+            currDist = math.dist(p1, p2)
+            if(len(dist) == 0 or dist[0] > currDist):
+                dist = [currDist, p1, p2]
             else:
                 dist = dist + [math.dist(p1, p2)]
     # find the smallest euclidien distance
-    smallest = dist[0]
-    for eucDist in dist:
-        if(eucDist < smallest):
-            smallest = eucDist
+    # smallest = dist[0]
+    # for eucDist in dist:
+    #     if(eucDist < smallest):
+    #         smallest = eucDist
 
-    return smallest
+    return dist[0], dist[1], dist[2]
 
 
 # Helper method to determine whether the cluster is valid or not
@@ -228,6 +229,86 @@ def random_x_y(m):
 
 def imshow_hac(dataset): 
     """performs single linkage hierarchical agglomerative clustering on the Pokemon with the (x,y) feature representation, and imshow the clustering process."""
+    plot_hac(dataset)
+
+# helper method that repeats almost exactly what hac did - currently a placeholder - waiting for piazza reply
+def plot_hac(dataset):
+    clusters = []
+    hacList = []
+    # place each element in the data set into its own cluster and number them appropriately
+    index = 0
+    for data in dataset:
+        # Cluster = (current index, items, smaller index, larger index, distance between clusters, and total size)
+        currCluster = Cluster(index, [data], index, index, 0, 1)
+        if index == 0:
+            # set the initial clusters to the first data set
+            clusters = [currCluster]
+        else:
+            # append each data as a new cluster
+            clusters = clusters + [currCluster]
+        # increment the counter
+        index += 1
+    # while there are more than 1 clusters left
+    listEucDistance = []
+    listDistance = []
+    clusterCounter = len(clusters)
+    smallestDist = None
+    point1, point2 = (0, 0)
+    while(clusterCounter > 1):
+        i = 0
+        # for all current clusters:
+        while(i < len(clusters)):
+            # get a counter and the list to hold possible clusters
+            j = i+1
+            while(j < len(clusters)):
+                # get the current clusters and their corresponding indices
+                cluster1 = clusters[i]
+                cluster2 = clusters[j]
+                if(not(cluster1 == None or cluster2 == None)): 
+                    # print("cluster2")
+                    # print(cluster2.items)
+                    index1 = cluster1.index
+                    index2 = cluster2.index
+                
+                    # find the smallest euclidean distance between two current clusters
+                    dist, p1, p2 = single_linkage(cluster1, cluster2)
+                    # Cluster = (current index, items, smaller index, larger index, distance between clusters, and total size)
+                    currDist = Cluster(index, (cluster1.items + cluster2.items), index1, index2, dist, cluster1.size + cluster2.size)
+                    # if the smallestDist isn't set yet，set to the current
+                    # if the smallestDist is bigger than the currDist, set curr to the smallest
+                    if(smallestDist == None or dist < smallestDist.eucDistance):
+                        smallestDist = currDist
+                        point1 = p1
+                        point2 = p2                                   
+                # increment the counter
+                j += 1
+            i += 1
+            
+       
+        # add the new cluster to the list of clusters and the hacArray
+        clusters = (clusters + [smallestDist])
+        clusterCounter += 1
+        if(len(hacList) == 0):
+            hacList = [smallestDist]
+        else:
+            hacList = hacList+[smallestDist]
+        index += 1
+
+        # remove the elements at the two indices
+        clusters[smallestDist.index1] = None
+        clusters[smallestDist.index2] = None
+        clusterCounter -= 2
+
+        # plot point1 and point2
+        xPoints = np.array([point1[0], point2[0]])
+        yPoints = np.array([point1[1], point2[1]])
+        plt.scatter(xPoints, yPoints)
+        plt.plot(xPoints, yPoints)
+        plt.show()
+        # restart the distance holder
+        smallestDist = None    
+    plt.show()
+    
 
 
 
@@ -244,13 +325,15 @@ def main():
     pokemons_x_y = []
     # print(pokemons[7])
     # print(calculate_x_y(pokemons[7]))
-    # pokemons_x_y = []
-    # for row in pokemons:
-    #     pokemons_x_y.append(calculate_x_y(row))
+    pokemons_x_y = []
+    for row in pokemons:
+        pokemons_x_y.append(calculate_x_y(row))
+    
+    #print(hac(pokemons_x_y))
+    plot_hac(pokemons_x_y)
+    
 
-    # print(hac(pokemons_x_y))
-
-    print(random_x_y(20))
+    
     # pokemons_x_y.append((1, 1))
     # pokemons_x_y.append((2, 1))
     # pokemons_x_y.append((2, 4))

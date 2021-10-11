@@ -18,10 +18,8 @@ def load_data(filepath):
             pokemonDict = {}
             row = list(row)
             # break if we have 20 pokemon
-            
             if(counter >= 20):
                 break
-
             # cast the #, total, HP, Attack, Defense, Sp. Atk, Sp. Defense, and Speed to integers
             num = int(row[0])
             total = int(row[4])
@@ -110,11 +108,8 @@ def hac(dataset):
                 cluster1 = clusters[i]
                 cluster2 = clusters[j]
                 if(not(cluster1 == None or cluster2 == None)): 
-                    # print("cluster2")
-                    # print(cluster2.items)
                     index1 = cluster1.index
                     index2 = cluster2.index
-                
                     # find the smallest euclidean distance between two current clusters
                     dist, point1, point2 = single_linkage(cluster1, cluster2)
                     # Cluster = (current index, items, smaller index, larger index, distance between clusters, and total size)
@@ -122,15 +117,7 @@ def hac(dataset):
                     # if the smallestDist isn't set yet，set to the current
                     # if the smallestDist is bigger than the currDist, set curr to the smallest
                     if(smallestDist == None or dist < smallestDist.eucDistance):
-                        smallestDist = currDist                   
-                    
-                    # add to the list of euclidean distance: [i, j, dist, num items]
-                
-                    # if(len(listEucDistance) == 0):
-                    #     listEucDistance = [newEucDist]
-                    # else:
-                    #     listEucDistance = listEucDistance+[newEucDist]
-                
+                        smallestDist = currDist                                   
                 # increment the counter
                 j += 1
             i += 1
@@ -155,11 +142,6 @@ def hac(dataset):
     # convert hacList into a numpy array
     counter = 0
 
-# import numpy as np
-# arr = np.array([[1,2,3],[4,5,6]])
-# row = np.array([7,8,9])
-# arr = np.r_[arr,[row]]
-# print(arr)
     retNumpyArr = []
     for cluster in hacList:
         # row = [index1, index2, euc distance, # of items]
@@ -169,16 +151,10 @@ def hac(dataset):
         numItems = cluster.size
 
         row = np.matrix([index1, index2, eucDistance, numItems])
-        # print(row)
-        # print("items:")
-        # print(cluster.items)
-        # print("------------------------------")
         if(len(retNumpyArr) == 0):
             retNumpyArr = row
         else:
             retNumpyArr=np.vstack((retNumpyArr, row))
-
-        # print(cluster)
     # return numpy array
     return retNumpyArr
 
@@ -189,6 +165,7 @@ def single_linkage(cluster1, cluster2):
     point1 = cluster1.items    
     point2 = cluster2.items        
     # calculate the distance between them
+    # find the smallest euclidean distance
     dist = []
     for p1 in point1:
         for p2 in point2:
@@ -197,11 +174,6 @@ def single_linkage(cluster1, cluster2):
                 dist = [currDist, p1, p2]
             else:
                 dist = dist + [math.dist(p1, p2)]
-    # find the smallest euclidien distance
-    # smallest = dist[0]
-    # for eucDist in dist:
-    #     if(eucDist < smallest):
-    #         smallest = eucDist
 
     return dist[0], dist[1], dist[2]
 
@@ -233,7 +205,7 @@ def imshow_hac(dataset):
     """performs single linkage hierarchical agglomerative clustering on the Pokemon with the (x,y) feature representation, and imshow the clustering process."""
     plot_hac(dataset)
 
-# helper method that repeats almost exactly what hac did - currently a placeholder - waiting for piazza reply
+# helper method that repeats almost exactly what hac did
 def plot_hac(dataset):
     clusters = []
     hacList = []
@@ -272,8 +244,6 @@ def plot_hac(dataset):
                 cluster1 = clusters[i]
                 cluster2 = clusters[j]
                 if(not(cluster1 == None or cluster2 == None)): 
-                    # print("cluster2")
-                    # print(cluster2.items)
                     index1 = cluster1.index
                     index2 = cluster2.index
                 
@@ -319,103 +289,3 @@ def plot_hac(dataset):
         # restart the distance holder
         smallestDist = None    
     plt.show()
-    
-
-
-
-
-
-
-## TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-## REMOVE!
-
-def main():
-    pokemons = load_data("Pokemon.csv")
-    pokemons[1]
-    calculate_x_y(pokemons[1])
-    pokemons_x_y = []
-    # print(pokemons[7])
-    # print(calculate_x_y(pokemons[7]))
-    # pokemons_x_y = []
-    # for row in pokemons:
-    #     pokemons_x_y.append(calculate_x_y(row))
-
-    ## TEST with unit circle
-    pokemons_x_y.append((0, 0))
-    pokemons_x_y.append((1, -1))
-    pokemons_x_y.append((-1, 1))
-    pokemons_x_y.append((1, 1))
-    pokemons_x_y.append((-1, -1))
-    imshow_hac(pokemons_x_y)
-
-
-    ## TEST tie-breaking with equal distance to two
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((2, 1))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((1.5, 3))
-    # imshow_hac(pokemons_x_y)
-
-
-    ## TEST closest is not first element
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 27))
-    # pokemons_x_y.append((3, 8))
-    # pokemons_x_y.append((3, 6))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-
-
-    ## TEST tie-breaking with equal distance with closer group closer
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 1.2))
-    # pokemons_x_y.append((3, 8))
-    # pokemons_x_y.append((3, 8.5))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-
-    ## TEST tie-breaking with a closer group further "down"
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 2))
-    # pokemons_x_y.append((3, 8))
-    # pokemons_x_y.append((3, 6))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-    ## TEST group individual, then group whole
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 2))
-    # pokemons_x_y.append((3, 3))
-    # pokemons_x_y.append((3, 4))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-    
-
-    ## TEST nan/inf
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((2, 1))
-    # pokemons_x_y.append((math.nan, 3))
-    # pokemons_x_y.append((math.inf, 5))
-    # pokemons_x_y.append((34, math.nan))
-    # pokemons_x_y.append((53, math.nan))
-    # pokemons_x_y.append((2, 4))
-    # pokemons_x_y.append((5, 5))
-    # imshow_hac(pokemons_x_y)
-    # pokemons_x_y.append((3, 2))
-
-    # pokemons_x_y = []
-    # pokemons_x_y.append(calculate_x_y(pokemons[1]))
-    # pokemons_x_y.append(calculate_x_y(pokemons[2]))
-    # pokemons_x_y.append(calculate_x_y(pokemons[3]))
-    # pokemons_x_y.append(calculate_x_y(pokemons[4]))
-
-
-if __name__ =="__main__":
-    main()

@@ -15,7 +15,7 @@ for row in pokemons:
 
 hac(pokemons_x_y)
 
-
+imshow_hac(pokemons_x_y)
 
 
 

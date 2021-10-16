@@ -93,8 +93,6 @@ def hac(dataset):
         counter += 1
 
     # while there are more than 1 clusters left
-    listEucDistance = []
-    listDistance = []
     clusterCounter = len(clusters)
     smallestDist = None
     while(clusterCounter > 1):
@@ -228,8 +226,6 @@ def plot_hac(dataset):
         # increment the counter
         counter += 1
     # while there are more than 1 clusters left
-    listEucDistance = []
-    listDistance = []
     clusterCounter = len(clusters)
     smallestDist = None
     point1, point2 = (0, 0)
@@ -289,103 +285,3 @@ def plot_hac(dataset):
         # restart the distance holder
         smallestDist = None    
     plt.show()
-    
-
-
-
-
-
-
-## TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-## REMOVE!
-
-def main():
-    pokemons = load_data("Pokemon.csv")
-    pokemons[1]
-    calculate_x_y(pokemons[1])
-    pokemons_x_y = []
-    # print(pokemons[7])
-    # print(calculate_x_y(pokemons[7]))
-    # pokemons_x_y = []
-    # for row in pokemons:
-    #     pokemons_x_y.append(calculate_x_y(row))
-
-    ## TEST with unit circle
-    pokemons_x_y.append((0, 0))
-    pokemons_x_y.append((1, -1))
-    pokemons_x_y.append((-1, 1))
-    pokemons_x_y.append((1, 1))
-    pokemons_x_y.append((-1, -1))
-    print(hac(pokemons_x_y))
-
-
-    ## TEST tie-breaking with equal distance to two
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((2, 1))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((1.5, 3))
-    # imshow_hac(pokemons_x_y)
-
-
-    ## TEST closest is not first element
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 27))
-    # pokemons_x_y.append((3, 8))
-    # pokemons_x_y.append((3, 6))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-
-
-    ## TEST tie-breaking with equal distance with closer group closer
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 1.2))
-    # pokemons_x_y.append((3, 8))
-    # pokemons_x_y.append((3, 8.5))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-
-    ## TEST tie-breaking with a closer group further "down"
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 2))
-    # pokemons_x_y.append((3, 8))
-    # pokemons_x_y.append((3, 6))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-    ## TEST group individual, then group whole
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((1, 2))
-    # pokemons_x_y.append((3, 3))
-    # pokemons_x_y.append((3, 4))
-    # pokemons_x_y.append((12, 12))
-    # pokemons_x_y.append((12, 13))
-    # imshow_hac(pokemons_x_y)
-
-    
-
-    ## TEST nan/inf
-    # pokemons_x_y.append((1, 1))
-    # pokemons_x_y.append((2, 1))
-    # pokemons_x_y.append((math.nan, 3))
-    # pokemons_x_y.append((math.inf, 5))
-    # pokemons_x_y.append((34, math.nan))
-    # pokemons_x_y.append((53, math.nan))
-    # pokemons_x_y.append((2, 4))
-    # pokemons_x_y.append((5, 5))
-    # imshow_hac(pokemons_x_y)
-    # pokemons_x_y.append((3, 2))
-
-    # pokemons_x_y = []
-    # pokemons_x_y.append(calculate_x_y(pokemons[1]))
-    # pokemons_x_y.append(calculate_x_y(pokemons[2]))
-    # pokemons_x_y.append(calculate_x_y(pokemons[3]))
-    # pokemons_x_y.append(calculate_x_y(pokemons[4]))
-
-
-if __name__ =="__main__":
-    main()

@@ -356,8 +356,8 @@ def plot_mse():
     # X = np.random.uniform(-100, 100, 1000)
     # TEST
     X = np.random.uniform(-100, 100, 1000)
-    betas = [6, 4]
-    alphas = [1, 3]
+    betas = [1, 3]
+    alphas = [1, 2]
 
     sigmas = [10**-4, 10**-3, 10**-2, 10**-1, 1, 10**1, 10**2, 10**3, 10**4, 10**5]
     linX = []
@@ -394,7 +394,9 @@ def plot_mse():
     plt.plot(sigmas, quadX, '-o')
     plt.yscale("log")
     plt.xscale("log")
-
+    plt.xlabel("Standard Deviation of Error Term")
+    plt.ylabel("MSE of Trained Model")
+    plt.legend(['MSE of Linear Dataset', 'MSE of Quadratic Dataset'])
     plt.savefig('mse.pdf')
 
     

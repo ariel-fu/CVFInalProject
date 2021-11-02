@@ -1,0 +1,21 @@
+import numpy as np
+from intro_pytorch import *
+
+
+train_loader = get_data_loader()
+print(type(train_loader))
+
+print(train_loader.dataset)
+
+test_loader = get_data_loader(False)
+
+model = build_model()
+
+print(model)
+
+criterion = nn.CrossEntropyLoss()
+
+import torch
+torch.manual_seed(100)
+
+train_model(model, train_loader, criterion, T = 5)

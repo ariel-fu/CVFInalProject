@@ -40,7 +40,6 @@ def get_dataset(filename):
             dataset = numpyRow
         else:
             dataset = np.vstack((dataset, numpyRow))
-    print(dataset)
     return dataset
 
 
@@ -269,8 +268,11 @@ def compute_betas(dataset, cols):
     currBetas = currBetas.I
     # (x^T * x)^-1 * x^T
     currBetas = np.matmul(currBetas, xTranspose)
+
+    # get y
     y = dataset[:,0]
     y = np.vstack(y)
+
     # (x^T * x)^-1 * x^T * y
     currBetas = np.matmul(currBetas, y)
     currBetas = (np.asarray(currBetas)).flatten()
@@ -353,8 +355,6 @@ def plot_mse():
         matplotlib.use('Agg')
 
     # TODO: Generate datasets and plot an MSE-sigma graph
-    # X = np.random.uniform(-100, 100, 1000)
-    # TEST
     X = np.random.uniform(-100, 100, 1000)
     betas = [1, 3]
     alphas = [1, 2]
@@ -364,25 +364,10 @@ def plot_mse():
     quadX = []
     for sigma in sigmas:
         linear, quadratic = synthetic_datasets(betas, alphas, X, sigma)
+        # compute linear MSE
         linMSE = compute_betas(linear, cols = [1])
-        
-        print("sigma: ", sigma)
-        print("---------------")
-        print("linear values:")
-        print(linear)
-        print("MSE: ", linMSE[0])
-        print("beta_0: ", linMSE[1])
-        print("beta_1: ", linMSE[2])
-
+        # compute quadratic MSE
         quadMSE = compute_betas(quadratic, cols = [1])
-        
-        print("---------------")
-        print("quadratic values:")
-        print(quadratic)
-        print("MSE: ", quadMSE[0])
-        print("beta_0: ", quadMSE[1])
-        print("beta_1: ", quadMSE[2])
-        print("---------------")
         
         if(len(linX) == 0):
             linX = [linMSE[0]]
@@ -390,6 +375,8 @@ def plot_mse():
         else:
             linX += [linMSE[0]]
             quadX += [quadMSE[0]]
+
+
     plt.plot(sigmas, linX, '-o')
     plt.plot(sigmas, quadX, '-o')
     plt.yscale("log")
@@ -401,95 +388,22 @@ def plot_mse():
 
     
 
-
-
-
-
-    # # TEST
-    # # X = np.random.randint(-100, 100, 1000)
-    # X = np.random.uniform(-100, 100, 2)
-    # betas = [1, 2]
-    # alphas = [2, 2]
-
-    # sigmas = [10**-4, 10**-3, 10**-2, 10**-1, 10**0, 10**1, 10**2, 10**3, 10**4, 10**5]
-    # linearMSE = []
-    # quadraticMSE = []
-    # for sigma in sigmas:
-    #     linearOrig, quadraticOrig = synthetic_datasets(betas, alphas, X, sigma)
-    #     # TEST
-    #     # make the original column to the first
-    #     print(linearOrig)
-    #     linearOrig = linearOrig.transpose()
-    #     holder = linearOrig[0]
-    #     linear = linearOrig[1]
-    #     linear = np.vstack((linear, holder))
-    #     linear = linear.transpose()
-    #     # TEST
-    #     print(linear)
-
-    #     print(quadraticOrig)
-    #     quadraticOrig = quadraticOrig.transpose()
-    #     holder = quadraticOrig[0]
-    #     quadratic = quadraticOrig[1]
-    #     quadratic = np.vstack((quadratic, holder))
-    #     quadratic = quadratic.transpose()
-    #     # TEST
-    #     print(quadratic)
-        
-    #     linear = compute_betas(linear, cols = [1])
-    #     quadratic = compute_betas(quadratic, cols = [1])
-    #     if(len(linearMSE) == 0):
-    #         linearMSE = [linear[0]]
-    #         quadraticMSE = [quadratic[0]]
-    #     else:
-    #         linearMSE += [linear[0]]
-    #         quadraticMSE += [quadratic[0]]
-
-    # # x-components = sigma values
-    # xpoints = np.array(sigmas)
-    # # y-components = linearMSE/quadraticMSE
-    # yLinear = np.array(linearMSE)
-    # yQuadratic = np.array(quadraticMSE)
-    # fig = plt.figure()
-
-    # # plot out both components using '-o'
-    # plt.plot(xpoints, yLinear, '-o')
-    # plt.plot(xpoints, yQuadratic, '-o')
-    # plt.yscale("log")
-    # plt.xscale("log")
-    # plt.pause(1)
-    # plt.show()
-
-
-
-
 def main():
-    # dataset = get_dataset('bodyfat.csv')
-    # # regression(dataset, cols=[2,3], betas=[0,0,0])
-    # # regression - Canvas
-    # print(regression(dataset, cols=[2,3,4], betas=[0,-1.1,-0.2,3]))
-    # # gradient descent - Canvas
-    # print(gradient_descent(dataset, cols=[2,3], betas=[0,0,0]))
-    # print(gradient_descent(dataset, cols=[1,4], betas=[0,0,0]))
-    # # iterate gradient - Canvas
-    # print(iterate_gradient(dataset, cols=[1,8], betas=[400,-400,300], T=10, eta=1e-4))
-    # print(iterate_gradient(dataset, cols=[1,4], betas=[400,-400,10], T=5, eta=1e-4))
-    # # compute betas - Canvas
-    # print(compute_betas(dataset, cols=[1,2]))
-    # print(compute_betas(dataset, cols=[1,2,8,9]))
-    # # predict - Canvas
-    # print(predict(dataset, cols=[1, 2], features=[1.0708, 23]))
-    # # synthetic datasets - Canvas
-    # print(synthetic_datasets(np.array([0,2]), np.array([0,1]), np.array([[4], [5]]), 1))
 
-    dataset = np.array([[2, 4], [2, 6]])
-    print(compute_betas(dataset, cols=[1]))
+    dataset = get_dataset('bodyfat.csv')
+    print_stats(dataset, 9)
+
+    print(regression(dataset, cols = [2, 3], betas = [1, 0.7, 0.1]))
+    
+    print(regression(dataset, cols=[2,3], betas=[10,20,-40]))
+    print("---------")
+    print(regression(dataset, cols=[4,7, 8], betas=[100,50,-40, 20]))
+    print("-----------------------------------")
+    print(iterate_gradient(dataset, cols=[1,8], betas=[400,-400,300], T=50, eta=1e-6))
+
+    print(predict(dataset, cols = [1, 2, 8, 9], features = []))
 
 if __name__ == '__main__':
-    ## TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-    ## REMOVE
-
     main()
-
     ### DO NOT CHANGE THIS SECTION ###
     plot_mse()

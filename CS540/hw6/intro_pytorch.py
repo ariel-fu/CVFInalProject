@@ -129,9 +129,8 @@ def evaluate_model(model, test_loader, criterion, show_loss = True):
     
     trainingLoss = 0
     trainingAcc = 0
-    totalDatapoints = 60000
-    with torch.no_grad():
-        batchDatapoints = 0
+    batchDatapoints = 0
+    with torch.no_grad():        
         for data in test_loader:
             inputs, labels = data
 
@@ -141,7 +140,7 @@ def evaluate_model(model, test_loader, criterion, show_loss = True):
             loss = criterion(predictions, labels)
 
             # accumulate the loss
-            trainingLoss += loss.item()
+            trainingLoss += loss.item() * labels.size()[0]
             # add to the number of data points in this batch
             batchDatapoints += labels.size()[0]
             # get the predicted labels
@@ -151,11 +150,13 @@ def evaluate_model(model, test_loader, criterion, show_loss = True):
                 if(label == prediction):
                     trainingAcc += 1
     if(show_loss):
-        trainingLoss = 100*(trainingLoss/totalDatapoints)
-        print("Average loss: ", trainingLoss)
+        trainingLoss = (trainingLoss/batchDatapoints)
+        lossFormat = "Average loss: {:.4f}"
+        print(lossFormat.format(trainingLoss))
 
     trainingAcc = 100*(trainingAcc/batchDatapoints)
-    print("Accuracy: ", trainingAcc, "%")
+    trainingFormat = "Accuracy: {:.2f}%"
+    print(trainingFormat.format(trainingAcc))
 
 
 
@@ -172,6 +173,51 @@ def predict_label(model, test_images, index):
     RETURNS:
         None
     """
+
+    predictedOutput = model(test_images[index])
+    prob = F.softmax(predictedOutput, dim=-1)
+    probArray = prob.detach().numpy()
+    topThree = []
+    i = 0
+    while i < 3:
+        for row in probArray:
+            highest = (-1, -1)
+            counter = 0
+            for currValue in row:
+                if currValue > highest[0]:
+                    highest = (currValue, counter)
+                counter += 1
+            index = highest[1]
+            row[index] = -1
+            topThree += [highest]
+        i += 1
+
+    for value in topThree:
+        probability, classPred = value
+        print("{}: {:.2f}%".format(convertNumToString(classPred), probability*100))
+
+
+def convertNumToString(num):
+    if(num == 0):
+        return 'zero'
+    if(num == 1):
+        return 'one'
+    if(num == 2):
+        return 'two'
+    if(num == 3):
+        return 'three'
+    if(num == 4):
+        return 'four'
+    if(num == 5):
+        return 'five'
+    if(num == 6):
+        return 'six'
+    if(num == 7):
+        return 'seven'
+    if(num == 8):
+        return 'eight'
+    return 'nine'
+
 
 
 
@@ -199,3 +245,7 @@ if __name__ == '__main__':
     evaluate_model(model, test_loader, criterion, show_loss = False)
 
     evaluate_model(model, test_loader, criterion, show_loss = True)
+
+    pred_set, _ = iter(get_data_loader(False)).next()
+
+    predict_label(model, pred_set, 1)

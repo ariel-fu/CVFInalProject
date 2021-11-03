@@ -19,3 +19,16 @@ import torch
 torch.manual_seed(100)
 
 train_model(model, train_loader, criterion, T = 5)
+
+
+pred_set, _ = iter(get_data_loader()).next()
+
+predict_label(model, pred_set, 1)
+
+evaluate_model(model, test_loader, criterion, show_loss = False)
+
+evaluate_model(model, test_loader, criterion, show_loss = True)
+
+pred_set, _ = iter(get_data_loader()).next()
+
+predict_label(model, pred_set, 1)

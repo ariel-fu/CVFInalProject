@@ -54,7 +54,7 @@ def build_model():
 
 
 
-
+# CREDIT: example code from Pytorch official tutorial [https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#sphx-glr-beginner-blitz-cifar10-tutorial-py]
 def train_model(model, train_loader, criterion, T):
     """
     TODO: implement this function.
@@ -159,7 +159,7 @@ def evaluate_model(model, test_loader, criterion, show_loss = True):
     print(trainingFormat.format(trainingAcc))
 
 
-
+# CREDIT: understanding [https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax]
 def predict_label(model, test_images, index):
     """
     TODO: implement this function.
@@ -173,28 +173,29 @@ def predict_label(model, test_images, index):
     RETURNS:
         None
     """
+    model.eval()
+    with torch.no_grad():
+        predictedOutput = model(test_images[index])
+        prob = F.softmax(predictedOutput, dim=-1)
+        probArray = prob.detach().numpy()
+        topThree = []
+        i = 0
+        while i < 3:
+            for row in probArray:
+                highest = (-1, -1)
+                counter = 0
+                for currValue in row:
+                    if currValue > highest[0]:
+                        highest = (currValue, counter)
+                    counter += 1
+                index = highest[1]
+                row[index] = -1
+                topThree += [highest]
+            i += 1
 
-    predictedOutput = model(test_images[index])
-    prob = F.softmax(predictedOutput, dim=-1)
-    probArray = prob.detach().numpy()
-    topThree = []
-    i = 0
-    while i < 3:
-        for row in probArray:
-            highest = (-1, -1)
-            counter = 0
-            for currValue in row:
-                if currValue > highest[0]:
-                    highest = (currValue, counter)
-                counter += 1
-            index = highest[1]
-            row[index] = -1
-            topThree += [highest]
-        i += 1
-
-    for value in topThree:
-        probability, classPred = value
-        print("{}: {:.2f}%".format(convertNumToString(classPred), probability*100))
+        for value in topThree:
+            probability, classPred = value
+            print("{}: {:.2f}%".format(convertNumToString(classPred), probability*100))
 
 
 def convertNumToString(num):

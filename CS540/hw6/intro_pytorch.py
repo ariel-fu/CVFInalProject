@@ -5,6 +5,8 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 
+from matplotlib import pyplot as plt
+
 # Feel free to import other packages, if needed.
 # As long as they are supported by CSL machines.
 
@@ -26,7 +28,7 @@ def get_data_loader(training = True):
     else:
         data_set = datasets.MNIST('./data', train=True, download=True, transform=custom_transform)
 
-    loader = torch.utils.data.DataLoader(data_set, batch_size = 50)
+    loader = torch.utils.data.DataLoader(data_set, batch_size = 50, shuffle=False)
 
     return loader
 
@@ -69,9 +71,7 @@ def train_model(model, train_loader, criterion, T):
         None
     """
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-    trainingPrintout = "Train Epoch: {}        Accuracy: {:.0f}/{} ({:.2f}%)       Loss: {:.3f}"
-    # we know that the dataset has 60,000 data points
-    totalSamples = 60000
+    trainingPrintout = "Train Epoch: {}   Accuracy: {:.0f}/{} ({:.2f}%)    Loss: {:.3f}"
 
     for epoch in range(T):
         trainingLoss = 0
@@ -102,11 +102,8 @@ def train_model(model, train_loader, criterion, T):
             _, predictedLabels = torch.max(predictions.data, 1)
             # calculate and add training accuracy
             trainingAcc += (predictedLabels == labels).sum().item()
-            # for label, prediction in zip (labels, predictedLabels):
-            #     if(label == prediction):
-            #         trainingAcc += 1
 
-        print(trainingPrintout.format(epoch, trainingAcc, totalSamples, 100*(trainingAcc/batchDatapoints), trainingLoss/batchDatapoints))
+        print(trainingPrintout.format(epoch, trainingAcc, batchDatapoints, 100*(trainingAcc/batchDatapoints), trainingLoss/batchDatapoints))
 
             
     
@@ -146,9 +143,8 @@ def evaluate_model(model, test_loader, criterion, show_loss = True):
             # get the predicted labels
             _, predictedLabels = torch.max(predictions.data, 1)
             # calculate and add training accuracy
-            for label, prediction in zip (labels, predictedLabels):
-                if(label == prediction):
-                    trainingAcc += 1
+            trainingAcc += (predictedLabels == labels).sum().item()
+
     if(show_loss):
         trainingLoss = (trainingLoss/batchDatapoints)
         lossFormat = "Average loss: {:.4f}"
@@ -159,7 +155,7 @@ def evaluate_model(model, test_loader, criterion, show_loss = True):
     print(trainingFormat.format(trainingAcc))
 
 
-# CREDIT: understanding [https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax]
+# CREDIT: understanding softmax with [https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax]
 def predict_label(model, test_images, index):
     """
     TODO: implement this function.
@@ -228,25 +224,40 @@ if __name__ == '__main__':
     Note that this part will not be graded.
     '''
 
-    train_loader = get_data_loader()
-    print(type(train_loader))
+    # train_loader = get_data_loader()
+    # print(type(train_loader))
 
-    print(train_loader.dataset)
+    # print(train_loader.dataset)
 
-    test_loader = get_data_loader(False)
+    # test_loader = get_data_loader(False)
 
-    model = build_model()
+    # model = build_model()
 
-    print(model)
+    # print(model)
 
-    criterion = nn.CrossEntropyLoss()
+    # criterion = nn.CrossEntropyLoss()
 
-    train_model(model, train_loader, criterion, T = 5)
+    # # train_model(model, train_loader, criterion, T = 5)
 
-    evaluate_model(model, test_loader, criterion, show_loss = False)
 
-    evaluate_model(model, test_loader, criterion, show_loss = True)
+    # train_model(model, train_loader, criterion, T = 2)
 
-    pred_set, _ = iter(get_data_loader(False)).next()
+    # # model = build_model()
+    # # train_model(model, train_loader, criterion, T = 6)
+    
 
-    predict_label(model, pred_set, 1)
+    # evaluate_model(model, test_loader, criterion, show_loss = False)
+
+    # evaluate_model(model, test_loader, criterion, show_loss = True)
+
+    # pred_set, _ = iter(get_data_loader(False)).next()
+
+    # predict_label(model, pred_set, 25)
+
+    # image = pred_set[25]
+    # print(image.shape)
+    # image = image.reshape(28, 28)
+    # plt.imshow(image.numpy())
+    # plt.show()
+
+     

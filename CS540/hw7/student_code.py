@@ -84,7 +84,7 @@ class LeNet(nn.Module):
         # print(shape_dict)
         # print("-------")
         #TEST
-        count_model_params()
+        # count_model_params()
 
         return out, shape_dict
 
@@ -109,19 +109,19 @@ def count_model_params():
             kernelWidth = parameterSizes[3]
             currLearnable += (input * kernelHeight * kernelWidth + 1)
             # TEST
-            print(currLearnable)
+            # print(currLearnable)
             currLearnable *= output
             # TEST
-            print(currLearnable)
+            # print(currLearnable)
         elif(length == 2):
             output = parameterSizes[0]
             input = parameterSizes[1]
             currLearnable += (output * input)
             # TEST
-            print(currLearnable)
+            # print(currLearnable)
             currLearnable += output
             # TEST
-            print(currLearnable)
+            # print(currLearnable)
         else:
             currLearnable = 0
         model_params += currLearnable

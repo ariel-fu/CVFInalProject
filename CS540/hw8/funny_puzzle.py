@@ -1,6 +1,8 @@
 import numpy as np
 import heapq as heap
 import time
+## TEST DELETE
+from itertools import permutations
 
 SUCCESS = [1, 2, 3, 4, 5, 6, 7, 8, 0]
 
@@ -92,12 +94,12 @@ def solve(state):
         
         
         # print(*visitedStates, sep='\n')
-        end = time.time()
-        if(iteration%100 == 0):
-            # print("=-=-=-=-===-=-=--==-=-=--==-=-=-=-=-=-===-==---=-=-=-==-")
-            print(end-start)
-            print("iteration: ", iteration)
-        iteration+=1
+        # end = time.time()
+        # if(iteration%100 == 0):
+        #     # print("=-=-=-=-===-=-=--==-=-=--==-=-=-=-=-=-===-==---=-=-=-==-")
+        #     print(end-start)
+        #     print("iteration: ", iteration)
+        # iteration+=1
         # print("open: ")
         # print(*open, sep='\n')
         # print("=-=-=-=-===-=-=--==-=-=--==-=-=-=-=-=-===-==---=-=-=-==-")
@@ -311,8 +313,49 @@ def operate(state, zeroIndex, swapIndex):
     state[swapIndex] = 0
     return state
 
+
+
 #### TEST
 #### DELETE
+
+
+def toString(List):
+    return ''.join(List)
+ 
+
+def permute(s, answer, list_permutation):
+    if (len(s) == 0):
+        list_permutation += [answer]
+        # print(list_permutation)
+        return list_permutation
+     
+    for i in range(len(s)):
+        ch = s[i]
+        left_substr = s[0:i]
+        right_substr = s[i + 1:]
+        rest = left_substr + right_substr
+        permute(rest, answer + ch, list_permutation)
+
+def getInvCount(arr):
+    inv_count = 0
+    empty_value = -1
+    for i in range(0, 9):
+        for j in range(i + 1, 9):
+            if arr[j] != empty_value and arr[i] != empty_value and arr[i] > arr[j]:
+                inv_count += 1
+    return inv_count
+ 
+     
+# This function returns true
+# if given 8 puzzle is solvable.
+def isSolvable(puzzle) :
+ 
+    # Count inversions in given 8 puzzle
+    inv_count = getInvCount([j for sub in puzzle for j in sub])
+ 
+    # return true if inversion count is even.
+    return (inv_count % 2 == 0)
+
 def main():
     # state = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     # getNextStates(state)
@@ -344,6 +387,27 @@ def main():
     # heap.heappush(open, value2)
     # heap.heappush(open, duplicate)
     # print(removeDuplicate(open, duplicate))
+    string = "012345678"
+    
+    permute_list = [''.join(p) for p in permutations('012345678')]
+    # sort them out
+    solvablePuzzles=[]
+    for permute_item in permute_list:
+        puzzle = [[permute_item[0], permute_item[1], permute_item[2]], [permute_item[3], permute_item[4], permute_item[5]], [permute_item[6], permute_item[7], permute_item[8]]]
+        if(isSolvable(puzzle)):
+            puzzle = sum(puzzle, [])
+            puzzle = [int(x) for x in puzzle]
+            solvablePuzzles.append(puzzle)
+
+    for puzzle in solvablePuzzles:
+        timeStart = time.time()
+        solve(puzzle)
+        timeEnd = time.time()
+        print("      ")
+        print("time: ")
+        print(timeEnd - timeStart)
+        print("-----------")
+
 
     parent_list = []
     value1 = create_state(10, 5, 5, [1, 2, 3], -1)

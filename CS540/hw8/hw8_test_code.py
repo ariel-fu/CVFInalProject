@@ -1,4 +1,3 @@
-import numpy as np
 import heapq as heap
 import time
 ## TEST DELETE
@@ -13,7 +12,18 @@ def print_succ(state):
         succState, h = outputValue
         print(output.format(succState, h))
 
-## ADD CREDITS
+''' Original author: Professor Liang
+    Source: http://pages.cs.wisc.edu/~yliang/cs540_1_fall21/documents/CS540-informed-search.pdf (Links to an external site.)
+    The pseudocode on page 28 was consistently referenced while coding
+'''
+''' Original author: Ziyi Zhang
+    Source: https://piazza.com/class/ktak19t6klt6rj?cid=584 & https://piazza.com/class/ktak19t6klt6rj?cid=574 (Links to an external site.)
+    Discovered the time to find the path is too long - reorganized code based on feedback from Ziyi Zhang.
+'''
+''' Original author: Python Documentation for heapq
+    Source: https://docs.python.org/3/library/heapq.html (Taken from Canvas write-up) (Links to an external site.)
+    The implementation details and function documentations were referenced during coding to understand how 'heappush' and 'heappop' work, in addition to seeing if there are other functions that may be useful
+'''
 def solve(state):
     # create OPEN heap
     open = []
@@ -36,8 +46,6 @@ def solve(state):
     # add to the list of visited states
     visitedStates = {currStateString}
 
-    ## TEST
-    # iteration = 0
     # while open heap is not empty:
     while(len(open) != 0):
         # pop from open
@@ -74,7 +82,7 @@ def solve(state):
             # parent_index = parent_index-1
             p_index = parent_index-1
             # create new node and add these values
-            currSuccessorNode = create_state(g+h, g, h, succ, p_index)
+            currSuccessorNode = create_state(f, g, h, succ, p_index)
             addCurr = True
             # stringify the successor
             currStateString = ''.join([str(n) for n in currSuccessorNode[1]])
@@ -88,20 +96,7 @@ def solve(state):
             # else, add the successor to OPEN
             if(addCurr):
                 heap.heappush(open, currSuccessorNode)
-        
-        
-        # print(*visitedStates, sep='\n')
-        # end = time.time()
-        # if(iteration%100 == 0):
-        #     # print("=-=-=-=-===-=-=--==-=-=--==-=-=-=-=-=-===-==---=-=-=-==-")
-        #     print(end-start)
-        #     print("iteration: ", iteration)
-        # iteration+=1
-        # print("open: ")
-        # print(*open, sep='\n')
-        # print("=-=-=-=-===-=-=--==-=-=--==-=-=-=-=-=-===-==---=-=-=-==-")
-        # print("close: ")
-        # print(*close, sep='\n')
+    # will not come to this case because all cases are assumed to be solvable.
     print("failed")
 
 
@@ -111,9 +106,7 @@ def backtrack(originalState, parent_list, currValue):
     # get the parent index
     parent_index = currValue[2][2]
     # keep track of the path list:
-    pathList = [currValue]
-    # moves made
-    
+    pathList = [currValue]    
     while(parent_index != 0):
         parent = parent_list[parent_index]
         pathList.insert(0, parent)
@@ -133,39 +126,9 @@ def backtrack(originalState, parent_list, currValue):
 def create_state(f, g, h, state, parent_index):
     return (f, state, (g, h, parent_index))        
 
-## check if the successor is already in the heap
-# def isInHeap(open, node):
-#     nodeState = node[1]
-#     for value in open:
-#         state = value[1]
-#         if(state == nodeState):
-#             return True
-#     return False
-
-## given a heap and a duplicate value, remove the duplicate value
-# def removeDuplicate(close, duplicate):
-#     duplicateF = duplicate[0]
-#     duplicateState = duplicate[1]
-#     index = 0
-#     addCurr = True
-#     for element in close:
-#         currF = element[0]
-#         currState = element[1]
-#         if(currState == duplicateState):
-#             if(currF > duplicateF):
-#                 close.pop(index)
-#             else:
-#                 addCurr = False
-#         index += 1
-
-#     return addCurr, close
-
-    
-
 ## get the successors and their respective 'h' values in a list
 def get_succ(state):
     successors = getNextStates(state)
-    output = "{} h={}"
     outputList = []
     isFirst = True
     for succState in successors:

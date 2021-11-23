@@ -68,7 +68,6 @@ class LeNet(nn.Module):
         # run through last dense neural network
         out = self.fc3(out)
         shape_dict[6] = list(out.shape)
-
         return out, shape_dict
 
 

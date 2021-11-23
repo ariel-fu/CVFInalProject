@@ -88,20 +88,20 @@ if __name__ == '__main__':
                         message += '\nScore for Part 1 is 0.\n'
                     if temp1 != 1:
                         try:
-                            # if output[1][0] == gt[1][0] and output[1][1] == gt[1][1] and \
-                            #         output[1][2] == gt[1][2] and output[1][3] == gt[1][3]:
-                            #     score += 5
+                            if output[1][0] == gt[1][0] and output[1][1] == gt[1][1] and \
+                                    output[1][2] == gt[1][2] and output[1][3] == gt[1][3]:
+                                score += 5
                             if output[2][0] == gt[2][0] and output[2][1] == gt[2][1] and \
                                     output[2][2] == gt[2][2] and output[2][3] == gt[2][3]:
                                 score += 30
-                            # if output[3][0] == gt[3][0] and output[3][1] == gt[3][1]:
-                            #     score += 5
-                            # if output[4][0] == gt[4][0] and output[4][1] == gt[4][1]:
-                            #     score += 5
-                            # if output[5][0] == gt[5][0] and output[5][1] == gt[5][1]:
-                            #     score += 5
-                            # if output[6][0] == gt[6][0] and output[6][1] == gt[6][1]:
-                            #     score += 5
+                            if output[3][0] == gt[3][0] and output[3][1] == gt[3][1]:
+                                score += 5
+                            if output[4][0] == gt[4][0] and output[4][1] == gt[4][1]:
+                                score += 5
+                            if output[5][0] == gt[5][0] and output[5][1] == gt[5][1]:
+                                score += 5
+                            if output[6][0] == gt[6][0] and output[6][1] == gt[6][1]:
+                                score += 5
                             message += '\nScore less than 30 means missing keys or wrong shape existed.\n'
                         except:
                             message += '\nUnexpected keys or no keys in the returned dict.\n'

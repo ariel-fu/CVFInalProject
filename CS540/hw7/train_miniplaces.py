@@ -1,4 +1,4 @@
-# python imports
+git add# python imports
 import os
 import argparse
 from tqdm import tqdm
@@ -35,7 +35,7 @@ def main(args):
     # torch.manual_seed(0)
 
     # TEST
-    torch.manual_seed(50)
+    torch.manual_seed(100)
 
     ###################################
     # setup model, loss and optimizer #
@@ -150,14 +150,14 @@ if __name__ == '__main__':
     #                     help='path to latest checkpoint (default: none)')
 
                         #### LEARNING RATE = 0.05 ####
-    parser.add_argument('--epochs', default=10, type=int, metavar='N',
-                        help='number of total epochs to run')
-    parser.add_argument('--lr', default=0.05, type=float,
-                        metavar='LR', help='initial learning rate', dest='lr')
-    parser.add_argument('--batch-size', default=32, type=int, metavar='N',
-                        help='number of images within a mini-batch')
-    parser.add_argument('--resume', default='', type=str, metavar='PATH',
-                        help='path to latest checkpoint (default: none)')
+    # parser.add_argument('--epochs', default=10, type=int, metavar='N',
+    #                     help='number of total epochs to run')
+    # parser.add_argument('--lr', default=0.05, type=float,
+    #                     metavar='LR', help='initial learning rate', dest='lr')
+    # parser.add_argument('--batch-size', default=32, type=int, metavar='N',
+    #                     help='number of images within a mini-batch')
+    # parser.add_argument('--resume', default='', type=str, metavar='PATH',
+    #                     help='path to latest checkpoint (default: none)')
 
                         #### LEARNING RATE = 0.01 ####
     # parser.add_argument('--epochs', default=10, type=int, metavar='N',
@@ -168,6 +168,16 @@ if __name__ == '__main__':
     #                     help='number of images within a mini-batch')
     # parser.add_argument('--resume', default='', type=str, metavar='PATH',
     #                     help='path to latest checkpoint (default: none)')
+
+                        #### TEST: LEARNING RATE = 0.1 ####
+    parser.add_argument('--epochs', default=10, type=int, metavar='N',
+                        help='number of total epochs to run')
+    parser.add_argument('--lr', default=0.1, type=float,
+                        metavar='LR', help='initial learning rate', dest='lr')
+    parser.add_argument('--batch-size', default=32, type=int, metavar='N',
+                        help='number of images within a mini-batch')
+    parser.add_argument('--resume', default='', type=str, metavar='PATH',
+                        help='path to latest checkpoint (default: none)')
 
                         #### EPOCHS = 20 ####
     # parser.add_argument('--epochs', default=20, type=int, metavar='N',

@@ -262,18 +262,20 @@ class Teeko2Player:
         try:
             horizontalConnectionReverse = 1
             horizontalBlockReverse = 0
-            
+            # check index = [row][col+1]
             if(state[row][col+1] == marker):
                 horizontalConnectionReverse += 1
-            if(state[row][col+2] == marker):
-                horizontalConnectionReverse += 1
-            # if(state[row][col+3] == marker):
-            #     horizontalConnectionReverse += 1
-
             if(state[row][col+1] == opponent):
                 horizontalBlockReverse += 1
+            # check index = [row][col+2]
+            if(state[row][col+2] == marker):
+                horizontalConnectionReverse += 1       
             if(state[row][col+2] == opponent):
                 horizontalBlockReverse += 1
+
+            # check index = [row][col+3]
+            # if(state[row][col+3] == marker):
+            #     horizontalConnectionReverse += 1
             if(state[row][col+3] == opponent):
                 horizontalBlockReverse += 1
         except:
@@ -284,6 +286,46 @@ class Teeko2Player:
             if(horizontalBlock < horizontalBlockReverse):
                 horizontalBlock = horizontalBlockReverse
        
+
+        # check tricky case of middle in horizontal moves
+        try:
+            horizontalConnectionTricky = 1
+            horizontalBlockTricky = 0
+            # check index = [row][col-1]
+            if(state[row][col-1] == marker):
+                horizontalConnectionTricky += 1    
+            if(state[row][col-1] == opponent):
+                horizontalBlockTricky += 1
+            # NOTE: if this did not happen, then it did not fill a middle case
+            # check index = [row][col+1]
+            if(state[row][col+1] == marker):
+                horizontalConnectionTricky += 1       
+            if(state[row][col+1] == opponent):
+                horizontalBlockTricky += 1            
+        except:
+            # check index = [row][col+2]
+            pass            
+        finally:
+            # see if it blocked a 3 case to the right
+            try:
+                if(state[row][col+2] == opponent):
+                    horizontalBlockTricky += 1
+            except:
+                pass
+            # see if it blocked a 3 case to the left
+            try:                
+                if(state[row][col-2] == opponent):
+                    horizontalBlockTricky += 1 
+            except:
+                pass
+
+            if(horizontalConnection < horizontalConnectionTricky):
+                horizontalConnection = horizontalConnectionTricky
+            if(horizontalBlock < horizontalBlockTricky):
+                print("success - block")
+                horizontalBlock = horizontalBlockTricky
+
+
         # calculate vertical connections
         try:
             if(state[row-1][col] == marker):
@@ -326,6 +368,48 @@ class Teeko2Player:
 
             if(verticalBlock < verticalBlockReverse):
                 verticalBlock = verticalBlockReverse 
+        
+
+        # check tricky case of middle for the vertical case
+
+        try:
+            verticalConnectionTricky = 1
+            verticalBlockTricky = 0
+            # check index = [row][col-1]
+            if(state[row-1][col] == marker):
+                verticalConnectionTricky += 1    
+            if(state[row-1][col] == opponent):
+                verticalBlockTricky += 1
+            # NOTE: if this did not happen, then it did not fill a middle case
+            # check index = [row][col+1]
+            if(state[row+1][col] == marker):
+                verticalConnectionTricky += 1       
+            if(state[row+1][col] == opponent):
+                verticalBlockTricky += 1            
+        except:
+            # check index = [row][col+2]
+            pass            
+        finally:
+            # see if it blocked a 3 case to the top
+            try:
+                if(state[row-2][col] == opponent):
+                    verticalBlockTricky += 1
+            except:
+                pass
+            # see if it blocked a 3 case to the bottom
+            try:                
+                if(state[row+2][col] == opponent):
+                    verticalBlockTricky += 1 
+            except:
+                pass
+
+            if(horizontalConnection < verticalConnectionTricky):
+                verticalConnection = verticalConnectionTricky
+            if(horizontalBlock < verticalBlockTricky):
+                verticalBlock = verticalBlockTricky
+
+
+
 
         # calculate left diagonal connections
         try:
@@ -368,6 +452,46 @@ class Teeko2Player:
                 diagonalConnection == leftDiagonalConnectionReverse
             if(diagonalBlock < leftDiagonalBlockReverse):
                 diagonalBlock == leftDiagonalBlockReverse
+
+
+        # TODO: check tricky case of middle in the case of a left diagonal
+
+        try:
+            leftDiagonalConnectionTricky = 1
+            leftDiagonalBlockTricky = 0
+            # check index = [row][col-1]
+            if(state[row-1][col-1] == marker):
+                leftDiagonalConnectionTricky += 1    
+            if(state[row-1][col-1] == opponent):
+                leftDiagonalBlockTricky += 1
+            # NOTE: if this did not happen, then it did not fill a middle case
+            # check index = [row][col+1]
+            if(state[row+1][col+1] == marker):
+                leftDiagonalConnectionTricky += 1       
+            if(state[row+1][col+1] == opponent):
+                leftDiagonalBlockTricky += 1            
+        except:
+            # check index = [row][col+2]
+            pass            
+        finally:
+            # see if it blocked a 3 case to the top
+            try:
+                if(state[row-2][col-2] == opponent):
+                    leftDiagonalBlockTricky += 1
+            except:
+                pass
+            # see if it blocked a 3 case to the bottom
+            try:                
+                if(state[row+2][col+2] == opponent):
+                    leftDiagonalBlockTricky += 1 
+            except:
+                pass
+
+            if(horizontalConnection < leftDiagonalConnectionTricky):
+                diagonalConnection = leftDiagonalConnectionTricky
+            if(horizontalBlock < leftDiagonalBlockTricky):
+                diagonalBlock = leftDiagonalBlockTricky
+
 
         # calculate right diagonal connections
         try:
@@ -421,7 +545,44 @@ class Teeko2Player:
     
             if(diagonalBlock < rightDiagonalBlockReverse):
                 diagonalBlock = rightDiagonalBlockReverse
-        
+
+        # TODO: check tricky case of middle in the case of a right diagonal
+        try:
+            rightDiagonalConnectionTricky = 1
+            rightDiagonalBlockTricky = 0
+            # check index = [row+1][col-1]
+            if(state[row+1][col-1] == marker):
+                rightDiagonalConnectionTricky += 1    
+            if(state[row+1][col-1] == opponent):
+                rightDiagonalBlockTricky += 1
+            # NOTE: if this did not happen, then it did not fill a middle case
+            # check index = [row-1][col+1]
+            if(state[row-1][col+1] == marker):
+                rightDiagonalConnectionTricky += 1       
+            if(state[row-1][col+1] == opponent):
+                rightDiagonalBlockTricky += 1            
+        except:
+            pass            
+        finally:
+            # see if it blocked a 3 case to the bottom
+            try:
+                if(state[row+2][col-2] == opponent):
+                    rightDiagonalBlockTricky += 1
+            except:
+                pass
+            # see if it blocked a 3 case to the top
+            try:                
+                if(state[row-2][col+2] == opponent):
+                    rightDiagonalBlockTricky += 1 
+            except:
+                pass
+
+            if(horizontalConnection < rightDiagonalConnectionTricky):
+                diagonalConnection = rightDiagonalConnectionTricky
+            if(horizontalBlock < rightDiagonalBlockTricky):
+                diagonalBlock = rightDiagonalBlockTricky
+
+
         # calculate square connections
         try:    
             if(state[row+2][col] == marker):
@@ -705,19 +866,34 @@ class Teeko2Player:
  
 def test():
     test = Teeko2Player()
-
-
-    # minimax_value
-    state = [['r', ' ', ' ', ' ', 'r'], 
+    state = [[' ', ' ', ' ', ' ', ' '], 
+             [' ', ' ', ' ', 'r', ' '], 
+             [' ', ' ', 'b', ' ', ' '], 
              [' ', 'r', ' ', ' ', ' '], 
-             [' ', 'b', ' ', 'b', ' '], 
-             [' ', ' ', ' ', ' ', ' '], 
-             [' ', 'b', 'b', ' ', ' ']]
-    time_start = time.time()
-    finishedstate, minimaxvalue = test.minimax_value(state=state, depth = 0)
-    time_end = time.time()
-    print(*finishedstate, sep='\n')
-    print("time: ", time_end-time_start)
+             ['r', ' ', ' ', ' ', ' ']]
+    index = (2, 2)
+    tricky = test.weight(state, index)
+    print(tricky)
+
+    # state = [[' ', ' ', ' ', ' ', ' '], 
+    #          [' ', 'r', ' ', ' ', ' '], 
+    #          [' ', ' ', 'b', ' ', ' '], 
+    #          [' ', ' ', ' ', 'r', ' '], 
+    #          [' ', ' ', ' ', ' ', 'r']]
+    # index = (2, 2)
+    # tricky = test.weight(state, index)
+    # print(tricky)
+    # # minimax_value
+    # state = [['r', ' ', ' ', ' ', 'r'], 
+    #          [' ', 'r', ' ', ' ', ' '], 
+    #          [' ', 'b', ' ', 'b', ' '], 
+    #          [' ', ' ', ' ', ' ', ' '], 
+    #          [' ', 'b', 'b', ' ', ' ']]
+    # time_start = time.time()
+    # finishedstate, minimaxvalue = test.minimax_value(state=state, depth = 0)
+    # time_end = time.time()
+    # print(*finishedstate, sep='\n')
+    # print("time: ", time_end-time_start)
 
     # state = [[' ', 'b', 'r', ' ', ' '], 
     # ['r', ' ', ' ', ' ', ' '], 

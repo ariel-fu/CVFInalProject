@@ -3,7 +3,7 @@ import copy
 import time
 
 # trial depth_value
-DEPTH_VALUE = 4
+DEPTH_VALUE = 2
 
 class Teeko2Player:
     """ An object representation for an AI game player for the game Teeko2.
@@ -734,7 +734,7 @@ class Teeko2Player:
         col_index = 0
         for row in state:
             for col in row:
-                if(state[row_index][col_index] != self.my_piece):
+                if(state[row_index][col_index] == self.my_piece):
                     numMarkers+=1
                 col_index += 1
             row_index += 1
@@ -752,7 +752,8 @@ class Teeko2Player:
         # keep track of the next successors
         successors = []
         if(self.detect_drop_state(state)):
-            successors += (self.dropPiece(state))
+            dropCoordinates = self.drop_coordinates(state)
+            successors += self.drop_piece(state, dropCoordinates)
         origState = state[:]
         for stateRow in state:
             for value in stateRow:
@@ -775,12 +776,33 @@ class Teeko2Player:
  
     ## simulates dropping a piece on the board
     ## returns all possible coordinates where there is an open space
-    def dropPiece(state):
+    def drop_coordinates(self, state):
         newCoordinates = []
+        row_index = 0
+        col_index = 0
         for row in state:
             for col in row:
-                if(state[row][col] == ' '):
-                    newCoordinates += [(row, col)]
+                if(state[row_index][col_index] == ' '):
+                    newCoordinates += [(row_index, col_index)]
+                col_index += 1
+            row_index += 1
+            col_index = 0
+        return newCoordinates
+    
+    ## gets all possible board states for a drop
+    ## returns all possible board states for a drop given 
+    def drop_piece(self, state, indices):
+        origState = copy.deepcopy(state)
+        successors = []
+        for index in indices:
+            row, col = index
+            origState[row][col] = self.my_piece
+            successors += [origState]
+            origState = copy.deepcopy(state)
+        return successors
+            
+
+        
     
     ## simulates shifting a single marker
     ## returns all possible coordinates a marker can be shifted to
@@ -1449,8 +1471,19 @@ def main():
         # get the player or AI's move
         if ai.my_piece == ai.pieces[turn]:
             ai.print_board()
+            # TEST
+            time_start = time.time()
             move = ai.make_move(ai.board)
+
+            # TEST
+            time_end = time.time()
+            # TEST
+            print("____________________")
+            print("time: ", time_end-time_start)
+            print("____________________")
+
             ai.place_piece(move, ai.my_piece)
+
             print(ai.my_piece+" moved at "+chr(move[0][1]+ord("A"))+str(move[0][0]))
         else:
             move_made = False
@@ -1477,10 +1510,23 @@ def main():
         # get the player or AI's move
         if ai.my_piece == ai.pieces[turn]:
             ai.print_board()
+            
+            # TEST
+            time_start = time.time()
             move = ai.make_move(ai.board)
+
+            # TEST
+            time_end = time.time()
+            # TEST
+            print("____________________")
+            print("time: ", time_end-time_start)
+            print("____________________")
+
             ai.place_piece(move, ai.my_piece)
             print(ai.my_piece+" moved from "+chr(move[1][1]+ord("A"))+str(move[1][0]))
             print("  to "+chr(move[0][1]+ord("A"))+str(move[0][0]))
+
+
         else:
             move_made = False
             ai.print_board()
@@ -1514,5 +1560,5 @@ if __name__ == "__main__":
     # test()
 
     ## ARIEL: TEST / DEBUG - BRING MAIN BACK
-    
+
     main()

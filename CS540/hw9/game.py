@@ -3,7 +3,7 @@ import copy
 import time
 
 # trial depth_value
-DEPTH_VALUE = 5
+DEPTH_VALUE = 4
 
 class Teeko2Player:
     """ An object representation for an AI game player for the game Teeko2.
@@ -14,7 +14,7 @@ class Teeko2Player:
     RIGHT = (0, 1)
     LEFT = (0, -1)
     UP = (-1, 0)
-    DOWN = (1, 0)
+    DOWN = (1, 0) 
     RIGHT_UP = (-1, 1)
     RIGHT_DOWN = (1, 1)
     LEFT_UP = (-1, -1)
@@ -58,23 +58,24 @@ class Teeko2Player:
 
         drop_phase = self.detect_drop_state(state)   # TODO: detect drop phase (finished)
 
+        # select an unoccupied space randomly
+        # TODO: implement a minimax algorithm to play better
+        curr_minimax_value, _, next_state = self.minimax_value(state=state, depth=0)
+
+        move = []
+
+        start, end = self.compare_states(state, next_state)
+
         if not drop_phase:
             # TODO: choose a piece to move and remove it from the board
             # (You may move this condition anywhere, just be sure to handle it)
             #
             # Until this part is implemented and the move list is updated
-            # accordingly, the AI will not follow the rules after the drop phase!
-            pass
-
-        # select an unoccupied space randomly
-        # TODO: implement a minimax algorithm to play better
-        move = []
-        (row, col) = (random.randint(0,4), random.randint(0,4))
-        while not state[row][col] == ' ':
-            (row, col) = (random.randint(0,4), random.randint(0,4))
-
+            # accordingly, the AI will not follow the rules after the drop phase!        
+            move.append(start)
+        
         # ensure the destination (row,col) tuple is at the beginning of the move list
-        move.insert(0, (row, col))
+        move.insert(0, end)
         return move
 
     def opponent_move(self, move):
@@ -162,15 +163,15 @@ class Teeko2Player:
         # TODO: check \ diagonal wins (finished)
         win, piece = self.checkLeftDiagonal(state)
         if(win):
-            return piece        
+            return 1 if piece==self.my_piece else -1        
         # TODO: check / diagonal wins (finished)
         win, piece = self.checkRightDiagonal(state)
         if(win):
-            return piece
+            return 1 if piece==self.my_piece else -1        
         # TODO: check 3x3 square corners wins (finished)
         win, piece = self.checkSquare(state)
         if(win):
-            return piece
+            return 1 if piece==self.my_piece else -1        
 
         return 0 # no winner yet
 
@@ -179,33 +180,63 @@ class Teeko2Player:
 # HELPER METHODS
 #
 ############################################################################  
+    
+    ## compares two states to find the different coordinate
+    ## returns the (start, end) given two states
+    ## if it is in drop state, starting_point returns as None
+    ## assumes that the states are different
+    def compare_states(self, state, other):
+        row_index = 0
+        col_index = 0
+        starting_point = None
+        for row in state:
+            for col in row:
+                if(state[row_index][col_index] != ' ' and other[row_index][col_index] == ' '):
+                    # get the starting point
+                    starting_point = (row_index, col_index)
+                
+                if(state[row_index][col_index] == ' ' and other[row_index][col_index] != ' '):
+                    # get the moved point
+                    ending_point = (row_index, col_index)
+                col_index += 1
+            row_index += 1
+            col_index = 0
+        return starting_point, ending_point
+
+
     ## state = curr state, d = upper bound on search depth
+    # returns the minimax_value, the state with that value, and the parent
     def minimax_value(self, state, depth):
         # if state is a terminal state, return the win value
         if(self.game_value(state) != 0):
-            return self.game_value(state)
+            return self.game_value(state), state, None
         # if d = depth_value, return the heuristic game value of the state
         if(depth == DEPTH_VALUE):
-            return self.heuristic_game_value(state)
+            return self.heuristic_game_value(state), state, None
         # else:
         # get the successors
-        successors = self.succ(state)
-        # keep track of game values of successors
+        if(depth%2 == 0):
+            successors = self.succ(state, self.my_piece)
+        else:
+            successors = self.succ(state, self.opp)
         game_values = []
-        
         # for all the successors:
-        depth += 1
         for succ in successors:
             # find the game value of the state (whether that is the win/lose or the heuristic value):
-            curr_state_game_value = self.minimax_value(succ, depth)
-            game_values.append([succ, curr_state_game_value])  
+            curr_state_game_value, succState, _ = self.minimax_value(succ, depth+1)
+            # add the value of the successor, the successor, and the parent state
+            game_values.append([curr_state_game_value, succState, succ])  
 
+            # TEST
             # print(succ, curr_state_game_value)
 
         # if it is Max's move, then return the max out of all the game values
         if(depth % 2 == 0):            
             # 
-            return max(game_values)
+            max_value = max(game_values)
+            # TEST
+            # print("max: ", max_value)
+            return max_value
         # else: return the min out of all the game values
         else:
             return min(game_values)
@@ -322,7 +353,8 @@ class Teeko2Player:
             if(horizontalConnection < horizontalConnectionTricky):
                 horizontalConnection = horizontalConnectionTricky
             if(horizontalBlock < horizontalBlockTricky):
-                print("success - block")
+                ## TEST
+                # print("success - block")
                 horizontalBlock = horizontalBlockTricky
 
 
@@ -713,7 +745,7 @@ class Teeko2Player:
         else:
             return False
 
-    def succ(self, state):
+    def succ(self, state, piece):
         # keep track of the curr marker's index in the array
         col = 0
         row = 0
@@ -725,7 +757,7 @@ class Teeko2Player:
         for stateRow in state:
             for value in stateRow:
                 # if this value is a spot aka not ' ' and it is my piece:
-                if(not(value == ' ') and value == self.my_piece):
+                if(not(value == ' ') and value == piece):
                     # get the tuple (x, y)
                     markersIndex = (row, col)
                     # make the move      
@@ -858,22 +890,79 @@ class Teeko2Player:
         else:
             return False, ' '
 
+
+
+
+
+
+
+
+
+
+
+
 ############################################################################
 #
 # TESTING
 #
 ############################################################################
  
-def test():
-    test = Teeko2Player()
-    state = [[' ', ' ', ' ', ' ', ' '], 
-             [' ', ' ', ' ', 'r', ' '], 
-             [' ', ' ', 'b', ' ', ' '], 
-             [' ', 'r', ' ', ' ', ' '], 
-             ['r', ' ', ' ', ' ', ' ']]
-    index = (2, 2)
-    tricky = test.weight(state, index)
-    print(tricky)
+# def test():
+#     test = Teeko2Player()
+
+#     state = [['r', 'b', ' ', ' ', 'r'], 
+#              [' ', 'r', ' ', ' ', ' '], 
+#              [' ', 'b', ' ', ' ', ' '], 
+#              [' ', ' ', ' ', ' ', ' '], 
+#              [' ', 'b', ' ', 'b', ' ']]
+
+#     move = test.make_move(state)
+#     print(move)
+
+    # other = [['r', ' ', ' ', ' ', 'r'], 
+    #          ['b', 'r', ' ', ' ', ' '], 
+    #          [' ', 'b', ' ', ' ', ' '], 
+    #          [' ', ' ', ' ', ' ', ' '], 
+    #          [' ', 'b', ' ', 'b', ' ']]
+    # start, end = test.compare_states(state, other)
+    # print(start, end)
+
+    # minimaxValue, newstate, parent = test.minimax_value(state=state, depth=0)
+    # print(*newstate, sep = "\n")
+    # print(" =============== ")
+    # print(*parent, sep = "\n")
+    # print(minimaxValue)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # succ = test.succ(state=state, piece='r')
+    # for s in succ:
+    #     print(*s, sep = "\n")
+    #     print(" ---- ")
+    # successors = test.succ(state=state)
+    # for succ in successors:
+    #     print(*succ, sep = "\n")
+    #     print("-----------------")
+    # state = [[' ', ' ', ' ', ' ', ' '], 
+    #          [' ', ' ', ' ', 'r', ' '], 
+    #          [' ', ' ', 'b', ' ', ' '], 
+    #          [' ', 'r', ' ', ' ', ' '], 
+    #          ['r', ' ', ' ', ' ', ' ']]
+    # index = (2, 2)
+    # tricky = test.weight(state, index)
+    # print(tricky)
 
     # state = [[' ', ' ', ' ', ' ', ' '], 
     #          [' ', 'r', ' ', ' ', ' '], 
@@ -1422,7 +1511,8 @@ def main():
 
 
 if __name__ == "__main__":
-    test()
+    # test()
 
     ## ARIEL: TEST / DEBUG - BRING MAIN BACK
-    # main()
+    
+    main()

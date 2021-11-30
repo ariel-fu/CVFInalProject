@@ -20,13 +20,12 @@ class Teeko2Player:
     LEFT_UP = (-1, -1)
     LEFT_DOWN = (1, -1)
 
-    def __init__(self):
+    def __init__(self, piece):
         """ Initializes a Teeko2Player object by randomly selecting red or black as its
         piece color.
         """
         # TEST
-        # self.my_piece = 'b'
-        self.my_piece = random.choice(self.pieces)
+        self.my_piece = piece
         self.opp = self.pieces[0] if self.my_piece == self.pieces[1] else self.pieces[1]
 
     def make_move(self, state):
@@ -57,22 +56,30 @@ class Teeko2Player:
         """
 
         drop_phase = self.detect_drop_state(state, self.my_piece)   # TODO: detect drop phase (finished)
-
+        move = []    
+        
+        # first move should be random
+        if(self.detect_first_move(state, self.my_piece)):
+            (row, col) = (random.randint(0,4), random.randint(0,4))
+            while not state[row][col] == ' ':
+                (row, col) = (random.randint(0,4), random.randint(0,4))
+            end = (row, col)
+        else:
+            curr_minimax_value, _, next_state = self.minimax_value(state=state, depth=0)
+            start, end = self.compare_states(state, next_state)    
+            if not drop_phase:
+                # TODO: choose a piece to move and remove it from the board
+                # (You may move this condition anywhere, just be sure to handle it)
+                #
+                # Until this part is implemented and the move list is updated
+                # accordingly, the AI will not follow the rules after the drop phase!        
+                # TODO: implement a minimax algorithm to play better
+                move.append(start) 
+        
         # select an unoccupied space randomly
-        # TODO: implement a minimax algorithm to play better
-        curr_minimax_value, _, next_state = self.minimax_value(state=state, depth=0)
-
-        move = []
-
-        start, end = self.compare_states(state, next_state)
-
-        if not drop_phase:
-            # TODO: choose a piece to move and remove it from the board
-            # (You may move this condition anywhere, just be sure to handle it)
-            #
-            # Until this part is implemented and the move list is updated
-            # accordingly, the AI will not follow the rules after the drop phase!        
-            move.append(start)
+             
+            
+            
         
         # ensure the destination (row,col) tuple is at the beginning of the move list
         move.insert(0, end)
@@ -181,6 +188,18 @@ class Teeko2Player:
 #
 ############################################################################  
     
+    def detect_first_move(self, state, piece):
+        row_index = 0
+        col_index = 0
+        for row in state:
+            for col in row:
+                if(state[row_index][col_index] == piece):
+                    return False
+                col_index += 1
+            row_index +=1 
+            col_index = 0
+        return True
+
     ## compares two states to find the different coordinate
     ## returns the (start, end) given two states
     ## if it is in drop state, starting_point returns as None
@@ -1468,8 +1487,8 @@ class Teeko2Player:
 ############################################################################
 def main():
     print('Hello, this is Samaritan')
-    ai = Teeko2Player()
-    aiOpp = Teeko2Player()
+    ai = Teeko2Player('b')
+    aiOpp = Teeko2Player('r')
     piece_count = 0
     turn = 0
 

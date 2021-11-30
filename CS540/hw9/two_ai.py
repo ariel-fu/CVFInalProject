@@ -25,8 +25,8 @@ class Teeko2Player:
         piece color.
         """
         # TEST
-        self.my_piece = 'b'
-        # self.my_piece = random.choice(self.pieces)
+        # self.my_piece = 'b'
+        self.my_piece = random.choice(self.pieces)
         self.opp = self.pieces[0] if self.my_piece == self.pieces[1] else self.pieces[1]
 
     def make_move(self, state):
@@ -1469,6 +1469,7 @@ class Teeko2Player:
 def main():
     print('Hello, this is Samaritan')
     ai = Teeko2Player()
+    aiOpp = Teeko2Player()
     piece_count = 0
     turn = 0
 
@@ -1493,18 +1494,21 @@ def main():
 
             print(ai.my_piece+" moved at "+chr(move[0][1]+ord("A"))+str(move[0][0]))
         else:
-            move_made = False
-            ai.print_board()
-            print(ai.opp+"'s turn")
-            while not move_made:
-                player_move = input("Move (e.g. B3): ")
-                while player_move[0] not in "ABCDE" or player_move[1] not in "01234":
-                    player_move = input("Move (e.g. B3): ")
-                try:
-                    ai.opponent_move([(int(player_move[1]), ord(player_move[0])-ord("A"))])
-                    move_made = True
-                except Exception as e:
-                    print(e)
+            aiOpp.print_board()
+            # TEST
+            time_start = time.time()
+            move = aiOpp.make_move(aiOpp.board)
+
+            # TEST
+            time_end = time.time()
+            # TEST
+            print("____________________")
+            print("time: ", time_end-time_start)
+            print("____________________")
+
+            aiOpp.place_piece(move, aiOpp.my_piece)
+
+            print(aiOpp.my_piece+" moved at "+chr(move[0][1]+ord("A"))+str(move[0][0]))
 
         # update the game variables
         piece_count += 1
@@ -1535,22 +1539,22 @@ def main():
 
 
         else:
-            move_made = False
-            ai.print_board()
-            print(ai.opp+"'s turn")
-            while not move_made:
-                move_from = input("Move from (e.g. B3): ")
-                while move_from[0] not in "ABCDE" or move_from[1] not in "01234":
-                    move_from = input("Move from (e.g. B3): ")
-                move_to = input("Move to (e.g. B3): ")
-                while move_to[0] not in "ABCDE" or move_to[1] not in "01234":
-                    move_to = input("Move to (e.g. B3): ")
-                try:
-                    ai.opponent_move([(int(move_to[1]), ord(move_to[0])-ord("A")),
-                                    (int(move_from[1]), ord(move_from[0])-ord("A"))])
-                    move_made = True
-                except Exception as e:
-                    print(e)
+            aiOpp.print_board()
+            
+            # TEST
+            time_start = time.time()
+            move = aiOpp.make_move(aiOpp.board)
+
+            # TEST
+            time_end = time.time()
+            # TEST
+            print("____________________")
+            print("time: ", time_end-time_start)
+            print("____________________")
+
+            aiOpp.place_piece(move, aiOpp.my_piece)
+            print(aiOpp.my_piece+" moved from "+chr(move[1][1]+ord("A"))+str(move[1][0]))
+            print("  to "+chr(move[0][1]+ord("A"))+str(move[0][0]))
 
         # update the game variables
         turn += 1

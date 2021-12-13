@@ -1,8 +1,6 @@
 import random
 import copy
-import time
 
-# trial depth_value
 DEPTH_VALUE = 3
 
 class Teeko2Player:
@@ -24,9 +22,8 @@ class Teeko2Player:
         """ Initializes a Teeko2Player object by randomly selecting red or black as its
         piece color.
         """
-        # TEST
-        self.my_piece = 'b'
-        # self.my_piece = random.choice(self.pieces)
+        
+        self.my_piece = random.choice(self.pieces)
         self.opp = self.pieces[0] if self.my_piece == self.pieces[1] else self.pieces[1]
 
     def make_move(self, state):
@@ -57,22 +54,30 @@ class Teeko2Player:
         """
 
         drop_phase = self.detect_drop_state(state, self.my_piece)   # TODO: detect drop phase (finished)
-
+        move = []    
+        
+        # first move should be random
+        if(self.detect_first_move(state, self.my_piece)):
+            (row, col) = (random.randint(0,4), random.randint(0,4))
+            while not state[row][col] == ' ':
+                (row, col) = (random.randint(0,4), random.randint(0,4))
+            end = (row, col)
+        else:
+            curr_minimax_value, _, next_state = self.minimax_value(state=state, depth=0)
+            start, end = self.compare_states(state, next_state)    
+            if not drop_phase:
+                # TODO: choose a piece to move and remove it from the board
+                # (You may move this condition anywhere, just be sure to handle it)
+                #
+                # Until this part is implemented and the move list is updated
+                # accordingly, the AI will not follow the rules after the drop phase!        
+                # TODO: implement a minimax algorithm to play better
+                move.append(start) 
+        
         # select an unoccupied space randomly
-        # TODO: implement a minimax algorithm to play better
-        curr_minimax_value, _, next_state = self.minimax_value(state=state, depth=0)
-
-        move = []
-
-        start, end = self.compare_states(state, next_state)
-
-        if not drop_phase:
-            # TODO: choose a piece to move and remove it from the board
-            # (You may move this condition anywhere, just be sure to handle it)
-            #
-            # Until this part is implemented and the move list is updated
-            # accordingly, the AI will not follow the rules after the drop phase!        
-            move.append(start)
+             
+            
+            
         
         # ensure the destination (row,col) tuple is at the beginning of the move list
         move.insert(0, end)
@@ -181,6 +186,18 @@ class Teeko2Player:
 #
 ############################################################################  
     
+    def detect_first_move(self, state, piece):
+        row_index = 0
+        col_index = 0
+        for row in state:
+            for col in row:
+                if(state[row_index][col_index] == piece):
+                    return False
+                col_index += 1
+            row_index +=1 
+            col_index = 0
+        return True
+
     ## compares two states to find the different coordinate
     ## returns the (start, end) given two states
     ## if it is in drop state, starting_point returns as None
@@ -227,15 +244,9 @@ class Teeko2Player:
             # add the value of the successor, the successor, and the parent state
             game_values.append([curr_state_game_value, succState, succ])  
 
-            # TEST
-            # print(succ, curr_state_game_value)
-
         # if it is Max's move, then return the max out of all the game values
         if(depth % 2 == 0):            
-            # 
             max_value = max(game_values)
-            # TEST
-            # print("max: ", max_value)
             return max_value
         # else: return the min out of all the game values
         else:
@@ -353,8 +364,6 @@ class Teeko2Player:
             if(horizontalConnection < horizontalConnectionTricky):
                 horizontalConnection = horizontalConnectionTricky
             if(horizontalBlock < horizontalBlockTricky):
-                ## TEST
-                # print("success - block")
                 horizontalBlock = horizontalBlockTricky
 
 
@@ -857,7 +866,7 @@ class Teeko2Player:
                 # if the move is valid: get the new coordinates and add to an array 
                 nextMove = (row+move[0], col+move[1])
                 newCoordinates.append(nextMove)
-                # print("curr moves: ", newCoordinates)
+              
         
         origState = copy.deepcopy(state)
         for coordinate in newCoordinates:
@@ -924,541 +933,6 @@ class Teeko2Player:
 
 
 
-
-
-############################################################################
-#
-# TESTING
-#
-############################################################################
- 
-# def test():
-#     test = Teeko2Player()
-
-
-#     state = [['b', ' ', ' ', ' ', ' '], 
-#              [' ', ' ', ' ', ' ', ' '], 
-#              [' ', ' ', ' ', ' ', ' '], 
-#              [' ', ' ', ' ', ' ', ' '], 
-#              [' ', ' ', ' ', ' ', 'r']]
-
-#     nextmove = test.make_move(state)
-#     print(nextmove)
-
-#     move = test.make_move(state)
-#     print(move)
-
-    # other = [['r', ' ', ' ', ' ', 'r'], 
-    #          ['b', 'r', ' ', ' ', ' '], 
-    #          [' ', 'b', ' ', ' ', ' '], 
-    #          [' ', ' ', ' ', ' ', ' '], 
-    #          [' ', 'b', ' ', 'b', ' ']]
-    # start, end = test.compare_states(state, other)
-    # print(start, end)
-
-    # minimaxValue, newstate, parent = test.minimax_value(state=state, depth=0)
-    # print(*newstate, sep = "\n")
-    # print(" =============== ")
-    # print(*parent, sep = "\n")
-    # print(minimaxValue)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # succ = test.succ(state=state, piece='r')
-    # for s in succ:
-    #     print(*s, sep = "\n")
-    #     print(" ---- ")
-    # successors = test.succ(state=state)
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("-----------------")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    #          [' ', ' ', ' ', 'r', ' '], 
-    #          [' ', ' ', 'b', ' ', ' '], 
-    #          [' ', 'r', ' ', ' ', ' '], 
-    #          ['r', ' ', ' ', ' ', ' ']]
-    # index = (2, 2)
-    # tricky = test.weight(state, index)
-    # print(tricky)
-
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    #          [' ', 'r', ' ', ' ', ' '], 
-    #          [' ', ' ', 'b', ' ', ' '], 
-    #          [' ', ' ', ' ', 'r', ' '], 
-    #          [' ', ' ', ' ', ' ', 'r']]
-    # index = (2, 2)
-    # tricky = test.weight(state, index)
-    # print(tricky)
-    # # minimax_value
-    # state = [['r', ' ', ' ', ' ', 'r'], 
-    #          [' ', 'r', ' ', ' ', ' '], 
-    #          [' ', 'b', ' ', 'b', ' '], 
-    #          [' ', ' ', ' ', ' ', ' '], 
-    #          [' ', 'b', 'b', ' ', ' ']]
-    # time_start = time.time()
-    # finishedstate, minimaxvalue = test.minimax_value(state=state, depth = 0)
-    # time_end = time.time()
-    # print(*finishedstate, sep='\n')
-    # print("time: ", time_end-time_start)
-
-    # state = [[' ', 'b', 'r', ' ', ' '], 
-    # ['r', ' ', ' ', ' ', ' '], 
-    # ['r', ' ', ' ', ' ', ' '], 
-    # ['b', 'b', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # time_start = time.time()
-    # version1 = test.weight(state=state, markerIndex=(3, 0))
-    # time_end = time.time()
-    # print("version 1: ", version1, " time: ", time_end-time_start)
-
-    # state = [['r', 'b', 'r', ' ', ' '], 
-    # ['r', ' ', ' ', ' ', ' '], 
-    # ['r', ' ', ' ', ' ', ' '], 
-    # ['b', 'b', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # time_start = time.time()
-    # version1 = test.weight(state=state, markerIndex=(3, 0))
-    # time_end = time.time()
-    # print("version 1: ", version1, " time: ", time_end-time_start)
-
-    # state = [['b', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # time_start = time.time()
-    # version1 = test.heuristic_game_value(state)
-    # time_end = time.time()
-    # print("version 1: ", time_end-time_start)
-    
-    # state = [['b', 'b', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # time_start = time.time()
-    # version2 = test.heuristic_game_value(state)
-    # time_end = time.time()
-    # print("version 2: ", time_end - time_start)
-
-    # state = [['b', 'b', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # [' ', ' ', ' ', 'b', ' ']]
-    # time_start = time.time()
-    # version2 = test.heuristic_game_value(state)
-    # time_end = time.time()
-    # print("version 3: ", time_end - time_start)
-    
-    # state = [['b', 'b', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # ['b', 'b', ' ', 'b', ' ']]
-    # time_start = time.time()
-    # version2 = test.heuristic_game_value(state)
-    # time_end = time.time()
-    # print("version 4: ", time_end - time_start)
-
-    # state = [['b', 'b', 'b', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', 'b', ' '], 
-    # ['b', ' ', ' ', 'b', ' '], 
-    # ['b', 'b', ' ', 'b', ' ']]
-    # time_start = time.time()
-    # version2 = test.heuristic_game_value(state)
-    # time_end = time.time()
-    # print("version 5: ", time_end - time_start)
-
-    # state = [['b', 'b', 'b', ' ', 'b'], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', 'b', ' '], 
-    # ['b', ' ', 'b', 'b', ' '], 
-    # ['b', 'b', ' ', 'b', ' ']]
-    # time_start = time.time()
-    # version2 = test.heuristic_game_value(state)
-    # time_end = time.time()
-    # print("version 6: ", time_end - time_start)
-        
-    # print(version1)
-    # print(version2)
-    # print(version1 < version2)
-
-
-
-
-    # state = [['b', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # version1 = test.heuristic_game_value(state)
-    # state = [['b', 'b', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # version2 = test.heuristic_game_value(state)
-    # print(version1)
-    # print(version2)
-    # print(version1 < version2)
-
-    # state = [[' ', 'b', ' ', ' ', 'b'], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # ['b', ' ', 'b', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # ['b', 'b', 'b', ' ', ' ']]
-    # time_start = time.time()
-    # weight = test.weight(state, (4, 0))
-    # time_end = time.time()
-    # print("time: ", time_end-time_start, " weight: ", weight)    
-    # print(test.weight(state, (0, 4)))
-
-    # diagonal from below
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', '', ' ', ' ', ' '], 
-    # ['b', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # [' ', ' ', ' ', ' ', 'b']]
-    
-    # print(test.weight(state, (4, 4)))
-
-    # up
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', 'b'], 
-    # ['b', ' ', 'b', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (1, 4)))
-
-
-    # state = [[' ', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', 'b'], 
-    # ['b', ' ', 'b', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (1, 4)))
-
-
-    # state = [[' ', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', 'b'], 
-    # ['b', ' ', 'b', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (2, 4)))
-
-    # lower right square
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (0, 0)))
-
-    # upper right square
-    # state = [[' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (2, 0)))
-
-    # lower left square
-    # state = [[' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (0, 2)))
-
-    # upper left square
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (2, 2)))
-
-    # right downward diagonal
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(test.weight(state, (2, 1)))
-
-
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    
-    # print(0.5 == test.weight(state, (2, 2)))
-    
-    # down
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # print(0.5 == test.weight(state, (0, 0)))
-    
-    # right
-    # state = [['b', 'b', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-
-    # print(0.5 == test.weight(state, (0, 0)))
-    
-
-    # state = [['b', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', 'a', 'a'], 
-    # [' ', ' ', ' ', 'a', 'a']]
-
-    # truth, value = test.checkSquare(state)
-    # print("truth: {}, value: {}".format(truth, value))
-    # truth, value = test.checkRightDiagonal(state)
-    # print("truth: {}, value: {}".format(truth, value))
-    
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' ']]
-
-    # truth, value = test.checkRightDiagonal(state)
-    # print("truth: {}, value: {}".format(truth, value))
-    
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # ['b', 'b', ' ', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', 'b', ' ']]
-
-    # truth, value = test.checkLeftDiagonal(state)
-    # print("truth: {}, value: {}".format(truth, value))
-
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # [' ', ' ', ' ', ' ', 'b']]
-
-    # truth, value = test.checkLeftDiagonal(state)
-    # print("truth: {}, value: {}".format(truth, value))
-
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', 'b', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-
-    # truth, value = test.checkLeftDiagonal(state)
-    # print("truth: {}, value: {}".format(truth, value))
-
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-
-    # print(*test.right(state, 0, 0), sep='\n')
-    # print("-------------------------")
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-
-    # print(*test.down(state, 0, 0), sep='\n')
-    # print("-------------------------")
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # print(*test.rightdown(state, 0, 0), sep='\n')
-    
-    # print("-------------------------")
-    # state = [[' ', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # print(*test.left(state, 0, 4), sep='\n')
-
-    # print("-------------------------")
-    # state = [[' ', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # print(*test.leftdown(state, 0, 4), sep='\n')
-
-    # print("-------------------------")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' ']]
-    # print(*test.up(state, 4, 0), sep='\n')
-
-    # print("-------------------------")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' ']]
-    # print(*test.upRight(state, 4, 0), sep='\n')
-    
-    # print("-------------------------")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', 'b']]
-    # print(*test.upLeft(state, 4, 4), sep='\n')
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.move(state, (0, 0))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-
-    # state = [[' ', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.move(state, (0, 4))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' ']]
-    # successors = test.move(state, (4, 0))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', 'b']]
-    # successors = test.move(state, (4, 4))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # ['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.move(state, (2, 0))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' ']]
-    # successors = test.move(state, (4, 2))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', 'b'], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.move(state, (2, 4))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-    # state = [[' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', 'b', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.move(state, (2, 2))
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-    
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.succ(state)
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-    
-    # state = [['b', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', 'b']]
-    # successors = test.succ(state)
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-
-    # state = [['b', 'b', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.succ(state)
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-
-    # state = [['b', 'a', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', 'c', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' '], 
-    # [' ', ' ', ' ', ' ', ' ']]
-    # successors = test.succ(state)
-    # for succ in successors:
-    #     print(*succ, sep = "\n")
-    #     print("=============")
-
     
 
 ############################################################################
@@ -1478,16 +952,7 @@ def main():
         # get the player or AI's move
         if ai.my_piece == ai.pieces[turn]:
             ai.print_board()
-            # TEST
-            time_start = time.time()
             move = ai.make_move(ai.board)
-
-            # TEST
-            time_end = time.time()
-            # TEST
-            print("____________________")
-            print("time: ", time_end-time_start)
-            print("____________________")
 
             ai.place_piece(move, ai.my_piece)
 
@@ -1518,16 +983,7 @@ def main():
         if ai.my_piece == ai.pieces[turn]:
             ai.print_board()
             
-            # TEST
-            time_start = time.time()
             move = ai.make_move(ai.board)
-
-            # TEST
-            time_end = time.time()
-            # TEST
-            print("____________________")
-            print("time: ", time_end-time_start)
-            print("____________________")
 
             ai.place_piece(move, ai.my_piece)
             print(ai.my_piece+" moved from "+chr(move[1][1]+ord("A"))+str(move[1][0]))
@@ -1564,8 +1020,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # test()
-
-    ## ARIEL: TEST / DEBUG - BRING MAIN BACK
-
     main()

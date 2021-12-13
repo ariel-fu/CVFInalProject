@@ -1,4 +1,4 @@
-git add# python imports
+# python imports
 import os
 import argparse
 from tqdm import tqdm

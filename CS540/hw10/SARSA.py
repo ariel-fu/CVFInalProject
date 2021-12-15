@@ -45,9 +45,6 @@ if __name__ == "__main__":
         current_state = env.reset()
         done = False
         while done == False:
-            ## TEST
-            # env.render()
-
             # sample a float between 0 and 1
             p = random.uniform(0, 1)
             # if the float < epsilon:
@@ -84,7 +81,7 @@ if __name__ == "__main__":
             # update the state
             current_state = next_state
 
-        # update Q
+        # update Q(s', a')
         # Q = Q_table(state, action) + alpha(reward - Q_table(state, action))
         _, next_reward, done, _ = env.step(next_action)
         Q_table[next_state, next_action] = Q_table[next_state, next_action] + LEARNING_RATE*(next_reward - Q_table[next_state, next_action])

@@ -44,9 +44,6 @@ if __name__ == "__main__":
         current_state = env.reset()
         done = False
         while done == False:
-            ## TEST
-            env.render()
-            time.sleep(0.5)
             # sample a float between 0 and 1
             p = random.uniform(0, 1)
             # if the float < epsilon:
@@ -66,19 +63,12 @@ if __name__ == "__main__":
             episode_reward += reward
             if(done):
                 break
-            
-            # update Q values
-            # if not done:
-            # Q = Q_table(state, action) + alpha(reward + gamma(max(Q_table(next state, next action))) - Q_table(state, action))
-            # a_prime = np.array([(Q_table[(next_state, index)] for index in range(env.action_space.n))])    
-            # learned_value = DISCOUNT_FACTOR * np.max()
-            # learned_value = DISCOUNT_FACTOR * np.max(Q_table[(next_state)])
-            
-            ## get the max value
+
+            # get the max value
             next_states = np.array([Q_table[(next_state, index)] for index in range(env.action_space.n)])
             learned_value = DISCOUNT_FACTOR * np.max(next_states)
 
-            ## update Q_table
+            # update Q_table
             Q_table[current_state, action] = Q_table[current_state, action] + LEARNING_RATE*((reward + learned_value) - Q_table[current_state, action])
 
             # update the state

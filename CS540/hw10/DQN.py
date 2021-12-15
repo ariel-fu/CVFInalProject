@@ -9,7 +9,6 @@ import torch.optim as optim
 import time
 import pickle
 
-
 EARLY_STOPPING_THRESHOLD = 80 # we stop training and immediately save our model when we reach a this average score over the past 100 episodes
 INPUT_DIMENSIONS = 4
 OUTPUT_DIMENSIONS = 2
@@ -17,7 +16,7 @@ MAX_QUEUE_LENGTH = 1000000
 EPSILON = 1
 EPSILON_DECAY = .999
 MIN_EPSILON = .05
-EPOCHS =   2000
+EPOCHS =   20000
 DISCOUNT_FACTOR = 0.995
 TARGET_NETWORK_UPDATE_FREQUENCY = 5000
 MINI_BATCH_SIZE = 32
@@ -51,15 +50,14 @@ class ExperienceReplayBuffer():
         #TODO complete ExperienceReplayBuffer sample_mini_batch
         #Depends on MINI_BATCH_SIZE
         sample = random.sample(list(self.experience_replay_record), MINI_BATCH_SIZE)
-        print("TODO")
+        return sample
 
 
     def append(self,experience):
         #TODO complete ExperienceReplayBuffer append
         self.experience_replay_record.append(experience)
-        print("TODO")
 
-
+## CITATION: 
 if __name__ == "__main__":
 
     torch.manual_seed(1)
@@ -86,12 +84,12 @@ if __name__ == "__main__":
     episode_reward_record = deque(maxlen=100)
 
 
+
     for i in range(EPOCHS):
         episode_reward = 0
-        done = False
+        done_exp = False
         obs = env.reset()
-        while not done:
-           
+        while not done_exp:
            #TODO collect experience sample and add to experience replay buffer
             # a:
             # with probability epsilon, select a random action a
@@ -99,28 +97,44 @@ if __name__ == "__main__":
             p = random.uniform(0, 1)
             if(p < EPSILON):
                 action = env.action_space.sample()
-            # r & s': make a move
             else:
-                state = np.arr(obs)
-                prediction = policy_net(state)
-                action = np.argmax(prediction)
+                with torch.no_grad():
+                    prediction = np.array(policy_net(torch.tensor(np.array(obs)).float()))
+                    action =  np.argmax(prediction)
             
+            # make a move action a
+            next_state, reward, done_exp, _ = env.step(action)
             # get the s, a, r, s' into the deque 
-            next_state, reward, done, _ = env.step(action)
-            
-            queue.push(obs, action, reward, next_state, done)
+            queue.append((obs, action, reward, next_state, done_exp))
+
+            replay = step_counter >= PRETRAINING_LENGTH
 
             obs = next_state
             episode_reward += reward
 
-            if step_counter >= PRETRAINING_LENGTH:
-                experience = queue.sample_mini_batch()
-               
+            if replay:
+                experiences_mini_batch = queue.sample_mini_batch()
                 #TODO Fill in the missing code to perform a Q update on 'policy_net'
                 #for the sampled experience minibatch 'experience'
-                
+                for experience in experiences_mini_batch:
+                    state_exp, action_exp, reward_exp, next_state_exp, done_experience = experience
 
+                    estimate = policy_net(torch.Tensor(state_exp))[action_exp]
 
+                    if(done_experience):
+                        # if done: get the reward
+                        y_vector = reward_exp
+                        y_vector = torch.tensor(y_vector)
+                        break
+                    else:
+                        # else: get the max from the target net
+                        q_values = target_policy_net(torch.tensor(np.array(next_state_exp)).float())
+                        # multiply the max by gamma and add to the reward from the current state 
+                        y_vector = reward_exp + DISCOUNT_FACTOR*torch.max(q_values)
+                        y_vector = float(y_vector)
+                        y_vector = torch.tensor(y_vector)
+
+                optimizer.zero_grad()
                 loss = functional.smooth_l1_loss(estimate, y_vector)
                 loss.backward()
                 optimizer.step()
@@ -128,8 +142,10 @@ if __name__ == "__main__":
             if step_counter % TARGET_NETWORK_UPDATE_FREQUENCY == 0:
                 target_policy_net.load_state_dict(policy_net.state_dict()) # here we update the target policy network to match the policy network
             step_counter += 1
-
-        EPSILON = EPSILON * EPSILON_DECAY
+        
+        episode_reward_record.append(episode_reward)
+        EPSILON = EPSILON*EPSILON_DECAY
+        
         if EPSILON < MIN_EPSILON:
             EPSILON = MIN_EPSILON
 
@@ -140,7 +156,6 @@ if __name__ == "__main__":
             if last_100_avg > EARLY_STOPPING_THRESHOLD:
                 break
 
-    
     torch.save(policy_net.state_dict(), "DQN.mdl")
     pickle.dump([EPSILON], open("DQN_DATA.pkl",'wb'))
 

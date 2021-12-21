@@ -1,4 +1,4 @@
-
+// List node class for linked lists
 public class ListNode {
 	int val;
 	ListNode next;

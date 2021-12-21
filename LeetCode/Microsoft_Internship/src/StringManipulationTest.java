@@ -2,7 +2,7 @@
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+// code to test string manipulations
 class StringManipulationTest {
 	StringManipulation test;
 

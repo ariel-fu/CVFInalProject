@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
+// Array problems from leetcode
 public class Arrays {
 	
   public int trap(int[] height) {

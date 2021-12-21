@@ -1,3 +1,4 @@
+// linked list problems from leet code
 public class LinkedList {
 	
 

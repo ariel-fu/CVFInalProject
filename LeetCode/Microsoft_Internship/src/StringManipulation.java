@@ -1,4 +1,4 @@
-
+// String manipulation
 public class StringManipulation {
 
 	public String reorderSpaces(String text) {

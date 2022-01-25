@@ -1,0 +1,13 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	SPIN              0203
+//	MYSTRING2         0208
+//	MYSTRING1         0204
+//	START             0200
+//	$               0200
+//	$               0201
+//	$               0202
+//	$               0203
+

@@ -1,0 +1,9 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	HW                0202
+//	HALTS             0202
+//	$               0200
+//	$               0201
+

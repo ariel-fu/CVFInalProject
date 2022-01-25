@@ -1,0 +1,65 @@
+Discussion Notes
+People:
+Casilda Lewis
+Karen Min Zhou
+Ariel Fu
+Bill Yan
+Claire Winter
+Pragyan Das
+Saketh Pavansankar Challa
+
+
+
+NOTES:
+
+Motivations:
+	- want to get rehired next year, looks good on resume for college, other jobs, etc. 
+	- multipying results, and the company would look really bad
+	- if show that failure, then would look bad on student + employer
+	- want to protect engineers to prevent getting fired
+	- 
+	Influences:
+		- has wife and kids, want to keep job
+		- wants to be rehired next year
+		
+	Ethical Decisions/Choices Made:
+	
+	Unethical Decisions/Choices Made:
+	
+	
+Apply IEEE Code of Ethics
+	Which: I. To uphold the highest standards of integrity, responsible behavior, and ethical conduct in professional activities.
+		HOW:
+			- he allows them to say it has passed without actually verifying that the test passed
+	Which: II.9 to avoid injuring others, their property, reputation, or employment by false or malicious actions, rumors or any other verbal or physical abuses;
+		HOW: 
+			- considered falsifying data
+			- 
+	Which: I.6  to maintain and improve our technical competence and to undertake technological tasks for others only if qualified by training or experience, or after full disclosure of pertinent limitations;
+		HOW:
+			-
+	Which: III.10 to support colleagues and co-workers in following this code of ethics, to strive to ensure the code is upheld, and to not retaliate against individuals reporting a violation.
+		HOW:
+			- not ensuring that everyone follows the code of ethics
+	Which: I.5 to seek, accept, and offer honest criticism of technical work, to acknowledge and correct errors, to be honest and realistic in stating claims or estimates based on available data, and to credit properly the contributions of others;
+		HOW:
+			- failing to acknowledge the errors made by employees
+			
+Possible Consequences:
+	- if error made something else break, she opens up the company for a lot of liability
+	- the employer would get fired
+	- the pregnant wife would be in trouble, as he would be jobless
+	- she has the possiblity of a less chance of getting hired next year by this company
+	- the company could go bankrupt if they mess up something - something breaks and causes an injury
+	
+	
+Possible Actions
+	- could talk to upper management and ask if they can delay the release of the thing
+	- could go and see if they have more machines to test that part
+		- if there are more machines, she could try to test the parts again on a different machine to have something at the end of the day to show. 
+	- she could falsify the data like the employee said and ruin everything... (not morally the best action, but one she could take)
+		- she could lie and said it was all the employee's fault and that she had nothing to do with it
+		- she could defer the responsibility and decision to an upper, with reasoning that she is only an intern and is the last person to make this decision
+
+
+

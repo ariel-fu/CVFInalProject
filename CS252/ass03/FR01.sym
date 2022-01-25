@@ -1,0 +1,15 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	ABS_DATA          0207
+//	WRITE             0204
+//	SIGNED_DATA       0206
+//	START             0200
+//	$               0200
+//	$               0201
+//	$               0202
+//	$               0203
+//	$               0204
+//	$               0205
+

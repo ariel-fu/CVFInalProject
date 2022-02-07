@@ -390,7 +390,7 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
 void Print_Table(int num_movies, char titles[10][1024], int years[10], char directors[10][1024], float ratings[10], long long dollars[10])
 {
     // do your work here
-    int longestMovie = 5, longestDirector = 10;
+    int longestMovie = 5, longestDirector = 8;
     // get the longest movie name and longest director name
     for (int i = 0; i < num_movies; i++) {
         int movieLength = getLength(titles[i]);
@@ -405,7 +405,7 @@ void Print_Table(int num_movies, char titles[10][1024], int years[10], char dire
     }
     // add 2 to the longestmovie value
     longestMovie += 2;
-
+    longestDirector += 2;
     // set up the initial values
     int id = 1;
     char title[1024] = "Title";

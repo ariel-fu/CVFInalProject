@@ -24,7 +24,6 @@ int getLength(char str[]) {
 // shifts every value to the left once
 void shift(char str[], int pos)
 {
-    int i;
     for (int i = pos; str[i] != '\0'; i++)
         str[i] = str[i + 1];
 }
@@ -58,7 +57,7 @@ void Clean_Whitespace(char str[])
 {
     // do your work here
     // set up the values
-    int i, whiteCount;
+    int i;
     char currChar;
     char space = ' ';
     char tab = '\t';
@@ -231,7 +230,7 @@ long long String_To_Dollars(char str[])
     }
     else {
         //DEBUG
-        printf("%s", str);
+        // printf("%s", str);
         decimalEquiv = atol(str);
     }
 
@@ -254,7 +253,7 @@ int getMovieData(char csv[1024], char data[10][1024], int csvIndex, int runner) 
     // terminate the string
     data[csvIndex][index] = '\0';
     // DEBUG
-    printf("%s\n", data[csvIndex]);
+    // printf("%s\n", data[csvIndex]);
     return runner;
 }
 
@@ -286,7 +285,7 @@ int getDirectorData(char csv[1024], char directors[10][1024], int csvIndex, int 
     // terminate the string
     directors[csvIndex][index] = '\0';
     // DEBUG
-    printf("director: %s\n", directors[csvIndex]);
+    // printf("director: %s\n", directors[csvIndex]);
 
     return runner;
 }
@@ -320,7 +319,6 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
     // init vars
     int csvIndex;
     char year[1024], rating[1024], dollar[1024];
-    char comma = ',';
 
     for (csvIndex = 0; csvIndex < num_movies; csvIndex++) {
         // get the row of movie data & remove the white spaces
@@ -340,7 +338,7 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
         int numYear = String_To_Year(year);
         years[csvIndex] = numYear;
         // DEBUG
-        printf("year: %d\n", years[csvIndex]);
+        // printf("year: %d\n", years[csvIndex]);
         // move past the space and the comma
         runner += 2;
 
@@ -360,7 +358,7 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
         ratings[csvIndex] = numRating;
 
         // DEBUG
-        printf("ratings: %.1f\n", ratings[csvIndex]);
+        // printf("ratings: %.1f\n", ratings[csvIndex]);
 
         // move past the space and the comma
         runner += 2;
@@ -368,11 +366,11 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
         // get the dollar amount
         runner = getNumberData(csv[csvIndex], dollar, csvIndex, runner);
         // debug
-        printf("%s", dollar);
+        // printf("%s", dollar);
         long long int numDollar = String_To_Dollars(dollar);
         dollars[csvIndex] = numDollar;
         // DEBUG
-        printf("dollars: %llu\n", dollars[csvIndex]);
+        // printf("dollars: %llu\n", dollars[csvIndex]);
 
     }
 
@@ -458,7 +456,7 @@ void Print_Table(int num_movies, char titles[10][1024], int years[10], char dire
 
 
         // print the revenue
-        printf("%11llu\n", revenue);
+        printf("%11lld\n", revenue);
 
 
         // DEBUG: write to a file

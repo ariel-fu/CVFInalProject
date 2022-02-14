@@ -17,6 +17,26 @@ void Read_CSV(char* filename, char csv[10][1024], int* num_movies) {
 int main() {
 
 
+    // char hello[1024] = " ";
+    // char whitespace[1024];
+    // // test 1: leading
+    // strcpy(whitespace, "  a  a  ");
+    // printf("before:%s,\n", whitespace);
+    // Clean_Whitespace(whitespace);
+    // printf("after:%s,\n", whitespace);
+    // int i;
+    // for (i = 0; whitespace[i] != '\0'; i++) {
+    //     if (hello[i] != whitespace[i]) {
+    //         printf("whitespace: fail - test case 1\n");
+    //     }
+    // }
+    // if (whitespace[i] == '\0') {
+    //     printf("whitespace: pass - test case 1\n");
+    // }
+
+
+
+
     // int csvIndex = -1;
     // char csv[] = "Ariel Fu, Too Far, Way Too Far";
     // char temp[1024];
@@ -718,15 +738,15 @@ int main() {
     // printf("equal? %d\n", (largest == ratingInt));
 
     // // string to dollars
-    // printf("--------------- String to Dollars --------------------\n");
-    // // test 1: k
-    // long long dollar = 1000;
-    // char dollarStr[1024];
-    // strcpy(dollarStr, "1k");
-    // printf("before: %s\n", dollarStr);
-    // long long dollarInt = String_To_Dollars(dollarStr);
-    // printf("after: %f\n", dollarInt);
-    // printf("equal? %d\n", (dollar == dollarInt));
+    printf("--------------- String to Dollars --------------------\n");
+    // test 1: k
+    long long dollar = 2000;
+    char dollarStr[1024];
+    strcpy(dollarStr, "     \t          2010");
+    printf("before:%s\n", dollarStr);
+    long long dollarInt = String_To_Dollars(dollarStr);
+    printf("after:%llu\n", dollarInt);
+    printf("equal?%d\n", (dollar == dollarInt));
 
     // // test 2: K
     // dollar = 1000;
@@ -1187,7 +1207,28 @@ int main() {
     float ratings[10];
     long long dollars[10];
 
-    Read_CSV("movies1", csv, &num_movies);
+    // Read_CSV("movies1.csv", csv, &num_movies);
+
+    char str[] = "   \t\t\n   Be   \t\n IE \n";
+    Fix_Case(str);
+    printf("%s,\n", str);
+
+
+    char st1[] = "   \t\t\t\t\t\t\n   Be   \t\n IE \n, \t 2002  \t    \n     , , ththiewe fnwejnwe fidfew E J    EWEJ \t\n   01234567890123456789, 1.44,    3k   \t\n  \t";
+    char st2[] = "  \t\n  Be \t\n   \t\n   , 2854  \t\n, ,  VJekw DJken BE DKe Fu   \t\n  , 9.98  ,   5M  \t \n, is this being run ,,,,,,,,,,,";
+    char st3[] = "\t   \n    W   \n\t  Vie \t\n  \n,  \t\n  \t 2349  \t\n  \n   , , Jenge  keo e hFD ek   jfewk   henw  Fu, \t\n     8.43  \t\n  \t\n,    \t\n   8k  \t\n";
+
+    for (int i = 0; st1[i] != '\0'; i++) {
+        csv[0][i] = st1[i];
+    }
+    for (int i = 0; st2[i] != '\0'; i++) {
+        csv[1][i] = st2[i];
+    }
+    for (int i = 0; st3[i] != '\0'; i++) {
+        csv[2][i] = st3[i];
+    }
+
+    num_movies = 3;
 
     Split(csv, num_movies, titles, years, directors, ratings, dollars);
     Print_Table(num_movies, titles, years, directors, ratings, dollars);

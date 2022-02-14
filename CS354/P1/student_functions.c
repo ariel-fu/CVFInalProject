@@ -10,10 +10,7 @@ int getLength(char str[]);
 void shift(char str[], int pos);
 char uppercase(char c);
 char lowercase(char c);
-int getMovieData(char csv[1024], char data[10][1024], int csvIndex, int runner);
-int getDirectorData(char csv[1024], char directors[10][1024], int csvIndex, int runner);
-int getNumberData(char csv[1024], char temp[1024], int csvIndex, int runner);
-int move(char csv[1024], int runner);
+int getNextData(char csv[], int csvIndex, char temp[]);
 
 // get the length of the char array
 int getLength(char str[]) {
@@ -49,105 +46,30 @@ char lowercase(char c)
     return c;
 }
 
-// // get the movie title and put it into the passed in array
-// int getMovieData(char csv[1024], char movies[10][1024], int csvIndex, int runner) {
-//     int index = 0;
-//     char comma = ',';
-//     char currChar = csv[runner];
-//     while (currChar != comma && currChar != '\0') {
-//         movies[csvIndex][index] = csv[runner];
-//         index++;
-//         runner++;
-//         currChar = csv[runner];
-//     }
-//     // terminate the string
-//     movies[csvIndex][index] = '\0';
-//     return runner;
-// }
-// // get the director, isolate the last name, and put it into the passed in array
-// int getDirectorData(char csv[1024], char directors[10][1024], int csvIndex, int runner) {
-//     int index = 0;
-//     char comma = ',';
-//     char directorName[1024];
-//     char currChar = csv[runner];
-
-//     // get director whole name
-//     while (currChar != comma && currChar != '\0') {
-//         directorName[index] = csv[runner];
-//         index++;
-//         runner++;
-//         currChar = csv[runner];
-//     }
-//     // terminate the string
-//     directorName[index] = '\0';
-
-//     // get the last name
-//     Director_Last_Name(directorName);
-//     // get the length
-//     int nameLength = getLength(directorName);
-
-//     // put in csv
-//     for (index = 0; index < nameLength; index++) {
-//         directors[csvIndex][index] = directorName[index];
-//     }
-//     // terminate the string
-//     directors[csvIndex][index] = '\0';
-
-//     return runner;
-// }
-
-// // get the "number data" (year, rating, or revenue), put into array for further parsing
-// int getNumberData(char csv[1024], char temp[1024], int csvIndex, int runner) {
-//     int index = 0;
-//     char comma = ',';
-//     char currChar = csv[runner];
-//     while (currChar != comma && currChar != '\0') {
-//         temp[index] = csv[runner];
-//         index++;
-//         runner++;
-//         currChar = csv[runner];
-//     }
-//     temp[index] = '\0';
-//     return runner;
-// }
-
-// // move the runner to the next non-space or non-comma value
-// int move(char csv[1024], int runner) {
-//     char space = ' ';
-//     char comma = ',';
-//     while ((csv[runner] == space) || (csv[runner] == comma)) {
-//         runner++;
-//     }
-//     return runner;
-// }
 
 // get the next piece of data from the string
 int getNextData(char csv[], int csvIndex, char temp[]) {
     char comma = ',';
-
-    int tempVar = csvIndex + 1;
-    int i = csvIndex + 1;
-
+    int i;
+    int length = 0;
+    // populate the temp arr with values from csv
     for (i = (csvIndex + 1); csv[i] != '\0'; i++) {
         char curr = csv[i];
+        // exit teh loop if reached a ',' bc that is the end
         if (curr == comma) {
             break;
         }
         else {
-            temp[i - (csvIndex + 1)] = curr;
+            // populate the temp array with teh curr char from csv
+            temp[length] = curr;
+            length++;
         }
     }
     // add the null terminator at the end
-    temp[i - (csvIndex + 1)] = '\0';
+    temp[length] = '\0';
+    // return the index that ',' is at
     return i;
 }
-// getNextPiece(str, start, strpc) {
-//     for (i = start + 1; < str.length;i++) {
-//         if str[i] == , quit
-//             strpc[i - (start + 1)] = str[i]
-//     }
-//     return i
-// }
 
 /* This function takes a string as input and removes
  * leading and trailing whitespace including spaces
@@ -165,11 +87,14 @@ void Clean_Whitespace(char str[])
     char newline = '\n';
 
     // remove tabs and newlines
-    for (i = 0; str[i] != '\0'; i++) {
+    for (i = 0; str[i] != '\0';) {
         currChar = str[i];
         // if curr char is a tab or new line, remove it
         if (currChar == tab || currChar == newline) {
             shift(str, i);
+        }
+        else {
+            i++;
         }
     }
 
@@ -215,28 +140,36 @@ void Clean_Whitespace(char str[])
  */
 void Fix_Case(char str[])
 {
-    Clean_Whitespace(str);
-
-    // do your work here
-    int i = 0;
-    char prevChar;
-    char space = ' ';
-
-
-    while (str[i] != '\0') {
-        // if the prev char is equal to a space or this is the first char:
-        if (prevChar == space || i == 0)
-            // set the next char to an uppercase if possible
-            str[i] = uppercase(str[i]);
-        // else:
-        else
-            // set the current char to a lowercase if possible
-            str[i] = lowercase(str[i]);
-        // increment the counter
-        i++;
-        // get the prev char
-        prevChar = str[i - 1];
+   char current;
+    int i = 1;
+    char prevChar = str[0];
+    if (prevChar == '\0') {
+        return;
     }
+    
+    //take care of 1st char
+    if ((str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= 'a' && str[0] <= 'z')) {
+        str[0] = uppercase(str[0]);
+    }
+
+    //loop thru the rest of the string
+    do {
+        current = str[i];
+        //check if current is an alphabet
+        if ((current >= 'A' && current <= 'Z') || (current >= 'a' && current <= 'z')) {
+            //is current the first letter?
+            //not if the prevChar is an alphabet
+            if ((prevChar >= 'A' && prevChar <= 'Z') || (prevChar >= 'a' && prevChar <= 'z')) {
+                str[i] = lowercase(str[i]);
+            }
+            else {
+                str[i] = uppercase(str[i]);
+            }
+        }
+        prevChar = current;
+        i++;
+    } while (current != '\0');
+
     return;
 }
 
@@ -369,24 +302,23 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
         // capitalize it
         Fix_Case(movie);
         // add to the movie array
+        int length = 0;
         for (int i = 0; movie[i] != '\0'; i++) {
             titles[csvIndex][i] = movie[i];
+            length++;
         }
+        titles[csvIndex][length] = '\0';
 
         // get the year data
         runner = getNextData(csv[csvIndex], runner, year);
-        // debug
-        // printf("string: %s\n", year);
+
         // delete the white spaces
         Clean_Whitespace(year);
         // parse it to year format
         int yearVal = String_To_Year(year);
-        // debug
-        // printf("int: %d\n", yearVal);
+
         // add to the year array
         years[csvIndex] = yearVal;
-        // debug
-        // printf("int: %d\n", years[csvIndex]);
 
         // move until the next comma to bypass rating data
         runner = getNextData(csv[csvIndex], runner, movie);
@@ -400,9 +332,12 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
         // remove the other names
         Director_Last_Name(director);
         // add the last name to the director array
+        length = 0;
         for (int i = 0; director[i] != '\0'; i++) {
             directors[csvIndex][i] = director[i];
+            length++;
         }
+        directors[csvIndex][length] = '\0';
 
         // get the rating data
         runner = getNextData(csv[csvIndex], runner, rating);
@@ -422,74 +357,10 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
         // add to the dollar array
         dollars[csvIndex] = dollarVal;
 
-
-
-
-
-        // get the row of movie data & remove the white spaces
-
-
-
-
-
-        //temp is a string that's 1024 long
-        // getnextpice(csv[csvIndex], start, temp)
-
-        // Clean_Whitespace(csv[csvIndex]);
-
-        // printf("csv[csvIndex]: %s\n", csv[csvIndex]);
-
-        // // set the title case
-        // Fix_Case(csv[csvIndex]);
-
-
-        // // get the title and add to the corresponding array
-        // int runner = getMovieData(csv[csvIndex], titles, csvIndex, 0);
-        // // move to the next set of data
-        // runner = move(csv, runner);
-
-        // // get the year
-        // runner = getNumberData(csv[csvIndex], year, csvIndex, runner);
-        // int numYear = String_To_Year(year);
-        // years[csvIndex] = numYear;
-        // // move to the next set of data
-        // runner = move(csv, runner);
-
-        // // move past the runtime data
-        // while (csv[csvIndex][runner] != ',') {
-        //     runner++;
-        // }
-        // runner = move(csv, runner);
-
-        // // get the director
-        // runner = getDirectorData(csv[csvIndex], directors, csvIndex, runner);
-        // // move to the next set of data
-        // runner = move(csv, runner);
-
-        // // get the rating
-        // runner = getNumberData(csv[csvIndex], rating, csvIndex, runner);
-        // float numRating = String_To_Rating(rating);
-        // ratings[csvIndex] = numRating;
-        // // move to the next set of data
-        // runner = move(csv, runner);
-
-        // // get the dollar amount
-        // runner = getNumberData(csv[csvIndex], dollar, csvIndex, runner);
-        // long long int numDollar = String_To_Dollars(dollar);
-        // dollars[csvIndex] = numDollar;
-
     }
 
     return;
 }
-
-// getNextPiece(str, start, strpc) {
-//     for (i = start + 1; < str.length;i++) {
-//         if str[i] == , quit
-//             strpc[i - (start + 1)] = str[i]
-//     }
-//     return i
-// }
 
 /* This function prints a well formatted table of
  * the movie data

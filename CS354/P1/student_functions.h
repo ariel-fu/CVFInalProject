@@ -2,7 +2,7 @@
 #define __student_functions__
 
 
-/* This function takes a string as input and removes 
+/* This function takes a string as input and removes
  * leading and trailing whitespace including spaces
  * tabs and newlines. It also removes multiple internal
  * spaces in a row. Arrays are passed by reference.
@@ -12,15 +12,15 @@ void Clean_Whitespace(char str[]);
 /* This function takes a string and makes the first
  * letter of every word upper case and the rest of the
  * letters lower case
- */ 
+ */
 void Fix_Case(char str[]);
 
-/* this function takes a string and returns the 
+/* this function takes a string and returns the
  * integer equivalent
  */
 int String_To_Year(char str[]);
 
-/* this function takes the name of a 
+/* this function takes the name of a
  * director as a string and removes all but
  * the last name.  Example:
  * "Bucky Badger" -> "Badger"
@@ -36,18 +36,18 @@ float String_To_Rating(char str[]);
  * the revenue of a movie and returns the decimal
  * equivlaent. The suffix M or m represents millions,
  * K or k represents thousands.
-* example: "123M" -> 123000000 
+* example: "123M" -> 123000000
 */
 long long String_To_Dollars(char str[]);
 
-/* This function takes the array of strings representing 
+/* This function takes the array of strings representing
  * the csv movie data and divides it into the individual
  * components for each movie
  */
 void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[10], char directors[10][1024], float ratings[10], long long dollars[10]);
 
 /* This function prints a well formatted table of
- * the movie data 
+ * the movie data
  * Row 1: Header - use name and field width as below
  * Column 1: Id, field width = 3, left justified
  * Column 2: Title, field width = lenth of longest movie + 2 or 7 which ever is larger, left justified
@@ -57,7 +57,6 @@ void Split(char csv[10][1024], int num_movies, char titles[10][1024], int years[
  * column 6: Revenue, field width = 11, right justified
  */
 void Print_Table(int num_movies, char titles[10][1024], int years[10], char directors[10][1024], float ratings[10], long long dollars[10]);
-
 
 
 #endif

@@ -31,7 +31,7 @@ void shift(char str[], int pos)
 char uppercase(char c)
 {
     // ensure that the char c can be uppercased
-    if (c >= 97 && c <= 122)
+    if (c >= 'a' && c <= 'z')
         return c - ('a' - 'A');
     // otherwise, return itself
     return c;
@@ -40,7 +40,7 @@ char uppercase(char c)
 char lowercase(char c)
 {
     // ensure that the char can be uppercased
-    if (c >= 65 && c <= 90)
+    if (c >= 'A' && c <= 'Z')
         return c + ('a' - 'A');
     // otherwise, return itself
     return c;
@@ -140,13 +140,13 @@ void Clean_Whitespace(char str[])
  */
 void Fix_Case(char str[])
 {
-   char current;
+    char current;
     int i = 1;
     char prevChar = str[0];
     if (prevChar == '\0') {
         return;
     }
-    
+
     //take care of 1st char
     if ((str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= 'a' && str[0] <= 'z')) {
         str[0] = uppercase(str[0]);
@@ -192,6 +192,8 @@ int String_To_Year(char str[])
 void Director_Last_Name(char str[])
 {
     // do your work here
+    // clean the whitespace
+    Clean_Whitespace(str);
     // uppercase
     Fix_Case(str);
     // get the length of the string
@@ -228,6 +230,7 @@ float String_To_Rating(char str[])
     // do your work here
     // clean the string first
     Clean_Whitespace(str);
+    float x = atof(str);
     return atof(str);
 }
 
@@ -258,6 +261,7 @@ long long String_To_Dollars(char str[])
 
         decimalEquiv *= 1000;
     }
+    // multiply be 1000000 by if the suffix is a 'm'
     else if (uppercase(suffix) == 'M') {
         // remove the suffix
         str[strLength - 1] = '\0';

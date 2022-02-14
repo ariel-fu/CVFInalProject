@@ -1197,7 +1197,9 @@ int main() {
     // printf(str);
     // str = " is this  working ?";
 
-
+    // char x[] = "\t 2.5";
+    // float xF = atof(x);
+    // printf("%f", xF);
 
     char csv[10][1024]; // data structure for the entire movie csv file
     int num_movies;
@@ -1208,10 +1210,11 @@ int main() {
     long long dollars[10];
 
     // Read_CSV("movies1.csv", csv, &num_movies);
+    char let[] = "\t\t\n    1.0    \t\n";
 
-    char str[] = "   \t\t\n   Be   \t\n IE \n";
-    Fix_Case(str);
-    printf("%s,\n", str);
+    char str[] = "   \t\t\n abc  \t\n  abc \t\n     \n   \t\n\t    ";
+    float dol = String_To_Rating(let);
+    printf("-%f-\n", dol);
 
 
     char st1[] = "   \t\t\t\t\t\t\n   Be   \t\n IE \n, \t 2002  \t    \n     , , ththiewe fnwejnwe fidfew E J    EWEJ \t\n   01234567890123456789, 1.44,    3k   \t\n  \t";

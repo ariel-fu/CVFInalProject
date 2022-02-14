@@ -1209,29 +1209,29 @@ int main() {
     float ratings[10];
     long long dollars[10];
 
-    // Read_CSV("movies1.csv", csv, &num_movies);
-    char let[] = "\t\t\n    1.0    \t\n";
+    Read_CSV("movies1.csv", csv, &num_movies);
+    // char let[] = "\t\t\n    1.0    \t\n";
 
-    char str[] = "   \t\t\n abc  \t\n  abc \t\n     \n   \t\n\t    ";
-    float dol = String_To_Rating(let);
-    printf("-%f-\n", dol);
+    // char str[] = "   \t\t\n abc  \t\n  abc \t\n     \n   \t\n\t    ";
+    // float dol = String_To_Rating(let);
+    // printf("-%f-\n", dol);
 
 
-    char st1[] = "   \t\t\t\t\t\t\n   Be   \t\n IE \n, \t 2002  \t    \n     , , ththiewe fnwejnwe fidfew E J    EWEJ \t\n   01234567890123456789, 1.44,    3k   \t\n  \t";
-    char st2[] = "  \t\n  Be \t\n   \t\n   , 2854  \t\n, ,  VJekw DJken BE DKe Fu   \t\n  , 9.98  ,   5M  \t \n, is this being run ,,,,,,,,,,,";
-    char st3[] = "\t   \n    W   \n\t  Vie \t\n  \n,  \t\n  \t 2349  \t\n  \n   , , Jenge  keo e hFD ek   jfewk   henw  Fu, \t\n     8.43  \t\n  \t\n,    \t\n   8k  \t\n";
+    // char st1[] = "   \t\t\t\t\t\t\n   Be   \t\n IE \n, \t 2002  \t    \n     , , ththiewe fnwejnwe fidfew E J    EWEJ \t\n   01234567890123456789, 1.44,    3k   \t\n  \t";
+    // char st2[] = "  \t\n  Be \t\n   \t\n   , 2854  \t\n, ,  VJekw DJken BE DKe Fu   \t\n  , 9.98  ,   5M  \t \n, is this being run ,,,,,,,,,,,";
+    // char st3[] = "\t   \n    W   \n\t  Vie \t\n  \n,  \t\n  \t 2349  \t\n  \n   , , Jenge  keo e hFD ek   jfewk   henw  Fu, \t\n     8.43  \t\n  \t\n,    \t\n   8k  \t\n";
 
-    for (int i = 0; st1[i] != '\0'; i++) {
-        csv[0][i] = st1[i];
-    }
-    for (int i = 0; st2[i] != '\0'; i++) {
-        csv[1][i] = st2[i];
-    }
-    for (int i = 0; st3[i] != '\0'; i++) {
-        csv[2][i] = st3[i];
-    }
+    // for (int i = 0; st1[i] != '\0'; i++) {
+    //     csv[0][i] = st1[i];
+    // }
+    // for (int i = 0; st2[i] != '\0'; i++) {
+    //     csv[1][i] = st2[i];
+    // }
+    // for (int i = 0; st3[i] != '\0'; i++) {
+    //     csv[2][i] = st3[i];
+    // }
 
-    num_movies = 3;
+    // num_movies = 3;
 
     Split(csv, num_movies, titles, years, directors, ratings, dollars);
     Print_Table(num_movies, titles, years, directors, ratings, dollars);

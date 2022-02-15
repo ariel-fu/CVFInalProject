@@ -1209,12 +1209,35 @@ int main() {
     float ratings[10];
     long long dollars[10];
 
-    Read_CSV("movies1.csv", csv, &num_movies);
+    // Read_CSV("movies1.csv", csv, &num_movies);
     // char let[] = "\t\t\n    1.0    \t\n";
 
-    // char str[] = "   \t\t\n abc  \t\n  abc \t\n     \n   \t\n\t    ";
-    // float dol = String_To_Rating(let);
-    // printf("-%f-\n", dol);
+    // char str[] = "   A     A    ";
+    // Clean_Whitespace(str);
+    // printf("-%s-\n", str);
+    char str[] = "50000M";
+    long long int val = String_To_Dollars(str);
+    printf("-%llu-\n", val);
+
+
+    // char csvInput[] = "012345678901234567890123456789013456789012345678901234567890134657890123456789";
+
+    // for (int i = 0; csvInput[i]; i++) {
+    //     csv[0][i] = csvInput[i];
+    // }
+
+    // Split(csv, 1, titles, years, directors, ratings, dollars);
+    // printf("-%s-\n", titles[0]);
+    // printf("-%d-\n", years[0]);
+    // printf("-%s-\n", directors[0]);
+    // printf("-%f-\n", ratings[0]);
+    // printf("-%llu-\n", dollars[0]);
+
+    // char str[] = "   \t\t\n  f           u        \t\n\t\n\n  \n\n     d\t\ne \t  is   this      \t\n  \n  \t\n    \n   \t\n\t    ,,, wor\n\tki\t\t\t\tng           \t\n   \t\t\n\n";
+    // Clean_Whitespace(str);
+    // Fix_Case(str);
+
+    // printf("-%s-\n", str);
 
 
     // char st1[] = "   \t\t\t\t\t\t\n   Be   \t\n IE \n, \t 2002  \t    \n     , , ththiewe fnwejnwe fidfew E J    EWEJ \t\n   01234567890123456789, 1.44,    3k   \t\n  \t";
@@ -1233,8 +1256,8 @@ int main() {
 
     // num_movies = 3;
 
-    Split(csv, num_movies, titles, years, directors, ratings, dollars);
-    Print_Table(num_movies, titles, years, directors, ratings, dollars);
+    // Split(csv, num_movies, titles, years, directors, ratings, dollars);
+    // Print_Table(num_movies, titles, years, directors, ratings, dollars);
 
 
 

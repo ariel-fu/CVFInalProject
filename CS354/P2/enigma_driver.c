@@ -103,13 +103,13 @@ int main()
 
     printf("Enter the message to be encrypted or decrypted: ");
     Get_Message(message);
-    printf("message |%s|", message);
+    printf("message |%s|\n", message);
 
-    printf("\nWhich rotors will be used to encrypt the message: ");
+    printf("Which rotors will be used to encrypt the message: \n");
     num_active_rotors = Get_Which_Rotors(which_rotors);
-    printf("\n%s \t %d", which_rotors, num_active_rotors);
+    printf("%s \t %d\n", which_rotors, num_active_rotors);
 
-    printf("\nEnter the number of rotations to apply to the encryption rotors: ");
+    printf("Enter the number of rotations to apply to the encryption rotors: \n");
     rotations = Get_Rotations();
     printf("%d\n", rotations);
 
@@ -119,7 +119,7 @@ int main()
     Encrypt(encryption_rotors, num_active_rotors, message, encrypted_message);
     Decrypt(encryption_rotors, num_active_rotors, encrypted_message, decrypted_message);
 
-    printf("The encrypted message is: %s", encrypted_message);
+    printf("The encrypted message is: %s\n", encrypted_message);
 
     printf("The decrypted message is: %s", decrypted_message);
 

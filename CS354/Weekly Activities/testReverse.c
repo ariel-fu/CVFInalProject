@@ -1,18 +1,7 @@
 #include <stdio.h>
 
 void Reverse(char *str);
-int length(char *str);
 
-int length(char *str)
-{
-    int length = 0;
-    while (*str)
-    {
-        length++;
-        str++;
-    }
-    return length;
-}
 void Reverse(char *str)
 {
 
@@ -41,40 +30,42 @@ int main()
     // char *str[] = c;
     // int eln = length(str);
     // printf("eln: %d", eln);
+    {
+        char str[] = "lkjwefkljwelkwejfl wefiowhglwhglkhgljk efkleke";
+    }
+    char str[240] = {'a', 'b', 'c', 'd', 'e', '\0'};
+    // char *str;
+    // str = odd;
+    Reverse(str);
+    printf("%s\n", str);
 
-    char odd[] = {'a', 'b', 'c', 'd', 'e', '\0'};
-    char *str;
-    str = odd;
-    Reverse(odd);
-    printf("%s\n", odd);
+    char even[] = {'a', 'b', 'c', 'd', '\0'};
 
-    char even[] = "abcdefgh";
-    str = even;
     Reverse(even);
     printf("%s\n", even);
 
     char ar[] = "arielfu";
-    str = ar;
+
     Reverse(ar);
     printf("%s\n", ar);
 
     char num[] = "123456789";
-    str = num;
+
     Reverse(num);
     printf("%s\n", num);
 
     char alph[] = "abcdefghijklmnopqrstuvwxyz";
-    str = alph;
+
     Reverse(alph);
     printf("%s\n", alph);
 
     char special[] = "()|()";
-    str = special;
+
     Reverse(special);
     printf("%s\n", special);
 
     char space[] = "-   |   ,";
-    str = space;
+
     Reverse(space);
     printf("%s\n", space);
     return 0;

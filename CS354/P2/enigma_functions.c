@@ -1,5 +1,7 @@
 #include "enigma.h"
-
+/* Name: Ariel Fu
+ * Net ID: 908 168 5910
+ */
 const char *ROTOR_CONSTANTS[] = {
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ", // Identity Rotor (index 0 - and useful for testing):
     "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
@@ -121,6 +123,13 @@ void Get_Message(char msg[])
 {
     // get the input and return the message
     getString(msg);
+    int length = 0;
+    for (int i = 0; msg[i] && i < 79; i++)
+    {
+        length++;
+    }
+    // terminate at 80 chars characters
+    msg[length] = '\0';
     return;
 }
 
@@ -141,6 +150,8 @@ int Get_Which_Rotors(char which_rotors[])
     {
         length++;
     }
+    // terminate which_rotors to only allow 4 or less rotors
+    which_rotors[length] = '\0';
     // return the number of rotors
     return length;
 }

@@ -162,7 +162,7 @@ int Get_Which_Rotors(char which_rotors[])
 int Get_Rotations()
 {
     // get the input from the user
-    char input[] = "";
+    char input[4];
     getString(input);
     // conver the input to an integer
     int rotations = atoi(input);

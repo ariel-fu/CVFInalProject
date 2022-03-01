@@ -95,6 +95,7 @@ int main()
     which_rotors[0] = '1';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     char msg[] = "IRONMAN VS BATMAN";
     printf("og -%s-\n", msg);
     Encrypt(encryption_rotors, 1, msg, encrypted_message);
@@ -103,18 +104,21 @@ int main()
     which_rotors[0] = '2';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Encrypt(encryption_rotors, 1, encrypted_message, encrypted_message);
     printf("#2 -%s-\n", encrypted_message);
 
     which_rotors[0] = '8';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Encrypt(encryption_rotors, 1, encrypted_message, encrypted_message);
     printf("#3 -%s-\n", encrypted_message);
 
     which_rotors[0] = '7';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Encrypt(encryption_rotors, 1, encrypted_message, encrypted_message);
     printf("#4 -%s-\n", encrypted_message);
 
@@ -126,30 +130,35 @@ int main()
     which_rotors[3] = '7';
     which_rotors[4] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Encrypt(encryption_rotors, 4, testmsg, testencrypted_message);
     printf("ex -%s-\n", testencrypted_message);
 
     which_rotors[0] = '7';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Decrypt(encryption_rotors, 1, encrypted_message, decrypted_message);
     printf("#4 -%s-\n", decrypted_message);
 
     which_rotors[0] = '8';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Decrypt(encryption_rotors, 1, decrypted_message, decrypted_message);
     printf("#3 -%s-\n", decrypted_message);
 
     which_rotors[0] = '2';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Decrypt(encryption_rotors, 1, decrypted_message, decrypted_message);
     printf("#2 -%s-\n", decrypted_message);
 
     which_rotors[0] = '1';
     which_rotors[1] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Decrypt(encryption_rotors, 1, decrypted_message, decrypted_message);
     printf("#1 -%s-\n", decrypted_message);
 
@@ -159,6 +168,7 @@ int main()
     which_rotors[3] = '7';
     which_rotors[4] = '\0';
     Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(3, encryption_rotors);
     Decrypt(encryption_rotors, 4, testencrypted_message, decrypted_message);
     printf("ex -%s-\n", decrypted_message);
     // char set_rotors_test[] = {'3', '1', '\0'};

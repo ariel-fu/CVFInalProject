@@ -171,6 +171,11 @@ int main()
     Apply_Rotation(3, encryption_rotors);
     Decrypt(encryption_rotors, 4, testencrypted_message, decrypted_message);
     printf("ex -%s-\n", decrypted_message);
+
+    printf("Enter the message to be encrypted or decrypted: ");
+    Get_Message(message);
+    printf("message |%s|\n", message);
+
     // char set_rotors_test[] = {'3', '1', '\0'};
     // char set_rotors_test[] = {'1', '2', '3', '4', '\0'};
     // char set_rotors_test[] = {'1', '5', '8', '4', '\0'};

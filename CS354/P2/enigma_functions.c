@@ -219,7 +219,7 @@ void Encrypt(char encryption_rotors[4][27], int num_active_rotors, char msg[], c
     // set the temp to the max size of message
     char temp[80];
     // copy the message to the temp array
-    strcpy(temp, msg);
+    strncpy(temp, msg, 80);
     // encrypt data
     for (int i = 0; i < num_active_rotors; i++)
     {

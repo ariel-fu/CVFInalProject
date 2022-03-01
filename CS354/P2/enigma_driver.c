@@ -237,11 +237,11 @@ int main()
     Get_Message(message);
     printf("message |%s|\n", message);
 
-    printf("Which rotors will be used to encrypt the message: \n");
+    printf("Which rotors will be used to encrypt the message: ");
     num_active_rotors = Get_Which_Rotors(which_rotors);
     printf("%s \t %d\n", which_rotors, num_active_rotors);
 
-    printf("Enter the number of rotations to apply to the encryption rotors: \n");
+    printf("Enter the number of rotations to apply to the encryption rotors: ");
     rotations = Get_Rotations();
     printf("%d\n", rotations);
 

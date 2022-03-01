@@ -162,7 +162,7 @@ int Get_Which_Rotors(char which_rotors[])
 int Get_Rotations()
 {
     // get the input from the user
-    char input[2];
+    char input[80];
     getString(input);
     int length = 0;
     for (int i = 0; input[i] && i < 2; i++)

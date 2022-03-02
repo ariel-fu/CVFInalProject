@@ -82,14 +82,14 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     struct rect *pointer = &r;
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase upper x
@@ -100,13 +100,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase both
@@ -117,13 +117,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase upper x
@@ -134,13 +134,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase upper x
@@ -151,13 +151,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // lower half
@@ -170,13 +170,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase lower y
@@ -187,13 +187,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase lower x and y
@@ -204,13 +204,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase lower x
@@ -221,13 +221,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase lower y
@@ -238,13 +238,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase both
@@ -255,13 +255,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
 
     // increase upper x
@@ -272,13 +272,13 @@ int main()
     // // set r
     r.pt1 = lowerR;
     r.pt2 = upperR;
-    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1, r.pt2, pt);
+    printf("Original: pt1: (%d, %d) \t pt2: (%d, %d) \t new : (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y, pt.x, pt.y);
     printf("___________________________________________\n");
 
     // // enlarge
     Enlarge_Rectangle(pointer, pt);
     // // print
-    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1, r.pt2);
+    printf("pt1: (%d, %d) \t pt2: (%d, %d)\n", r.pt1.x, r.pt1.y, r.pt2.x, r.pt2.y);
     printf("------------------------------------------------------\n");
     // enlarge upper - both
     // lowerR = makepoint(1, 1);

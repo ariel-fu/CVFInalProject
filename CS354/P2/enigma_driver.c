@@ -77,14 +77,14 @@ int main()
     //     printf("%dth rotor in constants: -%s-\n\n", i, ROT[i + 3]);
     // }
 
-    // which_rotors[0] = '3';
-    // which_rotors[1] = '2';
+    which_rotors[0] = '3';
+    which_rotors[1] = '\0';
     // which_rotors[2] = '\0';
-    // // apply rotations
-    // Set_Up_Rotors(encryption_rotors, which_rotors);
-    // Apply_Rotation(3, encryption_rotors);
-    // printf("rotated 1: -%s-\n", encryption_rotors[0]);
-    // printf("orig:    = -   %s-\n", ROT[3]);
+    // apply rotations
+    Set_Up_Rotors(encryption_rotors, which_rotors);
+    Apply_Rotation(2, encryption_rotors);
+    printf("rotated 1: -%s-\n", encryption_rotors[0]);
+    printf("orig:    = -  %s-\n", ROT[3]);
 
     // printf("rotated 2: -%s-\n", encryption_rotors[1]);
     // printf("orig:    = -   %s-", ROT[2]);
@@ -233,27 +233,27 @@ int main()
     // Decrypt(encryption_rotors, 1, encrypt, decrypt);
     // printf(",%s,\n", decrypt);
 
-    printf("Enter the message to be encrypted or decrypted: ");
-    Get_Message(message);
-    printf("message |%s|\n", message);
+    // printf("Enter the message to be encrypted or decrypted: ");
+    // Get_Message(message);
+    // printf("message |%s|\n", message);
 
-    printf("Which rotors will be used to encrypt the message: ");
-    num_active_rotors = Get_Which_Rotors(which_rotors);
-    printf("%s \t %d\n", which_rotors, num_active_rotors);
+    // printf("Which rotors will be used to encrypt the message: ");
+    // num_active_rotors = Get_Which_Rotors(which_rotors);
+    // printf("%s \t %d\n", which_rotors, num_active_rotors);
 
-    printf("Enter the number of rotations to apply to the encryption rotors: ");
-    rotations = Get_Rotations();
-    printf("%d\n", rotations);
+    // printf("Enter the number of rotations to apply to the encryption rotors: ");
+    // rotations = Get_Rotations();
+    // printf("%d\n", rotations);
 
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(rotations, encryption_rotors);
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(rotations, encryption_rotors);
 
-    Encrypt(encryption_rotors, num_active_rotors, message, encrypted_message);
-    Decrypt(encryption_rotors, num_active_rotors, encrypted_message, decrypted_message);
+    // Encrypt(encryption_rotors, num_active_rotors, message, encrypted_message);
+    // Decrypt(encryption_rotors, num_active_rotors, encrypted_message, decrypted_message);
 
-    printf("The encrypted message is: %s\n", encrypted_message);
+    // printf("The encrypted message is: %s\n", encrypted_message);
 
-    printf("The decrypted message is: %s", decrypted_message);
+    // printf("The decrypted message is: %s", decrypted_message);
 
     // which_rotors[0] = '1';
     // which_rotors[1] = '\0';

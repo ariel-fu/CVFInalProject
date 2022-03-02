@@ -82,9 +82,9 @@ int main()
     // which_rotors[2] = '\0';
     // apply rotations
     Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(2, encryption_rotors);
+    Apply_Rotation(3, encryption_rotors);
     printf("rotated 1: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -  %s-\n", ROT[3]);
+    printf("orig:    = -   %s-\n", ROT[3]);
 
     // printf("rotated 2: -%s-\n", encryption_rotors[1]);
     // printf("orig:    = -   %s-", ROT[2]);

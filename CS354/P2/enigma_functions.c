@@ -25,7 +25,7 @@ void getString(char str[])
     int length = 0;
     str[0] = '\0';
     // get user input
-    scanf("%[^\n]%*c", str);
+    scanf(" %[^\n]%*c", str);
     for (int i = 0; str[i]; i++)
     {
         length++;
@@ -232,7 +232,7 @@ void Encrypt(char encryption_rotors[4][27], int num_active_rotors, char msg[], c
         // encrypt the temp message and store in encrypted_msg
         Encrypt_One_Rotor(encryption_rotors[i], temp, encrypted_msg);
         // copy the message encrypted with one rotor to the temp and continue encryption
-        strcpy(temp, encrypted_msg);
+        strncpy(temp, encrypted_msg, 80);
     }
     return;
 }
@@ -247,14 +247,14 @@ void Decrypt(char encryption_rotors[4][27], int num_active_rotors, char encrypte
     // set the temp to the max size of the message
     char temp[80];
     // copy the encrypted message to the temp array
-    strcpy(temp, encrypted_msg);
+    strncpy(temp, encrypted_msg, 80);
     // starting from the "end" of the encrypted rotors, work backwards
     for (int i = num_active_rotors - 1; i >= 0; i--)
     {
         // decrypt the temp message and store in decrypted_mgs
         Decrypt_One_Rotor(encryption_rotors[i], temp, decrypted_msg);
         // copy the partially decrypted message with one rotor to the temp and continue decryption
-        strcpy(temp, decrypted_msg);
+        strncpy(temp, decrypted_msg, 80);
     }
     return;
 }

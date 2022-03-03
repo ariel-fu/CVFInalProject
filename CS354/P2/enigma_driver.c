@@ -81,172 +81,172 @@ int main()
     which_rotors[1] = '\0';
     // which_rotors[2] = '\0';
     // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(3, encryption_rotors);
-    printf("rotated 3: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -   %s-\n", ROT[3]);
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(3, encryption_rotors);
+    // printf("rotated 3: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -   %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(4, encryption_rotors);
-    printf("rotated 4: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -    %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(4, encryption_rotors);
+    // printf("rotated 4: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -    %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(5, encryption_rotors);
-    printf("rotated 5: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -     %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(5, encryption_rotors);
+    // printf("rotated 5: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -     %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(6, encryption_rotors);
-    printf("rotated 6: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -      %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(6, encryption_rotors);
+    // printf("rotated 6: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -      %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(7, encryption_rotors);
-    printf("rotated 7: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -       %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(7, encryption_rotors);
+    // printf("rotated 7: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -       %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(8, encryption_rotors);
-    printf("rotated 8: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -        %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(8, encryption_rotors);
+    // printf("rotated 8: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -        %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(9, encryption_rotors);
-    printf("rotated 9: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -         %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(9, encryption_rotors);
+    // printf("rotated 9: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -         %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(10, encryption_rotors);
-    printf("rotated 0: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -          %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(10, encryption_rotors);
+    // printf("rotated 0: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -          %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(11, encryption_rotors);
-    printf("rotated 1: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -           %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(11, encryption_rotors);
+    // printf("rotated 1: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -           %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(12, encryption_rotors);
-    printf("rotated 2: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -            %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(12, encryption_rotors);
+    // printf("rotated 2: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -            %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(13, encryption_rotors);
-    printf("rotated 3: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -             %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(13, encryption_rotors);
+    // printf("rotated 3: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -             %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(14, encryption_rotors);
-    printf("rotated 4: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -              %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(14, encryption_rotors);
+    // printf("rotated 4: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -              %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(15, encryption_rotors);
-    printf("rotated 5: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -               %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(15, encryption_rotors);
+    // printf("rotated 5: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -               %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(16, encryption_rotors);
-    printf("rotated 6: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -                %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(16, encryption_rotors);
+    // printf("rotated 6: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -                %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(17, encryption_rotors);
-    printf("rotated 7: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -                 %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(17, encryption_rotors);
+    // printf("rotated 7: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -                 %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(18, encryption_rotors);
-    printf("rotated 8: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -                  %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(18, encryption_rotors);
+    // printf("rotated 8: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -                  %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(19, encryption_rotors);
-    printf("rotated 9: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -                   %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(19, encryption_rotors);
+    // printf("rotated 9: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -                   %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(20, encryption_rotors);
-    printf("rotated 0: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -                    %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(20, encryption_rotors);
+    // printf("rotated 0: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -                    %s-\n", ROT[3]);
 
-    which_rotors[0] = '3';
-    which_rotors[1] = '\0';
-    // which_rotors[2] = '\0';
-    // apply rotations
-    Set_Up_Rotors(encryption_rotors, which_rotors);
-    Apply_Rotation(21, encryption_rotors);
-    printf("rotated 1: -%s-\n", encryption_rotors[0]);
-    printf("orig:    = -                     %s-\n", ROT[3]);
+    // which_rotors[0] = '3';
+    // which_rotors[1] = '\0';
+    // // which_rotors[2] = '\0';
+    // // apply rotations
+    // Set_Up_Rotors(encryption_rotors, which_rotors);
+    // Apply_Rotation(21, encryption_rotors);
+    // printf("rotated 1: -%s-\n", encryption_rotors[0]);
+    // printf("orig:    = -                     %s-\n", ROT[3]);
     // printf("rotated 2: -%s-\n", encryption_rotors[1]);
     // printf("orig:    = -   %s-", ROT[2]);
 
@@ -499,6 +499,10 @@ int main()
     // printf("Enter the message to be encrypted or decrypted: ");
     // Get_Message(message);
     // printf("message |%s|\n", message);
+
+    
+
+
 
     return 0;
 }

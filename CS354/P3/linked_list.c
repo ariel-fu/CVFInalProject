@@ -72,6 +72,7 @@ int Size(LINKED_LIST list)
         return 0;
     } // empty list
     NODE *current = list.head;
+    // start count at 1 to acc. for the head
     int count = 1;
     while (current->next != NULL)
     {
@@ -84,12 +85,14 @@ int Size(LINKED_LIST list)
 // the front of the list
 void Push_Front(LINKED_LIST *list, int data)
 {
+    // create a new node with data
     NODE *temp = malloc(sizeof(NODE));
     Verify_Malloc(temp);
     temp->data = data;
+    // set next to curr head
     temp->next = list->head;
+    // set head to new node
     list->head = temp;
-
     return;
 }
 
@@ -97,23 +100,26 @@ void Push_Front(LINKED_LIST *list, int data)
 // to the end of the linked list
 void Push_Back(LINKED_LIST *list, int data)
 {
+    // if the list is empty, add the node as the head
     if (list->head == NULL)
     {
         Push_Front(list, data);
         return;
     }
 
+    // create a new node with data
     NODE *temp = malloc(sizeof(NODE));
     Verify_Malloc(temp);
     temp->data = data;
     temp->next = NULL;
+    // move to the end of the list
     NODE *current = list->head;
     while (current->next != NULL)
     {
         current = current->next;
     }
+    // set the last to the curr node
     current->next = temp;
-
     return;
 }
 
@@ -124,14 +130,17 @@ void Push_Back(LINKED_LIST *list, int data)
 // remember to free the deleted node
 int Pop_Front(LINKED_LIST *list, int *data)
 {
+    // list is empty: return 0
     if (list->head == NULL)
     {
         return 0;
     }
-    // get a pointer to head
+    // get a pointer to curr head
     NODE *oldHead = list->head;
+    // move the pointer to the head
     list->head = list->head->next;
     *data = oldHead->data;
+    // TODO: is this actually freeing the memory or just the pointer to the memory?
     free(oldHead);
 
     return 1;
@@ -159,6 +168,16 @@ int Pop_Back(LINKED_LIST *list, int *data)
         prev = prev->next;
         current = prev->next;
     }
+
+    *data = current->data;
+
+    // TODO: is this the correct way to free?
+    free(current);
+    // remove the last node
+    prev->next = NULL;
+
+    return 1;
+
     // increment current until curr.next points to the last node
     // NODE *current = list->head;
     // for (int i = 0; i < listSize - 2; i++)
@@ -171,13 +190,6 @@ int Pop_Back(LINKED_LIST *list, int *data)
     // free(last);
     // // remove the last node
     // current->next = NULL;
-
-    *data = current->data;
-    free(current);
-    // remove the last node
-    prev->next = NULL;
-
-    return 1;
 }
 
 // this function returns the number
@@ -187,6 +199,7 @@ int Count_If(LINKED_LIST list, int data)
 {
     NODE *current = list.head;
     int count = 0;
+    // iterate through the whole LL
     while (current != NULL)
     {
         if (data == current->data)
@@ -204,7 +217,7 @@ int Count_If(LINKED_LIST list, int data)
 int Delete(LINKED_LIST *list, int data)
 {
     NODE *previous = list->head;
-    // nothign in teh array
+    // nothing in the LL
     if (previous == NULL)
     {
         return 0;
@@ -222,10 +235,12 @@ int Delete(LINKED_LIST *list, int data)
         if (current->data == data)
         {
             previous->next = current->next;
+            // TODO: is this correct?
             free(current);
+            // deleted first occurrence, return success
             return 1;
         }
-        // increment
+        // continue searching
         previous = previous->next;
         current = previous->next;
     }
@@ -236,7 +251,7 @@ int Delete(LINKED_LIST *list, int data)
 int Is_Empty(LINKED_LIST list)
 {
     int listSize = Size(list);
-
+    // TODO: test if this will always return 1 if the listsize != 0
     return listSize == 0;
 }
 
@@ -245,6 +260,7 @@ int Is_Empty(LINKED_LIST list)
 void Clear(LINKED_LIST *list)
 {
     int temp;
+    // while there are still elements, pop the first element
     while (Pop_Front(list, &temp))
     {
     }
@@ -258,6 +274,7 @@ void Clear(LINKED_LIST *list)
 // data value
 void Remove_Duplicates(LINKED_LIST *list)
 {
+    // check for empty list
     NODE *current = list->head;
     if (current == NULL)
     {
@@ -268,14 +285,14 @@ void Remove_Duplicates(LINKED_LIST *list)
     NODE *runner = previous->next;
     while (current != NULL)
     {
-        // truncate the list
+        // truncate the list to be everything after the curr node
         LINKED_LIST truncList = Create_List();
         truncList.head = current->next;
         // delete all other occurrences of the curr data value
         while (Delete(&truncList, current->data))
         {
         }
-        // reappend the list
+        // "reappend" the list
         current->next = truncList.head;
         current = current->next;
     }
@@ -309,23 +326,27 @@ int main()
     // print the list
     printf("Testing Print_List\n");
     Print_List(stdout, list);
+    printf("__________TEST SIZE____________\n");
 
     // write a better test for Size
-    printf("Testing Size\n");
+    printf("Testing Size - should be 2\n");
     printf("size = %d\n", Size(list));
+    printf("__________TEST PUSH FRONT___________\n");
 
     // write a better test for Push_Front
-    printf("Testing Push_Front\n");
+    printf("Testing Push_Front - new node data: 10\n");
     Push_Front(&list, 10);
     Print_List(stdout, list);
+    printf("__________TEST PUSH BACK_________\n");
 
     // write a better test for Push_Back
-    printf("Testing Push_Back\n");
+    printf("Testing Push_Back - new node data: 3\n");
     Push_Back(&list, 3);
     Print_List(stdout, list);
+    printf("__________TEST POP FRONT__________\n");
 
     // write a better test for Pop_Front
-    printf("Testing Pop_Front\n");
+    printf("Testing Pop_Front - pop 10\n");
     {
         int x;
         int not_empty = Pop_Front(&list, &x);
@@ -338,9 +359,10 @@ int main()
         else
             printf("List was empty\n");
     }
+    printf("___________TEST POP BACK__________\n");
 
     // write a better test for Pop_Back
-    printf("Testing Pop_Back\n");
+    printf("Testing Pop_Back - pop 3\n");
     {
         int x;
         int not_empty;
@@ -359,16 +381,20 @@ int main()
             }
         } while (not_empty);
     }
+    printf("__________TEST COUNT IF__________\n");
 
     // write a beter test for Count_If
     printf("empty list 5 count = %d\n", Count_If(list, 5));
     Push_Front(&list, 5);
-    printf(" at beginning 5 count = %d\n", Count_If(list, 5));
+    Print_List(stdout, list);
+    printf("at beginning 5 count = %d\n", Count_If(list, 5));
+
     Push_Front(&list, 5);
     Push_Front(&list, 5);
     Print_List(stdout, list);
-    printf("5 count = %d\n", Count_If(list, 5));
-    printf("3 count = %d\n", Count_If(list, 3));
+    printf("(3) 5 count = %d\n", Count_If(list, 5));
+    printf("(0) 3 count = %d\n", Count_If(list, 3));
+    printf("__________TEST DELETE__________\n");
 
     // write a test for Delete
     printf("Testing Delete\n");
@@ -376,6 +402,7 @@ int main()
     Delete(&list, 5);
 
     Print_List(stdout, list);
+    printf("Testing Delete - 2 is not in list\n");
     Delete(&list, 2);
 
     Print_List(stdout, list);
@@ -384,13 +411,16 @@ int main()
     Print_List(stdout, list);
     Delete(&list, 5);
 
+    printf("Testing Delete - nothing in list\n");
     Print_List(stdout, list);
     Delete(&list, 5);
 
+    printf("Nothing in list? \n");
     Print_List(stdout, list);
+    printf("_________TEST IS EMPTY__________\n");
 
     // write a better test for Is_Empty
-    printf("Testing Is_Empty\n");
+    printf("Testing Is_Empty - should be empty\n");
     if (Is_Empty(list))
     {
         printf("List is Empty\n");
@@ -400,6 +430,7 @@ int main()
         printf("List is not empty\n");
     }
 
+    printf("Testing Is_Empty - should not be empty\n");
     Push_Front(&list, 1);
     Push_Front(&list, 2);
     Push_Front(&list, 3);
@@ -413,6 +444,8 @@ int main()
         printf("List is not empty\n");
     }
 
+    printf("________TEST CLEAR__________\n");
+
     // write a better test for Clear
     printf("Testing Clear\n");
     Clear(&list);
@@ -420,12 +453,14 @@ int main()
         printf("List is Empty\n");
     else
         printf("List is not empty\n");
+    printf("_________TEST REMOVE DUPLICATES_________\n");
 
     // write a better test for Remove_Duplicates
     printf("Test remove duplicates; empty\n");
     Remove_Duplicates(&list);
     Print_List(stdout, list);
-    printf("Test remove duplicates; 1->2->3\n");
+    // test rud duplicates
+    printf("Test remove duplicates; 1->1->1->2->2->3->3->3\n");
     Push_Back(&list, 1);
     Push_Back(&list, 1);
     Push_Back(&list, 1);
@@ -438,6 +473,8 @@ int main()
     Print_List(stdout, list);
     Clear(&list);
 
+    // test all same values
+    printf("Test remove duplicates: all duplicates: 1->1->...->1\n");
     Push_Back(&list, 1);
     Push_Back(&list, 1);
     Push_Back(&list, 1);
@@ -446,10 +483,11 @@ int main()
     Push_Back(&list, 1);
     Push_Back(&list, 1);
     Push_Back(&list, 1);
-    printf("Test remove duplicates: all duplicates\n");
     Remove_Duplicates(&list);
     Print_List(stdout, list);
     Clear(&list);
+
+    // test no duplicates
     Push_Back(&list, 1);
     Push_Back(&list, 2);
     Push_Back(&list, 3);

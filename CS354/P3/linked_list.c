@@ -94,7 +94,7 @@ void Push_Front(LINKED_LIST *list, int data)
     // set head to new node
     list->head = temp;
     // free temp
-    // free(temp);
+    free(temp);
     return;
 }
 

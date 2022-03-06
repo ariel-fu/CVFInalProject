@@ -281,8 +281,6 @@ void Remove_Duplicates(LINKED_LIST *list)
         return;
     }
 
-    NODE *previous = current;
-    NODE *runner = previous->next;
     while (current != NULL)
     {
         // truncate the list to be everything after the curr node

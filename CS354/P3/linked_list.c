@@ -93,6 +93,10 @@ void Push_Front(LINKED_LIST *list, int data)
     temp->next = list->head;
     // set head to new node
     list->head = temp;
+
+    // test address
+    printf("temp address: %p\n", temp);
+    printf("head address: %p\n", list->head);
     return;
 }
 
@@ -140,6 +144,7 @@ int Pop_Front(LINKED_LIST *list, int *data)
     // move the pointer to the head
     list->head = list->head->next;
     *data = oldHead->data;
+
     // TODO: is this actually freeing the memory or just the pointer to the memory?
     free(oldHead);
 
@@ -304,195 +309,200 @@ int main()
     printf("creating linked list\n");
     LINKED_LIST list = Create_List();
 
-    // ARIEL TEST
-    printf("Testing Push_Back - emtpy list\n");
-    Push_Back(&list, 3);
-    Print_List(stdout, list);
-
-    // add some data (hardcoded for testing)
-    printf("hardcoding some data\n");
-    NODE *first = malloc(sizeof(NODE));
-    Verify_Malloc(first);
-    NODE *second = malloc(sizeof(NODE));
-    Verify_Malloc(second);
-    first->data = 1;
-    second->data = 2;
-    list.head = first;
-    first->next = second;
-    second->next = NULL;
-
-    // print the list
-    printf("Testing Print_List\n");
-    Print_List(stdout, list);
-    printf("__________TEST SIZE____________\n");
-
-    // write a better test for Size
-    printf("Testing Size - should be 2\n");
-    printf("size = %d\n", Size(list));
-    printf("__________TEST PUSH FRONT___________\n");
-
+    // // ARIEL TEST
+    // printf("Testing Push_Back - emtpy list\n");
+    // Push_Back(&list, 3);
+    // Print_List(stdout, list);
     // write a better test for Push_Front
     printf("Testing Push_Front - new node data: 10\n");
     Push_Front(&list, 10);
     Print_List(stdout, list);
     printf("__________TEST PUSH BACK_________\n");
 
-    // write a better test for Push_Back
-    printf("Testing Push_Back - new node data: 3\n");
-    Push_Back(&list, 3);
-    Print_List(stdout, list);
-    printf("__________TEST POP FRONT__________\n");
+    // // add some data (hardcoded for testing)
+    // printf("hardcoding some data\n");
+    // NODE *first = malloc(sizeof(NODE));
+    // Verify_Malloc(first);
+    // NODE *second = malloc(sizeof(NODE));
+    // Verify_Malloc(second);
+    // first->data = 1;
+    // second->data = 2;
+    // list.head = first;
+    // first->next = second;
+    // second->next = NULL;
 
-    // write a better test for Pop_Front
-    printf("Testing Pop_Front - pop 10\n");
-    {
-        int x;
-        int not_empty = Pop_Front(&list, &x);
-        if (not_empty)
-        {
-            printf("Element popped was %d\n", x);
-            Print_List(stdout, list);
-            printf("size = %d\n", Size(list));
-        }
-        else
-            printf("List was empty\n");
-    }
-    printf("___________TEST POP BACK__________\n");
+    // // print the list
+    // printf("Testing Print_List\n");
+    // Print_List(stdout, list);
+    // printf("__________TEST SIZE____________\n");
 
-    // write a better test for Pop_Back
-    printf("Testing Pop_Back - pop 3\n");
-    {
-        int x;
-        int not_empty;
-        do
-        {
-            not_empty = Pop_Back(&list, &x);
-            if (not_empty)
-            {
-                printf("Element popped was %d\n", x);
-                Print_List(stdout, list);
-                printf("size = %d\n", Size(list));
-            }
-            else
-            {
-                printf("List was empty\n");
-            }
-        } while (not_empty);
-    }
-    printf("__________TEST COUNT IF__________\n");
+    // // write a better test for Size
+    // printf("Testing Size - should be 2\n");
+    // printf("size = %d\n", Size(list));
+    // printf("__________TEST PUSH FRONT___________\n");
 
-    // write a beter test for Count_If
-    printf("empty list 5 count = %d\n", Count_If(list, 5));
-    Push_Front(&list, 5);
-    Print_List(stdout, list);
-    printf("at beginning 5 count = %d\n", Count_If(list, 5));
+    // // write a better test for Push_Front
+    // printf("Testing Push_Front - new node data: 10\n");
+    // Push_Front(&list, 10);
+    // Print_List(stdout, list);
+    // printf("__________TEST PUSH BACK_________\n");
 
-    Push_Front(&list, 5);
-    Push_Front(&list, 5);
-    Print_List(stdout, list);
-    printf("(3) 5 count = %d\n", Count_If(list, 5));
-    printf("(0) 3 count = %d\n", Count_If(list, 3));
-    printf("__________TEST DELETE__________\n");
+    // // write a better test for Push_Back
+    // printf("Testing Push_Back - new node data: 3\n");
+    // Push_Back(&list, 3);
+    // Print_List(stdout, list);
+    // printf("__________TEST POP FRONT__________\n");
 
-    // write a test for Delete
-    printf("Testing Delete\n");
-    Print_List(stdout, list);
-    Delete(&list, 5);
+    // // write a better test for Pop_Front
+    // printf("Testing Pop_Front - pop 10\n");
+    // {
+    //     int x;
+    //     int not_empty = Pop_Front(&list, &x);
+    //     if (not_empty)
+    //     {
+    //         printf("Element popped was %d\n", x);
+    //         Print_List(stdout, list);
+    //         printf("size = %d\n", Size(list));
+    //     }
+    //     else
+    //         printf("List was empty\n");
+    // }
+    // printf("___________TEST POP BACK__________\n");
 
-    Print_List(stdout, list);
-    printf("Testing Delete - 2 is not in list\n");
-    Delete(&list, 2);
+    // // write a better test for Pop_Back
+    // printf("Testing Pop_Back - pop 3\n");
+    // {
+    //     int x;
+    //     int not_empty;
+    //     do
+    //     {
+    //         not_empty = Pop_Back(&list, &x);
+    //         if (not_empty)
+    //         {
+    //             printf("Element popped was %d\n", x);
+    //             Print_List(stdout, list);
+    //             printf("size = %d\n", Size(list));
+    //         }
+    //         else
+    //         {
+    //             printf("List was empty\n");
+    //         }
+    //     } while (not_empty);
+    // }
+    // printf("__________TEST COUNT IF__________\n");
 
-    Print_List(stdout, list);
-    Delete(&list, 5);
+    // // write a beter test for Count_If
+    // printf("empty list 5 count = %d\n", Count_If(list, 5));
+    // Push_Front(&list, 5);
+    // Print_List(stdout, list);
+    // printf("at beginning 5 count = %d\n", Count_If(list, 5));
 
-    Print_List(stdout, list);
-    Delete(&list, 5);
+    // Push_Front(&list, 5);
+    // Push_Front(&list, 5);
+    // Print_List(stdout, list);
+    // printf("(3) 5 count = %d\n", Count_If(list, 5));
+    // printf("(0) 3 count = %d\n", Count_If(list, 3));
+    // printf("__________TEST DELETE__________\n");
 
-    printf("Testing Delete - nothing in list\n");
-    Print_List(stdout, list);
-    Delete(&list, 5);
+    // // write a test for Delete
+    // printf("Testing Delete\n");
+    // Print_List(stdout, list);
+    // Delete(&list, 5);
 
-    printf("Nothing in list? \n");
-    Print_List(stdout, list);
-    printf("_________TEST IS EMPTY__________\n");
+    // Print_List(stdout, list);
+    // printf("Testing Delete - 2 is not in list\n");
+    // Delete(&list, 2);
 
-    // write a better test for Is_Empty
-    printf("Testing Is_Empty - should be empty\n");
-    if (Is_Empty(list))
-    {
-        printf("List is Empty\n");
-    }
-    else
-    {
-        printf("List is not empty\n");
-    }
+    // Print_List(stdout, list);
+    // Delete(&list, 5);
 
-    printf("Testing Is_Empty - should not be empty\n");
-    Push_Front(&list, 1);
-    Push_Front(&list, 2);
-    Push_Front(&list, 3);
-    Print_List(stdout, list);
-    if (Is_Empty(list))
-    {
-        printf("List is Empty\n");
-    }
-    else
-    {
-        printf("List is not empty\n");
-    }
+    // Print_List(stdout, list);
+    // Delete(&list, 5);
 
-    printf("________TEST CLEAR__________\n");
+    // printf("Testing Delete - nothing in list\n");
+    // Print_List(stdout, list);
+    // Delete(&list, 5);
 
-    // write a better test for Clear
-    printf("Testing Clear\n");
-    Clear(&list);
-    if (Is_Empty(list))
-        printf("List is Empty\n");
-    else
-        printf("List is not empty\n");
-    printf("_________TEST REMOVE DUPLICATES_________\n");
+    // printf("Nothing in list? \n");
+    // Print_List(stdout, list);
+    // printf("_________TEST IS EMPTY__________\n");
 
-    // write a better test for Remove_Duplicates
-    printf("Test remove duplicates; empty\n");
-    Remove_Duplicates(&list);
-    Print_List(stdout, list);
-    // test rud duplicates
-    printf("Test remove duplicates; 1->1->1->2->2->3->3->3\n");
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 2);
-    Push_Back(&list, 2);
-    Push_Back(&list, 3);
-    Push_Back(&list, 3);
-    Push_Back(&list, 3);
-    Remove_Duplicates(&list);
-    Print_List(stdout, list);
-    Clear(&list);
+    // // write a better test for Is_Empty
+    // printf("Testing Is_Empty - should be empty\n");
+    // if (Is_Empty(list))
+    // {
+    //     printf("List is Empty\n");
+    // }
+    // else
+    // {
+    //     printf("List is not empty\n");
+    // }
 
-    // test all same values
-    printf("Test remove duplicates: all duplicates: 1->1->...->1\n");
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Push_Back(&list, 1);
-    Remove_Duplicates(&list);
-    Print_List(stdout, list);
-    Clear(&list);
+    // printf("Testing Is_Empty - should not be empty\n");
+    // Push_Front(&list, 1);
+    // Push_Front(&list, 2);
+    // Push_Front(&list, 3);
+    // Print_List(stdout, list);
+    // if (Is_Empty(list))
+    // {
+    //     printf("List is Empty\n");
+    // }
+    // else
+    // {
+    //     printf("List is not empty\n");
+    // }
 
-    // test no duplicates
-    Push_Back(&list, 1);
-    Push_Back(&list, 2);
-    Push_Back(&list, 3);
-    Push_Back(&list, 4);
-    Push_Back(&list, 5);
-    printf("Test remove duplicates: no duplicates\n");
-    Remove_Duplicates(&list);
-    Print_List(stdout, list);
+    // printf("________TEST CLEAR__________\n");
+
+    // // write a better test for Clear
+    // printf("Testing Clear\n");
+    // Clear(&list);
+    // if (Is_Empty(list))
+    //     printf("List is Empty\n");
+    // else
+    //     printf("List is not empty\n");
+    // printf("_________TEST REMOVE DUPLICATES_________\n");
+
+    // // write a better test for Remove_Duplicates
+    // printf("Test remove duplicates; empty\n");
+    // Remove_Duplicates(&list);
+    // Print_List(stdout, list);
+    // // test rud duplicates
+    // printf("Test remove duplicates; 1->1->1->2->2->3->3->3\n");
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 2);
+    // Push_Back(&list, 2);
+    // Push_Back(&list, 3);
+    // Push_Back(&list, 3);
+    // Push_Back(&list, 3);
+    // Remove_Duplicates(&list);
+    // Print_List(stdout, list);
+    // Clear(&list);
+
+    // // test all same values
+    // printf("Test remove duplicates: all duplicates: 1->1->...->1\n");
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 1);
+    // Remove_Duplicates(&list);
+    // Print_List(stdout, list);
+    // Clear(&list);
+
+    // // test no duplicates
+    // Push_Back(&list, 1);
+    // Push_Back(&list, 2);
+    // Push_Back(&list, 3);
+    // Push_Back(&list, 4);
+    // Push_Back(&list, 5);
+    // printf("Test remove duplicates: no duplicates\n");
+    // Remove_Duplicates(&list);
+    // Print_List(stdout, list);
     return 0;
 }

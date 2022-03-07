@@ -390,6 +390,8 @@ int main()
     Push_Back(&list, 3);
     Remove_Duplicates(&list);
     Print_List(stdout, list);
+
+    Clear(&list);
     return 0;
 
     // // create a linked list

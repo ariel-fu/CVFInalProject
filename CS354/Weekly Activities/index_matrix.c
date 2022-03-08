@@ -115,7 +115,7 @@ int main()
 
     int **M52 = Create_RxC_Index_Matrix(5, 2);
     Print_Matrix(M52, 5, 2);
-    Free_Matrix(M52, 2);
+    Free_Matrix(M52, 5);
     // printf("\t FREED \n\n");
     // Print_Matrix(M44, 4, 4);
     printf("____________________________TEST 5 x 3____________________________________\n\n");

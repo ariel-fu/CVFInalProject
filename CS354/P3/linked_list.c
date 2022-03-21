@@ -248,7 +248,8 @@ void Clear(LINKED_LIST *list)
     while (Pop_Front(list, &temp))
     {
     }
-
+    // set the head to null
+    list->head = NULL;
     return;
 }
 
@@ -287,800 +288,95 @@ int main()
     // create a linked list
     printf("creating linked list\n");
     LINKED_LIST list = Create_List();
-    /** TEST SIZE */
-    printf("-- TEST SIZE -- \n");
-    // 1. size = 0
-    int size = Size(list);
-    printf("size: %d = 0\n", size);
-    // 2. size = 1
-    NODE *temp = malloc(sizeof(NODE));
-    temp->data = 1;
-    temp->next = NULL;
-    list.head = temp;
 
-    size = Size(list);
-    printf("size: %d = 1\n", size);
-    // 3. size > 1
-    NODE *temp2 = malloc(sizeof(NODE));
-    temp2->data = 2;
-    temp2->next = NULL;
-    temp->next = temp2;
-
-    size = Size(list);
-    printf("size: %d = 2\n", size);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST PUSH_FRONT */
-    printf("\n-- TEST PUSH_FRONT -- \n");
-    // 1. push to empty list
-    Push_Front(&list, 1);
-    printf("list w empty: \n");
+    // add some data (hardcoded for testing)
+    printf("hardcoding some data\n");
+    NODE *first = malloc(sizeof(NODE));
+    Verify_Malloc(first);
+    NODE *second = malloc(sizeof(NODE));
+    Verify_Malloc(second);
+    first->data = 1;
+    second->data = 2;
+    list.head = first;
+    first->next = second;
+    second->next = NULL;
+    // print the list
+    printf("Testing Print_List\n");
+    Print_List(stdout, list);
+    // write a better test for Size
+    printf("Testing Size\n");
+    printf("size = %d\n", Size(list));
+    // write a better test for Push_Front
+    printf("Testing Push_Front\n");
+    Push_Front(&list, 0);
     Print_List(stdout, list);
 
-    // 2. push to a list w 1 element
-    Push_Front(&list, 2);
-    printf("list w 1 element: \n");
-    Print_List(stdout, list);
-
-    // 3. push to a list w > 1 elements
-    Push_Front(&list, 3);
-    printf("list w > 1 elements: \n");
-    Print_List(stdout, list);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST PUSH_BACK */
-    printf("\n-- TEST PUSH_BACK -- \n");
-    // 1. push to empty list
-    Push_Back(&list, 1);
-    printf("list w empty: \n");
-    Print_List(stdout, list);
-
-    // 2. push to a list w 1 element
-    Push_Back(&list, 2);
-    printf("list w 1 element: \n");
-    Print_List(stdout, list);
-
-    // 3. push to a list w > 1 elements
+    // write a better test for Push_Back
+    printf("Testing Push_Back\n");
     Push_Back(&list, 3);
-    printf("list w > 1 elements: \n");
     Print_List(stdout, list);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST POP_FRONT */
-    printf("\n-- TEST POP_FRONT -- \n");
-    int data = -1;
-    int retVal;
-    // 1. pop when the list is empty
-    // list:
-    retVal = Pop_Front(&list, &data);
-    printf("return val: %d = 0\n", retVal);
-    printf("data val: %d = -1\n", data);
+    // write a better test for Pop_Front
+    printf("Testing Pop_Front\n");
+    {
+        int x;
+        int not_empty = Pop_Front(&list, &x);
+        if (not_empty)
+        {
+            printf("Element popped was %d\n", x);
+            Print_List(stdout, list);
+            printf("size = %d\n", Size(list));
+        }
+        else
+            printf("List was empty\n");
+    }
+    // write a better test for Pop_Back
+    printf("Testing Pop_Back\n");
+    {
+        int x;
+        int not_empty = Pop_Back(&list, &x);
+        if (not_empty)
+        {
+            printf("Element popped was %d\n", x);
+            Print_List(stdout, list);
+            printf("size = %d\n", Size(list));
+        }
+        else
+            printf("List was empty\n");
+    }
+    // write a beter test for Count_If
+    Push_Front(&list, 5);
+    Push_Front(&list, 5);
     Print_List(stdout, list);
+    printf("5 count = %d\n", Count_If(list, 5));
 
-    // 2. pop when there is only 1 element
-    temp = malloc(sizeof(NODE));
-    temp->data = 1;
-    temp->next = NULL;
-    list.head = temp;
-    // list: 1
-    retVal = Pop_Front(&list, &data);
-    printf("return val: %d = 1\n", retVal);
-    printf("data val: %d = 1\n", data);
+    // write a test for Delete
+    printf("Testing Delete\n");
     Print_List(stdout, list);
-
-    // 3. pop when there is > 1 elements
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    temp2->next = NULL;
-    list.head = temp;
-    // list: 10->20
-    retVal = Pop_Front(&list, &data);
-    printf("return val: %d = 1\n", retVal);
-    printf("data val: %d = 10\n", data);
+    Delete(&list, 1);
     Print_List(stdout, list);
+    // write a better test for Is_Empty
+    printf("Testing Is_Empty\n");
+    if (Is_Empty(list))
+        printf("List is Empty\n");
+    else
+        printf("List is not empty\n");
 
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST POP_BACK */
-    printf("\n-- TEST POP_BACK -- \n");
-    data = -1;
-    // 1. pop when the list is empty
-    // list:
-    retVal = Pop_Back(&list, &data);
-    printf("return val: %d = 0\n", retVal);
-    printf("data val: %d = -1\n", data);
-    Print_List(stdout, list);
-
-    // 2. pop when there is only 1 element
-    temp = malloc(sizeof(NODE));
-    temp->data = 1;
-    temp->next = NULL;
-    list.head = temp;
-    // list: 1
-    retVal = Pop_Back(&list, &data);
-    printf("return val: %d = 1\n", retVal);
-    printf("data val: %d = 1\n", data);
-    Print_List(stdout, list);
-
-    // 3. pop when there is > 1 elements
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    temp2->next = NULL;
-    list.head = temp;
-    // list: 10->20
-    retVal = Pop_Back(&list, &data);
-    printf("return val: %d = 1\n", retVal);
-    printf("data val: %d = 20\n", data);
-    Print_List(stdout, list);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST COUNT_IF */
-    printf("\n-- TEST COUNT_IF -- \n");
-    int count = 0;
-    // 1. test when the list is empty
-    count = Count_If(list, 10);
-    printf("count: %d = 0\n", count);
-    // create a linked list w 8 elements
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    NODE *temp3 = malloc(sizeof(NODE));
-    temp3->data = 30;
-    temp2->next = temp3;
-    NODE *add20 = malloc(sizeof(NODE));
-    add20->data = 20;
-    temp3->next = add20;
-    NODE *temp4 = malloc(sizeof(NODE));
-    temp4->data = 40;
-    add20->next = temp4;
-    NODE *fty1 = malloc(sizeof(NODE));
-    fty1->data = 40;
-    temp4->next = fty1;
-    NODE *fty2 = malloc(sizeof(NODE));
-    fty2->data = 40;
-    fty1->next = fty2;
-    NODE *temp5 = malloc(sizeof(NODE));
-    temp5->data = 50;
-    fty2->next = temp5;
-    temp5->next = NULL;
-    list.head = temp;
-
-    // list: 10->20->30->20->40->40->40->50
-    // 2. test the element to count appears: 0
-    count = Count_If(list, 60);
-    printf("count: %d = 0\n", count);
-    // 3. test the element to count appears: 1
-    count = Count_If(list, 30);
-    printf("count: %d = 1\n", count);
-    // 4. test the element appears at the head
-    count = Count_If(list, 10);
-    printf("count: %d = 1\n", count);
-    // 5. test the element appears at the tail
-    count = Count_If(list, 50);
-    printf("count: %d = 1\n", count);
-    // 6. test the element to count appears: > 1
-    count = Count_If(list, 20);
-    printf("count: %d = 2\n", count);
-    // 7. test the elements appear in sequence
-    count = Count_If(list, 40);
-    printf("count: %d = 3\n", count);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST DELETE */
-    printf("\n-- TEST DELETE -- \n");
-    retVal = -1;
-
-    // 1. elements in the list = 0
-    retVal = Delete(&list, 0);
-    printf("return value: %d = 0\n", retVal);
-    Print_List(stdout, list);
-
-    // create a linked list w 8 elements
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    temp3 = malloc(sizeof(NODE));
-    temp3->data = 30;
-    temp2->next = temp3;
-    add20 = malloc(sizeof(NODE));
-    add20->data = 20;
-    temp3->next = add20;
-    temp4 = malloc(sizeof(NODE));
-    temp4->data = 40;
-    add20->next = temp4;
-    fty1 = malloc(sizeof(NODE));
-    fty1->data = 40;
-    temp4->next = fty1;
-    fty2 = malloc(sizeof(NODE));
-    fty2->data = 40;
-    fty1->next = fty2;
-    temp5 = malloc(sizeof(NODE));
-    temp5->data = 50;
-    fty2->next = temp5;
-    temp5->next = NULL;
-    list.head = temp;
-
-    printf("starting list: \n");
-    Print_List(stdout, list);
-    printf("----");
-    // 2. element does not appear
-    retVal = Delete(&list, 80);
-    printf("remove 80\nreturn value: %d = 0\n", retVal);
-    Print_List(stdout, list);
-
-    // 3. element appears once
-    retVal = Delete(&list, 30);
-    printf("remove 30 \nreturn value: %d = 1\n", retVal);
-    Print_List(stdout, list);
-
-    // 4. element appears at the head
-    retVal = Delete(&list, 10);
-    printf("remove 10\nreturn value: %d = 1\n", retVal);
-    Print_List(stdout, list);
-
-    // 5. element appears at the tail
-    retVal = Delete(&list, 50);
-    printf("remove 50\nreturn value: %d = 1\n", retVal);
-    Print_List(stdout, list);
-
-    // 6. element appears multiple times
-    retVal = Delete(&list, 20);
-    printf("remove 20\nreturn value: %d = 1\n", retVal);
-    Print_List(stdout, list);
-
-    // 7. element appears in a sequence
-    retVal = Delete(&list, 40);
-    printf("remove 40\nreturn value: %d = 1\n", retVal);
-    Print_List(stdout, list);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST IS EMPTY */
-    printf("\n-- TEST IS_EMPTY -- \n");
-    // 1. list is empty
-    retVal = Is_Empty(list);
-    printf("is empty: %d = 1\n", retVal);
-
-    // set up linked list
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    temp2->next = NULL;
-    list.head = temp;
-
-    // 2. list is not empty
-    retVal = Is_Empty(list);
-    printf("is empty: %d = 0\n", retVal);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST IS CLEAR */
-    printf("\n-- TEST CLEAR -- \n");
-    // 1. list is empty
-    printf("clearing an empty list\n");
+    // write a better test for Clear
     Clear(&list);
-    Print_List(stdout, list);
-
-    // set up linked list
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    temp2->next = NULL;
-    list.head = temp;
-    Print_List(stdout, list);
-    // 2. list is not empty
-    printf("clearing a nonempty list\n");
-    Clear(&list);
-    Print_List(stdout, list);
-
-    // Clear the list to prep for the next test
-    list.head = NULL;
-
-    /** TEST IS REMOVE DUPLICATES */
-    printf("\n-- TEST REMOVE_DUPLICATES -- \n");
-    // 1. remove duplicates in an empty list
+    if (Is_Empty(list))
+        printf("List is Empty\n");
+    else
+        printf("List is not empty\n");
+    // write a better test for Remove_Duplicates
+    Push_Back(&list, 1);
+    Push_Back(&list, 1);
+    Push_Back(&list, 1);
+    Push_Back(&list, 2);
+    Push_Back(&list, 2);
+    Push_Back(&list, 3);
+    Push_Back(&list, 3);
+    Push_Back(&list, 3);
     Remove_Duplicates(&list);
-
-    // 2. list does not contain any duplicates
-    // set up linked list
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    temp2->next = NULL;
-    list.head = temp;
-    printf("before: ");
     Print_List(stdout, list);
-
-    Remove_Duplicates(&list);
-    printf("does not contain duplicates: \n");
-    Print_List(stdout, list);
-
-    // 3. list contains 1 duplicate in the middle
-    // set up the linked list
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 10;
-    temp->next = temp2;
-    add20 = malloc(sizeof(NODE));
-    add20->data = 20;
-    temp2->next = add20;
-    add20->next = NULL;
-    list.head = temp;
-    printf("before: ");
-    Print_List(stdout, list);
-
-    Remove_Duplicates(&list);
-    printf("contains duplicates in the middle: \n");
-    Print_List(stdout, list);
-
-    // 4. list contains 1 duplicate at the tail
-    // set up the linked list
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    add20 = malloc(sizeof(NODE));
-    add20->data = 20;
-    temp2->next = add20;
-    add20->next = NULL;
-    list.head = temp;
-    printf("before: ");
-    Print_List(stdout, list);
-
-    Remove_Duplicates(&list);
-    printf("contains duplicates at the tail: \n");
-    Print_List(stdout, list);
-
-    // 5. list contains 1 duplicate w multiple duplicate values
-    // set up the linked list
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 20;
-    temp->next = temp2;
-    temp4 = malloc(sizeof(NODE));
-    temp4->data = 40;
-    temp2->next = temp4;
-    fty1 = malloc(sizeof(NODE));
-    fty1->data = 40;
-    temp4->next = fty1;
-    fty2 = malloc(sizeof(NODE));
-    fty2->data = 40;
-    fty1->next = fty2;
-    temp5 = malloc(sizeof(NODE));
-    temp5->data = 50;
-    fty2->next = temp5;
-    temp5->next = NULL;
-    // 10 -> 20 -> 40 -> 40 -> 40 -> 50
-    printf("before: ");
-    Print_List(stdout, list);
-
-    Remove_Duplicates(&list);
-    printf("contains 1 duplicates with multiple duplicate values: \n");
-    Print_List(stdout, list);
-
-    // 6. list contains multiple duplicates w 1 duplicate value
-    // set up the linked list
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 10;
-    temp->next = temp2;
-    temp4 = malloc(sizeof(NODE));
-    temp4->data = 40;
-    temp2->next = temp4;
-    fty1 = malloc(sizeof(NODE));
-    fty1->data = 40;
-    temp4->next = fty1;
-    temp5 = malloc(sizeof(NODE));
-    temp5->data = 50;
-    fty1->next = temp5;
-    temp5->next = NULL;
-    // 10 -> 10 -> 40 -> 40 -> 50
-    printf("before: ");
-    Print_List(stdout, list);
-
-    Remove_Duplicates(&list);
-    printf("contains multiple duplicates with 1 duplicate value: \n");
-    Print_List(stdout, list);
-
-    // 7. list contains multiple duplicates w multiple duplicate values
-    // create a linked list w 8 elements
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 10;
-    temp->next = temp2;
-    temp3 = malloc(sizeof(NODE));
-    temp3->data = 10;
-    temp2->next = temp3;
-    add20 = malloc(sizeof(NODE));
-    add20->data = 20;
-    temp3->next = add20;
-    temp4 = malloc(sizeof(NODE));
-    temp4->data = 40;
-    add20->next = temp4;
-    fty1 = malloc(sizeof(NODE));
-    fty1->data = 40;
-    temp4->next = fty1;
-    fty2 = malloc(sizeof(NODE));
-    fty2->data = 40;
-    fty1->next = fty2;
-    temp5 = malloc(sizeof(NODE));
-    temp5->data = 40;
-    fty2->next = temp5;
-    temp5->next = NULL;
-    list.head = temp;
-    // 10 -> 10 -> 10 -> 20 -> 40 -> 40 -> 40 -> 40
-    printf("before: ");
-    Print_List(stdout, list);
-
-    Remove_Duplicates(&list);
-    printf("contains multiple duplicates with multiple duplicate values: \n");
-    Print_List(stdout, list);
-
-    // 8. list contains duplicates that are not in succession
-    // create a linked list w 8 elements
-    temp = malloc(sizeof(NODE));
-    temp->data = 10;
-    temp2 = malloc(sizeof(NODE));
-    temp2->data = 40;
-    temp->next = temp2;
-    temp3 = malloc(sizeof(NODE));
-    temp3->data = 20;
-    temp2->next = temp3;
-    add20 = malloc(sizeof(NODE));
-    add20->data = 10;
-    temp3->next = add20;
-    temp4 = malloc(sizeof(NODE));
-    temp4->data = 40;
-    add20->next = temp4;
-    fty1 = malloc(sizeof(NODE));
-    fty1->data = 10;
-    temp4->next = fty1;
-    fty2 = malloc(sizeof(NODE));
-    fty2->data = 50;
-    fty1->next = fty2;
-    temp5 = malloc(sizeof(NODE));
-    temp5->data = 40;
-    fty2->next = temp5;
-    temp5->next = NULL;
-    list.head = temp;
-    // 10 -> 40 -> 20 -> 10 -> 40 -> 10 -> 50 -> 40
-    printf("before: ");
-    Print_List(stdout, list);
-
-    Remove_Duplicates(&list);
-    printf("contains multiple duplicates with multiple duplicate values: \n");
-    Print_List(stdout, list);
-    /** -------------- TEST CASES PROVIDED BY CANVAS --------------- */
-    // printf("creating linked list\n");
-    // LINKED_LIST list = Create_List();
-
-    // // add some data (hardcoded for testing)
-    // printf("hardcoding some data\n");
-    // NODE *first = malloc(sizeof(NODE));
-    // Verify_Malloc(first);
-    // NODE *second = malloc(sizeof(NODE));
-    // Verify_Malloc(second);
-    // first->data = 1;
-    // second->data = 2;
-    // list.head = first;
-    // first->next = second;
-    // second->next = NULL;
-    // // print the list
-    // printf("Testing Print_List\n");
-    // Print_List(stdout, list);
-    // // write a better test for Size
-    // printf("Testing Size\n");
-    // printf("size = %d\n", Size(list));
-    // // write a better test for Push_Front
-    // printf("Testing Push_Front\n");
-    // Push_Front(&list, 0);
-    // Print_List(stdout, list);
-
-    // // write a better test for Push_Back
-    // printf("Testing Push_Back\n");
-    // Push_Back(&list, 3);
-    // Print_List(stdout, list);
-    // // write a better test for Pop_Front
-    // printf("Testing Pop_Front\n");
-    // {
-    //     int x;
-    //     int not_empty = Pop_Front(&list, &x);
-    //     if (not_empty)
-    //     {
-    //         printf("Element popped was %d\n", x);
-    //         Print_List(stdout, list);
-    //         printf("size = %d\n", Size(list));
-    //     }
-    //     else
-    //         printf("List was empty\n");
-    // }
-    // // write a better test for Pop_Back
-    // printf("Testing Pop_Back\n");
-    // {
-    //     int x;
-    //     int not_empty = Pop_Back(&list, &x);
-    //     if (not_empty)
-    //     {
-    //         printf("Element popped was %d\n", x);
-    //         Print_List(stdout, list);
-    //         printf("size = %d\n", Size(list));
-    //     }
-    //     else
-    //         printf("List was empty\n");
-    // }
-    // // write a beter test for Count_If
-    // Push_Front(&list, 5);
-    // Push_Front(&list, 5);
-    // Print_List(stdout, list);
-    // printf("5 count = %d\n", Count_If(list, 5));
-
-    // // write a test for Delete
-    // printf("Testing Delete\n");
-    // Print_List(stdout, list);
-    // Delete(&list, 1);
-    // Print_List(stdout, list);
-    // // write a better test for Is_Empty
-    // printf("Testing Is_Empty\n");
-    // if (Is_Empty(list))
-    //     printf("List is Empty\n");
-    // else
-    //     printf("List is not empty\n");
-
-    // // write a better test for Clear
-    // Clear(&list);
-    // if (Is_Empty(list))
-    //     printf("List is Empty\n");
-    // else
-    //     printf("List is not empty\n");
-    // // write a better test for Remove_Duplicates
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 2);
-    // Push_Back(&list, 2);
-    // Push_Back(&list, 3);
-    // Push_Back(&list, 3);
-    // Push_Back(&list, 3);
-    // Remove_Duplicates(&list);
-    // Print_List(stdout, list);
-    // return 0;
-
-    // // create a linked list
-    // printf("creating linked list\n");
-    // LINKED_LIST list = Create_List();
-
-    // // // ARIEL TEST
-    // printf("Testing Push_Back - emtpy list\n");
-    // Push_Back(&list, 3);
-    // Print_List(stdout, list);
-    // Clear(&list);
-    // // write a better test for Push_Front
-    // // printf("Testing Push_Front - new node data: 10\n");
-    // // Push_Front(&list, 10);
-    // // Print_List(stdout, list);
-    // // printf("__________TEST PUSH BACK_________\n");
-
-    // // add some data (hardcoded for testing)
-    // printf("hardcoding some data\n");
-    // NODE *first = malloc(sizeof(NODE));
-    // Verify_Malloc(first);
-    // NODE *second = malloc(sizeof(NODE));
-    // Verify_Malloc(second);
-    // first->data = 1;
-    // second->data = 2;
-    // list.head = first;
-    // first->next = second;
-    // second->next = NULL;
-
-    // // print the list
-    // printf("Testing Print_List\n");
-    // Print_List(stdout, list);
-    // printf("__________TEST SIZE____________\n");
-
-    // // write a better test for Size
-    // printf("Testing Size - should be 2\n");
-    // printf("size = %d\n", Size(list));
-    // printf("__________TEST PUSH FRONT___________\n");
-
-    // // write a better test for Push_Front
-    // printf("Testing Push_Front - new node data: 10\n");
-    // Push_Front(&list, 10);
-    // Print_List(stdout, list);
-    // printf("__________TEST PUSH BACK_________\n");
-
-    // // write a better test for Push_Back
-    // printf("Testing Push_Back - new node data: 3\n");
-    // Push_Back(&list, 3);
-    // Print_List(stdout, list);
-    // printf("__________TEST POP FRONT__________\n");
-
-    // // write a better test for Pop_Front
-    // printf("Testing Pop_Front - pop 10\n");
-    // {
-    //     int x;
-    //     int not_empty = Pop_Front(&list, &x);
-    //     if (not_empty)
-    //     {
-    //         printf("Element popped was %d\n", x);
-    //         Print_List(stdout, list);
-    //         printf("size = %d\n", Size(list));
-    //     }
-    //     else
-    //         printf("List was empty\n");
-    // }
-    // printf("___________TEST POP BACK__________\n");
-
-    // // write a better test for Pop_Back
-    // printf("Testing Pop_Back - pop 3\n");
-    // {
-    //     int x;
-    //     int not_empty;
-    //     do
-    //     {
-    //         not_empty = Pop_Back(&list, &x);
-    //         if (not_empty)
-    //         {
-    //             printf("Element popped was %d\n", x);
-    //             Print_List(stdout, list);
-    //             printf("size = %d\n", Size(list));
-    //         }
-    //         else
-    //         {
-    //             printf("List was empty\n");
-    //         }
-    //     } while (not_empty);
-    // }
-    // printf("__________TEST COUNT IF__________\n");
-
-    // // write a beter test for Count_If
-    // printf("empty list 5 count = %d\n", Count_If(list, 5));
-    // Push_Front(&list, 5);
-    // Print_List(stdout, list);
-    // printf("at beginning 5 count = %d\n", Count_If(list, 5));
-
-    // Push_Front(&list, 5);
-    // Push_Front(&list, 5);
-    // Print_List(stdout, list);
-    // printf("(3) 5 count = %d\n", Count_If(list, 5));
-    // printf("(0) 3 count = %d\n", Count_If(list, 3));
-    // printf("__________TEST DELETE__________\n");
-
-    // // write a test for Delete
-    // printf("Testing Delete\n");
-    // Print_List(stdout, list);
-    // Delete(&list, 5);
-
-    // Print_List(stdout, list);
-    // printf("Testing Delete - 2 is not in list\n");
-    // Delete(&list, 2);
-
-    // Print_List(stdout, list);
-    // Delete(&list, 5);
-
-    // Print_List(stdout, list);
-    // Delete(&list, 5);
-
-    // printf("Testing Delete - nothing in list\n");
-    // Print_List(stdout, list);
-    // Delete(&list, 5);
-
-    // printf("Nothing in list? \n");
-    // Print_List(stdout, list);
-    // printf("_________TEST IS EMPTY__________\n");
-
-    // // write a better test for Is_Empty
-    // printf("Testing Is_Empty - should be empty\n");
-    // if (Is_Empty(list))
-    // {
-    //     printf("List is Empty\n");
-    // }
-    // else
-    // {
-    //     printf("List is not empty\n");
-    // }
-
-    // printf("Testing Is_Empty - should not be empty\n");
-    // Push_Front(&list, 1);
-    // Push_Front(&list, 2);
-    // Push_Front(&list, 3);
-    // Print_List(stdout, list);
-    // if (Is_Empty(list))
-    // {
-    //     printf("List is Empty\n");
-    // }
-    // else
-    // {
-    //     printf("List is not empty\n");
-    // }
-
-    // printf("________TEST CLEAR__________\n");
-
-    // // write a better test for Clear
-    // printf("Testing Clear\n");
-    // Clear(&list);
-    // if (Is_Empty(list))
-    //     printf("List is Empty\n");
-    // else
-    //     printf("List is not empty\n");
-    // printf("_________TEST REMOVE DUPLICATES_________\n");
-
-    // // write a better test for Remove_Duplicates
-    // printf("Test remove duplicates; empty\n");
-    // Remove_Duplicates(&list);
-    // Print_List(stdout, list);
-    // // test rud duplicates
-    // printf("Test remove duplicates; 1->1->1->2->2->3->3->3\n");
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 2);
-    // Push_Back(&list, 2);
-    // Push_Back(&list, 3);
-    // Push_Back(&list, 3);
-    // Push_Back(&list, 3);
-    // Remove_Duplicates(&list);
-    // Print_List(stdout, list);
-    // Clear(&list);
-
-    // // test all same values
-    // printf("Test remove duplicates: all duplicates: 1->1->...->1\n");
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 1);
-    // Remove_Duplicates(&list);
-    // Print_List(stdout, list);
-    // Clear(&list);
-
-    // // test no duplicates
-    // Push_Back(&list, 1);
-    // Push_Back(&list, 2);
-    // Push_Back(&list, 3);
-    // Push_Back(&list, 4);
-    // Push_Back(&list, 5);
-    // printf("Test remove duplicates: no duplicates\n");
-    // Remove_Duplicates(&list);
-    // Print_List(stdout, list);
-
-    // Clear(&list);
-
-    // return 0;
+    return 0;
 }

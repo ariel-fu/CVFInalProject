@@ -2,26 +2,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct
+void q1()
 {
+    int a[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    int *b = &a[1][1];
 
-    char *name;
-    int id;
-} STUDENT;
-
-void q8(STUDENT s)
-{
-    // Assume
-    // printf("%p\n", &s)
-    // prints 0x300
-    printf("student address: %p, id address: %p, name address: %p\n", &s, &s.id, &s.name);
+    printf("%p\n", b);
 }
 
-int main()
+void q2()
 {
-    STUDENT student;
-    student.name = "Michael";
-    q8(student);
+    int a[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    int *b = a[1];
 
-    return 0;
+    printf("%p\n", b);
+}
+
+void q5()
+{
+    int a[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    printf("a mem location: %p\n", a);
+    char *b = &a;
+    char *c = b + sizeof(int);
+    printf("%d\n", *(b + sizeof(int)));
+}
+
+void main()
+{
+    q1();
+    q5();
 }

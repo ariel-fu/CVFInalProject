@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 // Assumes little endian
 void printBits(int value)
 {
@@ -62,8 +64,8 @@ void wildcard()
     printf("-%*s-\n", 5, " ");
     printf("-%*s-\n", 5, "*");
 }
+/* ------------- PAST QUESTIONS ------------- */
 
-// # of memory addresses are counted differently based on the pointer type?
 void count_addresses()
 {
     int int_arr[] = {1, 2, 3, 4};
@@ -79,7 +81,6 @@ void count_addresses()
     printf("char difference in memories: %d\n", (char_end - char_start));
 }
 
-// convering int * to char * results in splitting the int into x arrays of length 8?
 void cast_int_ptr()
 {
     // 00000001 00000001
@@ -104,16 +105,85 @@ void cast_int_ptr()
     printBits(*a_ptr);
 }
 
+void amp_difference()
+{
+    int arr[] = {1, 2, 3, 4};
+
+    // gets the address of arr and moves to 16 bytes/past the array?
+    int *ptr1 = &arr + 1;
+    // gets the address of arr and moves 4 bytes/to next array element?
+    int *ptr2 = arr + 1;
+
+    printf("arr: %p\n", arr);
+    // prints out garbage value because address is not intialized?
+    printf("arr1: %p, %d\n", ptr1, *ptr1);
+    printf("arr2: %p, %d\n", ptr2, *ptr2);
+}
+
+void cast_increment()
+{
+    char *c_arr = "hello ariel";
+    int *i_arr = (int *)c_arr;
+    // increment by sizeof(type) instead of sizeof(pointer)?
+    c_arr += 1;
+    i_arr += 1;
+    printf("c arr: %s\n", c_arr);
+    // cast back to a char pointer to print
+    printf("i arr: %s", (char *)i_arr);
+
+    // are there types of illegal casting?
+}
+
+void struct_ptr_casting()
+{
+    // similar structs
+    struct person
+    {
+        char *name;
+        int age;
+    };
+    struct human
+    {
+        char *name;
+        int age;
+    };
+    // create a human
+    char name_h[] = "ariel the human";
+    struct human ariel_h = {name_h, 18};
+    // init a pointer to the human
+    struct human *ariel_h_ptr = &ariel_h;
+    // 1: ptr to the struct points to the 1st member of the struct?
+    printf("ptr: %p | orig: %p %c\n", ariel_h_ptr, &(ariel_h.name));
+
+    // cast the human to a pointer
+    struct person *ariel_cast = (struct person *)ariel_h_ptr;
+
+    // 2: cast to a person works?!?!?!
+    printf("ariel the person: %s, %d\n", ariel_cast->name, ariel_cast->age);
+}
+
 void main()
 {
+    /* # of memory addresses are counted differently based on the pointer type? */
     // cast_int_ptr();
-    // ----------------------------------------------//
 
+    /* convering int * to char * results in splitting the int into x arrays of length 8? */
     // count_addresses();
-    // ----------------------------------------------//
 
-    // wildcard();
+    /* difference between &ptr+1 and ptr+1? */
+    // amp_difference();
+
+    /* incrementing different types is different - 4 bytes for pointers in 32-bit processor and 8 bytes for pointers in 64-bit processor */
+    // cast_increment();
+
+    /* how does casting between structs work? how does the compiler know what is the name and what is the age?
+    is it by coincidence because the struct members are in the same order and of the same type? */
+    // struct_ptr_casting();
+
     // ----------------------------------------------//
+    /** Past problems **/
+    // ----------------------------------------------//
+    // wildcard();
 
     // int int_obj1 = 15;
     // int int_obj2 = 20;
@@ -133,6 +203,4 @@ void main()
     // foo1(x);
     // foo2(y);
     // ----------------------------------------------//
-
-
 }

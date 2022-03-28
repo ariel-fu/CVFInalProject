@@ -26,7 +26,7 @@ void q3()
     int *arr1[3][5];
 
     int *arr2 = malloc(sizeof(3 * 5 * sizeof(int)));
-
+    printf("size of value in arr1 %d\n", sizeof(*arr1));
     printf("%ld,%ld\n", sizeof(arr1), sizeof(arr2));
 }
 
@@ -55,10 +55,12 @@ void q6()
     printf("");
 }
 
-void q7()
+void q7(int regina_george[])
 {
-    int regina_george[42] = {0};
-    int n = sizeof(regina_george) / sizeof(regina_george[0]);
+    // int regina_george[42] = {0};
+    int tot = sizeof(regina_george);
+    int indiv = sizeof(regina_george[0]);
+    int n = tot / indiv;
 
     for (int i = 0; i < n; i++)
     {
@@ -126,7 +128,9 @@ void main()
     q4();
     int ret = q5("abcdefg");
     q6();
-    q7();
+    int arr[42] = {0};
+    q7(arr);
+    printf("arr[7]: %d\n", arr[7]);
     q8();
     q9();
     q10();

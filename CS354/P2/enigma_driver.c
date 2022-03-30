@@ -61,8 +61,8 @@ int main()
     // }
     // printf("ROTORS: -%s-\t last char: %c\n", which_rotors, which_rotors[length]);
 
-    // int rot = Get_Rotations();
-    // printf("rotation: %d", rot);
+    int rot = Get_Rotations();
+    printf("rotation: %d", rot);
 
     // copy no rotors
     // which_rotors[0] = '3';
@@ -500,9 +500,5 @@ int main()
     // Get_Message(message);
     // printf("message |%s|\n", message);
 
-    
-
-
-
-    return 0;
+        return 0;
 }

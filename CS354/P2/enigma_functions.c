@@ -170,9 +170,12 @@ int Get_Rotations()
         length++;
     }
     input[length] = '\0';
+    // test
+    printf("input: %s\n", input);
     // conver the input to an integer
     int rotations = atoi(input);
     // return the int value of the input
+    printf("input: %d\n", rotations);
     return rotations;
 }
 

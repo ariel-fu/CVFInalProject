@@ -7,22 +7,28 @@ int main()
     Mem_Dump();
 
     int *p1 = Mem_Alloc(8);
-    int *p2 = Mem_Alloc(8);
-    int *p3 = Mem_Alloc(8);
-    int *p4 = Mem_Alloc(8);
-    int *p5 = Mem_Alloc(8);
+    int *p2 = Mem_Alloc(10);
+    int *p3 = Mem_Alloc(20);
+    int *p4 = Mem_Alloc(30);
+    int *p5 = Mem_Alloc(40);
     int *p6 = Mem_Alloc(8);
-    int *p7 = Mem_Alloc(8);
-    int *p8 = Mem_Alloc(8);
-    int *p9 = Mem_Alloc(8);
+    int *p7 = Mem_Alloc(18);
+    int *p8 = Mem_Alloc(23);
+    int *p9 = Mem_Alloc(82);
     Mem_Dump();
 
     Mem_Free(p5);
+    Mem_Dump();
     Mem_Free(p3);
+    Mem_Dump();
     Mem_Free(p4);
+    Mem_Dump();
     Mem_Free(p7);
+    Mem_Dump();
     Mem_Free(p9);
+    Mem_Dump();
     Mem_Free(p8);
+    Mem_Dump();
     Mem_Free(p6);
     Mem_Dump();
 

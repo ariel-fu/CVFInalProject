@@ -14,20 +14,6 @@ int Is_Alloc(BLOCK_HEADER *header)
 }
 
 /**
- * @brief Set the current header flag to FREE
- *
- * @param header
- */
-void Set_Free(BLOCK_HEADER *header)
-{
-    if (!Is_Alloc(header))
-    {
-        return;
-    }
-
-    header->size_alloc -= 1;
-}
-/**
  * @brief Set the current header flag to ALLOCATED
  *
  * @param header
@@ -41,6 +27,7 @@ void Set_Allocated(BLOCK_HEADER *header)
 
     header->size_alloc += 1;
 }
+
 /**
  * @brief Round size up to the nearest multiple of 16
  *
@@ -99,6 +86,21 @@ void Set_Payload(BLOCK_HEADER *header, int size)
 
 
 /**
+ * @brief Set the current header flag to FREE
+ *
+ * @param header
+ */
+void Set_Free(BLOCK_HEADER *header)
+{
+    if (!Is_Alloc(header))
+    {
+        return;
+    }
+
+    header->size_alloc -= 1;
+    Set_Payload(header, (Get_Block_Size(header) - HEADER_SIZE));
+}
+/**
  * @brief
  *
  * @param header
@@ -118,6 +120,11 @@ BLOCK_HEADER *return_start()
 // if a large enough free block isn't available, return NULL
 void *Mem_Alloc(int size)
 {
+    // if the size is 0, do nothing
+    if (size == 0)
+    {
+        return NULL;
+    }
     // find a free block that's big enough
     int min_size = HEADER_SIZE + size;
     BLOCK_HEADER *curr_header = first_header;

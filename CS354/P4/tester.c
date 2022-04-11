@@ -156,6 +156,40 @@ void coalesce_both()
     verify_padding(0, p1);
 }
 
+void free_invalid()
+{
+    generate_heap(160);
+    BLOCK_HEADER *p = Mem_Alloc(8);
+    BLOCK_HEADER *p1 = Mem_Alloc(8);
+    BLOCK_HEADER *header = Mem_Alloc(1);
+    BLOCK_HEADER *p2 = Mem_Alloc(8);
+    BLOCK_HEADER *p3 = Mem_Alloc(8);
+
+    printf("*** free invalid ***\n");
+    int x = 10;
+    int *b = &x;
+    int free = Mem_Free(b);
+    printf("invalid free: -1 = %d\n", free);
+}
+
+void free_freed()
+{
+    generate_heap(160);
+    BLOCK_HEADER *p = Mem_Alloc(8);
+    BLOCK_HEADER *p1 = Mem_Alloc(8);
+    BLOCK_HEADER *header = Mem_Alloc(1);
+    BLOCK_HEADER *p2 = Mem_Alloc(8);
+    BLOCK_HEADER *p3 = Mem_Alloc(8);
+
+    printf("*** free freed ***\n");
+    int free = Mem_Free(header);
+    free = Mem_Free(header);
+    printf("free freed: -1 = %d\n", free);
+    verify_size_alloc(16, header);
+    verify_payload(8, header);
+    verify_padding(0, header);
+}
+
 void main()
 {
 
@@ -166,6 +200,8 @@ void main()
     coalesce_before();
     coalesce_after();
     coalesce_both();
+    free_invalid();
+    free_freed();
 }
 // /* Test allocate */
 // /**

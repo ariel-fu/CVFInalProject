@@ -1,6 +1,12 @@
 #include "mem.h"
 extern BLOCK_HEADER *first_header;
-const int HEADER_SIZE = 8;
+const int HEADER_SIZE = 8; // create a global var for the header size
+
+// test
+// BLOCK_HEADER *return_start()
+// {
+//     return first_header;
+// }
 
 /**
  * @brief Return 0 for free, 1 for allocated
@@ -54,6 +60,12 @@ int Is_Last(BLOCK_HEADER *header)
     return header->size_alloc == 1;
 }
 
+/**
+ * @brief Get the block size of the header (remove the alloc bit)
+ *
+ * @param header
+ * @return int - size of the header
+ */
 int Get_Block_Size(BLOCK_HEADER *header)
 {
     return header->size_alloc & 0xFFFFFFFE;
@@ -84,7 +96,6 @@ void Set_Payload(BLOCK_HEADER *header, int size)
     header->payload = size;
 }
 
-
 /**
  * @brief Set the current header flag to FREE
  *
@@ -101,7 +112,7 @@ void Set_Free(BLOCK_HEADER *header)
     Set_Payload(header, (Get_Block_Size(header) - HEADER_SIZE));
 }
 /**
- * @brief
+ * @brief return the user pointer of the header (header address + 8)
  *
  * @param header
  * @return void*
@@ -109,11 +120,6 @@ void Set_Free(BLOCK_HEADER *header)
 void *Get_User_Pointer(BLOCK_HEADER *header)
 {
     return (BLOCK_HEADER *)((unsigned long)header + HEADER_SIZE);
-}
-
-BLOCK_HEADER *return_start()
-{
-    return first_header;
 }
 
 // return a pointer to the payload
@@ -168,6 +174,7 @@ void *Mem_Alloc(int size)
         Set_Payload(new_free, (free_space - allocated_size - HEADER_SIZE));
     }
 
+    // return the user pointer to the user
     return Get_User_Pointer(curr_header);
 }
 
@@ -180,17 +187,18 @@ int Mem_Free(void *ptr)
     BLOCK_HEADER *prev_header = NULL;
     BLOCK_HEADER *curr_header = first_header;
 
+    // find the ptr in the heap
     while (!Is_Last(curr_header))
     {
         if (Get_User_Pointer(curr_header) == ptr)
         {
-            break;
+            break; // found
         }
         prev_header = curr_header;
         curr_header = Get_Next_Header(curr_header);
     }
     // if you reach the end of the list without finding it return -1
-    if (Is_Last(curr_header))
+    if (Is_Last(curr_header) || !Is_Alloc(curr_header))
     {
         return -1; // fail
     }
@@ -206,7 +214,7 @@ int Mem_Free(void *ptr)
             Set_Payload(curr_header, (Get_Block_Size(curr_header) + Get_Block_Size(next_header) - HEADER_SIZE));
         }
     }
-
+    // update the payload to be the amount of free space and reset padding to 0
     if (prev_header != NULL)
     {
         if (!Is_Alloc(prev_header))
@@ -215,5 +223,5 @@ int Mem_Free(void *ptr)
         }
     }
 
-    return 0;
+    return 0; // success
 }

@@ -87,14 +87,21 @@ To_Upper:
 			JG NOT_UPPER	# not within upper bound
 			# within bounds: change from lowercase to uppercase
 			IS_UPPER:
-				movzbl  -5(%rbp), %eax
-				leal    -32(%rax), %ecx
-				movl    -4(%rbp), %eax
-				movslq  %eax, %rdx
+				# (curr - 32)
+				# get curr
+				movzbl  -5(%rbp), %ecx
+				# add -32 to get the uppercase letter
+				addb $-32, %cl
+				
+				# str[i] = ...
+				# get the string
 				movq    -24(%rbp), %rax
+				# get i
+				movq    -4(%rbp), %rdx
+				# get the address of where curr is
 				addq    %rdx, %rax
-				movl    %ecx, %edx
-				movb    %dl, (%rax)
+				# put (curr - 32) into the address
+				movb    %cl, (%rax)
 				JMP INCREMENT_I		# jump over the false block
 			NOT_UPPER:
 				# do nothing here

@@ -87,8 +87,14 @@ To_Upper:
 			JG NOT_UPPER	# not within upper bound
 			# within bounds: change from lowercase to uppercase
 			IS_UPPER:
-				addb $32, %cl		# change case
-				movb %cl, (%rax)	# put the uppercase char back into mem
+				movzbl  -5(%rbp), %eax
+				leal    -32(%rax), %ecx
+				movl    -4(%rbp), %eax
+				movslq  %eax, %rdx
+				movq    -24(%rbp), %rax
+				addq    %rdx, %rax
+				movl    %ecx, %edx
+				movb    %dl, (%rax)
 				JMP INCREMENT_I		# jump over the false block
 			NOT_UPPER:
 				# do nothing here

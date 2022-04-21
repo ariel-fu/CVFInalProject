@@ -57,24 +57,24 @@ To_Upper:
 
 
 	# Body of function
-	# set i = 0
-	movl $0, -4(%rbp)
 	# store input in %rdi = -24(%rbp)
 	movq %rdi, -24(%rbp)
-
+	# set i = 0
+	movl $0, -4(%rbp)
+	
 	TOP_LOOP:
 		JMP CONDITION
 	LOOP_BODY:
-		# move i and str into registers rdx and rax, respectively
-		movq -4(%rbp), %rdx
-		movq -24(%rbp), %rax
-		
-		# get the curr character
-		addq %rdx, %rax
-		# move last byte in rax to %cL
-		movzbl (%rax), %ecx
-		movb %cl, -5(%rbp)
-		movb -5(%rbp), %cl
+		# get i
+        movl    -4(%rbp), %eax
+		# move i to its correct register: %rdx
+        movslq  %eax, %rdx
+		# get str into %rax
+        movq    -24(%rbp), %rax
+		# get the curr char
+        addq    %rdx, %rax
+		# move the curr char to its correct register: %cl
+        movzbl  (%rax), %cl
 		
 		# check for lowercase char: 'a' < curr_char < 'z'
 		CHECK_CASE:
@@ -99,16 +99,16 @@ To_Upper:
 			
 	# check the condition of the loop
 	CONDITION:
-		# move i and str into registers %rdx and %rax, respectively
-		movq -4(%rbp), %rdx
-		movq -24(%rbp), %rax
-		
-		# get the curr character
-		addq %rdx, %rax
-		# move the last byte in %rax to %cl
-		movzbl (%rax), %ecx
-		movb %cl, -5(%rbp)
-		movb -5(%rbp), %cl
+		# get i
+        movl    -4(%rbp), %eax
+		# move i to its correct register: %rdx
+        movslq  %eax, %rdx
+		# get str into %rax
+        movq    -24(%rbp), %rax
+		# get the curr char
+        addq    %rdx, %rax
+		# move the curr char to its correct register: %cl
+        movzbl  (%rax), %cl
 		
 		
 		# check if the curr character is the null char (0)

@@ -60,22 +60,22 @@ To_Upper:
 	# set i = 0
 	movl $0, -4(%rbp)
 	# store input in %rdi = -24(%rbp)
-	movl %rdi, -24(%rbp)
+	movq %rdi, -24(%rbp)
 
-	TOP_LOOP
+	TOP_LOOP:
 		JMP CONDITION
-	LOOP_BODY
+	LOOP_BODY:
 		# move i and str into registers rdx and rax, respectively
-		movl -4(%rbp), %rdx
-		movl -24(%rbp), %rax
+		movq -4(%rbp), %rdx
+		movq -24(%rbp), %rax
 		
 		# get the curr character
-		addL %rdx, %rax
+		addq %rdx, %rax
 		# move last byte in rax to %cL
 		movb %rax, %cL
 		
 		# check for lowercase char: 'a' < curr_char < 'z'
-		CHECK_CASE
+		CHECK_CASE:
 			# check bottom bound
 			cmpb $97, %cL
 			JL NOT_UPPER	# not within bottom bound
@@ -83,26 +83,26 @@ To_Upper:
 			cmpb $122, %cL
 			JG NOT_UPPER	# not within upper bound
 			# within bounds: change from lowercase to uppercase
-			IS_UPPER
-				addL $32, %cl		# change case
+			IS_UPPER:
+				addb $32, %cl		# change case
 				movb %cl, (%rax)	# put the uppercase char back into mem
 				JMP INCREMENT_I		# jump over the false block
-			NOT_UPPER
+			NOT_UPPER:
 				# do nothing here
 				
 		# increment i
-		INCREMENT_I
+		INCREMENT_I:
 			# i++
 			addL $1, -4(%rbp)
 			
 	# check the condition of the loop
-	CONDITION
+	CONDITION:
 		# move i and str into registers %rdx and %rax, respectively
-		movl -4(%rbp), %rdx
-		movl -24(%rbp), %rax
+		movq -4(%rbp), %rdx
+		movq -24(%rbp), %rax
 		
 		# get the curr character
-		addL %rdx, %rax
+		addq %rdx, %rax
 		movb %rax, %cL
 		
 		# check if the curr character is the null char (0)
@@ -110,7 +110,7 @@ To_Upper:
 		# if it is not, continue looping
 		JNE LOOP_BODY
 	
-	END
+	END:
 # Epilogue
 	addq $24, %rsp 	# move the top stack ptr back
 	popq %rbp 			# move the base ptr back to what it was

@@ -74,7 +74,8 @@ To_Upper:
 		# get the curr char
         addq    %rdx, %rax
 		# move the curr char to its correct register: %cl
-        movzbl  (%rax), %cl
+        movzbl  (%rax), %ecx
+		movb %cl, %-5(%rbp)
 		
 		# check for lowercase char: 'a' < curr_char < 'z'
 		CHECK_CASE:
@@ -108,8 +109,8 @@ To_Upper:
 		# get the curr char
         addq    %rdx, %rax
 		# move the curr char to its correct register: %cl
-        movzbl  (%rax), %cl
-		
+        movzbl  (%rax), %ecx
+		movb %cl, %-5(%rbp)
 		
 		# check if the curr character is the null char (0)
 		addb %cL, %cL

@@ -38,7 +38,7 @@ To_Upper:
     Update the example below with your variables and memory addresses
         -24(%rbp)	|	str		|		base address of the string
         -4(%rbp)	|	i		| 		index for the array/string
-		
+		-5(%rbp)	| curr		| 		current character
 		
 ************************ */
 
@@ -72,7 +72,9 @@ To_Upper:
 		# get the curr character
 		addq %rdx, %rax
 		# move last byte in rax to %cL
-		movb %rax, %cL
+		movzbl (%rax), %ecx
+		movb %cl, -5(%rbp)
+		movb -5(%rbp), %cl
 		
 		# check for lowercase char: 'a' < curr_char < 'z'
 		CHECK_CASE:
@@ -103,7 +105,11 @@ To_Upper:
 		
 		# get the curr character
 		addq %rdx, %rax
-		movb %rax, %cL
+		# move the last byte in %rax to %cl
+		movzbl (%rax), %ecx
+		movb %cl, -5(%rbp)
+		movb -5(%rbp), %cl
+		
 		
 		# check if the curr character is the null char (0)
 		addb %cL, %cL

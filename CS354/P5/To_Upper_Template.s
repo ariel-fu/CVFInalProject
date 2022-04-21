@@ -96,13 +96,18 @@ To_Upper:
 				# str[i] = ...
 				# get the string
 				movq    -24(%rbp), %rax
+
 				# get i
-				movq    -4(%rbp), %rdx
+				movl    -4(%rbp), %edx
+				# move i to its correct register: %rdx
+				movslq  %edx, %rdx
+
 				# get the address of where curr is
 				addq    %rdx, %rax
 				# put (curr - 32) into the address
 				movb    %cl, (%rax)
 				JMP INCREMENT_I		# jump over the false block
+				
 			NOT_UPPER:
 				# do nothing here
 				
@@ -114,16 +119,18 @@ To_Upper:
 	# check the condition of the loop
 	CONDITION:
 		# get i
-        movl    -4(%rbp), %eax
+        movl    -4(%rbp), %edx
 		# move i to its correct register: %rdx
-        movslq  %eax, %rdx
+        movslq  %edx, %rdx
+
 		# get str into %rax
         movq    -24(%rbp), %rax
+
 		# get the curr char
         addq    %rdx, %rax
 		# move the curr char to its correct register: %cl
         movzbl  (%rax), %ecx
-		movb %cl, -5(%rbp)
+		movb %cL, -5(%rbp)
 		
 		# check if the curr character is the null char (0)
 		addb %cL, %cL

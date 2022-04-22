@@ -122,9 +122,9 @@ To_Upper:
 	# check the condition of the loop
 	CONDITION:
 		# get i
-        movl    -4(%rbp), %edx
+        movq    -4(%rbp), %rdx
 		# move i to its correct register: %rdx
-        movslq %edx, %rdx
+        # movslq %edx, %rdx
 
 		# get str into %rax
         movq -24(%rbp), %rax

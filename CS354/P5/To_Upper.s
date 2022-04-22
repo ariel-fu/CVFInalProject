@@ -74,7 +74,7 @@ To_Upper:
 		# get the curr char
         addq    %rdx, %rax
 		# move the curr char to its correct register: %cL
-        movb  (%rax), %cL
+        movzbl  (%rax), %ecx
 		# store the current char in memory
 		movb %cL, -5(%rbp)
 		
@@ -92,7 +92,7 @@ To_Upper:
 			IS_UPPER:
 				# (curr - 32)
 				# get curr
-				movb  -5(%rbp), %cL
+				movzbl  -5(%rbp), %ecx
 				# add -32 to get the uppercase letter
 				addb $-32, %cL
 				
@@ -100,9 +100,11 @@ To_Upper:
 				# get the string
 				movq    -24(%rbp), %rax
 
-				# get i to its correct register: %rdx
-				movq    -4(%rbp), %rdx
-				
+				# get i
+				movl    -4(%rbp), %edx
+				# move i to its correct register: %rdx
+				movslq  %edx, %rdx
+
 				# get the address of where curr is
 				addq    %rdx, %rax
 				# put (curr - 32) into the address
@@ -119,8 +121,10 @@ To_Upper:
 			
 	# check the condition of the loop
 	CONDITION:
-		# get i to its correct register: %rdx
-        movq    -4(%rbp), %rdx
+		# get i
+        movl    -4(%rbp), %edx
+		# move i to its correct register: %rdx
+        movslq %edx, %rdx
 
 		# get str into %rax
         movq -24(%rbp), %rax
@@ -128,7 +132,7 @@ To_Upper:
 		# get the curr char
         addq %rdx, %rax
 		# move the curr char to its correct register: %cL
-        movb  (%rax), %cL
+        movzbl  (%rax), %ecx
 		# store the current char in memory
 		movb %cL, -5(%rbp)
 

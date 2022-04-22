@@ -92,7 +92,7 @@ To_Upper:
 			IS_UPPER:
 				# (curr - 32)
 				# get curr
-				movzbl  -5(%rbp), %ecx
+				movb  -5(%rbp), %cL
 				# add -32 to get the uppercase letter
 				addb $-32, %cL
 				
@@ -102,7 +102,7 @@ To_Upper:
 
 				# get i
 				movl    -4(%rbp), %edx
-				# move i to its correct register: %rdx
+				# sign extend to the 64-bit register
 				movslq  %edx, %rdx
 
 				# get the address of where curr is
@@ -122,9 +122,9 @@ To_Upper:
 	# check the condition of the loop
 	CONDITION:
 		# get i
-        movq    -4(%rbp), %rdx
-		# move i to its correct register: %rdx
-        # movslq %edx, %rdx
+        movl    -4(%rbp), %edx
+		# sign extend to the 64-bit register
+        movslq %edx, %rdx
 
 		# get str into %rax
         movq -24(%rbp), %rax

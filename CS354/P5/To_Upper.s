@@ -74,7 +74,7 @@ To_Upper:
 		# get the curr char
         addq    %rdx, %rax
 		# move the curr char to its correct register: %cL
-        movzbl  (%rax), %ecx
+        movb  (%rax), %cL
 		# store the current char in memory
 		movb %cL, -5(%rbp)
 		

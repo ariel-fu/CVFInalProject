@@ -51,27 +51,31 @@ To_Upper:
 	# Use this for debugging
 	# Comment out when finished - your function should not print anything
 	# Note putchar overwrites all caller saved registers incLuding argument registers
-#		movl	$97, %eax
-#		movl	%eax, %edi
-#		call	putchar@PLT
+	# movl	$97, %eax
+	# movl	%eax, %edi
+	# call	putchar@PLT
 
 
 	# Body of function
 	
 	# store input in %rdi = -24(%rbp)
 	movq	%rdi, -24(%rbp)
+	
 	# set i = 0
 	movl	$0, -4(%rbp)
 	
+	# remove the first "do" - check condition first
 	TOP_LOOP:
 		JMP CONDITION
 	LOOP_BODY:
 		# get i
-        movl	-4(%rbp), %eax
-		# move i to its correct register: %rdx
-        movslq	%eax, %rdx
+        movl	-4(%rbp), %edx
+		# sign extend to the 64-bit register
+        movslq	%edx, %rdx
+		
 		# get str into %rax
         movq	-24(%rbp), %rax
+		
 		# get the curr char
         addq	%rdx, %rax
 		# move the curr char to its correct register: %cL
@@ -83,12 +87,15 @@ To_Upper:
 		CHECK_CASE:
 			# get the current char from memory
 			movb	-5(%rbp), %cL
+			
 			# check bottom bound
 			cmpb	$97, %cL
 			JL NOT_UPPER	# not within bottom bound
+			
 			# check upper bound
 			cmpb 	$122, %cL
 			JG NOT_UPPER	# not within upper bound
+			
 			# within bounds: change from lowercase to uppercase
 			IS_UPPER:
 				# (curr - 32)
@@ -98,7 +105,7 @@ To_Upper:
 				addb	$-32, %cL
 				
 				# str[i] = ...
-				# get the string
+				# get the string into %rax
 				movq	-24(%rbp), %rax
 
 				# get i
@@ -127,7 +134,7 @@ To_Upper:
 		# sign extend to the 64-bit register
         movslq	%edx, %rdx
 
-		# get str into %rax
+		# get string into %rax
         movq	-24(%rbp), %rax
 
 		# get the curr char
@@ -144,6 +151,7 @@ To_Upper:
 		# if it is not, continue looping
 		JNZ LOOP_BODY
 	
+	# otherwise, the end of the string has been reached
 	END:
 # Epilogue
 	addq	$32, %rsp 		# move the top stack ptr back

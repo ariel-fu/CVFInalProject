@@ -45,12 +45,12 @@ To_Upper:
 	# Prologue
 	pushq %rbp 			# make a copy of the curr base pointer
 	movq %rsp, %rbp		# move the base pointer to the top of the curr stack
-	subq $24, %rsp	# make space for the pointer at the top of the stack
+	subq $32, %rsp	# make space for the pointer at the top of the stack
 
 	# This code prints the letter 'a' (ascii value 97)
 	# Use this for debugging
 	# Comment out when finished - your function should not print anything
-	# Note putchar overwrites all caller saved registers including argument registers
+	# Note putchar overwrites all caller saved registers incLuding argument registers
 #		movl	$97, %eax
 #		movl	%eax, %edi
 #		call	putchar@PLT
@@ -73,12 +73,15 @@ To_Upper:
         movq    -24(%rbp), %rax
 		# get the curr char
         addq    %rdx, %rax
-		# move the curr char to its correct register: %cl
+		# move the curr char to its correct register: %cL
         movzbl  (%rax), %ecx
-		movb %cl, -5(%rbp)
+		# store the current char in memory
+		movb %cL, -5(%rbp)
 		
 		# check for lowercase char: 'a' < curr_char < 'z'
 		CHECK_CASE:
+			# get the current char from memory
+			movb  -5(%rbp), %cL
 			# check bottom bound
 			cmpb $97, %cL
 			JL NOT_UPPER	# not within bottom bound
@@ -91,7 +94,7 @@ To_Upper:
 				# get curr
 				movzbl  -5(%rbp), %ecx
 				# add -32 to get the uppercase letter
-				addb $-32, %cl
+				addb $-32, %cL
 				
 				# str[i] = ...
 				# get the string
@@ -105,7 +108,7 @@ To_Upper:
 				# get the address of where curr is
 				addq    %rdx, %rax
 				# put (curr - 32) into the address
-				movb    %cl, (%rax)
+				movb    %cL, (%rax)
 				JMP INCREMENT_I		# jump over the false block
 				
 			NOT_UPPER:
@@ -121,24 +124,27 @@ To_Upper:
 		# get i
         movl    -4(%rbp), %edx
 		# move i to its correct register: %rdx
-        movslq  %edx, %rdx
+        movslq %edx, %rdx
 
 		# get str into %rax
-        movq    -24(%rbp), %rax
+        movq -24(%rbp), %rax
 
 		# get the curr char
-        addq    %rdx, %rax
-		# move the curr char to its correct register: %cl
+        addq %rdx, %rax
+		# move the curr char to its correct register: %cL
         movzbl  (%rax), %ecx
+		# store the current char in memory
 		movb %cL, -5(%rbp)
-		
+
+		# get the current char
+		movb -5(%rbp), %cL
 		# check if the curr character is the null char (0)
 		addb %cL, %cL
 		# if it is not, continue looping
-		JNE LOOP_BODY
+		JNZ LOOP_BODY
 	
 	END:
 # Epilogue
-	addq $24, %rsp 	# move the top stack ptr back
+	addq $32, %rsp 		# move the top stack ptr back
 	popq %rbp 			# move the base ptr back to what it was
 	ret					# set the instruction ptr to the right address

@@ -6,6 +6,13 @@ void To_Upper(char *str);
   
 int main() {
     char str[50];
+		printf("test 6\n");
+	//strcpy(str, NULL);
+    printf("Original string:   %s\n",str);
+    To_Upper(NULL);
+    printf("\n");
+    printf("Upper case string: %s\n",str);
+	
 	printf("test 1\n");
     strcpy(str, "cs 354 is Awesome!");
     printf("Original string:   %s\n",str);
@@ -41,12 +48,7 @@ int main() {
     printf("\n");
     printf("Upper case string: %s\n",str);
 	
-	printf("test 6\n");
-	//strcpy(str, NULL);
-    printf("Original string:   %s\n",str);
-    To_Upper(NULL);
-    printf("\n");
-    printf("Upper case string: %s\n",str);
+
 	
 	printf("test 7\n");
 	strcpy(str, "");

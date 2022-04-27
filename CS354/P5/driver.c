@@ -49,7 +49,7 @@ int main() {
     printf("Upper case string: %s\n",str);
 	
 	printf("test 7\n");
-	strcpy(str, "\0");
+	strcpy(str, "");
     printf("Original string:   %s\n",str);
     To_Upper(str);
     printf("\n");

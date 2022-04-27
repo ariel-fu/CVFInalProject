@@ -8,10 +8,10 @@ int main() {
     char str[50];
 		printf("test 6\n");
 	//strcpy(str, NULL);
-    printf("Original string:   %s\n",str);
+    printf("Original string:   %s\n",NULL);
     To_Upper(NULL);
     printf("\n");
-    printf("Upper case string: %s\n",str);
+    printf("Upper case string: %s\n",NULL);
 	
 	printf("test 1\n");
     strcpy(str, "cs 354 is Awesome!");

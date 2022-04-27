@@ -60,8 +60,8 @@ To_Upper:
 	movq	%rdi, -24(%rbp)			# store input in %rdi = -24(%rbp)
 	movl	$0, -4(%rbp)			# set i = 0
 # check if null or empty
-	movq -24(%rbp), %rdi			# grab the input from memory
-	cmpq $0, %rdi					# check if the input is 0/NULL
+	movq -24(%rbp), %rax			# grab the input from memory
+	cmpq $0, %rax					# check if the input is 0/NULL
 	je END							# if equal to 0/NULL, skip to the END
 
 # remove the first "do" - check condition first

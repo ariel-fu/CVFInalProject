@@ -59,7 +59,11 @@ To_Upper:
 	# Body of function	
 	movq	%rdi, -24(%rbp)			# store input in %rdi = -24(%rbp)
 	movl	$0, -4(%rbp)			# set i = 0
-	
+# check if null or empty
+	movq -24(%rbp), %rdi			# grab the input from memory
+	cmpq $0, %rdi					# check if the input is 0/NULL
+	je END							# if equal to 0/NULL, skip to the END
+
 # remove the first "do" - check condition first
 TOP_LOOP:
 		JMP CONDITION
@@ -117,7 +121,7 @@ CONDITION:
     movq	-24(%rbp), %rax			# get string into %rax
 
     addq	%rdx, %rax				# get the curr char
-    movb	(%rax), %cL				# move the curr char to its correct register: %cL
+    movb	(%rax), %cL				# move the curr char to its correct register: %cL - throwing SegFault when input is NULL
 	movb	%cL, -5(%rbp)			# store the current char in memory	
 		
 	movb	-5(%rbp), %cL			# get the current char

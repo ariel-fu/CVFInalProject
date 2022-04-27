@@ -40,6 +40,48 @@ int main() {
     To_Upper(str);
     printf("\n");
     printf("Upper case string: %s\n",str);
+	
+	printf("test 6\n");
+	strcpy(str, NULL);
+    printf("Original string:   %s\n",str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n",str);
+	
+	printf("test 7\n");
+	strcpy(str, "\0");
+    printf("Original string:   %s\n",str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n",str);
+	
+	printf("test 8\n");
+	strcpy(str, "a");
+    printf("Original string:   %s\n",str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n",str);
+	
+	printf("test 8\n");
+	strcpy(str, "A");
+    printf("Original string:   %s\n",str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n",str);
+	
+	printf("test 9\n");
+	strcpy(str, "`a{");
+    printf("Original string:   %s\n",str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n",str);
+	
+	printf("test 10\n");
+	strcpy(str, "`~(){}[]|;:<>/?");
+    printf("Original string:   %s\n",str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n",str);
     return 0;
 }
 

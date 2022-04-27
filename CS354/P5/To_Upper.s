@@ -42,10 +42,10 @@ To_Upper:
 		
 ************************ */
 
-	# Prologue
-	pushq	%rbp 			# make a copy of the curr base pointer
-	movq	%rsp, %rbp		# move the base pointer to the top of the curr stack
-	subq	$32, %rsp		# make space for the pointer at the top of the stack
+# Prologue
+	pushq	%rbp 					# make a copy of the curr base pointer
+	movq	%rsp, %rbp				# move the base pointer to the top of the curr stack
+	subq	$32, %rsp				# make space for the pointer at the top of the stack
 
 	# This code prints the letter 'a' (ascii value 97)
 	# Use this for debugging
@@ -56,104 +56,78 @@ To_Upper:
 	# call	putchar@PLT
 
 
-	# Body of function
+	# Body of function	
+	movq	%rdi, -24(%rbp)			# store input in %rdi = -24(%rbp)
+	movl	$0, -4(%rbp)			# set i = 0
 	
-	# store input in %rdi = -24(%rbp)
-	movq	%rdi, -24(%rbp)
-	
-	# set i = 0
-	movl	$0, -4(%rbp)
-	
-	# remove the first "do" - check condition first
-	TOP_LOOP:
+# remove the first "do" - check condition first
+TOP_LOOP:
 		JMP CONDITION
-	LOOP_BODY:
-		# get i
-        movl	-4(%rbp), %edx
-		# sign extend to the 64-bit register
-        movslq	%edx, %rdx
+LOOP_BODY:	
+    movl	-4(%rbp), %edx			# get i
+    movslq	%edx, %rdx				# sign extend to the 64-bit register
 		
-		# get str into %rax
-        movq	-24(%rbp), %rax
+    movq	-24(%rbp), %rax			# get str into %rax
 		
-		# get the curr char
-        addq	%rdx, %rax
-		# move the curr char to its correct register: %cL
-        movb	(%rax), %cL
-		# store the current char in memory
-		movb	%cL, -5(%rbp)
+    addq	%rdx, %rax				# get the curr char		
+    movb	(%rax), %cL				# move the curr char to its correct register: %cL
+	movb	%cL, -5(%rbp)			# store the current char in memory
 		
-		# check for lowercase char: 'a' < curr_char < 'z'
-		CHECK_CASE:
-			# get the current char from memory
-			movb	-5(%rbp), %cL
+# check for lowercase char: 'a' < curr_char < 'z'
+CHECK_CASE:		
+	movb	-5(%rbp), %cL			# get the current char from memory
+		
+	cmpb	$97, %cL				# check bottom bound
+	JL NOT_UPPER					# not within bottom bound		
 			
-			# check bottom bound
-			cmpb	$97, %cL
-			JL NOT_UPPER	# not within bottom bound
+	cmpb 	$122, %cL				# check upper bound
+	JG NOT_UPPER					# not within upper bound
 			
-			# check upper bound
-			cmpb 	$122, %cL
-			JG NOT_UPPER	# not within upper bound
-			
-			# within bounds: change from lowercase to uppercase
-			IS_UPPER:
-				# (curr - 32)
-				# get curr
-				movb	-5(%rbp), %cL
-				# add -32 to get the uppercase letter
-				addb	$-32, %cL
+# within bounds: change from lowercase to uppercase
+IS_UPPER:
+# perform (curr - 32)			
+	movb	-5(%rbp), %cL			# get curr
+	addb	$-32, %cL				# add -32 to get the uppercase letter
+	movb %cl, -5(%rbp)				# store the new uppercase char into memory
 				
-				# str[i] = ...
-				# get the string into %rax
-				movq	-24(%rbp), %rax
+# perform str[i] = (curr - 32)
+	movq	-24(%rbp), %rax			# get the string into %rax
 
-				# get i
-				movl    -4(%rbp), %edx
-				# sign extend to the 64-bit register
-				movslq  %edx, %rdx
+	movl    -4(%rbp), %edx			# get i
+	movslq  %edx, %rdx				# sign extend to the 64-bit register
+				
+	addq    %rdx, %rax				# get the address of where curr is
+	movb	-5(%rbp), %cL			# get the current char from memory
+	movb    %cL, (%rax)				# put (curr - 32) into the address
+				
+	JMP INCREMENT_I					# jump over the false block
 
-				# get the address of where curr is
-				addq    %rdx, %rax
-				# put (curr - 32) into the address
-				movb    %cL, (%rax)
-				JMP INCREMENT_I		# jump over the false block
+# do nothing here				
+NOT_UPPER:					
 				
-			NOT_UPPER:
-				# do nothing here
-				
-		# increment i
-		INCREMENT_I:
-			# i++
-			addL	$1, -4(%rbp)
+# increment i
+INCREMENT_I:	
+	addL	$1, -4(%rbp)			# i++
 			
-	# check the condition of the loop
-	CONDITION:
-		# get i
-        movl	-4(%rbp), %edx
-		# sign extend to the 64-bit register
-        movslq	%edx, %rdx
+# check the condition of the loop
+CONDITION:
+    movl	-4(%rbp), %edx			# get i
+    movslq	%edx, %rdx				# sign extend to the 64-bit register
 
-		# get string into %rax
-        movq	-24(%rbp), %rax
+    movq	-24(%rbp), %rax			# get string into %rax
 
-		# get the curr char
-        addq	%rdx, %rax
-		# move the curr char to its correct register: %cL
-        movb	(%rax), %cL
-		# store the current char in memory
-		movb	%cL, -5(%rbp)
-
-		# get the current char
-		movb	-5(%rbp), %cL
-		# check if the curr character is the null char (0)
-		addb	%cL, %cL
-		# if it is not, continue looping
-		JNZ LOOP_BODY
+    addq	%rdx, %rax				# get the curr char
+    movb	(%rax), %cL				# move the curr char to its correct register: %cL
+	movb	%cL, -5(%rbp)			# store the current char in memory	
+		
+	movb	-5(%rbp), %cL			# get the current char
+	addb	%cL, %cL				# check if the curr character is the null char (0)
 	
-	# otherwise, the end of the string has been reached
-	END:
+	JNZ LOOP_BODY					# if it is not, continue looping
+	
+# otherwise, the end of the string has been reached
+END:
 # Epilogue
-	addq	$32, %rsp 		# move the top stack ptr back
-	popq	%rbp 			# move the base ptr back to what it was
-	ret					# set the instruction ptr to the right address
+	addq	$32, %rsp 				# move the top stack ptr back
+	popq	%rbp 					# move the base ptr back to what it was
+	ret								# set the instruction ptr to the right address

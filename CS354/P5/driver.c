@@ -42,9 +42,9 @@ int main() {
     printf("Upper case string: %s\n",str);
 	
 	printf("test 6\n");
-	strcpy(str, NULL);
+	//strcpy(str, NULL);
     printf("Original string:   %s\n",str);
-    To_Upper(str);
+    To_Upper(NULL);
     printf("\n");
     printf("Upper case string: %s\n",str);
 	

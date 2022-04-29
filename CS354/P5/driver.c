@@ -4,6 +4,94 @@
 
 void To_Upper(char *str);
 
+void p1_whitespace_test(){
+	char str[50];
+	printf("test 1\n");
+	strcpy(str, "   ajdshfosajdhfo");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 1\n");
+	strcpy(str, "			   			   asfewfbjbuisd");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 2\n");
+	strcpy(str, "		 	 asfewnbvoupwn");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 3\n");
+	strcpy(str, "thIs");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 4\n");
+	strcpy(str, "ajdshfosajdhfo   ");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 5\n");
+	strcpy(str, "asfewfbjbuisd					    \n");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 6\n");
+	strcpy(str, "asfewnbvoupwn	 		        \n");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 7\n");
+	strcpy(str, "  				    		          this             is                         complicated		");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 8\n");
+	strcpy(str, "    this            too                             		\n");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 9\n");
+	strcpy(str, "this is clean");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 10\n");
+	strcpy(str, "clean");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+}
+
 void p1_test(){
 	char str[50];
 	printf("test 1\n");
@@ -80,7 +168,7 @@ void p1_test(){
 
 
 int main() {
-	
+	p1_whitespace_test();
 	p1_test();
 	/**
     char str[50];

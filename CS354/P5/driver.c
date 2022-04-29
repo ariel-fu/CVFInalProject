@@ -5,7 +5,7 @@
 void To_Upper(char *str);
 
 void p1_whitespace_test(){
-	char str[50];
+	char str[150];
 	printf("test 1\n");
 	strcpy(str, "   ajdshfosajdhfo");
     printf("Original string:   %s\n", str);

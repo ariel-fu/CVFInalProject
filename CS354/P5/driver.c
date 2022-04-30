@@ -350,7 +350,7 @@ void test_numbers(){
     printf("Upper case string: %s\n", str);	
 	
 	printf("test 4\n");
-	strcpy(str, '0');
+	strcpy(str, "this si working");
     printf("Original string:   %s\n", str);
     To_Upper(str);
     printf("\n");

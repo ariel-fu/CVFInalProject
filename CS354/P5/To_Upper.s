@@ -37,8 +37,8 @@ To_Upper:
     The second column should be the name of the C variable used above
     Update the example below with your variables and memory addresses
         -24(%rbp)	|	str		|		base address of the string
-        -4(%rbp)	|	i		| 		index for the array/string
-		-5(%rbp)	| curr		| 		current character
+        -16(%rbp)	|	i		| 		index for the array/string
+		-8(%rbp)	|   curr	| 		current character
 		
 ************************ */
 
@@ -58,28 +58,28 @@ To_Upper:
 
 	# Body of function	
 	movq	%rdi, -24(%rbp)			# store input in %rdi = -24(%rbp)
-	movl	$0, -4(%rbp)			# set i = 0
-# check if null or empty
+	movl	$0, -16(%rbp)			# set i = 0
+	# check if null or empty
 	movq -24(%rbp), %rax			# grab the input from memory
 	cmpq $0, %rax					# check if the input is 0/NULL
 	je END							# if equal to 0/NULL, skip to the END
 
 # remove the first "do" - check condition first
 TOP_LOOP:
-		JMP CONDITION
+	JMP CONDITION
 LOOP_BODY:	
-    movl	-4(%rbp), %edx			# get i
+    movl	-16(%rbp), %edx			# get i
     movslq	%edx, %rdx				# sign extend to the 64-bit register
 		
     movq	-24(%rbp), %rax			# get str into %rax
 		
     addq	%rdx, %rax				# get the curr char		
     movb	(%rax), %cL				# move the curr char to its correct register: %cL
-	movb	%cL, -5(%rbp)			# store the current char in memory
+	movb	%cL, -8(%rbp)			# store the current char in memory
 		
 # check for lowercase char: 'a' < curr_char < 'z'
 CHECK_CASE:		
-	movb	-5(%rbp), %cL			# get the current char from memory
+	movb	-8(%rbp), %cL			# get the current char from memory
 		
 	cmpb	$97, %cL				# check bottom bound
 	JL NOT_UPPER					# not within bottom bound		
@@ -90,18 +90,18 @@ CHECK_CASE:
 # within bounds: change from lowercase to uppercase
 IS_UPPER:
 # perform (curr - 32)			
-	movb	-5(%rbp), %cL			# get curr
+	movb	-8(%rbp), %cL			# get curr
 	addb	$-32, %cL				# add -32 to get the uppercase letter
-	movb %cl, -5(%rbp)				# store the new uppercase char into memory
+	movb %cl, -8(%rbp)				# store the new uppercase char into memory
 				
 # perform str[i] = (curr - 32)
 	movq	-24(%rbp), %rax			# get the string into %rax
 
-	movl    -4(%rbp), %edx			# get i
+	movl    -16(%rbp), %edx			# get i
 	movslq  %edx, %rdx				# sign extend to the 64-bit register
 				
 	addq    %rdx, %rax				# get the address of where curr is
-	movb	-5(%rbp), %cL			# get the current char from memory
+	movb	-8(%rbp), %cL			# get the current char from memory
 	movb    %cL, (%rax)				# put (curr - 32) into the address
 				
 	JMP INCREMENT_I					# jump over the false block
@@ -111,20 +111,20 @@ NOT_UPPER:
 				
 # increment i
 INCREMENT_I:	
-	addL	$1, -4(%rbp)			# i++
+	addL	$1, -16(%rbp)			# i++
 			
 # check the condition of the loop
 CONDITION:
-    movl	-4(%rbp), %edx			# get i
+    movl	-16(%rbp), %edx			# get i
     movslq	%edx, %rdx				# sign extend to the 64-bit register
 
     movq	-24(%rbp), %rax			# get string into %rax
 
     addq	%rdx, %rax				# get the curr char
     movb	(%rax), %cL				# move the curr char to its correct register: %cL - throwing SegFault when input is NULL
-	movb	%cL, -5(%rbp)			# store the current char in memory	
+	movb	%cL, -8(%rbp)			# store the current char in memory	
 		
-	movb	-5(%rbp), %cL			# get the current char
+	movb	-8(%rbp), %cL			# get the current char
 	addb	%cL, %cL				# check if the curr character is the null char (0)
 	
 	JNZ LOOP_BODY					# if it is not, continue looping

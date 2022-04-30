@@ -14,22 +14,7 @@ LFB14:
 	movl	$0, -4(%ebp)
 	jmp	L2
 L4:
-	movl	-4(%ebp), %edx
-	movl	8(%ebp), %eax
-	addl	%edx, %eax
-	movzbl	(%eax), %eax
-	movb	%al, -5(%ebp)
-	cmpb	$96, -5(%ebp)
-	jle	L3
-	cmpb	$122, -5(%ebp)
-	jg	L3
-	movzbl	-5(%ebp), %eax
-	leal	-32(%eax), %ecx
-	movl	-4(%ebp), %edx
-	movl	8(%ebp), %eax
-	addl	%edx, %eax
-	movl	%ecx, %edx
-	movb	%dl, (%eax)
+	cd git
 L3:
 	addl	$1, -4(%ebp)
 L2:

@@ -325,12 +325,85 @@ void test_nonalpha(){
     printf("Upper case string: %s\n", str);
 }
 
+void test_numbers(){
+		char str[50];
+	printf("test 1\n");
+	strcpy(str, "0123456789");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	
+	printf("test 2\n");
+	strcpy(str, "9876543210");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+
+	printf("test 3\n");
+	strcpy(str, "0");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);	
+	
+	printf("test 4\n");
+	strcpy(str, '0');
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 5\n");
+	strcpy(str, "1111 1111");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 6\n");
+	strcpy(str, "000 000 000");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 7\n");
+	strcpy(str, "1A1A1A");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 8\n");
+	strcpy(str, "9z9z9z9z");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 9\n");
+	strcpy(str, "1a2b3c4d5e6f7g8h9i");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+	
+	printf("test 9\n");
+	strcpy(str, "a1b2c3d4e5f6g7h8i9");
+    printf("Original string:   %s\n", str);
+    To_Upper(str);
+    printf("\n");
+    printf("Upper case string: %s\n", str);
+}
 
 int main() {
 	//p1_whitespace_test();
 	//p1_test();
 	test_nonalpha();
-	
+	test_numbers();
 	
     return 0;
 }

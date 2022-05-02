@@ -66,7 +66,7 @@ To_Upper:
 
 # remove the first "do" - check condition first
 TOP_LOOP:
-	JMP CONDITION
+	JMP CONDITION					# skip to checking the condition first
 LOOP_BODY:	
     movl	-16(%rbp), %edx			# get i
     movslq	%edx, %rdx				# sign extend to the 64-bit register

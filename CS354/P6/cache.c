@@ -155,50 +155,127 @@ int main()
     char c;
     char message[34];
     int counter = 0;
+
+    for (int i = 0; i < 1000000; i++)
+    {
+        c = Read_Data_From_Cache(i);
+        printf("%c", c);
+    }
+
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     c = Read_Data_From_Cache(counter * 32 + i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 50; i += 10)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 500; i += 32)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 64; i += 16)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 1000; i += 100)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 10000; i += 1000)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 100; i += 31)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 100; i += 29)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 100; i += 15)
+    // {
+    //     c = Read_Data_From_Cache(i);
+
+    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    // }
+
+    // for (int i = 0; i < 30000; i++)
+    // {
+    //     c = Read_Data_From_Cache(i);
+    //     printf("%c", c);
+
+    // }
+
     // write the initial data
-    for (int set_count = 0; set_count < 8; set_count++)
-    {
-        for (int i = 0; i < 32; i++)
-        {
-            c = Read_Data_From_Cache(counter * 32 + i);
-            message[i] = c;
-            // printf("data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", c, hit_count, miss_count, read_data_count);
-            //  printf("i = %d: hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, hit_count, miss_count, read_data_count);
-        }
-        message[33] = '\0';
-        printf("message: %s\n", message);
-        counter++;
-        // verify set (set_count+1) - 8 are still invalid
-        for (int i = (set_count + 1); i < 8; i++)
-        {
-            if (cache.set[i].line[0].valid != 0)
-            {
-                printf("error on set %d\n", i);
-            }
-        }
-    }
+    // for (int set_count = 0; set_count < 8; set_count++)
+    // {
+    //     for (int i = 0; i < 32; i++)
+    //     {
+    //         c = Read_Data_From_Cache(counter * 32 + i);
+    //         message[i] = c;
+    //         // printf("data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", c, hit_count, miss_count, read_data_count);
+    //         //  printf("i = %d: hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, hit_count, miss_count, read_data_count);
+    //     }
+    //     message[33] = '\0';
+    //     printf("message: %s\n", message);
+    //     counter++;
+    //     // verify set (set_count+1) - 8 are still invalid
+    //     for (int i = (set_count + 1); i < 8; i++)
+    //     {
+    //         if (cache.set[i].line[0].valid != 0)
+    //         {
+    //             printf("error on set %d\n", i);
+    //         }
+    //     }
+    // }
     // overwrite the data
-    for (int set_count = 0; set_count < 8; set_count++)
-    {
-        for (int i = 0; i < 32; i++)
-        {
-            c = Read_Data_From_Cache(counter * 32 + i);
-            message[i] = c;
-            // printf("data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", c, hit_count, miss_count, read_data_count);
-            //  printf("i = %d: hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, hit_count, miss_count, read_data_count);
-        }
-        message[33] = '\0';
-        printf("message: %s\n", message);
-        counter++;
-        // verify set (set_count) - 8 are still valid
-        for (int i = (set_count + 1); i < 8; i++)
-        {
-            if (cache.set[i].line[0].valid != 1)
-            {
-                printf("error on set %d\n", i);
-            }
-        }
-    }
+    // for (int set_count = 0; set_count < 8; set_count++)
+    // {
+    //     for (int i = 0; i < 32; i++)
+    //     {
+    //         c = Read_Data_From_Cache(counter * 32 + i);
+    //         message[i] = c;
+    //         // printf("data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", c, hit_count, miss_count, read_data_count);
+    //         //  printf("i = %d: hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, hit_count, miss_count, read_data_count);
+    //     }
+    //     message[33] = '\0';
+    //     printf("message: %s\n", message);
+    //     counter++;
+    //     // verify set (set_count) - 8 are still valid
+    //     for (int i = (set_count + 1); i < 8; i++)
+    //     {
+    //         if (cache.set[i].line[0].valid != 1)
+    //         {
+    //             printf("error on set %d\n", i);
+    //         }
+    //     }
+    // }
 
     /**
     c = Read_Data_From_Cache(0);

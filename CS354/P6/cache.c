@@ -156,7 +156,7 @@ int main()
     char message[34];
     int counter = 0;
 
-    for (int i = 0; i < 1000000; i++)
+    for (int i = 300000; i < 1000000; i++)
     {
         c = Read_Data_From_Cache(i);
         printf("%c", c);

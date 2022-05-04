@@ -78,7 +78,7 @@ int Get_Set(unsigned address)
     // right shift the adddress by 5 to remove the bit offset bits
     int set_bits = address >> 5;
     // perform a logical AND with the shifted address
-    set_bits = set_bits & 5;
+    set_bits = set_bits & 7;
     return set_bits;
 }
 
@@ -153,22 +153,47 @@ int main()
 
     // READ SOME DATA
     char c;
-    char message[32] = "................................";
-    printf("message: %s\n", message);
+    char message[34];
+    int counter = 0;
+    // write the initial data
     for (int set_count = 0; set_count < 8; set_count++)
     {
         for (int i = 0; i < 32; i++)
         {
-            c = Read_Data_From_Cache(set_count * 32 + i);
+            c = Read_Data_From_Cache(counter * 32 + i);
             message[i] = c;
-            printf("data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", c, hit_count, miss_count, read_data_count);
-            // printf("i = %d: hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, hit_count, miss_count, read_data_count);
+            // printf("data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", c, hit_count, miss_count, read_data_count);
+            //  printf("i = %d: hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, hit_count, miss_count, read_data_count);
         }
+        message[33] = '\0';
         printf("message: %s\n", message);
+        counter++;
         // verify set (set_count+1) - 8 are still invalid
         for (int i = (set_count + 1); i < 8; i++)
         {
             if (cache.set[i].line[0].valid != 0)
+            {
+                printf("error on set %d\n", i);
+            }
+        }
+    }
+    // overwrite the data
+    for (int set_count = 0; set_count < 8; set_count++)
+    {
+        for (int i = 0; i < 32; i++)
+        {
+            c = Read_Data_From_Cache(counter * 32 + i);
+            message[i] = c;
+            // printf("data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", c, hit_count, miss_count, read_data_count);
+            //  printf("i = %d: hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, hit_count, miss_count, read_data_count);
+        }
+        message[33] = '\0';
+        printf("message: %s\n", message);
+        counter++;
+        // verify set (set_count) - 8 are still valid
+        for (int i = (set_count + 1); i < 8; i++)
+        {
+            if (cache.set[i].line[0].valid != 1)
             {
                 printf("error on set %d\n", i);
             }

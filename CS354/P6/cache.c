@@ -42,6 +42,8 @@ void Read_Data_From_Ram(unsigned address)
     fseek(file, address, SEEK_SET);
     for (int i = 0; i < 32; i++)
         system_bus[i] = fgetc(file);
+
+    // fclose(file);
     return;
 }
 
@@ -153,84 +155,82 @@ int main()
 
     // READ SOME DATA
     char c;
-    char message[34];
-    int counter = 0;
+    // char message[34];
+    // int counter = 0;
+    // for (int i = 10000; i < 60000; i++)
+    // {
+    //     c = Read_Data_From_Cache(i);
+    //     printf("%c", c);
+    // }
 
-    for (int i = 300000; i < 1000000; i++)
+    for (int i = 0; i < 10; i++)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 50; i += 10)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 500; i += 32)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 64; i += 16)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 1000; i += 100)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 10000; i += 1000)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 100; i += 31)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 100; i += 29)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 100; i += 15)
+    {
+        c = Read_Data_From_Cache(i);
+
+        printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
+    }
+
+    for (int i = 0; i < 30000; i++)
     {
         c = Read_Data_From_Cache(i);
         printf("%c", c);
     }
-
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     c = Read_Data_From_Cache(counter * 32 + i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 50; i += 10)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 500; i += 32)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 64; i += 16)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 1000; i += 100)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 10000; i += 1000)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 100; i += 31)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 100; i += 29)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 100; i += 15)
-    // {
-    //     c = Read_Data_From_Cache(i);
-
-    //     printf("Reading character at index %d   : data = %c : hit count = %-3u : miss count = %-3u : read data count = %-3u\n", i, c, hit_count, miss_count, read_data_count);
-    // }
-
-    // for (int i = 0; i < 30000; i++)
-    // {
-    //     c = Read_Data_From_Cache(i);
-    //     printf("%c", c);
-
-    // }
 
     // write the initial data
     // for (int set_count = 0; set_count < 8; set_count++)

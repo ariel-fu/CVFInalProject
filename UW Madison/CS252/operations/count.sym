@@ -1,0 +1,13 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	COUNT             0204
+//	DONE              0203
+//	LOOP              0201
+//	START             0200
+//	$               0200
+//	$               0201
+//	$               0202
+//	$               0203
+

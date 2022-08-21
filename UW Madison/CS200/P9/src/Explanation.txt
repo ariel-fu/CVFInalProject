@@ -1,0 +1,22 @@
+Pseudocode for Pierre - two for loops method
+
+public static int[] sort(int[] pages){
+if is in order then quit
+
+int arrLength = pages.length;
+	for(int i=0...Length){
+		for(int j=0...length-1){
+			if(pages[j+1] < pages[j]){
+				swap pages[j] and pages[j+1];
+			}
+		}
+	}
+}
+
+The code starts by checking if the array is already sorted. If it is, return the original array. 
+I will use a for loop to run through each element and compare the element with its next neighbor. 
+If the neighbor is smaller then swap the 2. This sorts the smallest element to the front of the array.
+Then, using another for loop to repeat the loop above for all the elements until all elements are sorted from the smallest to the largest.
+
+This sorting algorithm works because it goes through every element and sorts them individually.
+It takes one element at a time and place it behind all numbers greater than it but in front of numbers smaller than it.

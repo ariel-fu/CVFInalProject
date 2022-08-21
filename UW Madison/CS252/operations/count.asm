@@ -1,0 +1,13 @@
+
+.orig x0200
+START LD R2, COUNT
+LOOP 
+	ADD R2, R2, #1
+	BRnz LOOP
+	
+	
+	DONE BR START
+	
+COUNT .FILL #-3
+
+.end

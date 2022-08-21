@@ -1,0 +1,10 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	HELLO_WORLD       3003
+//	START             3000
+//	$               3000
+//	$               3001
+//	$               3002
+

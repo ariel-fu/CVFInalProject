@@ -1,0 +1,3 @@
+python train_miniplaces.py --resume ./outputs/checkpoint.pth.tar
+
+python eval_miniplaces.py --load ./outputs/model_best.pth.tar

@@ -1,0 +1,10 @@
+.orig x0200
+
+LD R2, COUNT
+
+LOOP 
+ADD R2, R2, #1
+BRn LOOP
+
+COUNT .FILL #-2
+.end

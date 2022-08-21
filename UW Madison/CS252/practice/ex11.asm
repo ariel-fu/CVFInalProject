@@ -1,0 +1,21 @@
+	.orig x0200
+;
+START JSR SUB2 ; CHANGE THIS LINE
+  	BR START
+;
+SUB4 	ADD R0, R0, #4
+  	RET
+;
+SUB3 	JSR SUB4
+	ADD R0, R0, #3
+  	RET
+;
+SUB2 	JSR SUB4
+	ADD R0, R0, #2
+  	RET
+;
+SUB1 	JSR SUB4
+	ADD R0, R0, #1
+  	RET
+;
+	.end

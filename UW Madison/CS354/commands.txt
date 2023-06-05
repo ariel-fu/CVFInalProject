@@ -1,7 +1,0 @@
-ssh ariel@best-linux.cs.wisc.edu
-
-scp "" ariel@best-linux.cs.wisc.edu:354
-
-vim ""
-
-gcc -g -o "" "" -Wall

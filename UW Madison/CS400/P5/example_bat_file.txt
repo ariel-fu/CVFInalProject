@@ -1,9 +1,0 @@
-echo off
-set javafxPath=C:\Users\Ariel\javafx-sdk-11.0.2\lib
-set javaFxJars=%javaFxPath%\javafx.controls.jar;%javaFxPath%\javafx.fxml.jar;%javaFxPath%\javafx.base.jar;%javaFxPath%\javafx.graphics.jar;%javaFxPath%\javafx.media.jar;%javaFxPath%\javafx.swing.jar;%javaFxPath%\javafx.web.jar;%javaFxPath%\javafx-swt.jar
-set jdkPath=C:\Program Files\Java\jdk-11.0.6\bin
-set classPath=C:\Users\Ariel\git\Ariel\CS400\P5\bin
-echo on
-
-
-"%jdkPath%\javaw.exe" -p "%javafxPath%;%javaFxJars%"  --add-modules javafx.controls,javafx.fxml -Dfile.encoding=Cp1252 -cp %classPath% application.Main
